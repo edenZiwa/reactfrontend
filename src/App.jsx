@@ -9,6 +9,7 @@ import "./css/sponsor.css";
 import "./css/styles.css";
 import "./css/app.css";
 import usePath from "./components/usePath.js";
+import SEO from "./components/SEO.jsx";
 import { Header, Footer } from "./components/SiteChrome.jsx";
 import Home from "./pages/Home.jsx";
 import About from "./pages/About.jsx";
@@ -29,7 +30,7 @@ import SuccessStories from "./pages/SuccessStories.jsx";
 
 function App() {
   const [path, navigate] = usePath();
-  useEffect(() => {
+ /* useEffect(() => {
     const title =
       {
         "/": "Garden of Mercy Foundation",
@@ -49,7 +50,7 @@ function App() {
         "/volunteer": "Volunteer",
       }[path] || "Garden of Mercy Foundation";
     document.title = `${title} | Garden of Mercy Foundation`;
-  }, [path]);
+  }, [path]); */
   let page;
   switch (path) {
     case "/":
@@ -100,6 +101,7 @@ function App() {
   }
   return (
     <div className="app-shell">
+       <SEO path={path} />
       <a className="skip-link" href="#main-content">
         Skip to content
       </a>
