@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { createRoot } from "react-dom/client";
 import "./css/bootstrap.min.css";
-import "bootstrap-icons/font/bootstrap-icons.css";
 import "./css/account.css";
 import "./css/donate.css";
 import "./css/gallary.css";
