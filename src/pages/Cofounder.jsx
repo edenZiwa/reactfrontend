@@ -145,12 +145,7 @@ function Cofounder({ navigate }) {
                 </div>
 
                 <div className="profile-stamp">
-                  <i className="bi bi-heart-fill" aria-hidden="true" />
-                  <span>
-                    Mercy in
-                    <br />
-                    Action
-                  </span>
+                  Pastor Albert Yiga, co-founder of Garden of Mercy Foundation
                 </div>
               </div>
             </div>
