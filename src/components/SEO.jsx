@@ -1,11 +1,9 @@
-
 import { useEffect } from "react";
 
 const SITE_NAME = "Garden of Mercy Foundation";
 const SITE_URL = "https://gardenofmercy.org";
 
-// Replace this with a real, publicly accessible 1200x630 image.
-const DEFAULT_IMAGE = `${SITE_URL}/images/og/garden-of-mercy.jpg`;
+const DEFAULT_IMAGE = `${SITE_URL}/images/garden-of-mercy-social.jpg`;
 
 const pages = {
     "/": {
