@@ -174,7 +174,7 @@ function Programs() {
       >
         <div className="overlay" aria-hidden="true" />
 
-        <div className="container text-white p-4">
+        <div className="container p-4">
           <span className="section-label eyebrow eyebrow-light">
             <span className="eyebrow-dot" />
             OUR PROGRAMS
@@ -187,7 +187,7 @@ function Programs() {
             Practical expressions of compassion.
           </h1>
 
-          <p className="lead col-lg-9 mb-0">
+          <p className="lead text-white col-lg-9 mb-0">
             Garden of Mercy Foundation seeks to develop child-focused
             initiatives that respond to identified needs and create
             meaningful opportunities for children, families and

@@ -542,7 +542,8 @@ body {
 
 /* Commitment message */
 .message-section {
-    background: #f1f4ef;
+    color: var(--bs-body-color);
+  background-color: var(--bs-body-bg);
 }
 .message-panel {
     padding: clamp(1.5rem, 5vw, 4rem);
@@ -655,7 +656,8 @@ body {
 
 /* Sources and CTA */
 .sources-section {
-    background: var(--founder-paper);
+    color: var(--bs-body-color);
+  background-color: var(--bs-body-bg);
 }
 .source-link-card {
     display: flex;
@@ -707,7 +709,8 @@ body {
 }
 .cta-section {
     padding-top: 0;
-    background: var(--founder-paper);
+    color: var(--bs-body-color);
+  background-color: var(--bs-body-bg);
 }
 .cta-panel {
     position: relative;

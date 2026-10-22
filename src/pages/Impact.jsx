@@ -46,7 +46,7 @@ export default function Impact() {
                         Compassion measured by meaningful action.
                     </h1>
 
-                    <p className="lead col-lg-8">
+                    <p className="lead text-white col-lg-8">
                         Verified organizational impact information will be published
                         as programs are implemented and data becomes available.
                     </p>

@@ -59,7 +59,7 @@
 
   --bs-border-color: var(--gomf-border);
   --bs-border-color-translucent: rgba(0, 0, 0, 0.12);
-  --bs-box-shadow-lg: 0 1rem 3rem rgba(0, 0, 0, 0.085);
+  --bs-box-shadow-lg: 0 1rem 3rem rgba(0, 0, 0, 0.295);
 
   --bs-link-color: var(--gomf-green);
   --bs-link-hover-color: #146c43;
@@ -149,7 +149,7 @@
 
   --bs-border-color: #343a40;
   --bs-border-color-translucent: rgba(255, 255, 255, 0.12);
-  --bs-box-shadow-lg: 0 1rem 3rem rgba(255, 255, 255, 0.045);
+  --bs-box-shadow-lg: 0 1rem 3rem rgba(255, 255, 255, 0.521);
 
   --bs-link-color: #75b798;
   --bs-link-hover-color: #95d5b2;
@@ -188,7 +188,12 @@ body {
     color 0.2s ease,
     background-color 0.2s ease;
 }
-
+.shadow-lg {
+    box-shadow: var(--bs-box-shadow-lg) !important;
+}
+.nav-link {
+    color: var(--bs-body-color);
+}
 a {
   text-decoration: none !important;
 }
@@ -398,6 +403,7 @@ h6 {
 
 #site-header, #site-footer {
     background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
 }
 
 /* 
@@ -500,6 +506,11 @@ footer a:hover {
   transform: translateY(-2px);
 }
 
+.feature-card,
+.program-card,
+  .impact-card {
+    padding: 1.5rem!important;
+  }
 
 /* 
    BUTTONS
@@ -590,7 +601,7 @@ select:focus-visible {
   .feature-card,
   .program-card,
   .impact-card {
-    padding: 1.5rem;
+    padding: 1.5rem!important;
   }
 
   .legal-content {

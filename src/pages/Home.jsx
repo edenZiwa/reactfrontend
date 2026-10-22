@@ -776,14 +776,7 @@ function Home( {
 
           {/* Bottom CTA */}
           <div className="text-center mt-4">
-            <a
-              href="/gallery"
-              className="link-success fw-semibold text-decoration-none"
-            >
-              Explore more moments
-              <i className="bi bi-arrow-up-right ms-1"></i>
-            </a>
-            
+           
             <AppLink
                   to="/gallery"
                   navigate={navigate}

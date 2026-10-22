@@ -566,7 +566,7 @@ export default function Sponsor({ navigate }) {
                     <AppLink
                       to="/donate"
                       navigate={navigate}
-                      className="link-light fw-bold"
+                      className="fw-bold"
                     >
                       make a general donation
                     </AppLink>

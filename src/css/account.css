@@ -8,16 +8,7 @@
     --line: #e3ebe5;
     --page: #f5f8f5
 }
-body {
-    background: var(--page);
-    color: var(--ink);
-    font-family: system-ui,-apple-system,"Segoe UI",sans-serif;
-    min-height: 100vh
-}
 
-a {
-    color: var(--mercy)
-}
 .topbar {
     background: #fff;
     border-bottom: 1px solid var(--line)
@@ -258,10 +249,7 @@ a {
     color: var(--muted)
 }
 
-.footer {
-    color: var(--muted);
-    font-size: .82rem
-}
+
 @media(max-width:575px) {
     .profile-body {
         padding: 0 16px 18px

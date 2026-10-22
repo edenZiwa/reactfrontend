@@ -8,10 +8,13 @@ const NAV = [
   ["Impact", "/impact"],
   ["Gallery", "/gallery"],
   ["Founder", "/founder"],
+  ["Cofounder", "/cofounder"],
   ["Contact", "/contact"],
   ["Sponsor", "/sponsor"],
   ["Stories", "/success-stories"],
+  
 ];
+
 const IMAGES = [
   {
     src: "/images/gallery/community-01.png",
@@ -39,6 +42,13 @@ const IMAGES = [
   },
 ];
 
+// Normalize paths to support trailing slashes.
+function normalizePath(path = "/") {
+  if (!path || path === "/") return "/";
+  return path.replace(/\/+$/, "") || "/";
+}
+
+// Reusable navigation link with client-side navigation support.
 function AppLink({
   to,
   navigate,
@@ -47,79 +57,108 @@ function AppLink({
   onClick,
   ...props
 }) {
+  const handleClick = (event) => {
+    onClick?.(event);
+
+    // Preserve browser behavior for prevented, modified,
+    // non-primary, external, and non-local link clicks.
+    if (
+      event.defaultPrevented ||
+      event.button !== 0 ||
+      event.metaKey ||
+      event.ctrlKey ||
+      event.shiftKey ||
+      event.altKey ||
+      event.currentTarget.target === "_blank" ||
+      event.currentTarget.hasAttribute("download") ||
+      typeof navigate !== "function" ||
+      typeof to !== "string" ||
+      !to.startsWith("/") ||
+      to.startsWith("//")
+    ) {
+      return;
+    }
+
+    event.preventDefault();
+    navigate(to);
+  };
+
   return (
-    <a
-      href={to}
-      className={className}
-      onClick={(event) => {
-        onClick?.(event);
-        if (
-          !event.defaultPrevented &&
-          event.button === 0 &&
-          !event.metaKey &&
-          !event.ctrlKey &&
-          !event.shiftKey &&
-          !event.altKey
-        ) {
-          event.preventDefault();
-          navigate(to);
-        }
-      }}
-      {...props}
-    >
+    <a href={to} className={className} onClick={handleClick} {...props}>
       {children}
     </a>
   );
 }
 
-function Header({ path, navigate }) {
+// Main site header.
+function Header({ path = "/", navigate }) {
   const [open, setOpen] = useState(false);
+  const currentPath = normalizePath(path);
+
+  const closeMenu = () => setOpen(false);
+
   return (
-    <header className="site-header">
+    <header id="site-header" className="shadow-lg">
       <div className="header-inner">
         <AppLink
           to="/"
           navigate={navigate}
           className="brand"
           aria-label="Garden of Mercy Foundation home"
+          onClick={closeMenu}
         >
           <img
             src="/images/logo.png"
             alt="Garden of Mercy Foundation — Sowing seeds of mercy and compassion"
           />
         </AppLink>
+
         <button
           className="menu-toggle"
           type="button"
           aria-expanded={open}
-          aria-label="Toggle navigation"
-          onClick={() => setOpen(!open)}
+          aria-controls="main-navigation"
+          aria-label={open ? "Close navigation menu" : "Open navigation menu"}
+          onClick={() => setOpen((previous) => !previous)}
         >
-          {open ? "Close" : "Menu"} <span aria-hidden="true">☰</span>
+          {open ? "Close" : "Menu"}
+          <span aria-hidden="true">{open ? "✕" : "☰"}</span>
         </button>
+
         <nav
+          id="main-navigation"
           className={open ? "main-nav is-open" : "main-nav"}
           aria-label="Main navigation"
         >
-          {NAV.map(([label, href]) => (
-            <AppLink
-              key={href}
-              to={href}
-              navigate={navigate}
-              className={path === href ? "nav-link active" : "nav-link"}
-              onClick={() => setOpen(false)}
-            >
-              {label}
-            </AppLink>
-          ))}
+          {NAV.map(([label, href]) => {
+            const isActive = currentPath === normalizePath(href);
+
+            return (
+              <AppLink
+                key={href}
+                to={href}
+                navigate={navigate}
+                className={isActive ? "nav-link active" : "nav-link"}
+                aria-current={isActive ? "page" : undefined}
+                onClick={closeMenu}
+              >
+                {label}
+              </AppLink>
+            );
+          })}
+
           <AppLink
             to="/donate"
             navigate={navigate}
-            className="nav-donate"
-            onClick={() => setOpen(false)}
+            className={
+              currentPath === "/donate" ? "nav-donate active" : "nav-donate"
+            }
+            aria-current={currentPath === "/donate" ? "page" : undefined}
+            onClick={closeMenu}
           >
             Donate <span aria-hidden="true">↗</span>
           </AppLink>
+
           <GoogleSignIn />
         </nav>
       </div>
@@ -127,187 +166,227 @@ function Header({ path, navigate }) {
   );
 }
 
+// Main site footer.
 function Footer({ navigate }) {
-const currentYear = new Date().getFullYear();
+  const currentYear = new Date().getFullYear();
 
-return (
-<footer className="site-footer" aria-label="Website footer">
-{/* Main footer /}
-<div className="footer-main">
-<div className="container py-5">
-<div className="row g-5">
-{/ Brand and mission */}
-<div className="col-lg-4 col-md-6">
-<AppLink
-to="/"
-navigate={navigate}
-className="footer-logo-link"
->
-<img
-src="/images/garden_of_mercy_horizontal.png"
-alt="Garden of Mercy Foundation"
-className="footer-logo"
-width="260"
-height="auto"
-loading="lazy"
-/>
-</AppLink>
+  return (
+    <footer id="site-footer" className="shadow-lg" aria-label="Website footer">
+      {/* Main footer */}
+      <div className="container py-5">
+        <div className="row g-4 g-lg-5">
+          {/* Brand and mission */}
+          <div className="col-12 col-md-6 col-lg-4">
+            <AppLink
+              to="/"
+              navigate={navigate}
+              className="d-inline-block mb-3"
+              aria-label="Garden of Mercy Foundation home"
+            >
+              <img
+                src="/images/garden_of_mercy_horizontal.png"
+                alt="Garden of Mercy Foundation"
+                className="img-fluid"
+                width="260"
+                height="auto"
+                loading="lazy"
+                style={{ maxWidth: "260px" }}
+              />
+            </AppLink>
 
-          <p className="footer-tagline mt-3">
-            Sowing Seeds of Mercy and Compassion.
-          </p>
+            <h2 className="h5 fw-bold  mb-3">
+              Sowing Seeds of Mercy
+            </h2>
 
-          <p className="footer-description">
-            We are committed to restoring dignity, nurturing children,
-            supporting vulnerable people, and building compassionate
-            communities where everyone has an opportunity to thrive.
-          </p>
+            <p className=" lh-lg mb-3">
+              We are committed to restoring dignity, nurturing children,
+              supporting vulnerable people, and building compassionate
+              communities where everyone has an opportunity to thrive.
+            </p>
 
-          <AppLink
-            to="/about"
-            navigate={navigate}
-            className="footer-text-link"
-          >
-            Discover our mission
-            <i className="bi bi-arrow-right ms-2" aria-hidden="true" />
-          </AppLink>
-        </div>
+            <AppLink
+              to="/about"
+              navigate={navigate}
+              className="link-underline-opacity-0 link-underline-opacity-75-hover fw-semibold"
+            >
+              Discover our mission
+              <i className="bi bi-arrow-right ms-2" aria-hidden="true" />
+            </AppLink>
+          </div>
 
-        {/* Explore */}
-        <div className="col-6 col-lg-2 col-md-6">
-          <h2 className="footer-heading">Explore</h2>
+          {/* Explore */}
+          <div className="col-6 col-md-6 col-lg-2">
+            <h2 className="h6 text-uppercase fw-bold mb-4">
+              Explore
+            </h2>
 
-          <nav aria-label="Footer navigation">
-            <ul className="footer-links list-unstyled">
-              {NAV.slice(1, 6).map(([label, href]) => (
-                <li key={href}>
-                  <AppLink to={href} navigate={navigate}>
-                    {label}
-                  </AppLink>
-                </li>
-              ))}
+            <nav aria-label="Footer navigation">
+              <ul className="list-unstyled d-grid gap-3 mb-0">
+                {NAV.slice(1, 7).map(([label, href]) => (
+                  <li key={href}>
+                    <AppLink
+                      to={href}
+                      navigate={navigate}
+                      className="link-underline-opacity-0 link-underline-opacity-75-hover"
+                    >
+                      {label}
+                    </AppLink>
+                  </li>
+                  
+                ))}
+              </ul>
+            </nav>
+          </div>
+
+          {/* Get involved */}
+          <div className="col-6 col-md-6 col-lg-2">
+            <h2 className="h6 text-uppercase fw-bold mb-4">
+              Get involved
+            </h2>
+
+            <ul className="list-unstyled d-grid gap-3 mb-0">
+              <li>
+                <AppLink
+                  to="/donate"
+                  navigate={navigate}
+                  className="link-underline-opacity-0 link-underline-opacity-75-hover"
+                >
+                  Make a donation
+                </AppLink>
+              </li>
+              <li>
+                <AppLink
+                  to="/contact"
+                  navigate={navigate}
+                  className="link-underline-opacity-0 link-underline-opacity-75-hover"
+                >
+                  Contact us
+                </AppLink>
+              </li>
+              <li>
+                <AppLink
+                  to="/success-stories"
+                  navigate={navigate}
+                  className="link-underline-opacity-0 link-underline-opacity-75-hover"
+                >
+                  Success stories
+                </AppLink>
+              </li>
+              <li>
+                <AppLink
+                  to="/impact"
+                  navigate={navigate}
+                  className="link-underline-opacity-0 link-underline-opacity-75-hover"
+                >
+                  Our impact
+                </AppLink>
+              </li>
             </ul>
-          </nav>
-        </div>
+          </div>
 
-        {/* Get involved */}
-        <div className="col-6 col-lg-2 col-md-6">
-          <h2 className="footer-heading">Get involved</h2>
+          {/* Commitment and donation */}
+          <div className="col-12 col-md-6 col-lg-4">
+            <h2 className="h6 text-uppercase fw-bold mb-4">
+              Our commitment
+            </h2>
 
-          <ul className="footer-links list-unstyled">
-            <li>
-              <AppLink to="/donate" navigate={navigate}>
-                Make a donation
-              </AppLink>
-            </li>
-            <li>
-              <AppLink to="/contact" navigate={navigate}>
-                Contact us
-              </AppLink>
-            </li>
-            <li>
-              <AppLink to="/success-stories" navigate={navigate}>
-                Success stories
-              </AppLink>
-            </li>
-            <li>
-              <AppLink to="/impact" navigate={navigate}>
-                Our impact
-              </AppLink>
-            </li>
-          </ul>
-        </div>
+            <p className="lh-lg mb-4">
+              Every act of kindness matters. We believe in compassion,
+              accountability, and making a meaningful difference in the lives of
+              the people and communities we serve.
+            </p>
 
-        {/* Trust and legal */}
-        <div className="col-lg-4 col-md-6">
-          <h2 className="footer-heading">Our commitment</h2>
-
-          <p className="footer-description">
-            Every act of kindness matters. We believe in compassion,
-            accountability, and making a meaningful difference in the
-            lives of the people and communities we serve.
-          </p>
-
-          <ul className="footer-links list-unstyled">
-            <li>
-              <AppLink to="/privacy" navigate={navigate}>
+            <div className="d-flex flex-wrap gap-3 mb-4">
+              <AppLink
+                to="/privacy"
+                navigate={navigate}
+                className="link-underline-opacity-0 link-underline-opacity-75-hover small"
+              >
                 Privacy policy
               </AppLink>
-            </li>
-            <li>
-              <AppLink to="/terms" navigate={navigate}>
+
+              <AppLink
+                to="/terms"
+                navigate={navigate}
+                className="link-underline-opacity-0 link-underline-opacity-75-hover small"
+              >
                 Terms of use
               </AppLink>
-            </li>
-          </ul>
+            </div>
 
-          <AppLink
-            to="/donate"
-            navigate={navigate}
-            className="btn footer-donate-btn mt-3"
-          >
-            Sow a seed of mercy
-            <i className="bi bi-heart-fill ms-2" aria-hidden="true" />
-          </AppLink>
+            <AppLink
+              to="/donate"
+              navigate={navigate}
+              className="btn btn-warning fw-bold px-4 py-3 rounded-pill"
+            >
+              Sow a seed of mercy
+              <i className="bi bi-heart-fill ms-2" aria-hidden="true" />
+            </AppLink>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
 
-  {/* Scripture and values */}
-  <div className="footer-scripture">
-    <div className="container py-3">
-      <p className="mb-0">
-        <i className="bi bi-heart-fill me-2" aria-hidden="true" />
-        “I was hungry and you gave me something to eat.”
-        <span className="footer-scripture-reference">
-          Matthew 25:35–45
-        </span>
-      </p>
-    </div>
-  </div>
+      {/* Scripture */}
+      <div className="border-top border-secondary">
+        <div className="container py-4">
+          <div className="d-flex flex-column flex-md-row align-items-md-center justify-content-center gap-2 gap-md-3 text-center">
+            <i className="bi bi-heart-fill text-warning" aria-hidden="true" />
 
-  {/* Copyright */}
-  <div className="footer-bottom">
-    <div className="container py-3">
-      <div className="d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
-        <p className="mb-0">
-          © {currentYear} Garden of Mercy Foundation.
-          All rights reserved.
-        </p>
+            <p className="mb-0 fst-italic">
+              “I was hungry and you gave me something to eat.”
+            </p>
 
-        <p className="mb-0 footer-bottom-tagline">
-          Sowing hope. Restoring dignity. Transforming lives.
-        </p>
+            <span className="small fw-bold text-warning">Matthew 25:35–45</span>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-{/* Development notice */}
-  <div
-    className="development-notice"
-    role="status"
-    aria-live="polite"
-  >
-    <span className="development-indicator" aria-hidden="true"></span>
 
-    <i className="bi bi-tools" aria-hidden="true"></i>
+      {/* Copyright */}
+      <div className="border-top border-secondary bg-black bg-opacity-25">
+        <div className="container py-4">
+          <div className="d-flex flex-column flex-md-row align-items-center justify-content-between gap-2 text-center text-md-start">
+            <p className="small mb-0">
+              © {currentYear} Garden of Mercy Foundation. All rights reserved.
+            </p>
 
-    <span>
-      <strong>Website in Development</strong>
-      <span className="development-message">
-        {" "} — We’re working to improve your experience.
-      </span>
-    </span>
-  </div>
-</footer>
+            <p className="small mb-0">
+              Sowing hope. Restoring dignity. Transforming lives.
+            </p>
+          </div>
+        </div>
+      </div>
 
-);
+      {/* Development notice */}
+      <div
+        className="bg-warning py-2 px-3"
+        role="status"
+        aria-live="polite"
+      >
+        <div className="container d-flex flex-wrap align-items-center justify-content-center gap-2 text-center">
+          <span
+            className="rounded-circle bg-success border border-dark"
+            style={{ width: "8px", height: "8px" }}
+            aria-hidden="true"
+          />
+
+          <i className="bi bi-tools" aria-hidden="true" />
+
+          <span className="small">
+            <strong>Website in Development</strong>
+            <span> — We’re working to improve your experience.</span>
+          </span>
+        </div>
+      </div>
+    </footer>
+  );
 }
 
+// Reusable eyebrow label.
 function Eyebrow({ children }) {
   return <p className="eyebrow">{children}</p>;
 }
 
+// Reusable page introduction.
 function PageIntro({ eyebrow, title, text }) {
   return (
     <section className="page-intro">
@@ -318,6 +397,7 @@ function PageIntro({ eyebrow, title, text }) {
   );
 }
 
+// Reusable focus card.
 function FocusCard({ number, title, text, symbol }) {
   return (
     <article className="focus-card">
@@ -325,28 +405,43 @@ function FocusCard({ number, title, text, symbol }) {
         <span>{number}</span>
         <b aria-hidden="true">{symbol}</b>
       </div>
+
       <h3>{title}</h3>
       <p>{text}</p>
-      <span className="card-rule" />
+      <span className="card-rule" aria-hidden="true" />
     </article>
   );
 }
 
+// Reusable call-to-action banner.
 function CallToAction({ navigate }) {
   return (
     <section className="donate-banner">
       <div>
         <Eyebrow>JOIN THE MISSION</Eyebrow>
+
         <h2>
           Let’s help compassion <em>take root.</em>
         </h2>
+
         <p>Every act of care can help build a stronger community.</p>
       </div>
+
       <AppLink to="/donate" navigate={navigate} className="button button-gold">
-        Support our work <span>↗</span>
+        Support our work <span aria-hidden="true">↗</span>
       </AppLink>
     </section>
   );
 }
 
-export { NAV, IMAGES, AppLink, Header, Footer, Eyebrow, PageIntro, FocusCard, CallToAction };
+export {
+  NAV,
+  IMAGES,
+  AppLink,
+  Header,
+  Footer,
+  Eyebrow,
+  PageIntro,
+  FocusCard,
+  CallToAction,
+};

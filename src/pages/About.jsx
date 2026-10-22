@@ -32,7 +32,7 @@ function About({ navigate }) {
             A foundation built around mercy.
           </h1>
 
-          <p className="lead col-lg-8 mb-0">
+          <p className="lead text-white col-lg-8 mb-0">
             Garden of Mercy Foundation exists to turn compassion
             into practical action, with a particular focus on children.
           </p>

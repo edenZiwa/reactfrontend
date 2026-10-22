@@ -419,7 +419,7 @@ function Gallery({navigate}) {
       {/* FILTERABLE GALLERY */}
       <section
         id="gallery"
-        className="gallery-section py-5 bg-body-tertiary"
+        className="gallery-section py-5"
       >
         <div className="container">
           <div className="row align-items-end g-4 mb-4">

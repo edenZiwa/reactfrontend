@@ -1,4 +1,3 @@
-
 import React, { useEffect } from "react";
 import { createRoot } from "react-dom/client";
 import "./css/bootstrap.min.css";
@@ -30,6 +29,7 @@ import NotFound from "./pages/NotFound.jsx";
 import Sponsor from "./pages/Sponsor.jsx";
 import Account from "./pages/Account.jsx";
 import SuccessStories from "./pages/SuccessStories.jsx";
+import Cofounder from "./pages/Cofounder.jsx";
 
 const PAGE_TITLES = {
   "/": "Sowing Seeds of Mercy and Compassion",
@@ -89,6 +89,10 @@ useEffect(() => {
     case "/founder":
       page = <Founder navigate={navigate} />;
       break;
+
+    case "/cofounder":
+      page = <Cofounder navigate={navigate} />;
+      break;  
 
     case "/donate":
       page = <Donate navigate={navigate} />;
