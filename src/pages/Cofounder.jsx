@@ -80,7 +80,7 @@ function Cofounder({ navigate }) {
                     alt="Pastor Albert Yiga, co-founder of Garden of Mercy Foundation"
                     width="720"
                     height="900"
-                    fetchPriority="high"
+                    loading="lazy"
                   />
 
                   <div className="portrait-placeholder" hidden>
