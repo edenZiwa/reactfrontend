@@ -30,7 +30,7 @@ import SuccessStories from "./pages/SuccessStories.jsx";
 
 function App() {
   const [path, navigate] = usePath();
- /* useEffect(() => {
+  useEffect(() => {
     const title =
       {
         "/": "Garden of Mercy Foundation",
@@ -50,7 +50,7 @@ function App() {
         "/volunteer": "Volunteer",
       }[path] || "Garden of Mercy Foundation";
     document.title = `${title} | Garden of Mercy Foundation`;
-  }, [path]); */
+  }, [path]); 
   let page;
   switch (path) {
     case "/":
