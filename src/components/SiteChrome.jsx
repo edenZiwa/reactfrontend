@@ -128,46 +128,180 @@ function Header({ path, navigate }) {
 }
 
 function Footer({ navigate }) {
-  return (
-    <footer className="site-footer">
-      <div className="footer-main">
-        <div className="footer-brand">
-          <img
-            src="/images/garden_of_mercy_horizontal.png"
-            alt="Garden of Mercy Foundation"
-          />
-          <p>Sowing seeds of mercy and compassion.</p>
+const currentYear = new Date().getFullYear();
+
+return (
+<footer className="site-footer" aria-label="Website footer">
+{/* Main footer /}
+<div className="footer-main">
+<div className="container py-5">
+<div className="row g-5">
+{/ Brand and mission */}
+<div className="col-lg-4 col-md-6">
+<AppLink
+to="/"
+navigate={navigate}
+className="footer-logo-link"
+>
+<img
+src="/images/garden_of_mercy_horizontal.png"
+alt="Garden of Mercy Foundation"
+className="footer-logo"
+width="260"
+height="auto"
+loading="lazy"
+/>
+</AppLink>
+
+          <p className="footer-tagline mt-3">
+            Sowing Seeds of Mercy and Compassion.
+          </p>
+
+          <p className="footer-description">
+            We are committed to restoring dignity, nurturing children,
+            supporting vulnerable people, and building compassionate
+            communities where everyone has an opportunity to thrive.
+          </p>
+
+          <AppLink
+            to="/about"
+            navigate={navigate}
+            className="footer-text-link"
+          >
+            Discover our mission
+            <i className="bi bi-arrow-right ms-2" aria-hidden="true" />
+          </AppLink>
         </div>
-        <div>
-          <h3>Explore</h3>
-          {NAV.slice(1, 6).map(([label, href]) => (
-            <AppLink key={href} to={href} navigate={navigate}>
-              {label}
-            </AppLink>
-          ))}
+
+        {/* Explore */}
+        <div className="col-6 col-lg-2 col-md-6">
+          <h2 className="footer-heading">Explore</h2>
+
+          <nav aria-label="Footer navigation">
+            <ul className="footer-links list-unstyled">
+              {NAV.slice(1, 6).map(([label, href]) => (
+                <li key={href}>
+                  <AppLink to={href} navigate={navigate}>
+                    {label}
+                  </AppLink>
+                </li>
+              ))}
+            </ul>
+          </nav>
         </div>
-        <div>
-          <h3>Get involved</h3>
-          <AppLink to="/donate" navigate={navigate}>
-            Make a donation
-          </AppLink>
-          <AppLink to="/contact" navigate={navigate}>
-            Contact us
-          </AppLink>
-          <AppLink to="/privacy" navigate={navigate}>
-            Privacy
-          </AppLink>
-          <AppLink to="/terms" navigate={navigate}>
-            Terms
+
+        {/* Get involved */}
+        <div className="col-6 col-lg-2 col-md-6">
+          <h2 className="footer-heading">Get involved</h2>
+
+          <ul className="footer-links list-unstyled">
+            <li>
+              <AppLink to="/donate" navigate={navigate}>
+                Make a donation
+              </AppLink>
+            </li>
+            <li>
+              <AppLink to="/contact" navigate={navigate}>
+                Contact us
+              </AppLink>
+            </li>
+            <li>
+              <AppLink to="/success-stories" navigate={navigate}>
+                Success stories
+              </AppLink>
+            </li>
+            <li>
+              <AppLink to="/impact" navigate={navigate}>
+                Our impact
+              </AppLink>
+            </li>
+          </ul>
+        </div>
+
+        {/* Trust and legal */}
+        <div className="col-lg-4 col-md-6">
+          <h2 className="footer-heading">Our commitment</h2>
+
+          <p className="footer-description">
+            Every act of kindness matters. We believe in compassion,
+            accountability, and making a meaningful difference in the
+            lives of the people and communities we serve.
+          </p>
+
+          <ul className="footer-links list-unstyled">
+            <li>
+              <AppLink to="/privacy" navigate={navigate}>
+                Privacy policy
+              </AppLink>
+            </li>
+            <li>
+              <AppLink to="/terms" navigate={navigate}>
+                Terms of use
+              </AppLink>
+            </li>
+          </ul>
+
+          <AppLink
+            to="/donate"
+            navigate={navigate}
+            className="btn footer-donate-btn mt-3"
+          >
+            Sow a seed of mercy
+            <i className="bi bi-heart-fill ms-2" aria-hidden="true" />
           </AppLink>
         </div>
       </div>
-      <div className="footer-bottom">
-        <span>© {new Date().getFullYear()} Garden of Mercy Foundation</span>
-        <span>Matthew 25:35–45 · Compassion in action</span>
+    </div>
+  </div>
+
+  {/* Scripture and values */}
+  <div className="footer-scripture">
+    <div className="container py-3">
+      <p className="mb-0">
+        <i className="bi bi-heart-fill me-2" aria-hidden="true" />
+        “I was hungry and you gave me something to eat.”
+        <span className="footer-scripture-reference">
+          Matthew 25:35–45
+        </span>
+      </p>
+    </div>
+  </div>
+
+  {/* Copyright */}
+  <div className="footer-bottom">
+    <div className="container py-3">
+      <div className="d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
+        <p className="mb-0">
+          © {currentYear} Garden of Mercy Foundation.
+          All rights reserved.
+        </p>
+
+        <p className="mb-0 footer-bottom-tagline">
+          Sowing hope. Restoring dignity. Transforming lives.
+        </p>
       </div>
-    </footer>
-  );
+    </div>
+  </div>
+{/* Development notice */}
+  <div
+    className="development-notice"
+    role="status"
+    aria-live="polite"
+  >
+    <span className="development-indicator" aria-hidden="true"></span>
+
+    <i className="bi bi-tools" aria-hidden="true"></i>
+
+    <span>
+      <strong>Website in Development</strong>
+      <span className="development-message">
+        {" "} — We’re working to improve your experience.
+      </span>
+    </span>
+  </div>
+</footer>
+
+);
 }
 
 function Eyebrow({ children }) {
