@@ -52,19 +52,12 @@ const PAGE_TITLES = {
 function App() {
   const [path, navigate] = usePath();
 
-  useEffect(() => {
-    const title =
-      PAGE_TITLES[path] || "Page Not Found";
-
-    document.title =
-      `${title} | Garden of Mercy Foundation`;
-
-    // Ensure the browser starts at the top when navigating pages.
-    window.scrollTo({
-      top: 0,
-      behavior: "auto",
-    });
-  }, [path]);
+useEffect(() => {
+  window.scrollTo({
+    top: 0,
+    behavior: "auto",
+  });
+}, [path]);
 
   let page;
 
