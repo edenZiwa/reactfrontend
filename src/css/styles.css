@@ -1,4 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap");
 :root {
   font-family: "DM Sans", Arial, sans-serif;
   color: #24352b;
@@ -1821,4 +1820,309 @@ h2 em {
     scroll-behavior: auto !important;
     transition: none !important;
   }
+}
+
+
+/* =========================================
+GARDEN OF MERCY FOUNDATION FOOTER
+========================================= */
+
+.site-footer {
+--footer-bg: #102c25;
+--footer-panel: #17382f;
+--footer-text: #d4e0d9;
+--footer-muted: #a9beb3;
+--footer-accent: #d6b56d;
+background: var(--footer-bg);
+color: var(--footer-text);
+overflow: hidden;
+}
+
+.site-footer a {
+color: inherit;
+text-decoration: none;
+transition:
+color 0.2s ease,
+opacity 0.2s ease,
+transform 0.2s ease;
+}
+
+.site-footer a:focus-visible {
+outline: 2px solid var(--footer-accent);
+outline-offset: 4px;
+border-radius: 3px;
+}
+
+.footer-main {
+background:
+radial-gradient(
+ellipse at top right,
+rgba(214, 181, 109, 0.08),
+transparent 45%
+),
+var(--footer-bg);
+}
+
+.footer-logo-link {
+display: inline-flex;
+align-items: center;
+max-width: 100%;
+}
+
+.footer-logo {
+display: block;
+width: min(100%, 260px);
+height: auto;
+object-fit: contain;
+}
+
+.footer-tagline {
+color: var(--footer-accent);
+font-size: 1.05rem;
+font-weight: 700;
+letter-spacing: 0.015em;
+}
+
+.footer-description {
+color: var(--footer-muted);
+font-size: 0.94rem;
+line-height: 1.85;
+max-width: 430px;
+}
+
+.footer-heading {
+color: #fff;
+font-size: 1rem;
+font-weight: 700;
+margin-bottom: 1.35rem;
+position: relative;
+}
+
+.footer-heading::after {
+content: "";
+display: block;
+width: 34px;
+height: 2px;
+margin-top: 0.7rem;
+border-radius: 2px;
+background: var(--footer-accent);
+}
+
+.footer-links {
+display: flex;
+flex-direction: column;
+gap: 0.85rem;
+margin-bottom: 0;
+}
+
+.footer-links a {
+display: inline-block;
+color: var(--footer-muted);
+font-size: 0.92rem;
+line-height: 1.6;
+}
+
+.footer-links a:hover,
+.footer-links a:focus-visible,
+.footer-text-link:hover {
+color: var(--footer-accent);
+}
+
+.footer-text-link {
+display: inline-flex;
+align-items: center;
+color: var(--footer-accent) !important;
+font-weight: 600;
+font-size: 0.92rem;
+}
+
+.footer-text-link:hover i {
+transform: translateX(4px);
+}
+
+.footer-text-link i {
+transition: transform 0.2s ease;
+}
+
+.footer-donate-btn {
+display: inline-flex;
+align-items: center;
+justify-content: center;
+padding: 0.8rem 1.15rem;
+border: 1px solid var(--footer-accent);
+border-radius: 6px;
+background: var(--footer-accent);
+color: #17291f !important;
+font-size: 0.9rem;
+font-weight: 700;
+line-height: 1.5;
+}
+
+.footer-donate-btn:hover {
+border-color: #e6cb91;
+background: #e6cb91;
+color: #102c25 !important;
+transform: translateY(-2px);
+}
+
+.footer-scripture {
+background: var(--footer-panel);
+border-top: 1px solid rgba(255, 255, 255, 0.07);
+border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.footer-scripture p {
+color: #f0e4c6;
+font-size: 0.92rem;
+line-height: 1.8;
+text-align: center;
+}
+
+.footer-scripture > .container p > i {
+color: var(--footer-accent);
+}
+
+.footer-scripture-reference {
+display: inline-block;
+margin-left: 0.65rem;
+color: var(--footer-accent);
+font-weight: 700;
+}
+
+.footer-bottom {
+background: #0b211b;
+}
+
+.footer-bottom p {
+color: var(--footer-muted);
+font-size: 0.82rem;
+line-height: 1.7;
+text-align: center;
+}
+
+.footer-bottom-tagline {
+letter-spacing: 0.02em;
+}
+
+/* Tablet and mobile */
+@media (max-width: 767.98px) {
+.footer-main .container {
+padding-top: 3rem !important;
+padding-bottom: 3rem !important;
+}
+
+.footer-logo {
+width: min(100%, 235px);
+}
+
+.footer-heading {
+margin-bottom: 1rem;
+}
+
+.footer-links {
+gap: 0.7rem;
+}
+
+.footer-scripture-reference {
+display: block;
+margin-left: 0;
+}
+}
+
+@media (max-width: 359.98px) {
+.footer-donate-btn {
+width: 100%;
+padding-inline: 0.6rem;
+font-size: 0.85rem;
+}
+}
+
+@media (prefers-reduced-motion: reduce) {
+.site-footer a,
+.footer-text-link i {
+transition: none;
+}
+
+.footer-donate-btn:hover {
+transform: none;
+}
+}
+
+/* Sticky website development notice */
+.development-notice {
+position: fixed;
+bottom: 12px;
+left: 50%;
+transform: translateX(-50%);
+z-index: 1055;
+
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 10px;
+
+width: max-content;
+max-width: calc(100% - 24px);
+padding: 12px 20px;
+
+color: #fff;
+background: rgba(16, 44, 37, 0.97);
+border: 1px solid rgba(214, 181, 109, 0.65);
+border-radius: 50px;
+box-shadow: 0 6px 24px rgba(0, 0, 0, 0.22);
+
+font-size: 13px;
+line-height: 1.5;
+text-align: center;
+backdrop-filter: blur(10px);
+-webkit-backdrop-filter: blur(10px);
+}
+
+.development-notice > i {
+color: #d6b56d;
+font-size: 16px;
+flex-shrink: 0;
+}
+
+.development-indicator {
+width: 8px;
+height: 8px;
+flex-shrink: 0;
+border-radius: 50%;
+background: #e5b85c;
+box-shadow: 0 0 0 4px rgba(229, 184, 92, 0.14);
+}
+
+.development-notice strong {
+color: #f0d69b;
+font-weight: 700;
+}
+
+.development-message {
+color: #d4e0d9;
+}
+
+@media (max-width: 576px) {
+.development-notice {
+bottom: 10px;
+gap: 7px;
+padding: 10px 14px;
+border-radius: 16px;
+font-size: 11px;
+}
+
+.development-notice > i {
+font-size: 14px;
+}
+
+.development-notice strong,
+.development-message {
+display: inline;
+}
+}
+
+@media (prefers-reduced-motion: reduce) {
+.development-notice {
+scroll-behavior: auto;
+}
 }
