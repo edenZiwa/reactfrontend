@@ -8,7 +8,7 @@ const NAV = [
   ["Impact", "/impact"],
   ["Gallery", "/gallery"],
   ["Founder", "/founder"],
-  ["Cofounder", "/cofounder"],
+  ["Co-Founder", "/cofounder"],
   ["Contact", "/contact"],
   ["Sponsor", "/sponsor"],
   ["Stories", "/success-stories"],
