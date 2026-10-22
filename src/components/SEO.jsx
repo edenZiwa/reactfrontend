@@ -43,6 +43,11 @@ const pages = {
         description:
             "Learn about Apostle Derrick Musinguzi and the vision behind Garden of Mercy Foundation's mission of mercy and compassion.",
     },
+    "/cofounder": {
+        title: "Our Co-Founder | Garden of Mercy Foundation",
+        description:
+            "Learn about Pastor Albert Yiga and the vision behind Garden of Mercy Foundation's mission of mercy and compassion.",
+    },
     "/donate": {
         title: "Donate | Support Garden of Mercy Foundation",
         description:
