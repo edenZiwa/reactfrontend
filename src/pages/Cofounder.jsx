@@ -491,12 +491,11 @@ function Cofounder({ navigate }) {
                 </span>
 
                 <blockquote>
-                  “Let us not love in word, neither in tongue;
-                  but in deed and in truth.”
+                  “for I was hungry and you gave Me food; I was thirsty and you gave Me drink;  I was a stranger and you took Me in;”
                 </blockquote>
 
                 <p className="scripture-reference">
-                  1 John 3:18 (KJV)
+                  Matthew 25:35 (NKJV)
                 </p>
 
                 <div className="scripture-rule" />

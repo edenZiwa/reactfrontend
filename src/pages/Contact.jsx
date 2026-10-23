@@ -89,16 +89,18 @@ function Contact( {
 
     return (
         <>
+        <div className="hero">
+            <div className="overlay" aria-hidden="true" />
             <PageIntro
                 eyebrow="GET IN TOUCH"
                 title={
-                <>
+                <div className="text-white">
                     Let’s start a <em>conversation.</em>
-                </>
+                </div>
                 }
                 text="Questions about our mission, community partnerships or ways to get involved? We would be glad to hear from you."
                 />
-
+</div>
             <main id="main-content">
                 {/* Contact introduction */}
                 <section className="contact-section py-5">
@@ -168,11 +170,10 @@ function Contact( {
                                         aria-hidden="true"
                                         />
                                     <p className="mb-2 fw-semibold">
-                                        “Let us not love with words or speech but with actions
-                                        and in truth.”
+                                        “for I was hungry and you gave Me food; I was thirsty and you gave Me drink;  I was a stranger and you took Me in;”
                                     </p>
                                     <span className="small text-secondary">
-                                        1 John 3:18
+                                        Matthew 25:35
                                     </span>
                                 </div>
                             </div>
@@ -351,10 +352,6 @@ function Contact( {
                                                 />
                                         </button>
 
-                                        <p className="small text-secondary text-center mt-3 mb-0">
-                                            Your message will not be delivered until a backend
-                                            submission endpoint is connected.
-                                        </p>
                                     </div>
                                 </div>
                             </form>

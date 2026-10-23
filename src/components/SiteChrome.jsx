@@ -7,12 +7,11 @@ const NAV = [
   ["Programs", "/programs"],
   ["Impact", "/impact"],
   ["Gallery", "/gallery"],
+  ["Sponsor", "/sponsor"],
+  ["Contact", "/contact"],
   ["Founder", "/founder"],
   ["Co-Founder", "/cofounder"],
-  ["Contact", "/contact"],
-  ["Sponsor", "/sponsor"],
   ["Stories", "/success-stories"],
-  
 ];
 
 const IMAGES = [
@@ -130,7 +129,7 @@ function Header({ path = "/", navigate }) {
           className={open ? "main-nav is-open" : "main-nav"}
           aria-label="Main navigation"
         >
-          {NAV.map(([label, href]) => {
+          {NAV.slice(0, 7).map(([label, href]) => {
             const isActive = currentPath === normalizePath(href);
 
             return (
@@ -222,7 +221,7 @@ function Footer({ navigate }) {
 
             <nav aria-label="Footer navigation">
               <ul className="list-unstyled d-grid gap-3 mb-0">
-                {NAV.slice(1, 7).map(([label, href]) => (
+                {NAV.slice(2, 9).map(([label, href]) => (
                   <li key={href}>
                     <AppLink
                       to={href}
@@ -342,7 +341,7 @@ function Footer({ navigate }) {
       </div>
 
       {/* Copyright */}
-      <div className="border-top border-secondary bg-black bg-opacity-25">
+      <div className="border-top border-secondary">
         <div className="container py-4">
           <div className="d-flex flex-column flex-md-row align-items-center justify-content-between gap-2 text-center text-md-start">
             <p className="small mb-0">
@@ -392,7 +391,7 @@ function PageIntro({ eyebrow, title, text }) {
     <section className="page-intro">
       <Eyebrow>{eyebrow}</Eyebrow>
       <h1>{title}</h1>
-      <p>{text}</p>
+      <p className="text-white">{text}</p>
     </section>
   );
 }

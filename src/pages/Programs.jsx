@@ -174,7 +174,7 @@ function Programs() {
       >
         <div className="overlay" aria-hidden="true" />
 
-        <div className="container p-4">
+        <div className="container text-white p-4">
           <span className="section-label eyebrow eyebrow-light">
             <span className="eyebrow-dot" />
             OUR PROGRAMS

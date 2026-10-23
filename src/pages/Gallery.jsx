@@ -237,32 +237,38 @@ function Gallery({navigate}) {
     setSelectedVideo(null);
   }
 
+  // Keep page scrolling locked only while a viewer is open, and always restore it.
   useEffect(() => {
-    if (!selectedImage && !selectedVideo) return;
+    const viewerIsOpen = Boolean(selectedImage || selectedVideo);
+    if (!viewerIsOpen) return undefined;
 
-    const previousOverflow = document.body.style.overflow;
+    const previousBodyOverflow = document.body.style.overflow;
+    const previousHtmlOverflow = document.documentElement.style.overflow;
     document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
 
     function handleKeyDown(event) {
       if (event.key === "Escape") {
-        closeImage();
-        closeVideo();
+        setSelectedImage(null);
+        setSelectedVideo(null);
+        return;
       }
 
-      if (selectedImage && event.key === "ArrowLeft") {
+      if (!selectedImage) return;
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
         navigateImage(-1);
-      }
-
-      if (selectedImage && event.key === "ArrowRight") {
+      } else if (event.key === "ArrowRight") {
+        event.preventDefault();
         navigateImage(1);
       }
     }
 
     window.addEventListener("keydown", handleKeyDown);
-
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = previousOverflow;
+      document.body.style.overflow = previousBodyOverflow;
+      document.documentElement.style.overflow = previousHtmlOverflow;
     };
   }, [selectedImage, selectedVideo, filteredImages]);
 
@@ -720,6 +726,18 @@ function Gallery({navigate}) {
         <div
           className="lightbox"
           id="galleryLightbox"
+          style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 2000,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "24px",
+            background: "rgba(8, 12, 10, 0.94)",
+            overflowY: "auto",
+            WebkitOverflowScrolling: "touch",
+          }}
           aria-hidden="false"
           role="dialog"
           aria-modal="true"
@@ -731,6 +749,7 @@ function Gallery({navigate}) {
           <button
             type="button"
             className="lightbox-close"
+            style={{ position: "absolute", top: 18, right: 22, zIndex: 2, cursor: "pointer" }}
             onClick={closeImage}
             aria-label="Close gallery"
           >
@@ -740,14 +759,42 @@ function Gallery({navigate}) {
           <button
             type="button"
             className="lightbox-control lightbox-prev"
+            style={{ position: "absolute", left: 12, top: "50%", zIndex: 2, cursor: "pointer" }}
             onClick={() => navigateImage(-1)}
             aria-label="Previous image"
           >
             <i className="bi bi-chevron-left" />
           </button>
 
-          <div className="lightbox-content">
-            <img src={selectedImage.src} alt={selectedImage.alt} />
+          <div
+            className="lightbox-content"
+            style={{
+              width: "min(100%, 1100px)",
+              maxHeight: "100%",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "16px",
+              minWidth: 0,
+            }}
+          >
+            <img
+              src={selectedImage.src}
+              alt={selectedImage.alt}
+              onClick={(event) => event.stopPropagation()}
+              style={{
+                display: "block",
+                maxWidth: "100%",
+                maxHeight: "min(72vh, 780px)",
+                width: "auto",
+                height: "auto",
+                objectFit: "contain",
+              }}
+              onError={(event) => {
+                event.currentTarget.style.visibility = "hidden";
+              }}
+            />
 
             <div className="lightbox-info">
               <div>
@@ -767,6 +814,7 @@ function Gallery({navigate}) {
           <button
             type="button"
             className="lightbox-control lightbox-next"
+            style={{ position: "absolute", right: 12, top: "50%", zIndex: 2, cursor: "pointer" }}
             onClick={() => navigateImage(1)}
             aria-label="Next image"
           >
