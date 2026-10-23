@@ -1,4 +1,4 @@
-I'mimport React from "react";
+import React from "react";
 import { AppLink } from "../components/SiteChrome.jsx";
 
 function Founder({ navigate }) {
