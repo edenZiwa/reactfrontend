@@ -73,6 +73,11 @@ const pages = {
         description:
             "Read the terms governing the use of the Garden of Mercy Foundation website and its services.",
     },
+    "/power-of-revelation-ministries": {
+        title: "Power of Revelation Ministries | Garden of Mercy Foundation",
+        description:
+            "Learn about the Power of Revelation Ministries and how they are making a difference in the lives of vulnerable individuals.",
+    },
     "/account": {
         title: "Community Account | Garden of Mercy Foundation",
         description:

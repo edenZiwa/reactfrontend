@@ -280,6 +280,15 @@ function Footer({ navigate }) {
                   Our impact
                 </AppLink>
               </li>
+              <li>
+                <AppLink
+                  to="/power-of-revelation-ministries"
+                  navigate={navigate}
+                  className="link-underline-opacity-0 link-underline-opacity-75-hover"
+                >
+                  Power of Revelation Ministries
+                </AppLink>
+              </li>
             </ul>
           </div>
 

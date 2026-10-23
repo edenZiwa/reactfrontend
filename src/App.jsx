@@ -30,24 +30,7 @@ import Sponsor from "./pages/Sponsor.jsx";
 import Account from "./pages/Account.jsx";
 import SuccessStories from "./pages/SuccessStories.jsx";
 import Cofounder from "./pages/Cofounder.jsx";
-
-const PAGE_TITLES = {
-  "/": "Sowing Seeds of Mercy and Compassion",
-  "/about": "About Us",
-  "/programs": "Our Programs",
-  "/impact": "Our Impact",
-  "/gallery": "Gallery",
-  "/founder": "Our Founder",
-  "/donate": "Donate",
-  "/donation-result": "Donation Status",
-  "/contact": "Contact Us",
-  "/sponsor": "Sponsor a Cause",
-  "/account": "Community Account",
-  "/privacy": "Privacy Policy",
-  "/terms": "Terms of Use",
-  "/success-stories": "Success Stories",
-  "/volunteer": "Volunteer",
-};
+import PowerOfRevelation from "./pages/PowerOfRevelation.jsx";
 
 function App() {
   const [path, navigate] = usePath();
@@ -124,6 +107,10 @@ useEffect(() => {
 
     case "/terms":
       page = <Terms kind="terms" navigate={navigate} />;
+      break;
+      
+    case "/power-of-revelation-ministries":
+      page = <PowerOfRevelation navigate={navigate} />;
       break;
 
     default:
