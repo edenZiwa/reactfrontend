@@ -1,4 +1,4 @@
-import React from "react";
+I'mimport React from "react";
 import { AppLink } from "../components/SiteChrome.jsx";
 
 function Founder({ navigate }) {
@@ -130,12 +130,8 @@ function Founder({ navigate }) {
                 </div>
 
                 <div className="profile-stamp">
-                  <i className="bi bi-heart-fill" aria-hidden="true" />
-                  <span>
-                    Mercy in
-                    <br />
-                    Action
-                  </span>
+                  Apostle Derrick Musinguzi founder of garden of mercy foundation 
+                    
                 </div>
               </div>
             </div>
