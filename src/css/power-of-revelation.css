@@ -163,24 +163,6 @@
   color: #d7e3dc;
   line-height: 1.8;
 }
-.pr-scripture {
-  padding-top: 1.2rem;
-  border-top: 1px solid #ffffff33;
-}
-.pr-scripture > i {
-  color: #e6c784;
-  font-size: 1.7rem;
-}
-.pr-scripture p {
-  font-size: 1.03rem;
-  font-style: italic;
-  line-height: 1.8;
-}
-.pr-scripture span {
-  color: #e6c784;
-  font-size: 0.82rem;
-  font-weight: 700;
-}
 .pr-stats-section {
   position: relative;
   z-index: 2;
@@ -1069,7 +1051,6 @@
   }
 }
 
-
 /* Scripture quotation */
 .pr-scripture {
     position: relative;
@@ -1168,7 +1149,6 @@
     }
 }
 
-
 /* Compatibility and accessibility refinements */
 .pr-hero-overlay {
   -webkit-mask-image: linear-gradient(to right, transparent, #000);
@@ -1182,11 +1162,11 @@
 
 .power-revelation-page button:focus-visible,
 .power-revelation-page [role="button"]:focus-visible {
-  outline: 3px solid var(--pr-primary);
+  outline: 3px solid var(--pr-accent);
   outline-offset: 4px;
 }
 
-@supports not (backdrop-filter: blur(1px)) {
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .pr-hero-feature,
   .pr-about-note {
     background-color: rgba(9, 40, 31, 0.96);
