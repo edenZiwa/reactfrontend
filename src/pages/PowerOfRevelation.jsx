@@ -110,7 +110,7 @@ export default function PowerOfRevelation() {
         <div className="container position-relative py-5">
           <div className="row align-items-center g-5 py-lg-5">
             <div className="col-lg-8 col-xl-7">
-              <span className="pr-kicker"><i className="bi bi-book-half me-2" aria-hidden="true" />THE GROUND OF GODS GRACE REVELATION</span>
+              <span className="pr-kicker"><i className="bi bi-book-half me-2" aria-hidden="true" />THE GROUND OF GODS GRACE</span>
               <h1 id="pr-title" className="display-3 fw-bold mt-4">Power of<br />Revelation <span>Ministries</span></h1>
               <p className="pr-hero-subtitle mt-4">Reconciling people with God. Proclaiming the Good News. Demonstrating the love of Christ.</p>
               <p className="pr-hero-description mt-3">Discover the story, spiritual vision, leadership, church community, and biblical teachings of Power of Revelation Ministries, with its headquarters at Revelation Church Kampala, Uganda.</p>
@@ -126,7 +126,7 @@ export default function PowerOfRevelation() {
                 <span className="text-uppercase small fw-semibold">Our spiritual foundation</span>
                 <h2 className="h3 fw-bold mt-3">A glorious life in Christ</h2>
                 <p className="mb-4">We believe the Gospel calls people into a relationship with God, a deeper understanding of His Word, and a life that reflects His love.</p>
-                <div className="pr-scripture"><i className="bi bi-quote" aria-hidden="true" /><p className="mb-2">“I am come that they might have life, and that they might have it more abundantly.”</p><span>John 10:10 · KJV</span></div>
+                <div className="pr-scripture"><i className="bi bi-quote" aria-hidden="true" /><p className="mb-2">“Therefore if any man be in Christ, he is a new creature: old things are passed away; behold, all things are become new.</br> And all things are of God, Who has reconciled us to Himself by Jesus Christ, and has given to us the Ministry of Reconciliation; </br> To wit, that God was in Christ, reconciling the world unto Himself, not imputing their trespasses unto them; and has committed unto us the Word of Reconciliation. </br> Now then we are Ambassadors for Christ, as though God beseech you by us: we pray you in Christ's stead, be reconciled to God. </br> For He has made Him to be sin for us, Who knew no sin that we might be made the Righteousness of God in Him”</p><span>2 Corinthians 5:17-21· KJV</span></div>
               </div>
             </div>
           </div>
@@ -149,8 +149,8 @@ export default function PowerOfRevelation() {
           <div className="col-lg-6"><div className="pr-about-visual"><div className="pr-about-main"><i className="bi bi-book-half" aria-hidden="true" /><span>Faith · Fellowship · Revelation</span></div><div className="pr-about-note"><i className="bi bi-quote" aria-hidden="true" /><p className="mb-2">A people reconciled to God and equipped to demonstrate His love.</p><span>Our ministry emphasis</span></div></div></div>
           <div className="col-lg-6">
             <SectionHeading eyebrow="WHO WE ARE" title="A ministry founded on the Gospel of Jesus Christ" />
-            <p className="mt-4">Power of Revelation Ministries is a Christian ministry in Uganda, home of Revelation Church Kampala. Its published ministry statement emphasizes reconciliation with God, intimacy with His presence, and sharing the Good News through the demonstration of God's love.</p>
-            <p>The ministry's history is traced to the late 1990s, when, according to the ministry background provided for this page, Bishop Merita Nabaasa founded the ministry. Over time, the ministry has developed a church presence that you identify as comprising 13 congregations across Uganda.</p>
+            <p className="mt-4">Power of Revelation Ministries is a Christian ministry in Uganda, the home of Revelation Church Kampala. Its ministry statement emphasizes reconciliation with God, intimacy with His presence, and sharing the Good News through the demonstration of God's love.</p>
+            <p>The ministry's history is traced to the late 1990s, when, according to the ministry background provided for this page, Bishop Merita Nabaasa founded the ministry. Over time, the ministry has developed a church presence of 13 congregations across Uganda.</p>
             <p>Through preaching, worship, prayer, discipleship, fellowship, and digital teaching, the ministry seeks to help people grow in their understanding of Scripture and their relationship with God.</p>
             <div className="pr-inline-scripture mt-4"><i className="bi bi-bookmark-heart" aria-hidden="true" /><div><strong>Our guiding promise</strong><p className="mb-0">Therefore if any man be in Christ, he is a new creature: old things are passed away; behold, all things are become new. — 2 Corinthians 5:17.</p></div></div>
           </div>
