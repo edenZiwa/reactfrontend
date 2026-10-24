@@ -1,6 +1,6 @@
 
 import React, { useEffect, useRef, useState } from "react";
-import "./css/scroll-navigator.css";
+import "../css/scroll-navigator.css";
 
 const TOP_THRESHOLD = 10;
 const DIRECTION_THRESHOLD = 3;
