@@ -13,6 +13,7 @@ import usePath from "./components/usePath.js";
 import SEO from "./components/SEO.jsx";
 import { Header, Footer } from "./components/SiteChrome.jsx";
 import PopupManager from "./components/PopupManager.jsx";
+import ScrollNavigator from "./components/ScrollNavigator.jsx";
 import Home from "./pages/Home.jsx";
 import About from "./pages/About.jsx";
 import Programs from "./pages/Programs.jsx";
@@ -135,16 +136,9 @@ useEffect(() => {
       <main id="main-content" key={path} tabIndex="-1">
         {page}
       </main>
-<div className="position-fixed updown" id="scrollButton">
-<a id="scrollLink"
-href="#site-footer"
-aria-label="Scroll to bottom">
 
-<i id="chevron" className="bi bi-chevron-down"></i>
-
-</a>
-</div>
       <Footer navigate={navigate} />
+<ScrollNavigator />
     </div>
   );
 }
