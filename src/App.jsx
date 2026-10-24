@@ -1,5 +1,7 @@
+
 import React, { useEffect } from "react";
 import { createRoot } from "react-dom/client";
+
 import "./css/bootstrap.min.css";
 import "./css/account.css";
 import "./css/donate.css";
@@ -9,11 +11,19 @@ import "./css/sponsor.css";
 import "./css/styles.css";
 import "./css/app.css";
 
+// Uncomment if Bootstrap Icons are installed through npm.
+// import "bootstrap-icons/font/bootstrap-icons.css";
+
 import usePath from "./components/usePath.js";
 import SEO from "./components/SEO.jsx";
-import { Header, Footer } from "./components/SiteChrome.jsx";
+import {
+  Header,
+  Footer,
+} from "./components/SiteChrome.jsx";
+
 import PopupManager from "./components/PopupManager.jsx";
 import ScrollNavigator from "./components/ScrollNavigator.jsx";
+
 import Home from "./pages/Home.jsx";
 import About from "./pages/About.jsx";
 import Programs from "./pages/Programs.jsx";
@@ -36,12 +46,13 @@ import PowerOfRevelation from "./pages/PowerOfRevelation.jsx";
 function App() {
   const [path, navigate] = usePath();
 
-useEffect(() => {
-  window.scrollTo({
-    top: 0,
-    behavior: "auto",
-  });
-}, [path]);
+  // Return to the top when navigating between pages.
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "auto",
+    });
+  }, [path]);
 
   let page;
 
@@ -76,7 +87,7 @@ useEffect(() => {
 
     case "/cofounder":
       page = <Cofounder navigate={navigate} />;
-      break;  
+      break;
 
     case "/donate":
       page = <Donate navigate={navigate} />;
@@ -109,13 +120,14 @@ useEffect(() => {
     case "/terms":
       page = <Terms kind="terms" navigate={navigate} />;
       break;
-      
+
     case "/power-of-revelation-ministries":
       page = <PowerOfRevelation navigate={navigate} />;
       break;
 
     default:
       page = <NotFound navigate={navigate} />;
+      break;
   }
 
   return (
@@ -126,19 +138,28 @@ useEffect(() => {
         Skip to content
       </a>
 
-      <Header path={path} navigate={navigate} />
-
-  <PopupManager
+      <Header
         path={path}
         navigate={navigate}
       />
 
-      <main id="main-content" key={path} tabIndex="-1">
+      <PopupManager
+        path={path}
+        navigate={navigate}
+      />
+
+      <main
+        id="main-content"
+        key={path}
+        tabIndex={-1}
+      >
         {page}
       </main>
-<ScrollNavigator />
-      <Footer navigate={navigate} />
 
+      {/* Floating scroll control: mounted on every route */}
+      <ScrollNavigator />
+
+      <Footer navigate={navigate} />
     </div>
   );
 }
@@ -149,6 +170,6 @@ if (rootElement) {
   createRoot(rootElement).render(
     <React.StrictMode>
       <App />
-    </React.StrictMode>,
+    </React.StrictMode>
   );
 }
