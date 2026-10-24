@@ -3,80 +3,257 @@ import "../css/power-of-revelation.css";
 
 const MINISTRY = {
   name: "Power of Revelation Ministries",
+  shortName: "Power of Revelation",
   church: "Revelation Church Kampala",
   location: "Najjanankumbi, Kampala, Uganda",
-  address: "Najjanankumbi, off Entebbe Road, along Busaabala Road",
-  podcast: "https://podcasts.apple.com/us/podcast/revelation-church-kampala/id1551432049",
-  facebook: "https://www.facebook.com/powerofrevelation/",
-  churchFacebook: "https://www.facebook.com/revelationchurchkampala/",
-  youtubeSermon: "https://www.youtube.com/watch?v=oSwl5aEd_k4",
-  maps: "https://www.google.com/maps/search/?api=1&query=Power+of+Revelation+Ministries+Najjanankumbi+Kampala+Uganda",
+  address:
+    "Najjanankumbi, off Entebbe Road, along Busaabala Road, Kampala, Uganda",
+
+  leader: "Apostle Derrick Musinguzi",
+  founder: "Bishop Merita Nabaasa",
+
+  description:
+    "Power of Revelation Ministries is a Christian ministry committed to reconciling people with God, revealing Christ through unconditional love, and spreading the Gospel of grace and love.",
+
+  vision:
+    "To reconcile people with God so that they may experience the power of His resurrection and divine love.",
+
+  visionScripture: "2 Corinthians 5:18–21",
+
+  mission:
+    "To reveal Christ through the demonstration of His unconditional love and through the gifts, talents, and resources God has entrusted to us.",
+
+  identity:
+    "We are an apostolic, Word-centred church focused on spreading the Gospel of grace and love.",
+
+  network:
+    "A church ministry serving communities through its reported network of 13 churches across Uganda.",
+
+  podcast:
+    "https://podcasts.apple.com/us/podcast/revelation-church-kampala/id1551432049",
+
+  facebook:
+    "https://www.facebook.com/powerofrevelation/",
+
+  churchFacebook:
+    "https://www.facebook.com/revelationchurchkampala/",
+
+  // Opens YouTube results for the requested sermon.
+  // Replace with the direct video URL once its exact link is verified.
+  youtubeSermon:
+    "https://www.youtube.com/results?search_query=Sowing+Seeds+of+Mercy+Apostle+Derrick+Musinguzi",
+
+  maps:
+    "https://www.google.com/maps/search/?api=1&query=Power+of+Revelation+Ministries+Najjanankumbi+Kampala+Uganda",
+
+  scriptures: {
+    reconciliation: "2 Corinthians 5:18–21",
+    greatCommission: "Matthew 28:19–20",
+    love: "John 13:34–35",
+    service: "Mark 10:43–45",
+    integrity: "Proverbs 11:3",
+    generosity: "2 Corinthians 9:7–8",
+    humility: "Philippians 2:3–5",
+  },
 };
 
 const sermons = [
   {
-    category: "BIBLE TEACHING",
-    title: "God's Kingdom: Purpose for Humanity",
+    id: "sowing-seeds-of-mercy",
+    category: "LOVE & COMPASSION",
+    title: "Sowing Seeds of Mercy",
     speaker: "Apostle Derrick Musinguzi",
-    description: "Explore God's purpose for humanity, our identity in Christ, and how believers can live intentionally according to His Word.",
+    description:
+      "Discover how demonstrating the love of Christ, serving others, and extending mercy can sow seeds of hope that make a lasting difference in people's lives. A message centred on compassion, generosity, and living out the Gospel.",
     type: "video",
     link: MINISTRY.youtubeSermon,
-    icon: "bi-play-circle",
+    icon: "bi-play-circle-fill",
+    featured: true,
+    keywords: [
+      "Sowing Seeds of Mercy",
+      "Apostle Derrick Musinguzi",
+      "Power of Revelation Ministries",
+      "Christian compassion",
+      "Gospel of grace and love",
+    ],
   },
   {
+    id: "divine-favour-grace",
     category: "FAITH & GRACE",
     title: "The Divine Favour (Grace)",
     speaker: "Apostle Derrick Musinguzi",
-    description: "A recorded teaching on divine favour and grace, published through the Revelation Church Kampala media ministry.",
+    description:
+      "A recorded teaching exploring divine favour and the grace of God in the life of a believer.",
     type: "audio",
-    link: "https://www.facebook.com/revelationchurchkampala/videos/977851343539147/",
+    link:
+      "https://www.facebook.com/revelationchurchkampala/videos/977851343539147/",
     icon: "bi-headphones",
+    featured: false,
   },
   {
+    id: "finding-fulfilling-purpose",
     category: "PURPOSE & DESTINY",
     title: "Finding and Fulfilling Your Purpose",
     speaker: "Apostle Derrick Musinguzi",
-    description: "A practical teaching encouraging believers to discover their purpose and pursue it with faith and understanding.",
+    description:
+      "Explore the importance of discovering your purpose, growing in spiritual understanding, and pursuing God's calling with faith and commitment.",
     type: "podcast",
     link: MINISTRY.podcast,
     icon: "bi-broadcast",
+    featured: false,
   },
   {
+    id: "happiness-and-joy",
     category: "CHRISTIAN LIVING",
     title: "The Difference Between Happiness and Joy",
     speaker: "Apostle Derrick Musinguzi",
-    description: "A message exploring the difference between temporary happiness and the deeper joy found in the Christian life.",
+    description:
+      "A teaching on the difference between circumstances that bring temporary happiness and the deeper joy believers find in their relationship with God.",
     type: "podcast",
     link: MINISTRY.podcast,
     icon: "bi-soundwave",
+    featured: false,
   },
   {
+    id: "not-every-purpose-revealed",
     category: "SPIRITUAL GROWTH",
     title: "Not Every Purpose Is Revealed",
     speaker: "Apostle Derrick Musinguzi",
-    description: "An encouragement to seek God, grow in understanding, and discover the purpose He has for your life.",
+    description:
+      "An encouragement to trust God, seek wisdom, and remain faithful as His purpose unfolds throughout life's journey.",
     type: "podcast",
     link: MINISTRY.podcast,
     icon: "bi-journal-richtext",
+    featured: false,
   },
   {
+    id: "god-loves-us",
     category: "FOUNDATION OF FAITH",
     title: "God Loves Us",
     speaker: "Revelation Church Kampala",
-    description: "A foundational message about God's love and the promise of salvation through Jesus Christ, drawing on John 3:16.",
+    description:
+      "A foundational message about the love of God and the gift of salvation through Jesus Christ, drawing on John 3:16.",
     type: "podcast",
     link: MINISTRY.podcast,
-    icon: "bi-heart",
+    icon: "bi-heart-fill",
+    featured: false,
   },
 ];
 
 const values = [
-  { icon: "bi-book", title: "Biblical truth", description: "Teaching the Word of God and encouraging believers to build their lives on Scripture." },
-  { icon: "bi-heart", title: "Demonstrated love", description: "Expressing the love of Christ through compassion, service, fellowship, and care for others." },
-  { icon: "bi-people", title: "Discipleship", description: "Equipping believers to grow in faith, character, spiritual maturity, and Christian responsibility." },
-  { icon: "bi-globe-africa", title: "Evangelism", description: "Sharing the Good News and extending the message of Christ to individuals and communities." },
-  { icon: "bi-building", title: "Church community", description: "Building local congregations where people can worship, learn, serve, and grow together." },
-  { icon: "bi-stars", title: "Purposeful living", description: "Encouraging people to discover their God-given purpose and live a life of faith and integrity." },
+  {
+    id: "word-centred",
+    abbreviation: "W",
+    title: "Word-Centred",
+    description:
+      "We uphold the Word of God as the foundation for our faith, teaching, decisions, and daily Christian living. Scripture guides our beliefs and directs how we share the Gospel of grace and love.",
+    scripture: "2 Timothy 3:16–17",
+    icon: "bi-book-half",
+  },
+  {
+    id: "integrity",
+    abbreviation: "I",
+    title: "Integrity",
+    description:
+      "We pursue honesty, faithfulness, accountability, and consistency in our words and actions. We seek to honour God by living according to His truth in our relationships, leadership, and service.",
+    scripture: "Proverbs 11:3",
+    icon: "bi-shield-check",
+  },
+  {
+    id: "generosity",
+    abbreviation: "G",
+    title: "Generosity",
+    description:
+      "We give willingly of our time, talents, gifts, and resources to demonstrate the unconditional love of Christ and serve people and communities with compassion.",
+    scripture: "2 Corinthians 9:7–8",
+    icon: "bi-gift",
+  },
+  {
+    id: "service",
+    abbreviation: "S",
+    title: "Service",
+    description:
+      "We follow the example of Jesus by serving others with love and humility. We see ministry as an opportunity to meet needs, strengthen communities, and demonstrate Christ's love through practical action.",
+    scripture: "Mark 10:43–45",
+    icon: "bi-hands",
+  },
+  {
+    id: "commitment",
+    abbreviation: "C",
+    title: "Commitment",
+    description:
+      "We remain devoted to God, His Word, the mission of the Church, and the responsibilities entrusted to us. We serve faithfully and persevere in spreading the Gospel of grace and love.",
+    scripture: "Colossians 3:23–24",
+    icon: "bi-check2-circle",
+  },
+  {
+    id: "humility",
+    abbreviation: "H",
+    title: "Humility",
+    description:
+      "We choose humility over pride and value others with genuine love and respect. Following Christ's example, we seek to serve rather than seek recognition, honouring God in all we do.",
+    scripture: "Philippians 2:3–5",
+    icon: "bi-heart",
+  },
+];
+
+const ministryPillars = [
+  {
+    id: "reconciliation",
+    title: "Reconciliation with God",
+    description:
+      "Sharing the message of reconciliation through Jesus Christ so that people can know God and experience His transforming love.",
+    scripture: "2 Corinthians 5:18–21",
+    icon: "bi-cross",
+  },
+  {
+    id: "gospel-of-grace",
+    title: "The Gospel of Grace",
+    description:
+      "Proclaiming the good news of Jesus Christ and encouraging people to grow in faith, grace, and the knowledge of God's Word.",
+    scripture: "Ephesians 2:8–10",
+    icon: "bi-book",
+  },
+  {
+    id: "demonstrated-love",
+    title: "Demonstrating God's Love",
+    description:
+      "Putting faith into action through generosity, compassion, practical service, and the responsible use of the gifts God has entrusted to us.",
+    scripture: "1 John 3:18",
+    icon: "bi-heart-fill",
+  },
+  {
+    id: "discipleship",
+    title: "Discipleship and Growth",
+    description:
+      "Encouraging believers to mature spiritually, develop Christlike character, and become faithful witnesses of the Gospel.",
+    scripture: "Matthew 28:19–20",
+    icon: "bi-people-fill",
+  },
+];
+
+const ministryLinks = [
+  {
+    title: "Listen to Our Podcast",
+    description:
+      "Explore teachings and recorded messages from Revelation Church Kampala.",
+    link: MINISTRY.podcast,
+    icon: "bi-mic-fill",
+  },
+  {
+    title: "Follow Power of Revelation Ministries",
+    description:
+      "Connect with the ministry through its Facebook page.",
+    link: MINISTRY.facebook,
+    icon: "bi-facebook",
+  },
+  {
+    title: "Visit Revelation Church Kampala",
+    description:
+      "Find directions to the church in Najjanankumbi, Kampala.",
+    link: MINISTRY.maps,
+    icon: "bi-geo-alt-fill",
+  },
 ];
 
 function SectionHeading({ eyebrow, title, description, centered = false }) {
