@@ -43,7 +43,7 @@ const MINISTRY = {
   youtubeVideoId: "vjG_LPPfunE",
 
   leadershipPhotos: {
-    founder: "/images/founder/bishop_merita_nabaasa.png",
+    founder: "/images/founder/bishop_merita_nabaasa.jpg",
     leader: "/images/founder/derrick-musinguzi.png",
   },
 
