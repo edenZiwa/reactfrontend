@@ -367,6 +367,7 @@ export default function PowerOfRevelation() {
                 <h2 className="h3 fw-bold mt-3">A glorious life in Christ</h2>
                 <p className="mb-4">We believe the Gospel calls people into a relationship with God, a deeper understanding of His Word, and a life that reflects His love.</p>
 <ScriptureQuote />
+</div>
                  </div>
             </div>
           </div>
