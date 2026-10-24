@@ -136,9 +136,9 @@ useEffect(() => {
       <main id="main-content" key={path} tabIndex="-1">
         {page}
       </main>
-
-      <Footer navigate={navigate} />
 <ScrollNavigator />
+      <Footer navigate={navigate} />
+
     </div>
   );
 }
