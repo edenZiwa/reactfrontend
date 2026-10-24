@@ -1065,3 +1065,102 @@
     margin-left: 0 !important;
   }
 }
+
+
+/* Scripture quotation */
+.pr-scripture {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    padding: clamp(1.25rem, 3vw, 2rem);
+    padding-left: clamp(1.25rem, 4vw, 2.5rem);
+    margin-block: 1.5rem;
+    overflow: hidden;
+    border-left: 4px solid var(--bs-primary, #198754);
+    border-radius: 0.75rem;
+    background: var(--bs-tertiary-bg, #f8f9fa);
+    box-sizing: border-box;
+}
+
+.pr-scripture-icon {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 2rem;
+    line-height: 1;
+    color: var(--bs-primary, #198754);
+    opacity: 0.8;
+}
+
+.pr-scripture-content {
+    min-width: 0;
+}
+
+.pr-scripture-text {
+    font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+    line-height: 1.9;
+    color: var(--bs-body-color, #212529);
+    overflow-wrap: anywhere;
+}
+
+/* Collapse the quotation without removing its full text */
+.pr-scripture:not(.is-expanded) .pr-scripture-text {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+    overflow: hidden;
+}
+
+.pr-scripture-reference {
+    display: block;
+    margin-top: 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--bs-secondary-color, #6c757d);
+}
+
+.pr-scripture-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    margin-top: 1rem;
+    padding: 0.65rem 0;
+    border: 0;
+    background: transparent;
+    color: var(--bs-primary, #198754);
+    font: inherit;
+    font-size: 0.925rem;
+    font-weight: 700;
+    text-align: left;
+    cursor: pointer;
+}
+
+.pr-scripture-toggle:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+.pr-scripture-toggle:focus-visible {
+    outline: 2px solid var(--bs-primary, #198754);
+    outline-offset: 4px;
+    border-radius: 3px;
+}
+
+/* Small mobile screens */
+@media (max-width: 575.98px) {
+    .pr-scripture {
+        padding: 1.1rem;
+        border-left-width: 3px;
+        border-radius: 0.6rem;
+    }
+
+    .pr-scripture-text {
+        line-height: 1.75;
+    }
+
+    .pr-scripture-toggle {
+        min-height: 44px;
+    }
+}
