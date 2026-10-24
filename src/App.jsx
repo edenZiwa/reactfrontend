@@ -12,7 +12,7 @@ import "./css/app.css";
 import usePath from "./components/usePath.js";
 import SEO from "./components/SEO.jsx";
 import { Header, Footer } from "./components/SiteChrome.jsx";
-
+import PopupManager from "./components/PopupManager.jsx";
 import Home from "./pages/Home.jsx";
 import About from "./pages/About.jsx";
 import Programs from "./pages/Programs.jsx";
@@ -126,6 +126,11 @@ useEffect(() => {
       </a>
 
       <Header path={path} navigate={navigate} />
+
+  <PopupManager
+        path={path}
+        navigate={navigate}
+      />
 
       <main id="main-content" key={path} tabIndex="-1">
         {page}
