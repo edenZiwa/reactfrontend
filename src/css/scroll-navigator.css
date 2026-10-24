@@ -6,9 +6,9 @@
 
 .scroll-navigator {
   position: fixed;
-  right: 25;
-  bottom: 25;
-  z-index: 2080;
+  right: max(1.25rem, env(safe-area-inset-right, 0px));
+  bottom: max(1.5rem, env(safe-area-inset-bottom, 0px));
+  z-index: 1080;
 
   display: block;
   visibility: visible;
