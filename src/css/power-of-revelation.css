@@ -899,6 +899,67 @@
   font-size: 1.05rem;
   line-height: 1.9;
 }
+/* Additional responsive styles for the leadership and events sections. */
+.pr-leader-photo {
+  display: block;
+  height: 340px;
+  object-position: center 25%;
+}
+
+.pr-leader-card {
+  color: var(--bs-body-color);
+}
+
+.pr-events-section {
+  background: linear-gradient(180deg, #fbf8f1 0%, #fff 100%);
+}
+
+.pr-event-heading-icon,
+.pr-event-date-icon,
+.pr-upcoming-empty-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 1rem;
+  background: rgba(190, 143, 44, 0.14);
+  color: #8a641a;
+  font-size: 1.35rem;
+}
+
+.pr-event-date-icon {
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 0.85rem;
+}
+
+.pr-upcoming-empty {
+  height: calc(100% - 4.5rem);
+}
+
+.pr-events-column .pr-sermon-link {
+  display: inline-flex;
+  align-items: center;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.pr-events-column .pr-sermon-link:hover,
+.pr-events-column .pr-sermon-link:focus-visible {
+  text-decoration: underline;
+}
+
+@media (max-width: 575.98px) {
+  .pr-leader-photo {
+    height: 290px;
+  }
+
+  .pr-events-column {
+    padding: 1.25rem !important;
+  }
+}
 @media (prefers-reduced-motion: reduce) {
   .power-revelation-page *,
   .power-revelation-page *:before,
