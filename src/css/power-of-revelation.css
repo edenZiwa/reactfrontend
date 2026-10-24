@@ -7,7 +7,8 @@
   --pr-ink: #202b27;
   --pr-muted: #68736d;
   color: var(--pr-ink);
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-x: clip;
 }
 .power-revelation-page section {
   scroll-margin-top: 90px;
@@ -41,7 +42,7 @@
   display: inline-flex;
   align-items: center;
   gap: 9px;
-  color: #a27a37;
+  color: #876126;
   font-size: 0.74rem;
   font-weight: 800;
   letter-spacing: 0.13em;
@@ -114,8 +115,8 @@
 }
 .pr-btn-light:hover {
   color: #fff;
-  background: #a27a37;
-  border-color: #a27a37;
+  background: #876126;
+  border-color: #876126;
 }
 .pr-btn-outline {
   color: #fff;
@@ -140,6 +141,7 @@
   border: 1px solid #ffffff2e;
   border-radius: 24px;
   background: #ffffff14;
+  -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
   box-shadow: 0 25px 80px #00000026;
 }
@@ -271,6 +273,7 @@
   color: #fff;
   background: #ffffff17;
   border: 1px solid #ffffff2b;
+  -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
 }
 .pr-about-note > i {
@@ -295,7 +298,7 @@
   background: var(--pr-cream);
 }
 .pr-inline-scripture > i {
-  color: #a27a37;
+  color: #876126;
   font-size: 1.5rem;
 }
 .pr-inline-scripture p {
@@ -334,7 +337,7 @@
   font-size: 1.65rem;
 }
 .pr-purpose-label {
-  color: #a27a37;
+  color: #876126;
   font-size: 0.77rem;
   font-weight: 800;
   letter-spacing: 0.14em;
@@ -361,7 +364,7 @@
 }
 .pr-purpose-footer i {
   flex-shrink: 0;
-  color: #a27a37;
+  color: #876126;
   font-size: 1.25rem;
 }
 .pr-purpose-statement {
@@ -412,7 +415,7 @@
   padding: 0.35rem 0 0;
 }
 .pr-timeline-date {
-  color: #a27a37;
+  color: #876126;
   font-size: 0.78rem;
   font-weight: 800;
   letter-spacing: 0.08em;
@@ -644,7 +647,7 @@
   text-transform: uppercase;
 }
 .pr-sermon-category {
-  color: #a27a37;
+  color: #876126;
   font-size: 0.7rem;
   font-weight: 800;
   letter-spacing: 0.1em;
@@ -664,7 +667,7 @@
   font-weight: 800;
 }
 .pr-sermon-link:hover {
-  color: #a27a37;
+  color: #876126;
 }
 .pr-featured-video {
   overflow: hidden;
@@ -725,7 +728,7 @@
 }
 .ministry-media-arrow {
   flex-shrink: 0;
-  color: #a27a37;
+  color: #876126;
   font-size: 1.15rem;
 }
 .pr-podcast-panel {
@@ -867,7 +870,7 @@
   color: var(--pr-primary-dark);
 }
 .pr-map-footer > i {
-  color: #a27a37;
+  color: #876126;
 }
 .pr-cta-section {
   color: #fff;
@@ -1163,4 +1166,29 @@
     .pr-scripture-toggle {
         min-height: 44px;
     }
+}
+
+
+/* Compatibility and accessibility refinements */
+.pr-hero-overlay {
+  -webkit-mask-image: linear-gradient(to right, transparent, #000);
+  mask-image: linear-gradient(to right, transparent, #000);
+}
+
+.pr-leader-photo {
+  width: 100%;
+  object-fit: cover;
+}
+
+.power-revelation-page button:focus-visible,
+.power-revelation-page [role="button"]:focus-visible {
+  outline: 3px solid var(--pr-primary);
+  outline-offset: 4px;
+}
+
+@supports not (backdrop-filter: blur(1px)) {
+  .pr-hero-feature,
+  .pr-about-note {
+    background-color: rgba(9, 40, 31, 0.96);
+  }
 }
