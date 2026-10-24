@@ -283,6 +283,65 @@ function MediaLink({ href, icon, title, description, label }) {
   );
 }
 
+function ScriptureQuote() {
+    const [expanded, setExpanded] = useState(false);
+
+    return (
+        <div className={`pr-scripture ${expanded ? "is-expanded" : ""}`}>
+            <i
+                className="bi bi-quote pr-scripture-icon"
+                aria-hidden="true"
+            />
+
+            <div className="pr-scripture-content">
+                <p className="pr-scripture-text mb-2">
+                    “Therefore if any man be in Christ, he is a new creature:
+                    old things are passed away; behold, all things are become
+                    new.
+
+                    {" "}And all things are of God, Who has reconciled us to
+                    Himself by Jesus Christ, and has given to us the Ministry
+                    of Reconciliation;
+
+                    {" "}To wit, that God was in Christ, reconciling the world
+                    unto Himself, not imputing their trespasses unto them;
+                    and has committed unto us the Word of Reconciliation.
+
+                    {" "}Now then we are Ambassadors for Christ, as though
+                    God beseech you by us: we pray you in Christ's stead,
+                    be reconciled to God.
+
+                    {" "}For He has made Him to be sin for us, Who knew no sin
+                    that we might be made the Righteousness of God in Him.”
+                </p>
+
+                <span className="pr-scripture-reference">
+                    2 Corinthians 5:17–21 · KJV
+                </span>
+
+                <button
+                    type="button"
+                    className="pr-scripture-toggle"
+                    onClick={() => setExpanded((previous) => !previous)}
+                    aria-expanded={expanded}
+                >
+                    {expanded ? (
+                        <>
+                            Show less
+                            <i className="bi bi-chevron-up ms-2" aria-hidden="true" />
+                        </>
+                    ) : (
+                        <>
+                            Read full scripture
+                            <i className="bi bi-chevron-down ms-2" aria-hidden="true" />
+                        </>
+                    )}
+                </button>
+            </div>
+        </div>
+    );
+}
+
 export default function PowerOfRevelation() {
   return (
     <main className="power-revelation-page" id="main-content">
@@ -307,8 +366,8 @@ export default function PowerOfRevelation() {
                 <span className="text-uppercase small fw-semibold">Our spiritual foundation</span>
                 <h2 className="h3 fw-bold mt-3">A glorious life in Christ</h2>
                 <p className="mb-4">We believe the Gospel calls people into a relationship with God, a deeper understanding of His Word, and a life that reflects His love.</p>
-                <div className="pr-scripture"><i className="bi bi-quote" aria-hidden="true" /><p className="mb-2">“Therefore if any man be in Christ, he is a new creature: old things are passed away; behold, all things are become new.<br /> And all things are of God, Who has reconciled us to Himself by Jesus Christ, and has given to us the Ministry of Reconciliation; <br /> To wit, that God was in Christ, reconciling the world unto Himself, not imputing their trespasses unto them; and has committed unto us the Word of Reconciliation. <br /> Now then we are Ambassadors for Christ, as though God beseech you by us: we pray you in Christ's stead, be reconciled to God. <br /> For He has made Him to be sin for us, Who knew no sin that we might be made the Righteousness of God in Him”</p><span>2 Corinthians 5:17–21 · KJV</span></div>
-              </div>
+<ScriptureQuote />
+                 </div>
             </div>
           </div>
         </div>
