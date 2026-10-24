@@ -135,7 +135,15 @@ useEffect(() => {
       <main id="main-content" key={path} tabIndex="-1">
         {page}
       </main>
+<div className="position-fixed updown" id="scrollButton">
+<a id="scrollLink"
+href="#site-footer"
+aria-label="Scroll to bottom">
 
+<i id="chevron" className="bi bi-chevron-down"></i>
+
+</a>
+</div>
       <Footer navigate={navigate} />
     </div>
   );
