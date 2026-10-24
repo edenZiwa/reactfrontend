@@ -1,6 +1,5 @@
 import React from "react";
 import "../css/power-of-revelation.css";
-import "../css/power-of-revelation-updates.css";
 
 const MINISTRY = {
   name: "Power of Revelation Ministries",
