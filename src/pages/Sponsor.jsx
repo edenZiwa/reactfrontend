@@ -210,7 +210,7 @@ function ChildProfiles() {
           </div>
         </div>
 
-        <div className="filter-bar mb-4">
+        <div className="filter-bar mb-4 shadow-lg">
           <div className="row align-items-center g-3">
             <div className="col-md-7">
               <label
@@ -355,7 +355,7 @@ function ChildProfiles() {
         </div>
 
         <div className="safety-note mt-4">
-          <strong>Protecting children comes first.</strong> We use first
+          <strong className="text-dark">Protecting children comes first.</strong> We use first
           names or chosen display names and broad age ranges. We do not
           publish exact birth dates, home addresses, caregiver contacts,
           case notes or other private records.
@@ -462,8 +462,8 @@ export default function Sponsor({ navigate }) {
 
         {/* HOW SPONSORSHIP WORKS */}
         <section
-          className="py-5"
-          style={{ background: "#fbfdfb" }}
+          className="py-5 shadow-lg"
+          aria-labelledby="how-sponsorship-works"
         >
           <div className="container py-lg-4">
             <div
@@ -486,7 +486,7 @@ export default function Sponsor({ navigate }) {
 
             <div className="row g-4">
               <div className="col-md-4">
-                <div className="how-card">
+                <div className="how-card shadow-lg">
                   <div className="step-num">01</div>
                   <h3 className="h5 fw-bold">Explore profiles</h3>
                   <p className="intro-copy mb-0">
@@ -497,7 +497,7 @@ export default function Sponsor({ navigate }) {
               </div>
 
               <div className="col-md-4">
-                <div className="how-card">
+                <div className="how-card shadow-lg">
                   <div className="step-num">02</div>
                   <h3 className="h5 fw-bold">Choose how to help</h3>
                   <p className="intro-copy mb-0">
@@ -509,7 +509,7 @@ export default function Sponsor({ navigate }) {
               </div>
 
               <div className="col-md-4">
-                <div className="how-card">
+                <div className="how-card shadow-lg">
                   <div className="step-num">03</div>
                   <h3 className="h5 fw-bold">
                     Stay connected through us

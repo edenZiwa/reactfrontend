@@ -79,7 +79,7 @@ body {
 }
 .section-title {
     margin: .8rem 0 1.15rem;
-    color: var(--founder-green-950);
+    color: white!important;
     font-size: clamp(2.1rem, 4.3vw, 3.7rem);
     font-weight: 750;
     letter-spacing: -.045em;
@@ -337,7 +337,7 @@ body {
     align-items: flex-start;
     margin: 1.7rem 0;
     padding: 1rem 1.1rem;
-    background: var(--founder-paper);
+    background: var(--bs-body-bg);
     border-left: 3px solid var(--founder-gold);
     border-radius: 0 .75rem .75rem 0;
     color: var(--founder-muted);
@@ -367,7 +367,7 @@ body {
 
 /* Values */
 .values-section {
-    background: var(--founder-paper);
+    background: var(--bs-body-bg);
 }
 .section-heading {
     max-width: 800px;
@@ -407,13 +407,13 @@ body {
 }
 .value-card h3 {
     margin: .5rem 0 .65rem;
-    color: var(--founder-green-950);
+    color: black!important;
     font-size: 1.3rem;
     font-weight: 800;
 }
 .value-card p {
     margin: 0;
-    color: var(--founder-muted);
+    color: black!important;
     font-size: .94rem;
     line-height: 1.8;
 }
@@ -446,13 +446,13 @@ body {
 }
 .ministry-card h3 {
     margin-bottom: .85rem;
-    color: var(--founder-green-950);
+    color: black!important;
     font-size: 1.3rem;
     font-weight: 800;
 }
 .ministry-card p {
     flex: 1;
-    color: var(--founder-muted);
+    color: black!important;
     font-size: .94rem;
     line-height: 1.8;
 }
@@ -488,7 +488,7 @@ body {
 }
 .mission-copy {
     max-width: 640px;
-    color: rgba(255,255,255,.76);
+    color: white!important;
     line-height: 1.9;
 }
 .scripture-panel {
@@ -536,7 +536,7 @@ body {
 }
 .scripture-note {
     margin: 0;
-    color: rgba(255,255,255,.65);
+    color: white!important;
     font-size: .9rem;
 }
 
@@ -560,23 +560,23 @@ body {
 }
 .message-heading {
     margin: .9rem 0 0;
-    color: var(--founder-green-950);
+    color: black!important;
     font-size: clamp(1.9rem, 3.4vw, 2.8rem);
     font-weight: 800;
     letter-spacing: -.045em;
     line-height: 1.1;
 }
 .message-intro {
-    color: var(--founder-green-800);
+    color: black!important;
     font-family: Georgia, serif;
     font-size: clamp(1.3rem, 2vw, 1.7rem);
 }
 .message-panel p:not(.muted-note) {
-    color: var(--founder-muted);
+    color: black!important;
     line-height: 1.9;
 }
 .message-panel .message-closing {
-    color: var(--founder-green-800);
+    color: black!important;
     font-weight: 800;
 }
 .message-signoff {
@@ -584,12 +584,12 @@ body {
     align-items: center;
     gap: .75rem;
     margin-top: 1.5rem;
-    color: var(--founder-green-950);
+    color: black!important;
 }
 .message-signoff span {
     width: 2.5rem;
     height: 2px;
-    background: var(--founder-gold);
+    background: black!important;
 }
 
 /* Gallery preview */

@@ -537,10 +537,10 @@ function Founder({ navigate }) {
 
                 <div className="message-signoff">
                   <span />
-                  <strong>Garden of Mercy Foundation</strong>
+                  <strong className="text-dark">Garden of Mercy Foundation</strong>
                 </div>
 
-                <p className="small muted-note mt-3 mb-0">
+                <p className="small text-dark mt-3 mb-0">
                   This is presented as the Foundation’s commitment statement,
                   not as a direct quotation from the founder.
                 </p>
@@ -691,8 +691,8 @@ function Founder({ navigate }) {
                 </span>
 
                 <span className="source-content">
-                  <strong>Revelation Church Kampala Podcast</strong>
-                  <small>Publicly indexed teaching archive</small>
+                  <strong className="text-black">Revelation Church Kampala Podcast</strong>
+                  <small className="text-black">Publicly indexed teaching archive</small>
                 </span>
 
                 <i
@@ -714,8 +714,8 @@ function Founder({ navigate }) {
                 </span>
 
                 <span className="source-content">
-                  <strong>Andrew Wommack Ministries Uganda</strong>
-                  <small>
+                  <strong className="text-black">Andrew Wommack Ministries Uganda</strong>
+                  <small className="text-black">
                     Public discipleship and evangelism information
                   </small>
                 </span>

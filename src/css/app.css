@@ -191,8 +191,8 @@ body {
 .shadow-lg {
     box-shadow: var(--bs-box-shadow-lg) !important;
 }
-.nav-link {
-    color: var(--bs-body-color);
+.nav-link, h2, h3, h4, h5, h6, p, li, strong, .small, blockquote {
+    color: var(--bs-body-color)!important;
 }
 a {
   text-decoration: none !important;

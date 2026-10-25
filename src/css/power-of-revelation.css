@@ -31,7 +31,6 @@
   max-width: 760px;
 }
 .ministry-heading h2 {
-  color: var(--pr-primary-dark);
   letter-spacing: -0.035em;
 }
 .ministry-heading > p {
@@ -1171,4 +1170,8 @@
   .pr-about-note {
     background-color: rgba(9, 40, 31, 0.96);
   }
+}
+
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  color: black!important;
 }

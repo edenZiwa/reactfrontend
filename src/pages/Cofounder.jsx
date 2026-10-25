@@ -189,7 +189,7 @@ function Cofounder({ navigate }) {
                 here once verified details are available.
               </p>
 
-              <div className="profile-principle">
+              <div className="profile-principle shadow-lg">
                 <span className="principle-icon">
                   <i
                     className="bi bi-check2-circle"
@@ -220,7 +220,7 @@ function Cofounder({ navigate }) {
       {/* LEADERSHIP VALUES */}
       <section
         id="leadership-values"
-        className="section-pad values-section"
+        className="section-pad values-section shadow-lg"
         aria-labelledby="values-title"
       >
         <div className="container">
@@ -490,7 +490,7 @@ function Cofounder({ navigate }) {
                   OUR BIBLICAL INSPIRATION
                 </span>
 
-                <blockquote>
+                <blockquote className="text-white">
                   “for I was hungry and you gave Me food; I was thirsty and you gave Me drink;  I was a stranger and you took Me in;”
                 </blockquote>
 
@@ -567,10 +567,10 @@ function Cofounder({ navigate }) {
 
                 <div className="message-signoff">
                   <span />
-                  <strong>Garden of Mercy Foundation</strong>
+                  <strong className="text-dark">Garden of Mercy Foundation</strong>
                 </div>
 
-                <p className="small muted-note mt-3 mb-0">
+                <p className="small text-dark mt-3 mb-0">
                   This is a Foundation commitment statement, not a
                   direct quotation attributed to Pastor Albert Yiga.
                 </p>
