@@ -37,6 +37,10 @@
   max-width: 680px;
   line-height: 1.8;
 }
+.pr-timeline-content h3 {
+  color: var(--bs-body-color);
+  letter-spacing: -0.03em;
+}
 .ministry-eyebrow {
   display: inline-flex;
   align-items: center;
