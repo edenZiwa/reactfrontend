@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from "react";
+import "../css/donate.css";
 import { startDonation } from "../services/api.js";
 import { validateDonation } from "../services/donation-validation.js";
 

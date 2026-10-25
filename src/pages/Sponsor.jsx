@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
+import "../css/sponsor.css";
 import { AppLink, PageIntro, CallToAction } from "../components/SiteChrome.jsx";
 
 const sponsorshipOptions = [

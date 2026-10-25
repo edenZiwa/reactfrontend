@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import "../css/gallary.css";
 import { AppLink } from "../components/SiteChrome.jsx";
 
 const GALLERY_IMAGES = [

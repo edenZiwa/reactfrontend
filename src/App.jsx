@@ -2,12 +2,6 @@
 import React, { useEffect } from "react";
 import { createRoot } from "react-dom/client";
 
-import "./css/bootstrap.min.css";
-import "./css/account.css";
-import "./css/donate.css";
-import "./css/gallary.css";
-import "./css/founder.css";
-import "./css/sponsor.css";
 import "./css/styles.css";
 import "./css/app.css";
 

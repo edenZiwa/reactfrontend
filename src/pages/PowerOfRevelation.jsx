@@ -371,7 +371,6 @@ export default function PowerOfRevelation() {
                  </div>
             </div>
           </div>
-        </div>
       </section>
 
       <section className="pr-stats-section" aria-label="Ministry overview">
