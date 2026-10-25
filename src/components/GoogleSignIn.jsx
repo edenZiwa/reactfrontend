@@ -34,7 +34,7 @@ export default function GoogleSignIn({ navigate }) {
         />
       </svg>
 
-      <span> Signin</span>
+      <span> Sign in</span>
     </AppLink>
   );
 }

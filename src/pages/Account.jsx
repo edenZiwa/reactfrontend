@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from "react";
+import { completeGoogleRedirect, signInWithGoogle, signOutGoogle } from "../services/firebase-auth.js";
 import "../css/account.css";
 
 const API_BASE = (import.meta.env.VITE_API_BASE_URL || "/api").replace(/\/$/, "");
 
 const SKILLS = [
     "Teaching",
-    "Childcare",
     "Counselling",
     "Healthcare",
     "Administration",
     "Fundraising",
     "Community outreach",
-    "IT and media",
+    "Communications",
+    "Logistics",
+    "IT and digital",
+    "Event support",
+    "Other",
 ];
 
 const TABS = [{
@@ -37,6 +41,9 @@ function Account( {
 }) {
     const [loading,
         setLoading] = useState(true);
+    const [needsSignIn, setNeedsSignIn] = useState(false);
+    const [signingIn, setSigningIn] = useState(false);
+    const [csrfToken, setCsrfToken] = useState("");
     const [account,
         setAccount] = useState(null);
     const [error,
@@ -80,13 +87,23 @@ function Account( {
 
         async function loadAccount() {
             try {
-                const response = await fetch(`${API_BASE}/account`, {
+                // If Google returned from a mobile redirect, exchange the Firebase ID
+                // token for the backend's existing secure session before loading data.
+                try {
+                    await completeGoogleRedirect();
+                } catch (redirectError) {
+                    if (!cancelled) setError(redirectError.message || "Google sign-in could not be completed.");
+                }
+
+                const response = await fetch(`${API_BASE}/account/overview`, {
                     credentials: "include",
+                    cache: "no-store",
                 });
 
                 if (response.status === 401) {
                     if (!cancelled) {
-                        setError("Please sign in to view your account.");
+                        setNeedsSignIn(true);
+                        setError("");
                     }
                     return;
                 }
@@ -99,14 +116,20 @@ function Account( {
 
                 if (cancelled) return;
 
-                setAccount(data?.user ?? data ?? null);
-                const profile = data?.volunteerProfile ?? {};
+                setAccount(data?.user ?? {
+                    email: data?.email,
+                    fullName: data?.fullName,
+                    firstName: data?.firstName,
+                    lastName: data?.lastName,
+                } ?? data ?? null);
+                setCsrfToken(data?.csrfToken || "");
+                const profile = data?.profile ?? data?.volunteerProfile ?? {};
 
                 setVolunteer({
                     phone: profile.phone ?? "",
                     location: profile.location ?? "",
                     availability: profile.availability ?? "",
-                    interests: profile.interests ?? "",
+                    interests: Array.isArray(profile.interests) ? profile.interests.join(", ") : (profile.interests ?? ""),
                     motivation: profile.motivation ?? "",
                 });
 
@@ -131,6 +154,20 @@ function Account( {
         };
     },
         []);
+
+    async function handleGoogleSignIn() {
+        setSigningIn(true);
+        setError("");
+        try {
+            const result = await signInWithGoogle();
+            // A null result means the browser is completing a redirect.
+            if (result) window.location.reload();
+        } catch (err) {
+            setError(err.message || "Google sign-in failed. Please try again.");
+        } finally {
+            setSigningIn(false);
+        }
+    }
 
     function updateVolunteer(event) {
         const {
@@ -160,10 +197,12 @@ function Account( {
                     method: "PUT",
                     credentials: "include",
                     headers: {
-                        "Content-Type": "application/json"
+                        "Content-Type": "application/json",
+                        ...(csrfToken ? { "X-CSRF-Token": csrfToken } : {}),
                     },
                     body: JSON.stringify({
                         ...volunteer,
+                        interests: volunteer.interests.split(",").map((item) => item.trim()).filter(Boolean),
                         skills: selectedSkills,
                     }),
                 });
@@ -189,7 +228,8 @@ function Account( {
                 method: "POST",
                 credentials: "include",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    ...(csrfToken ? { "X-CSRF-Token": csrfToken } : {}),
                 },
                 body: JSON.stringify(application),
             });
@@ -223,11 +263,13 @@ function Account( {
             const response = await fetch("/auth/logout", {
                 method: "POST",
                 credentials: "include",
+                headers: csrfToken ? { "X-CSRF-Token": csrfToken } : {},
             });
 
             if (!response.ok) {
                 throw new Error("Unable to sign out. Please try again.");
             }
+            await signOutGoogle();
 
             if (navigate) {
                 navigate("/");
@@ -267,23 +309,52 @@ function Account( {
         );
     }
 
-    if (error && !account) {
+    if (needsSignIn && !account) {
         return (
             <main className="container wrap py-5">
-                <div className="alert alert-warning" role="alert">
-                    {error}
-                </div>
-                <button
-                    className="btn btn-success"
-                    onClick={() => goToPage("/", "/")}
+                <section className="panel p-4 p-md-5 mx-auto" style={{ maxWidth: 620 }}>
+                    <div className="eyebrow mb-2">Garden of Mercy Foundation</div>
+                    <h1 className="page-title h2 mb-3">Sign in to your account</h1>
+                    <p className="text-secondary mb-4">
+                        Continue with Google to manage your volunteer profile, program registrations,
+                        applications, and donation history.
+                    </p>
+                    {error && <div className="alert alert-warning" role="alert">{error}</div>}
+                    <button
+                        type="button"
+                        className="btn btn-light border d-flex align-items-center justify-content-center gap-3 w-100 py-3"
+                        onClick={handleGoogleSignIn}
+                        disabled={signingIn}
                     >
-                    Return to home
-                </button>
+                        <svg width="20" height="20" viewBox="0 0 48 48" aria-hidden="true">
+                            <path fill="#4285F4" d="M43.6 24.5c0-1.4-.1-2.8-.4-4.1H24v7.8h11a9.4 9.4 0 0 1-4.1 6.2v5.1h6.7c3.9-3.6 6-8.9 6-15Z"/>
+                            <path fill="#34A853" d="M24 44c5.5 0 10.1-1.8 13.5-4.9l-6.7-5.1c-1.8 1.2-4.1 2-6.8 2-5.2 0-9.6-3.5-11.2-8.2H5.9v5.3A20 20 0 0 0 24 44Z"/>
+                            <path fill="#FBBC05" d="M12.8 27.8a12 12 0 0 1 0-7.6v-5.3H5.9a20 20 0 0 0 0 18.2l6.9-5.3Z"/>
+                            <path fill="#EA4335" d="M24 12.1c3 0 5.7 1 7.8 3.1l5.8-5.8A19.4 19.4 0 0 0 24 4a20 20 0 0 0-18.1 10.9l6.9 5.3c1.6-4.7 6-8.1 11.2-8.1Z"/>
+                        </svg>
+                        <span>{signingIn ? "Connecting to Google…" : "Continue with Google"}</span>
+                    </button>
+                    <p className="small-muted mt-3 mb-0">
+                        Staff and administrators should continue using the separate staff login.
+                    </p>
+                    <button className="btn btn-link mt-3 px-0" onClick={() => goToPage("/", "/")}>
+                        Continue browsing as a guest
+                    </button>
+                </section>
             </main>
         );
     }
 
-    const fullName = account?.fullName || account?.name || "Community member";
+    if (error && !account) {
+        return (
+            <main className="container wrap py-5">
+                <div className="alert alert-warning" role="alert">{error}</div>
+                <button className="btn btn-success" onClick={() => goToPage("/", "/")}>Return to home</button>
+            </main>
+        );
+    }
+
+    const fullName = account?.fullName || account?.name || [account?.firstName, account?.lastName].filter(Boolean).join(" ") || "Community member";
     const email = account?.email || "";
     const volunteerStatus =
     account?.volunteerStatus || "Not yet submitted";
