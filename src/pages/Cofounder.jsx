@@ -62,7 +62,7 @@ function Cofounder({ navigate }) {
                 </span>
 
                 <span>
-                  <strong>
+                  <strong className="text-white">
                     Compassion That Makes a Difference
                   </strong>
                   <small>
