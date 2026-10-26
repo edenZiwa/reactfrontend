@@ -26,7 +26,7 @@ function Cofounder({ navigate }) {
                 Pastor Albert <span>Yiga</span>
               </h1>
 
-              <p className="founder-hero-copy">
+              <p className="founder-hero-copy text-white">
                 Co-Founder of Garden of Mercy Foundation, sharing in
                 the vision of sowing seeds of mercy and compassion
                 through practical care, community outreach and support
