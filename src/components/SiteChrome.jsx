@@ -16,27 +16,27 @@ const NAV = [
 
 const IMAGES = [
   {
-    src: "/images/gallery/community-01.png",
+    src: "https://gardenofmercy.org/images/gallery/community-01.png",
     alt: "Community members working together",
   },
   {
-    src: "/images/gallery/children-01.png",
+    src: "https://gardenofmercy.org/images/gallery/children-01.png",
     alt: "Children in the community",
   },
   {
-    src: "/images/gallery/volunteers-01.jpg",
+    src: "https://gardenofmercy.org/images/gallery/volunteers-01.jpg",
     alt: "Foundation volunteers serving together",
   },
   {
-    src: "/images/gallery/outreach-01.jpg",
+    src: "https://gardenofmercy.org/images/gallery/outreach-01.jpg",
     alt: "Community outreach activity",
   },
   {
-    src: "/images/gallery/community-03.png",
+    src: "https://gardenofmercy.org/images/gallery/community-03.png",
     alt: "Community members building hope together",
   },
   {
-    src: "/images/gallery/event-01.jpg",
+    src: "https://gardenofmercy.org/images/gallery/event-01.jpg",
     alt: "Foundation community event",
   },
 ];
@@ -107,7 +107,7 @@ function Header({ path = "/", navigate }) {
           onClick={closeMenu}
         >
           <img
-            src="/images/logo.png"
+            src="https://gardenofmercy.org/images/logo.png"
             alt="Garden of Mercy Foundation — Sowing seeds of mercy and compassion"
           />
         </AppLink>
@@ -183,7 +183,7 @@ function Footer({ navigate }) {
               aria-label="Garden of Mercy Foundation home"
             >
               <img
-                src="/images/garden_of_mercy_horizontal.png"
+                src="https://gardenofmercy.org/images/garden_of_mercy_horizontal.png"
                 alt="Garden of Mercy Foundation"
                 className="img-fluid"
                 width="260"
