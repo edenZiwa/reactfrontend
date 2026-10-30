@@ -10,7 +10,7 @@ const GALLERY_IMAGES = [
     title: "A Future Filled With Hope",
     date: "2026",
     location: "Uganda",
-    src: "/images/gallery/children-01.png",
+    src: "https://gardenofmercy.org/images/gallery/children-01.png",
     alt: "Children supported by Garden of Mercy Foundation",
     layout: "gallery-large",
   },
@@ -21,7 +21,7 @@ const GALLERY_IMAGES = [
     title: "Building Hope Together",
     date: "2026",
     location: "Uganda",
-    src: "/images/gallery/community-01.png",
+    src: "https://gardenofmercy.org/images/gallery/community-01.png",
     alt: "Community members participating in an outreach activity",
   },
   {
@@ -31,7 +31,7 @@ const GALLERY_IMAGES = [
     title: "Mercy Reaching Communities",
     date: "2026",
     location: "Uganda",
-    src: "/images/gallery/outreach-01.jpg",
+    src: "https://gardenofmercy.org/images/gallery/outreach-01.jpg",
     alt: "Garden of Mercy Foundation outreach",
   },
   {
@@ -41,7 +41,7 @@ const GALLERY_IMAGES = [
     title: "Serving With Compassion",
     date: "2026",
     location: "Uganda",
-    src: "/images/gallery/volunteers-01.jpg",
+    src: "https://gardenofmercy.org/images/gallery/volunteers-01.jpg",
     alt: "Garden of Mercy Foundation volunteers serving",
     layout: "gallery-tall",
   },
@@ -52,7 +52,7 @@ const GALLERY_IMAGES = [
     title: "Together in Celebration",
     date: "2026",
     location: "Kampala, Uganda",
-    src: "/images/gallery/event-01.jpg",
+    src: "https://gardenofmercy.org/images/gallery/event-01.jpg",
     alt: "Garden of Mercy Foundation event",
   },
   {
@@ -62,7 +62,7 @@ const GALLERY_IMAGES = [
     title: "Growing With Dignity",
     date: "2026",
     location: "Uganda",
-    src: "/images/gallery/children-02.png",
+    src: "https://gardenofmercy.org/images/gallery/children-02.png",
     alt: "Children participating in a foundation program",
     layout: "gallery-wide",
   },
@@ -73,7 +73,7 @@ const GALLERY_IMAGES = [
     title: "Small Acts, Great Impact",
     date: "2026",
     location: "Uganda",
-    src: "/images/gallery/outreach-02.jpg",
+    src: "https://gardenofmercy.org/images/gallery/outreach-02.jpg",
     alt: "Community outreach activity",
   },
   {
@@ -83,7 +83,7 @@ const GALLERY_IMAGES = [
     title: "Stronger Together",
     date: "2026",
     location: "Uganda",
-    src: "/images/gallery/community-02.jpg",
+    src: "https://gardenofmercy.org/images/gallery/community-02.jpg",
     alt: "Community members coming together",
   },
   {
@@ -93,7 +93,7 @@ const GALLERY_IMAGES = [
     title: "The Power of Volunteers",
     date: "2026",
     location: "Uganda",
-    src: "/images/gallery/volunteers-02.png",
+    src: "https://gardenofmercy.org/images/gallery/volunteers-02.png",
     alt: "Garden of Mercy Foundation volunteers",
   },
   {
@@ -103,7 +103,7 @@ const GALLERY_IMAGES = [
     title: "Learning and Growing",
     date: "2026",
     location: "Uganda",
-    src: "/images/gallery/children-03.png",
+    src: "https://gardenofmercy.org/images/gallery/children-03.png",
     alt: "Children learning and growing",
   },
   {
@@ -113,7 +113,7 @@ const GALLERY_IMAGES = [
     title: "Community Voices",
     date: "2026",
     location: "Uganda",
-    src: "/images/gallery/community-03.png",
+    src: "https://gardenofmercy.org/images/gallery/community-03.png",
     alt: "Community engagement",
   },
   {
@@ -123,7 +123,7 @@ const GALLERY_IMAGES = [
     title: "Celebrating Together",
     date: "2026",
     location: "Uganda",
-    src: "/images/gallery/event-02.png",
+    src: "https://gardenofmercy.org/images/gallery/event-02.png",
     alt: "Garden of Mercy Foundation event",
   },
 ];
@@ -144,9 +144,9 @@ const VIDEOS = [
     title: "Sowing Seeds of Mercy",
     description:
       "Discover how compassion becomes practical action within the communities we serve.",
-    image: "/images/gallery/featured.jpg",
+    image: "https://gardenofmercy.org/images/gallery/featured.jpg",
     alt: "Garden of Mercy Foundation story",
-    src: "/videos/story-01.mp4",
+    src: "https://gardenofmercy.org/videos/story-01.mp4",
     featured: true,
   },
   {
@@ -154,7 +154,7 @@ const VIDEOS = [
     category: "COMMUNITY",
     title: "Together We Can",
     description: "A glimpse into community partnership.",
-    image: "/images/gallery/event-01.jpg",
+    image: "https://gardenofmercy.org/images/gallery/event-01.jpg",
     alt: "Community story",
     src: "/videos/story-02.mp4",
     featured: false,
@@ -295,7 +295,7 @@ function Gallery({navigate}) {
   return (
     <>
       {/* HERO */}
-      <section className="gallery-hero">
+      <section className="gallery-hero mt-4">
         <div className="gallery-hero-background" />
 
         <div className="container position-relative">
