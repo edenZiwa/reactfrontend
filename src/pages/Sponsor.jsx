@@ -385,7 +385,7 @@ export default function Sponsor({ navigate }) {
                 One caring sponsor can help change a child’s future.
               </h1>
 
-              <p className="text-white>
+              <p className="text-white">
                 Discover children whose education and wellbeing could
                 benefit from steady support. Your sponsorship can help
                 provide school essentials, learning opportunities and
