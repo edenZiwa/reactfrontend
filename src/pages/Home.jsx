@@ -509,7 +509,7 @@ function Home( {
                 {/* Community initiatives */}
                 <div className="col-sm-6">
                   <div className="impact-card p-4 rounded-4 border h-100 shadow-sm">
-                    <i className="bi bi-globe-africa text-success fs-2"></i>
+                    <i className="bi bi-globe text-success fs-2"></i>
 
                     <div className="display-6 fw-bold mt-3">—</div>
 
@@ -620,7 +620,7 @@ function Home( {
 
               <h2
                 id="gallery-title"
-                className="display-6 fw-bold mt-2 mb-3"
+                className="display-6 fw-bold mt-2 mb-3 text-white"
               >
                 See Compassion in Action
               </h2>
