@@ -74,10 +74,10 @@ function Home( {
                             </div>
 
                             <div>
-                                <h2 className="h5 mb-1">
+                                <h2 className="h5 mb-1 text-white">
                                     Every act of mercy can plant a seed of hope.
                                 </h2>
-                                <p className="mb-0 opacity-75">
+                                <p className="mb-0 text-white opacity-75">
                                     Together, we can nurture those seeds into lasting impact.
                                 </p>
                             </div>
@@ -554,7 +554,7 @@ function Home( {
                     loading="lazy"
                   />
 
-                  <p className="mb-0 mt-3">
+                  <p className="mb-0 mt-3 text-white">
                     Apostle Derrick Musinguzi with his wife Silvia Musinguzi
                   </p>
                 </div>
@@ -620,7 +620,7 @@ function Home( {
 
               <h2
                 id="gallery-title"
-                className="display-6 fw-bold mt-2 mb-3 text-white"
+                className="display-6 fw-bold mt-2 mb-3"
               >
                 See Compassion in Action
               </h2>
@@ -666,7 +666,7 @@ function Home( {
                       Featured
                     </span>
 
-                    <h3 className="h3 fw-bold text-white mb-1">
+                    <h3 className="fw-bold text-white mb-1">
                       Compassion in Action
                     </h3>
 
@@ -832,11 +832,11 @@ function Home( {
               <div className="col-lg-5 bg-success text-white p-4 p-lg-5">
                 <i className="bi bi-flower1 display-3 text-warning"></i>
 
-                <h3 className="h3 mt-4">
+                <h3 className="text-white mt-4">
                   Every seed matters.
                 </h3>
 
-                <p>
+                <p className="text-white">
                   Whether through financial support, volunteering,
                   partnership or prayer, every contribution can help
                   strengthen the mission.
