@@ -74,7 +74,7 @@ function Home( {
                             </div>
 
                             <div>
-                                <h2 className="h5 mb-1 text-white">
+                                <h2 className="mb-1 text-white">
                                     Every act of mercy can plant a seed of hope.
                                 </h2>
                                 <p className="mb-0 text-white opacity-75">
@@ -98,7 +98,7 @@ function Home( {
         </section>
 
         {/* FOUNDATION VALUES STRIP */}
-        <section className="other-section overflow-hidden">
+        <section className="other-section pt-3 pb-3 overflow-hidden">
             <div className="container">
                 <div className="row g-3 mt-2 text-center">
                     <div className="col-sm-4">
