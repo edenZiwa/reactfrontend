@@ -152,7 +152,7 @@ function Donate() {
             Sow a seed of <em>mercy.</em>
           </h1>
 
-          <p className="lead donate-intro">
+          <p className="lead donate-intro text-white">
             Your generosity can help provide practical support, restore hope
             and build stronger communities.
           </p>
