@@ -23,7 +23,7 @@ function Home( {
                             <div className="d-inline-flex align-items-center gap-2 px-3 py-2 rounded-pill bg-success bg-opacity-90 text-white fw-semibold mb-2">
                                 <img
                                 className="logo"
-                                src="/images/garden_of_mercy_logo.png"
+                                src="https://gardenofmercy.org/images/garden_of_mercy_logo.png"
                                 alt="Garden of Mercy Foundation logo"
                                 />
                             <span>Sowing Seeds of Mercy and Compassion</span>
@@ -549,7 +549,7 @@ function Home( {
                 <div className="text-center p-4">
                   <img
                     className="img-fluid rounded-4"
-                    src="/images/founder/apostle_derrick_musinguzi.png"
+                    src="https://gardenofmercy.org/images/founder/apostle_derrick_musinguzi.png"
                     alt="Apostle Derrick Musinguzi with his wife Silvia Musinguzi"
                     loading="lazy"
                   />
@@ -655,7 +655,7 @@ function Home( {
                 >
                   
                   <img
-                  src="/images/gallery/featured.jpg"
+                  src="https://gardenofmercy.org/images/gallery/featured.jpg"
                   alt="Garden of Mercy Foundation community outreach"
                   loading="lazy"
                 />
@@ -690,7 +690,7 @@ function Home( {
                     aria-label="View children gallery"
                   >
                     <img
-                      src="/images/gallery/children-01.png"
+                      src="https://gardenofmercy.org/images/gallery/children-01.png"
                       alt="Children supported by Garden of Mercy Foundation"
                       loading="lazy"
                     />
@@ -712,7 +712,7 @@ function Home( {
                   className="home-gallery-card d-block" aria-label="View community gallery"
                 >
                   <img
-                      src="/images/gallery/community-01.png"
+                      src="https://gardenofmercy.org/images/gallery/community-01.png"
                       alt="Garden of Mercy Foundation community"
                       loading="lazy"
                     />
@@ -735,7 +735,7 @@ function Home( {
                     aria-label="View outreach gallery"
                 >
                   <img
-                      src="/images/gallery/outreach-01.jpg"
+                      src="https://gardenofmercy.org/images/gallery/outreach-01.jpg"
                       alt="Garden of Mercy Foundation outreach"
                       loading="lazy"
                     />
@@ -758,7 +758,7 @@ function Home( {
                     aria-label="View volunteers gallery"
                 >
                   <img
-                      src="/images/gallery/volunteers-01.jpg"
+                      src="https://gardenofmercy.org/images/gallery/volunteers-01.jpg"
                       alt="Garden of Mercy Foundation volunteers"
                       loading="lazy"
                     />
