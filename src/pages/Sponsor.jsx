@@ -6,17 +6,17 @@ const sponsorshipOptions = [
   {
     title: "Children & families",
     text: "Help strengthen child wellbeing and support families with practical care.",
-    image: "/images/gallery/children-03.png",
+    image: "https://gardenofmercy.org/images/gallery/children-03.png",
   },
   {
     title: "Education & opportunity",
     text: "Support access to learning resources and opportunities for young people.",
-    image: "/images/gallery/event-02.png",
+    image: "https://gardenofmercy.org/images/gallery/event-02.png",
   },
   {
     title: "Community outreach",
     text: "Stand alongside local communities as they respond to shared needs.",
-    image: "/images/gallery/outreach-01.jpg",
+    image: "https://gardenofmercy.org/images/gallery/outreach-01.jpg",
   },
 ];
 
@@ -385,7 +385,7 @@ export default function Sponsor({ navigate }) {
                 One caring sponsor can help change a child’s future.
               </h1>
 
-              <p>
+              <p className="text-white>
                 Discover children whose education and wellbeing could
                 benefit from steady support. Your sponsorship can help
                 provide school essentials, learning opportunities and
