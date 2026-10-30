@@ -217,16 +217,11 @@ function Programs() {
               </p>
 
               <p>
-                Programs should be developed around identified needs,
+                Programs are developed around identified needs,
                 available resources, appropriate partnerships and
                 responsible organizational planning.
               </p>
 
-              <p className="mb-0">
-                Where programs are still being developed, this page
-                describes intended areas of focus rather than claiming
-                services that have not yet been formally established.
-              </p>
             </div>
 
             <div className="col-lg-6">
@@ -382,40 +377,6 @@ function Programs() {
                 </div>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* TRANSPARENCY */}
-      <section
-        className="py-5"
-        aria-labelledby="transparency-title"
-      >
-        <div className="container">
-          <div className="row justify-content-center">
-            <div className="col-lg-9">
-              <div className="quote-card rounded-4 p-4 p-md-5 text-center">
-                <i
-                  className="bi bi-eye display-5 text-success"
-                  aria-hidden="true"
-                />
-
-                <h2
-                  id="transparency-title"
-                  className="fw-bold mt-4"
-                >
-                  Responsible impact reporting
-                </h2>
-
-                <p className="text-secondary mb-0">
-                  As programs develop, verified information about
-                  activities, beneficiaries, outputs and outcomes can
-                  be published through the Foundation&apos;s impact and
-                  reporting channels. We will avoid presenting
-                  unverified figures as confirmed impact.
-                </p>
-              </div>
-            </div>
           </div>
         </div>
       </section>
