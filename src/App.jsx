@@ -168,3 +168,26 @@ if (rootElement) {
     </React.StrictMode>
   );
 }
+
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js", {
+        scope: "/"
+      })
+      .then((registration) => {
+        console.log(
+          "Garden of Mercy PWA registered:",
+          registration.scope
+        );
+      })
+      .catch((error) => {
+        console.error(
+          "PWA registration failed:",
+          error
+        );
+      });
+  });
+}
+
