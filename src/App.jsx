@@ -4,9 +4,8 @@ import { createRoot } from "react-dom/client";
 
 import "./css/styles.css";
 import "./css/app.css";
-
-// Uncomment if Bootstrap Icons are installed through npm.
-// import "bootstrap-icons/font/bootstrap-icons.css";
+import "./styles/pwa.css";
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 import usePath from "./components/usePath.js";
 import SEO from "./components/SEO.jsx";
@@ -14,25 +13,33 @@ import {
   Header,
   Footer,
 } from "./components/SiteChrome.jsx";
-
 import PopupManager from "./components/PopupManager.jsx";
-import ScrollNavigator from "./components/ScrollNavigator.jsx";
 
+import { PWAProvider } from "./components/PWAProvider.jsx";
+import PWAInstallPrompt from "./components/PWAInstallPrompt.jsx";
+import PWAUpdatePrompt from "./components/PWAUpdatePrompt.jsx";
+import NetworkStatus from "./components/NetworkStatus.jsx";
+
+import ScrollNavigator from "./components/ScrollNavigator.jsx";
 import Home from "./pages/Home.jsx";
 import About from "./pages/About.jsx";
 import Programs from "./pages/Programs.jsx";
+
 import Impact from "./pages/Impact.jsx";
 import Gallery from "./pages/Gallery.jsx";
 import Founder from "./pages/Founder.jsx";
 import Donate from "./pages/Donate.jsx";
+
 import DonationResult from "./pages/DonationResult.jsx";
 import Contact from "./pages/Contact.jsx";
 import Terms from "./pages/Terms.jsx";
 import Volunteer from "./pages/Volunteer.jsx";
+
 import Privacy from "./pages/Privacy.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import Sponsor from "./pages/Sponsor.jsx";
 import Account from "./pages/Account.jsx";
+
 import SuccessStories from "./pages/SuccessStories.jsx";
 import Cofounder from "./pages/Cofounder.jsx";
 import PowerOfRevelation from "./pages/PowerOfRevelation.jsx";
@@ -164,30 +171,15 @@ const rootElement = document.getElementById("root");
 if (rootElement) {
   createRoot(rootElement).render(
     <React.StrictMode>
+      <PWAProvider>
+      <NetworkStatus />
+
+      <PWAUpdatePrompt />
+
       <App />
+
+      <PWAInstallPrompt />
+    </PWAProvider>
     </React.StrictMode>
   );
 }
-
-
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker
-      .register("/sw.js", {
-        scope: "/"
-      })
-      .then((registration) => {
-        console.log(
-          "Garden of Mercy PWA registered:",
-          registration.scope
-        );
-      })
-      .catch((error) => {
-        console.error(
-          "PWA registration failed:",
-          error
-        );
-      });
-  });
-}
-
