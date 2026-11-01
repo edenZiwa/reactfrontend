@@ -23,7 +23,7 @@ function Home( {
                             <div className="d-inline-flex align-items-center gap-2 px-3 py-2 rounded-pill bg-success bg-opacity-90 text-white fw-semibold mb-2">
                                 <img
                                 className="logo"
-                                src="/images/garden_of_mercy_logo.png"
+                                src="https://gardenofmercy.org/images/garden_of_mercy_logo.png"
                                 alt="Garden of Mercy Foundation logo"
                                 />
                             <span>Sowing Seeds of Mercy and Compassion</span>
@@ -74,10 +74,10 @@ function Home( {
                             </div>
 
                             <div>
-                                <h2 className="h5 mb-1">
+                                <h2 className="mb-1 text-white">
                                     Every act of mercy can plant a seed of hope.
                                 </h2>
-                                <p className="mb-0 opacity-75">
+                                <p className="mb-0 text-white opacity-75">
                                     Together, we can nurture those seeds into lasting impact.
                                 </p>
                             </div>
@@ -98,7 +98,7 @@ function Home( {
         </section>
 
         {/* FOUNDATION VALUES STRIP */}
-        <section className="other-section overflow-hidden">
+        <section className="other-section pt-3 pb-3 overflow-hidden">
             <div className="container">
                 <div className="row g-3 mt-2 text-center">
                     <div className="col-sm-4">
@@ -509,7 +509,7 @@ function Home( {
                 {/* Community initiatives */}
                 <div className="col-sm-6">
                   <div className="impact-card p-4 rounded-4 border h-100 shadow-sm">
-                    <i className="bi bi-globe-africa text-success fs-2"></i>
+                    <i className="bi bi-globe text-success fs-2"></i>
 
                     <div className="display-6 fw-bold mt-3">—</div>
 
@@ -549,12 +549,12 @@ function Home( {
                 <div className="text-center p-4">
                   <img
                     className="img-fluid rounded-4"
-                    src="/images/founder/apostle_derrick_musinguzi.png"
+                    src="https://gardenofmercy.org/images/founder/apostle_derrick_musinguzi.png"
                     alt="Apostle Derrick Musinguzi with his wife Silvia Musinguzi"
                     loading="lazy"
                   />
 
-                  <p className="mb-0 mt-3">
+                  <p className="mb-0 mt-3 text-white">
                     Apostle Derrick Musinguzi with his wife Silvia Musinguzi
                   </p>
                 </div>
@@ -655,7 +655,7 @@ function Home( {
                 >
                   
                   <img
-                  src="/images/gallery/featured.jpg"
+                  src="https://gardenofmercy.org/images/gallery/featured.jpg"
                   alt="Garden of Mercy Foundation community outreach"
                   loading="lazy"
                 />
@@ -666,7 +666,7 @@ function Home( {
                       Featured
                     </span>
 
-                    <h3 className="h3 fw-bold text-white mb-1">
+                    <h3 className="fw-bold text-white mb-1">
                       Compassion in Action
                     </h3>
 
@@ -690,7 +690,7 @@ function Home( {
                     aria-label="View children gallery"
                   >
                     <img
-                      src="/images/gallery/children-01.png"
+                      src="https://gardenofmercy.org/images/gallery/children-01.png"
                       alt="Children supported by Garden of Mercy Foundation"
                       loading="lazy"
                     />
@@ -712,7 +712,7 @@ function Home( {
                   className="home-gallery-card d-block" aria-label="View community gallery"
                 >
                   <img
-                      src="/images/gallery/community-01.png"
+                      src="https://gardenofmercy.org/images/gallery/community-01.png"
                       alt="Garden of Mercy Foundation community"
                       loading="lazy"
                     />
@@ -735,7 +735,7 @@ function Home( {
                     aria-label="View outreach gallery"
                 >
                   <img
-                      src="/images/gallery/outreach-01.jpg"
+                      src="https://gardenofmercy.org/images/gallery/outreach-01.jpg"
                       alt="Garden of Mercy Foundation outreach"
                       loading="lazy"
                     />
@@ -758,7 +758,7 @@ function Home( {
                     aria-label="View volunteers gallery"
                 >
                   <img
-                      src="/images/gallery/volunteers-01.jpg"
+                      src="https://gardenofmercy.org/images/gallery/volunteers-01.jpg"
                       alt="Garden of Mercy Foundation volunteers"
                       loading="lazy"
                     />
@@ -832,11 +832,11 @@ function Home( {
               <div className="col-lg-5 bg-success text-white p-4 p-lg-5">
                 <i className="bi bi-flower1 display-3 text-warning"></i>
 
-                <h3 className="h3 mt-4">
+                <h3 className="text-white mt-4">
                   Every seed matters.
                 </h3>
 
-                <p>
+                <p className="text-white">
                   Whether through financial support, volunteering,
                   partnership or prayer, every contribution can help
                   strengthen the mission.

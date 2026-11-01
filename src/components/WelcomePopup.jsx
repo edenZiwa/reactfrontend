@@ -31,7 +31,7 @@ export default function WelcomePopup({ onClose, navigate }) {
           style={{ width: 64, height: 64 }}
           aria-hidden="true"
         >
-          <i className="bi bi-flower1 fs-1" />
+          <img src="../images/garden_of_mercy_logo.png" />
         </div>
 
         <p className="small text-success fw-bold text-uppercase mb-2">

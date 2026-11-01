@@ -1,58 +1,40 @@
-import React, { useState } from "react";
-import { useAuth } from "../auth/AuthProvider.jsx";
+import React from "react";
+import { AppLink } from "./SiteChrome.jsx";
 
-export default function GoogleSignIn({ accountHref = "/account", className = "nav-account" }) {
-  const { user, status, isPublicUser, login, authError, clearAuthError } = useAuth();
-  const [busy, setBusy] = useState(false);
-  const [localError, setLocalError] = useState("");
-
-  async function handleSignIn() {
-    if (busy || status === "loading") return;
-    setBusy(true);
-    setLocalError("");
-    clearAuthError();
-    try {
-      const signedInUser = await login();
-      if (signedInUser) window.location.assign(accountHref);
-      // If null, the Firebase redirect fallback has started; do not show success yet.
-    } catch (error) {
-      setLocalError(error?.message || "Unable to sign in. Please try again.");
-    } finally {
-      setBusy(false);
-    }
-  }
-
-  if (status === "loading") {
-    return <span className={className} aria-live="polite">Checking account…</span>;
-  }
-
-  if (user && isPublicUser) {
-    return <a href={accountHref} className={className} aria-label="Open your Garden of Mercy account">My Account</a>;
-  }
-
-  if (user && !isPublicUser) {
-    return <a href="/admin" className={className} aria-label="Open staff administration">Staff portal</a>;
-  }
-
-  const errorMessage = localError || authError;
+export default function GoogleSignIn({ navigate }) {
   return (
-    <span className="gom-google-signin-wrap">
-      <button
-        type="button"
-        className={className}
-        onClick={handleSignIn}
-        disabled={busy}
-        aria-busy={busy}
+    <AppLink
+      to="/account"
+      navigate={navigate}
+      className="nav-account"
+      aria-label="Go to account page"
+    >
+      <svg
+        width="18"
+        height="18"
+        viewBox="0 0 48 48"
+        aria-hidden="true"
+        focusable="false"
       >
-        <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
-          <path fill="#4285F4" d="M43.6 24.5c0-1.4-.1-2.8-.4-4.1H24v7.8h11a9.4 9.4 0 0 1-4.1 6.2v5.1h6.7c3.9-3.6 6-8.9 6-15Z" />
-          <path fill="#34A853" d="M24 44c5.5 0 10.1-1.8 13.5-4.9l-6.7-5.1c-1.8 1.2-4.1 2-6.8 2-5.2 0-9.6-3.5-11.2-8.2H5.9v5.3A20 20 0 0 0 24 44Z" />
-          <path fill="#FBBC05" d="M12.8 27.8a12 12 0 0 1 0-7.6v-5.3H5.9a20 20 0 0 0 0 18.2l6.9-5.3Z" />
-          <path fill="#EA4335" d="M24 12.1c3 0 5.7 1 7.8 3.1l5.8-5.8A19.4 19.4 0 0 0 24 4a20 20 0 0 0-18.1 10.9l6.9 5.3c1.6-4.7 6-8.1 11.2-8.1Z" />
-        </svg>
-        <span>{busy ? "Connecting…" : "Sign in with Google"}</span>
-      </button>
-      {errorMessage ? <span className="gom-auth-error" role="alert">{errorMessage}</span> : null}
-    </span>
+        <path
+          fill="#4285F4"
+          d="M43.6 24.5c0-1.4-.1-2.8-.4-4.1H24v7.8h11a9.4 9.4 0 0 1-4.1 6.2v5.1h6.7c3.9-3.6 6-8.9 6-15Z"
+        />
+        <path
+          fill="#34A853"
+          d="M24 44c5.5 0 10.1-1.8 13.5-4.9l-6.7-5.1c-1.8 1.2-4.1 2-6.8 2-5.2 0-9.6-3.5-11.2-8.2H5.9v5.3A20 20 0 0 0 24 44Z"
+        />
+        <path
+          fill="#FBBC05"
+          d="M12.8 27.8a12 12 0 0 1 0-7.6v-5.3H5.9a20 20 0 0 0 0 18.2l6.9-5.3Z"
+        />
+        <path
+          fill="#EA4335"
+          d="M24 12.1c3 0 5.7 1 7.8 3.1l5.8-5.8A19.4 19.4 0 0 0 24 4a20 20 0 0 0-18.1 10.9l6.9 5.3c1.6-4.7 6-8.1 11.2-8.1Z"
+        />
+      </svg>
+
+      <span> Sign in</span>
+    </AppLink>
   );
 }

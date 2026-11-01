@@ -1,5 +1,6 @@
 
 import React from "react";
+import "../css/founder.css";
 import { AppLink } from "../components/SiteChrome.jsx";
 
 function Cofounder({ navigate }) {
@@ -26,7 +27,7 @@ function Cofounder({ navigate }) {
                 Pastor Albert <span>Yiga</span>
               </h1>
 
-              <p className="founder-hero-copy">
+              <p className="founder-hero-copy text-white">
                 Co-Founder of Garden of Mercy Foundation, sharing in
                 the vision of sowing seeds of mercy and compassion
                 through practical care, community outreach and support
@@ -62,7 +63,7 @@ function Cofounder({ navigate }) {
                 </span>
 
                 <span>
-                  <strong>
+                  <strong className="text-white">
                     Compassion That Makes a Difference
                   </strong>
                   <small>
