@@ -5,6 +5,7 @@ import { createRoot } from "react-dom/client";
 import "./css/styles.css";
 import "./css/app.css";
 import "./styles/pwa.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
 import usePath from "./components/usePath.js";
