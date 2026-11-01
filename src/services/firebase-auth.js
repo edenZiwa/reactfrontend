@@ -1,19 +1,35 @@
-import { initializeApp, getApps } from "firebase/app";
-import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, signOut } from "firebase/auth";
+import {
+  initializeApp,
+  getApps,
+} from "firebase/app";
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
+  signOut,
+} from "firebase/auth";
 
+const APP_NAME = "garden-of-mercy-web";
 let authPromise;
+let csrfPromise;
 
 async function getFirebaseAuth() {
   if (!authPromise) {
     authPromise = (async () => {
-      const response = await fetch("/auth/google-config", { credentials: "include", cache: "no-store" });
-      if (!response.ok) throw new Error("Google sign-in is not available right now.");
-      const config = await response.json();
+      const response = await fetch("/auth/google-config", {
+        credentials: "same-origin",
+        cache: "no-store",
+        headers: { Accept: "application/json" },
+      });
+      const config = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(config.error || "Google sign-in is unavailable right now.");
       if (!config.apiKey || !config.authDomain || !config.projectId || !config.appId) {
-        throw new Error("Google sign-in has not been configured yet. Please contact the foundation.");
+        throw new Error("Google sign-in has not been configured. Please contact the foundation.");
       }
-      const app = getApps().find((item) => item.name === "garden-of-mercy-web")
-        || initializeApp(config, "garden-of-mercy-web");
+      const app = getApps().find((item) => item.name === APP_NAME)
+        || initializeApp(config, APP_NAME);
       return getAuth(app);
     })().catch((error) => {
       authPromise = null;
@@ -23,35 +39,67 @@ async function getFirebaseAuth() {
   return authPromise;
 }
 
+async function getCsrfToken() {
+  if (!csrfPromise) {
+    csrfPromise = fetch("/auth/csrf", {
+      credentials: "same-origin",
+      cache: "no-store",
+      headers: { Accept: "application/json" },
+    }).then(async (response) => {
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || !data.csrfToken) throw new Error(data.error || "Could not start a secure sign-in session.");
+      return data.csrfToken;
+    }).catch((error) => {
+      csrfPromise = null;
+      throw error;
+    });
+  }
+  return csrfPromise;
+}
+
+async function exchangeFirebaseToken(user) {
+  const credential = await user.getIdToken(true);
+  const csrfToken = await getCsrfToken();
+  const response = await fetch("/auth/google", {
+    method: "POST",
+    credentials: "same-origin",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      "X-CSRF-Token": csrfToken,
+    },
+    body: JSON.stringify({ credential }),
+  });
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(data.error || "Google sign-in failed. Please try again.");
+  csrfPromise = null; // Session regeneration creates a new CSRF token.
+  return data;
+}
+
 export async function signInWithGoogle() {
   const auth = await getFirebaseAuth();
   const provider = new GoogleAuthProvider();
   provider.setCustomParameters({ prompt: "select_account" });
-  let result;
+
   try {
-    result = await signInWithPopup(auth, provider);
-  } catch (error) {
-    // Some mobile browsers and strict privacy settings block popups. Use redirect there.
-    if (["auth/popup-blocked", "auth/operation-not-supported-in-this-environment"].includes(error?.code)) {
-      try { window.sessionStorage.setItem("gom_google_redirect_pending", "true"); } catch {}
-      await signInWithRedirect(auth, provider);
-      return null;
+    const result = await signInWithPopup(auth, provider);
+    try {
+      return await exchangeFirebaseToken(result.user);
+    } catch (error) {
+      await signOut(auth).catch(() => {});
+      throw error;
     }
-    throw error;
+  } catch (error) {
+    const redirectCodes = new Set([
+      "auth/popup-blocked",
+      "auth/operation-not-supported-in-this-environment",
+      "auth/web-storage-unsupported",
+    ]);
+    if (!redirectCodes.has(error?.code)) throw error;
+    try { window.sessionStorage.setItem("gom_google_redirect_pending", "true"); } catch {}
+    await signInWithRedirect(auth, provider);
+    return null; // Redirect is underway; this is not a completed sign-in.
   }
-  const credential = await result.user.getIdToken(true);
-  const response = await fetch("/auth/google", {
-    method: "POST",
-    credentials: "include",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ credential }),
-  });
-  const data = await response.json().catch(() => ({}));
-  if (!response.ok) {
-    await signOut(auth).catch(() => {});
-    throw new Error(data.error || "Google sign-in failed. Please try again.");
-  }
-  return data;
 }
 
 export async function completeGoogleRedirect() {
@@ -61,22 +109,16 @@ export async function completeGoogleRedirect() {
     if (pending) window.sessionStorage.removeItem("gom_google_redirect_pending");
   } catch {}
   if (!pending) return null;
+
   const auth = await getFirebaseAuth();
   const result = await getRedirectResult(auth);
   if (!result?.user) return null;
-  const credential = await result.user.getIdToken(true);
-  const response = await fetch("/auth/google", {
-    method: "POST",
-    credentials: "include",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ credential }),
-  });
-  const data = await response.json().catch(() => ({}));
-  if (!response.ok) {
+  try {
+    return await exchangeFirebaseToken(result.user);
+  } catch (error) {
     await signOut(auth).catch(() => {});
-    throw new Error(data.error || "Google sign-in failed. Please try again.");
+    throw error;
   }
-  return data;
 }
 
 export async function signOutGoogle() {
