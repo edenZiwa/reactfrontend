@@ -23,7 +23,7 @@ function Founder({ navigate }) {
                 Apostle Derrick <span>Musinguzi</span>
               </h1>
 
-              <p className="founder-hero-copy">
+              <p className="founder-hero-copy text-white">
                 Founder of Garden of Mercy Foundation, an organization
                 committed to sowing seeds of mercy and compassion through
                 practical care for children, vulnerable people and communities.
@@ -52,7 +52,7 @@ function Founder({ navigate }) {
                 </span>
 
                 <span>
-                  <strong>Sowing Seeds of Mercy and Compassion</strong>
+                  <strong className="text-white">Sowing Seeds of Mercy and Compassion</strong>
                   <small>Restoring hope. Transforming lives.</small>
                 </span>
               </div>
