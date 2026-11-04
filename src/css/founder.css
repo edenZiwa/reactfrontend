@@ -42,8 +42,8 @@ body {
     top: -5rem;
     z-index: 2000;
     padding: .8rem 1rem;
-    background: #fff;
-    color: var(--founder-green-950);
+    background: var(--gomf-surface, #fff);
+    color: var(--gomf-deep, var(--founder-green-950));
     border-radius: .5rem;
     box-shadow: 0 8px 24px rgba(0,0,0,.15);
 }
@@ -54,13 +54,13 @@ body {
     padding: clamp(4rem, 7vw, 6.8rem) 0;
 }
 .section-white {
-    background: #fff;
+    background: var(--gomf-surface, #fff);
 }
 .eyebrow {
     display: inline-flex;
     align-items: center;
     gap: .65rem;
-    color: var(--founder-green-700);
+    color: var(--gomf-green, var(--founder-green-700));
     font-size: .74rem;
     font-weight: 800;
     letter-spacing: .16em;
@@ -79,7 +79,7 @@ body {
 }
 .section-title {
     margin: .8rem 0 1.15rem;
-    color: white!important;
+    color: var(--gomf-deep, #203129);
     font-size: clamp(2.1rem, 4.3vw, 3.7rem);
     font-weight: 750;
     letter-spacing: -.045em;
@@ -92,16 +92,16 @@ body {
 }
 .section-lead {
     max-width: 48rem;
-    color: var(--founder-muted);
+    color: var(--gomf-text-muted, var(--founder-muted));
     font-size: clamp(1.05rem, 1.5vw, 1.22rem);
     line-height: 1.8;
 }
 .body-copy {
-    color: #58665e;
+    color: var(--gomf-text-muted, #58665e);
     line-height: 1.85;
 }
 .muted-note {
-    color: #68766e;
+    color: var(--gomf-text-muted, #68766e);
     line-height: 1.7;
 }
 
@@ -307,7 +307,7 @@ body {
 .profile-placeholder {
     min-height: 320px;
     background: linear-gradient(135deg, #e7eddf, #c1d2c2);
-    color: var(--founder-green-800);
+    color: var(--gomf-green, var(--founder-green-800));
 }
 .profile-placeholder i {
     font-size: 4rem;
@@ -379,7 +379,7 @@ body {
     padding: 1.7rem;
     border: 1px solid var(--founder-border);
     border-radius: var(--founder-radius);
-    background: #fff;
+    background: var(--gomf-surface, #fff);
     transition: transform .22s ease, box-shadow .22s ease;
 }
 .value-card:hover {
@@ -407,13 +407,13 @@ body {
 }
 .value-card h3 {
     margin: .5rem 0 .65rem;
-    color: black!important;
+    color: var(--gomf-text, #203129);
     font-size: 1.3rem;
     font-weight: 800;
 }
 .value-card p {
     margin: 0;
-    color: black!important;
+    color: var(--gomf-text, #203129);
     font-size: .94rem;
     line-height: 1.8;
 }
@@ -428,7 +428,7 @@ body {
     padding: 1.7rem;
     border: 1px solid var(--founder-border);
     border-radius: var(--founder-radius);
-    background: #fff;
+    background: var(--gomf-surface, #fff);
     box-shadow: 0 8px 28px rgba(16,47,38,.035);
 }
 .ministry-card-top {
@@ -446,13 +446,13 @@ body {
 }
 .ministry-card h3 {
     margin-bottom: .85rem;
-    color: black!important;
+    color: var(--gomf-text, #203129);
     font-size: 1.3rem;
     font-weight: 800;
 }
 .ministry-card p {
     flex: 1;
-    color: black!important;
+    color: var(--gomf-text, #203129);
     font-size: .94rem;
     line-height: 1.8;
 }
@@ -549,7 +549,7 @@ body {
     padding: clamp(1.5rem, 5vw, 4rem);
     border: 1px solid var(--founder-border);
     border-radius: calc(var(--founder-radius) + .2rem);
-    background: #fff;
+    background: var(--gomf-surface, #fff);
     box-shadow: 0 18px 60px rgba(16,47,38,.055);
 }
 .message-mark {
@@ -560,23 +560,23 @@ body {
 }
 .message-heading {
     margin: .9rem 0 0;
-    color: black!important;
+    color: var(--gomf-text, #203129);
     font-size: clamp(1.9rem, 3.4vw, 2.8rem);
     font-weight: 800;
     letter-spacing: -.045em;
     line-height: 1.1;
 }
 .message-intro {
-    color: black!important;
+    color: var(--gomf-text, #203129);
     font-family: Georgia, serif;
     font-size: clamp(1.3rem, 2vw, 1.7rem);
 }
 .message-panel p:not(.muted-note) {
-    color: black!important;
+    color: var(--gomf-text, #203129);
     line-height: 1.9;
 }
 .message-panel .message-closing {
-    color: black!important;
+    color: var(--gomf-text, #203129);
     font-weight: 800;
 }
 .message-signoff {
@@ -584,12 +584,12 @@ body {
     align-items: center;
     gap: .75rem;
     margin-top: 1.5rem;
-    color: black!important;
+    color: var(--gomf-text, #203129);
 }
 .message-signoff span {
     width: 2.5rem;
     height: 2px;
-    background: black!important;
+    background: var(--gomf-deep, #203129);
 }
 
 /* Gallery preview */
@@ -650,7 +650,7 @@ body {
 }
 .gallery-placeholder small {
     margin-top: .35rem;
-    color: #63766a;
+    color: var(--gomf-text-muted, #63766a);
     line-height: 1.6;
 }
 
@@ -668,7 +668,7 @@ body {
     border: 1px solid var(--founder-border);
     border-radius: 1rem;
     color: var(--founder-ink);
-    background: #fff;
+    background: var(--gomf-surface, #fff);
     text-decoration: none;
     transition: border-color .2s ease, transform .2s ease;
 }

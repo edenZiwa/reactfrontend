@@ -1355,7 +1355,7 @@ h2 em {
       rgba(14, 48, 33, 0.76) 48%,
       rgba(14, 48, 33, 0.2) 100%
     ),
-    url("https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=2000&q=90")
+    url("https://images.unsplash.com/photo-1521493959102-bdd6677fdd81?auto=format&fit=crop&w=2000&q=90")
       center 42% / cover no-repeat;
 }
 
@@ -1659,7 +1659,7 @@ h2 em {
 .success-stories-page .mercy-cta {
   position: relative;
   background: linear-gradient(110deg, rgba(15, 54, 36, 0.97), rgba(23, 75, 53, 0.91)),
-    url("https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?auto=format&fit=crop&w=1600&q=85")
+    url("https://images.unsplash.com/photo-1700934909225-072b51bae308?auto=format&fit=crop&w=1600&q=85")
       center / cover no-repeat;
   padding: 90px 0;
   color: white;

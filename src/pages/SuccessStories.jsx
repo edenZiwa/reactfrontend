@@ -28,8 +28,8 @@ const stories = [{
     description:
     "Education can give a child more than knowledge. It can create confidence, opportunity, and a brighter vision for the future. Discover how access to learning can help children pursue their dreams.",
     image:
-    "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1000&q=85",
-    alt: "Children learning together in a classroom",
+    "https://images.unsplash.com/photo-1632932693914-89b90ae3d16d?auto=format&fit=crop&w=1000&q=85",
+    alt: "African schoolchildren learning together in a classroom",
     icon: "bi-book",
     featured: true,
     link: "/contact",
@@ -40,8 +40,8 @@ const stories = [{
         description:
         "Every child deserves safety, care, encouragement, and the freedom to develop their potential. Community support can help create environments where children feel valued.",
         image:
-        "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=800&q=85",
-        alt: "Children sharing a joyful moment",
+        "https://images.unsplash.com/photo-1534597422092-8a84f1b45a9c?auto=format&fit=crop&w=800&q=85",
+        alt: "A smiling African child at school",
         icon: "bi-shield-heart",
         featured: false,
         link: "/contact",
@@ -52,8 +52,8 @@ const stories = [{
         description:
         "When people come together to support vulnerable families, practical kindness can become a source of renewed strength, belonging, and hope.",
         image:
-        "https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?auto=format&fit=crop&w=800&q=85",
-        alt: "Volunteers working together to support others",
+        "https://images.unsplash.com/photo-1700934909225-072b51bae308?auto=format&fit=crop&w=800&q=85",
+        alt: "A group of African children standing together outdoors",
         icon: "bi-heart",
         featured: false,
         link: "/contact",
@@ -64,8 +64,8 @@ const stories = [{
         description:
         "Supporting families means investing in stability, resilience, and opportunity. Empowered communities are better positioned to create lasting change for future generations.",
         image:
-        "https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=800&q=85",
-        alt: "A family spending meaningful time together",
+        "https://images.unsplash.com/photo-1521493959102-bdd6677fdd81?auto=format&fit=crop&w=800&q=85",
+        alt: "African children gathered together at school",
         icon: "bi-house-heart",
         featured: false,
         link: "/contact",
@@ -241,8 +241,8 @@ const SuccessStories = () => {
                     <div className="col-lg-6">
                         <div className="mercy-feature-image-wrap">
                             <img
-                            src="https://images.unsplash.com/photo-1494386346843-e12284507169?auto=format&fit=crop&w=1200&q=85"
-                            alt="Community members coming together in a spirit of care"
+                            src="https://images.unsplash.com/photo-1620340217121-cc0d4be371fa?auto=format&fit=crop&w=1200&q=85"
+                            alt="African schoolchildren sharing a moment in their classroom"
                             className="mercy-feature-image"
                             loading="lazy"
                             />
