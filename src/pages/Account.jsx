@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { completeGoogleRedirect, signInWithGoogle, signOutGoogle } from "../services/firebase-auth.js";
 import "../css/account.css";
+import SponsorPortal from "./SponsorPortal.jsx";
+import VolunteerPortal from "./VolunteerPortal.jsx";
 
 const API_BASE = (import.meta.env.VITE_API_BASE_URL || "/api").replace(/\/$/, "");
 
@@ -33,6 +35,10 @@ const TABS = [{
     {
         id: "donations",
         label: "Donation history"
+    },
+    {
+        id: "sponsorship",
+        label: "Child sponsorship"
     },
 ];
 
@@ -827,6 +833,10 @@ You have not submitted any applications yet.
 )}
 </section>
 )}
+
+{activeTab === "sponsorship" && <SponsorPortal />}
+
+            {activeTab === "volunteerService" && <VolunteerPortal />}
 
 {/* Donation history */}
 {activeTab === "donations" && (
