@@ -1,0 +1,342 @@
+/* Garden of Mercy Foundation — centralized design tokens and theme bridge.
+   Imported after Bootstrap and legacy page styles so every route shares one system. */
+
+:root,
+html[data-bs-theme="light"] {
+  color-scheme: light;
+  --gomf-green: #176b45;
+  --gomf-green-rgb: 23, 107, 69;
+  --gomf-deep: #123d2b;
+  --gomf-gold: #d9b56d;
+  --gomf-gold-rgb: 217, 181, 109;
+  --gomf-page: #f6f8f5;
+  --gomf-surface: #ffffff;
+  --gomf-surface-raised: #ffffff;
+  --gomf-surface-soft: #eef3ee;
+  --gomf-text: #23342a;
+  --gomf-text-muted: #657369;
+  --gomf-border: #dce5dd;
+  --gomf-focus: rgba(23, 107, 69, .24);
+  --gomf-shadow-sm: 0 2px 8px rgba(20, 49, 32, .06);
+  --gomf-shadow-md: 0 8px 24px rgba(20, 49, 32, .09);
+  --gomf-shadow-lg: 0 16px 40px rgba(20, 49, 32, .12);
+  --gomf-radius-sm: .65rem;
+  --gomf-radius: 1rem;
+  --gomf-radius-lg: 1.35rem;
+
+  --green: var(--gomf-deep);
+  --green-2: var(--gomf-green);
+  --gold: var(--gomf-gold);
+  --cream: var(--gomf-page);
+  --muted: var(--gomf-text-muted);
+  --line: var(--gomf-border);
+  --white: var(--gomf-surface);
+  --mercy: var(--gomf-green);
+  --deep: var(--gomf-deep);
+  --pale: var(--gomf-surface-soft);
+  --ink: var(--gomf-text);
+  --page: var(--gomf-page);
+  --gom-green: var(--gomf-green);
+  --gom-deep: var(--gomf-deep);
+  --gom-gold: var(--gomf-gold);
+  --gom-ink: var(--gomf-text);
+  --gom-muted: var(--gomf-text-muted);
+  --gom-soft: var(--gomf-surface-soft);
+
+  --bs-body-bg: var(--gomf-page);
+  --bs-body-color: var(--gomf-text);
+  --bs-emphasis-color: var(--gomf-deep);
+  --bs-secondary-color: var(--gomf-text-muted);
+  --bs-tertiary-color: #78877d;
+  --bs-secondary-bg: var(--gomf-surface-soft);
+  --bs-tertiary-bg: var(--gomf-page);
+  --bs-border-color: var(--gomf-border);
+  --bs-border-color-translucent: rgba(35, 65, 46, .12);
+  --bs-link-color: var(--gomf-green);
+  --bs-link-hover-color: var(--gomf-deep);
+  --bs-primary: var(--gomf-green);
+  --bs-primary-rgb: var(--gomf-green-rgb);
+  --bs-success: var(--gomf-green);
+  --bs-success-rgb: var(--gomf-green-rgb);
+  --bs-warning: var(--gomf-gold);
+  --bs-warning-rgb: var(--gomf-gold-rgb);
+  --bs-box-shadow: var(--gomf-shadow-sm);
+  --bs-box-shadow-sm: var(--gomf-shadow-sm);
+  --bs-box-shadow-lg: var(--gomf-shadow-lg);
+}
+
+html[data-bs-theme="dark"] {
+  color-scheme: dark;
+  --gomf-green: #83c7a2;
+  --gomf-green-rgb: 131, 199, 162;
+  --gomf-deep: #d9eee1;
+  --gomf-gold: #e8c77e;
+  --gomf-gold-rgb: 232, 199, 126;
+  --gomf-page: #111914;
+  --gomf-surface: #18231c;
+  --gomf-surface-raised: #1e2b23;
+  --gomf-surface-soft: #202e25;
+  --gomf-text: #edf4ef;
+  --gomf-text-muted: #b3c1b8;
+  --gomf-border: #34473a;
+  --gomf-focus: rgba(131, 199, 162, .32);
+  --gomf-shadow-sm: 0 2px 8px rgba(0, 0, 0, .22);
+  --gomf-shadow-md: 0 8px 24px rgba(0, 0, 0, .28);
+  --gomf-shadow-lg: 0 16px 40px rgba(0, 0, 0, .36);
+
+  --green: var(--gomf-deep);
+  --green-2: var(--gomf-green);
+  --gold: var(--gomf-gold);
+  --cream: var(--gomf-page);
+  --muted: var(--gomf-text-muted);
+  --line: var(--gomf-border);
+  --white: var(--gomf-surface);
+  --mercy: var(--gomf-green);
+  --deep: var(--gomf-deep);
+  --pale: var(--gomf-surface-soft);
+  --ink: var(--gomf-text);
+  --page: var(--gomf-page);
+  --gom-green: var(--gomf-green);
+  --gom-deep: var(--gomf-deep);
+  --gom-gold: var(--gomf-gold);
+  --gom-ink: var(--gomf-text);
+  --gom-muted: var(--gomf-text-muted);
+  --gom-soft: var(--gomf-surface-soft);
+
+  --bs-body-bg: var(--gomf-page);
+  --bs-body-color: var(--gomf-text);
+  --bs-emphasis-color: #f5fbf6;
+  --bs-secondary-color: var(--gomf-text-muted);
+  --bs-tertiary-color: #9aaba0;
+  --bs-secondary-bg: var(--gomf-surface-soft);
+  --bs-tertiary-bg: var(--gomf-surface);
+  --bs-border-color: var(--gomf-border);
+  --bs-border-color-translucent: rgba(230, 245, 235, .13);
+  --bs-link-color: var(--gomf-green);
+  --bs-link-hover-color: #b2e2c6;
+  --bs-primary: var(--gomf-green);
+  --bs-primary-rgb: var(--gomf-green-rgb);
+  --bs-success: var(--gomf-green);
+  --bs-success-rgb: var(--gomf-green-rgb);
+  --bs-warning: var(--gomf-gold);
+  --bs-warning-rgb: var(--gomf-gold-rgb);
+  --bs-box-shadow: var(--gomf-shadow-sm);
+  --bs-box-shadow-sm: var(--gomf-shadow-sm);
+  --bs-box-shadow-lg: var(--gomf-shadow-lg);
+}
+
+html { background: var(--gomf-page); }
+body {
+  color: var(--gomf-text);
+  background: var(--gomf-page);
+  transition: color .2s ease, background-color .2s ease;
+}
+#root, .app-shell, main { color: var(--gomf-text); }
+h1, h2, h3, h4, h5, h6 { color: var(--gomf-deep); }
+p, li, blockquote, label, .form-label { color: inherit; }
+.text-muted, .text-secondary, .small-muted, .meta { color: var(--gomf-text-muted) !important; }
+a { color: var(--bs-link-color); }
+a:hover { color: var(--bs-link-hover-color); }
+:focus-visible { outline-color: var(--gomf-gold); }
+
+/* Consistent reusable surfaces across public, account, sponsorship and admin pages. */
+.card, .panel, .detail, .feature, .focus-card, .visual-caption,
+.contact-card, .contact-form-card, .contact-cta, .donation-card,
+.donation-aside, .donation-form, .filter-bar, .child-card, .how-card,
+.sponsor-card, .account-panel, .legal-notice, .mercy-story-card,
+.empty-state, .empty, .home-gallery-card, .program-card, .impact-card,
+.feature-card, .gallery-item, .contact-scripture, .donation-summary {
+  color: var(--gomf-text);
+  background-color: var(--gomf-surface);
+  border-color: var(--gomf-border);
+  box-shadow: var(--gomf-shadow-sm);
+}
+.card:hover, .panel:hover, .child-card:hover, .contact-card:hover,
+.feature-card:hover, .program-card:hover, .impact-card:hover {
+  box-shadow: var(--gomf-shadow-md);
+}
+.card, .panel, .detail, .feature, .focus-card, .contact-card,
+.contact-form-card, .contact-cta, .donation-card, .donation-aside,
+.filter-bar, .child-card, .how-card, .sponsor-card, .account-panel,
+.mercy-story-card, .program-card, .impact-card, .feature-card {
+  border-radius: var(--gomf-radius);
+}
+
+/* Legacy page styles now read the same shared tokens in both modes. */
+.page-intro, .section, .section-mission, .section-top,
+.mercy-intro, .mercy-stories, .donation-section, .contact-section,
+.contact-cta-section {
+  color: var(--gomf-text);
+  background-color: var(--gomf-page);
+}
+.focus-card, .sponsor-card, .account-panel, .donate-banner,
+.legal-notice, .safety-note, .detail, .filter-bar {
+  color: var(--gomf-text);
+  background-color: var(--gomf-surface-soft);
+}
+.hero-copy h1, .founder-copy h1, .page-intro h1,
+.section-heading h2, .section-top h2, .section-title,
+.section-kicker, .program-list h2, .contact-layout h2,
+.legal-copy h2, .sponsor-card h2, .child-name, .amount,
+.page-title, .panel-title, .detail-value, .brand-name {
+  color: var(--gomf-deep);
+}
+.hero-lede, .hero-note, .section-copy, .section-mission > p,
+.focus-card p, .donate-banner p, .page-intro > p:last-child,
+.impact-feature p, .contact-layout p, .program-list p,
+.founder-copy p, .legal-copy p, .account-panel p,
+.sponsor-card p, .intro-copy, .story, .meta, .small-muted {
+  color: var(--gomf-text-muted);
+}
+.visual-caption, .donation-form, .contact-form-card,
+.panel, .topbar, .detail, .feature, .empty, .filter-bar {
+  background: var(--gomf-surface);
+  border-color: var(--gomf-border);
+}
+.form-control, .form-select, .form-check-input {
+  color: var(--gomf-text);
+  background-color: var(--gomf-surface);
+  border-color: var(--gomf-border);
+}
+.form-control::placeholder, textarea::placeholder {
+  color: var(--gomf-text-muted);
+  opacity: .8;
+}
+.form-control:focus, .form-select:focus {
+  color: var(--gomf-text);
+  background-color: var(--gomf-surface);
+  border-color: var(--gomf-green);
+  box-shadow: 0 0 0 .22rem var(--gomf-focus);
+}
+.table {
+  --bs-table-color: var(--gomf-text);
+  --bs-table-bg: var(--gomf-surface);
+  --bs-table-border-color: var(--gomf-border);
+  --bs-table-striped-bg: var(--gomf-surface-soft);
+  --bs-table-hover-bg: var(--gomf-surface-soft);
+}
+.dropdown-menu, .modal-content, .offcanvas, .popover, .toast {
+  color: var(--gomf-text);
+  background-color: var(--gomf-surface);
+  border-color: var(--gomf-border);
+  box-shadow: var(--gomf-shadow-md);
+}
+.dropdown-item { color: var(--gomf-text); }
+.dropdown-item:hover, .dropdown-item:focus {
+  color: var(--gomf-text);
+  background-color: var(--gomf-surface-soft);
+}
+
+/* Keep intentionally branded dark/photo sections readable in both themes. */
+.belief-strip, .photo-band, .cta, .mercy-hero, .trust-strip,
+#site-footer {
+  color: #f7fbf8;
+  background-color: #123d2b;
+}
+.belief-strip p, .photo-band p, .photo-band h2, .cta p,
+#site-footer p, #site-footer h2, #site-footer li,
+#site-footer a, #site-footer .small {
+  color: #edf5ef;
+}
+#site-footer a:hover { color: var(--gomf-gold); }
+#site-header {
+  color: var(--gomf-text);
+  background: color-mix(in srgb, var(--gomf-surface) 94%, transparent);
+  border-bottom: 1px solid var(--gomf-border);
+  box-shadow: var(--gomf-shadow-md);
+}
+#site-header .nav-link, #site-header .nav-account {
+  color: var(--gomf-text);
+}
+#site-header .nav-link:hover, #site-header .nav-link.active {
+  color: var(--gomf-green);
+}
+#site-header .menu-toggle, #site-header .theme-toggle {
+  color: var(--gomf-text);
+  border: 1px solid var(--gomf-border);
+  background: var(--gomf-surface);
+}
+#site-header .theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .45rem;
+  min-height: 38px;
+  padding: .45rem .7rem;
+  border-radius: 999px;
+  font-size: .82rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+#site-header .theme-toggle:hover {
+  color: var(--gomf-green);
+  border-color: var(--gomf-green);
+  background: var(--gomf-surface-soft);
+}
+#site-header .main-nav { color: var(--gomf-text); }
+#site-header .nav-donate { color: #fff; background: var(--gomf-green); }
+#site-header .nav-donate:hover { background: var(--gomf-deep); color: #fff; }
+
+/* Correct the previous global !important text rule's intended exceptions. */
+#section-nav { background: var(--gomf-surface); border-bottom: 1px solid var(--gomf-border); }
+#section-nav .nav-link { color: var(--gomf-text); }
+#section-nav .nav-link:hover, #section-nav .nav-link.active {
+  color: var(--gomf-deep);
+  background: var(--gomf-surface-soft);
+}
+.text-white, .text-white p, .text-white h1, .text-white h2,
+.text-white h3, .text-white h4, .text-white li,
+.bg-success, .bg-success p, .bg-success h1, .bg-success h2,
+.bg-success h3, .bg-success h4, .bg-success li {
+  color: #fff;
+}
+.bg-warning, .bg-warning p, .bg-warning span, .bg-warning strong {
+  color: #342a16;
+}
+.bg-success { background-color: var(--gomf-green) !important; }
+.bg-light { background-color: var(--gomf-surface-soft) !important; }
+.bg-body, .background { background-color: var(--gomf-page) !important; color: var(--gomf-text); }
+.border, .border-top, .border-bottom { border-color: var(--gomf-border) !important; }
+
+/* Account portal legacy component tokens. */
+.topbar { background: var(--gomf-surface); border-color: var(--gomf-border); }
+.brand-name, .page-title, .panel-title, .form-label { color: var(--gomf-deep); }
+.avatar { border-color: var(--gomf-surface); background: var(--gomf-surface-soft); color: var(--gomf-deep); }
+.pill, .feature-icon, .icon-circle { background: var(--gomf-surface-soft); color: var(--gomf-green); }
+.detail { background: var(--gomf-surface-soft); }
+.status { background: var(--gomf-surface-soft); color: var(--gomf-text); }
+.status.completed, .status.approved, .status.verified {
+  background: rgba(35, 150, 85, .16); color: var(--gomf-green);
+}
+.status.rejected, .status.failed { background: rgba(190, 70, 55, .16); color: #c96e62; }
+.status.pending, .status.submitted, .status.under_review,
+.status.information_requested, .status.needs_information {
+  background: rgba(217, 181, 109, .18); color: var(--gomf-gold);
+}
+.safety-note { background: color-mix(in srgb, var(--gomf-gold) 12%, var(--gomf-surface)); color: var(--gomf-text); }
+.donate-hero { color: #fff; }
+.donate-hero .eyebrow { color: var(--gomf-gold); }
+.amount-option { background: var(--gomf-surface); color: var(--gomf-text); }
+.amount-option[aria-pressed="true"] { background: var(--gomf-green); border-color: var(--gomf-green); color: #fff; }
+.skip-link { color: #fff; background: var(--gomf-green); }
+.loading-shimmer {
+  background: linear-gradient(100deg, var(--gomf-surface-soft) 20%, var(--gomf-border) 40%, var(--gomf-surface-soft) 60%);
+  background-size: 200% 100%;
+}
+.shadow, .shadow-sm { box-shadow: var(--gomf-shadow-sm) !important; }
+.shadow-lg { box-shadow: var(--gomf-shadow-md) !important; }
+
+@media (max-width: 991.98px) {
+  #site-header .main-nav {
+    background: var(--gomf-surface);
+    border: 1px solid var(--gomf-border);
+    box-shadow: var(--gomf-shadow-lg);
+  }
+}
+@media (max-width: 767.98px) {
+  #site-header .theme-toggle { padding: .55rem .8rem; }
+  .section, .founder-page { padding-left: 20px; padding-right: 20px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+}
