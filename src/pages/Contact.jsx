@@ -89,21 +89,71 @@ function Contact( {
 
     return (
         <>
-        <div className="hero">
-            <div className="overlay" aria-hidden="true" />
-            <PageIntro
-                eyebrow="GET IN TOUCH"
-                title={
-                <div className="text-white">
-                    Let’s start a <em>conversation.</em>
+        <section className="contact-hero" aria-labelledby="contact-hero-title">
+            <div className="contact-hero-overlay" aria-hidden="true" />
+            <div className="container contact-hero-inner">
+                <div className="row align-items-center g-5">
+                    <div className="col-lg-7">
+                        <div className="contact-hero-copy">
+                            <span className="contact-hero-eyebrow">
+                                <span className="contact-hero-eyebrow-dot" aria-hidden="true" />
+                                GARDEN OF MERCY FOUNDATION
+                            </span>
+                            <h1 id="contact-hero-title" className="contact-hero-title">
+                                Let’s start a <em>conversation.</em>
+                                <span>Good things begin when we connect.</span>
+                            </h1>
+                            <p className="contact-hero-description">
+                                Whether you have a question, a partnership idea or a desire
+                                to serve, we would be glad to hear from you. Let’s explore
+                                how we can bring more mercy, dignity and hope to communities.
+                            </p>
+                            <div className="contact-hero-actions">
+                                <a href="#contact-form" className="btn contact-hero-primary">
+                                    Send us a message
+                                    <i className="bi bi-arrow-up-right ms-2" aria-hidden="true" />
+                                </a>
+                                <a href="#contact-details" className="btn contact-hero-secondary">
+                                    Explore ways to connect
+                                </a>
+                            </div>
+                            <div className="contact-hero-points" aria-label="We welcome">
+                                <span><i className="bi bi-chat-heart-fill" aria-hidden="true" /> Questions</span>
+                                <span><i className="bi bi-people-fill" aria-hidden="true" /> Partnerships</span>
+                                <span><i className="bi bi-heart-fill" aria-hidden="true" /> Volunteers</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-lg-5">
+                        <aside className="contact-hero-card" aria-label="Connect with the Foundation">
+                            <span className="contact-hero-card-icon" aria-hidden="true">
+                                <i className="bi bi-envelope-paper-heart" />
+                            </span>
+                            <span className="contact-hero-card-kicker">YOUR VOICE MATTERS</span>
+                            <h2>We’re ready to listen.</h2>
+                            <p>
+                                Tell us what is on your mind. Share an idea, ask about our
+                                work or start a conversation about making a difference.
+                            </p>
+                            <a href="#contact-form" className="contact-hero-card-link">
+                                Start your conversation
+                                <i className="bi bi-arrow-right" aria-hidden="true" />
+                            </a>
+                            <span className="contact-hero-card-watermark" aria-hidden="true">
+                                <i className="bi bi-flower1" />
+                            </span>
+                        </aside>
+                        <p className="contact-hero-caption">
+                            <i className="bi bi-heart-fill me-2" aria-hidden="true" />
+                            Sowing seeds of mercy and compassion.
+                        </p>
+                    </div>
                 </div>
-                }
-                text="Questions about our mission, community partnerships or ways to get involved? We would be glad to hear from you."
-                />
-</div>
+            </div>
+        </section>
             <main id="main-content">
                 {/* Contact introduction */}
-                <section className="contact-section py-5">
+                <section id="contact-details" className="contact-section py-5">
                     <div className="container">
                         <div className="row g-5 align-items-start">
                             <div className="col-lg-5">
@@ -180,7 +230,7 @@ function Contact( {
 
                             {/* Contact form */}
                             <div className="col-lg-7">
-                                <div className="contact-form-card p-4 p-md-5 rounded-4 shadow-sm">
+                                <div id="contact-form" className="contact-form-card p-4 p-md-5 rounded-4 shadow-sm">
                                     <span className="contact-form-label">
                                         WE’RE HERE TO LISTEN
                                     </span>
