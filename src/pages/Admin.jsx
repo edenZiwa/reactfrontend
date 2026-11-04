@@ -226,7 +226,7 @@ export default function Admin({ path = "/admin", navigate }) {
     if (pageKey === "users" && search) query.set("search", search);
     const result = await api(endpoint + (query.size ? `?${query}` : ""));
     setData(previous => ({ ...previous, [pageKey]: result }));
-  }, [key, filter, pageNumber, search]);
+  }, [key, filter, pageNumber, search, can]);
 
   useEffect(() => {
     let active = true;
@@ -363,7 +363,7 @@ export default function Admin({ path = "/admin", navigate }) {
           <section className="gom-panel">
             <div className="gom-panel-heading"><div><h2>{TITLES[key] || current.label}</h2><p>{key === "reconciliation" ? "Review unsettled payments and request a fresh provider verification." : key === "audit" ? "A traceable record of staff and system actions." : key === "sponsorship" ? "Manage public-facing child profiles. Publication is guarded by current consent." : "Review, search and manage records within your assigned permissions."}</p></div><span className="gom-record-count">{filteredRows.length} records</span></div>
             <div className="gom-toolbar"><div className="input-group gom-search"><span className="input-group-text"><i className="bi bi-search" /></span><input className="form-control" placeholder={key === "audit" ? "Search action…" : "Search this list…"} value={search} onChange={e => { setSearch(e.target.value); setPageNumber(0); }} /></div>
-              {["beneficiaries","inbox"].includes(key) && <select className="form-select gom-filter" value={filter} onChange={e => { setFilter(e.target.value); setPageNumber(0); }}><option value="all">All statuses</option>{(key === "beneficiaries" ? ["active","inactive","graduated","transferred","closed"] : ["new","in_progress","resolved","spam"]).map(v => <option key={v} value={v}>{titleCase(v)}</option>)}</select>}
+              {["beneficiaries","inbox"].includes(key) && <select className="form-select gom-filter" value={filter} onChange={e => { setFilter(e.target.value); setPageNumber(0); }}><option value="active">Active</option>{(key === "beneficiaries" ? ["inactive","graduated","transferred","closed"] : ["new","in_progress","resolved","spam"]).map(v => <option key={v} value={v}>{titleCase(v)}</option>)}</select>}
               <button className="btn btn-outline-success" onClick={() => loadPage(key).catch(e => setPageError(e.message))}><i className="bi bi-arrow-clockwise me-1" />Refresh</button>
               {key === "users" && can("users.manage") && <button className="btn btn-success" onClick={() => setRecord({})}><i className="bi bi-plus-lg me-1" />Add staff</button>}
               {key === "sponsorship" && can("beneficiaries.update") && <button className="btn btn-success" onClick={() => setRecord({ currency: "UGX", age_band: "School age", region_label: "Uganda", published: false })}><i className="bi bi-plus-lg me-1" />Add profile</button>}\n              {key === "beneficiaries" && can("beneficiaries.create") && <button className="btn btn-success" onClick={() => setRecord({})}><i className="bi bi-plus-lg me-1" />Add beneficiary</button>}
