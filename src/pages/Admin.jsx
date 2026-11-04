@@ -221,12 +221,12 @@ export default function Admin({ path = "/admin", navigate }) {
     if (!endpoint) return;
     const query = new URLSearchParams();
     if (pageKey === "inbox") { if (filter !== "all") query.set("status", filter); query.set("limit", "50"); query.set("offset", String(pageNumber * 50)); }
-    if (pageKey === "audit") { query.set("limit", "100"); if (search) query.set("action", search); }
+    if (pageKey === "audit") { query.set("limit", "100"); if (search) query.set("action", search); if (reportDates.from) query.set("from", reportDates.from); if (reportDates.to) query.set("to", reportDates.to); }
     if (pageKey === "beneficiaries") { query.set("status", filter === "all" ? "active" : filter); if (search) query.set("q", search); }
     if (pageKey === "users" && search) query.set("search", search);
     const result = await api(endpoint + (query.size ? `?${query}` : ""));
     setData(previous => ({ ...previous, [pageKey]: result }));
-  }, [key, filter, pageNumber, search, can]);
+  }, [key, filter, pageNumber, search, can, reportDates]);
 
   useEffect(() => {
     let active = true;
@@ -368,7 +368,7 @@ export default function Admin({ path = "/admin", navigate }) {
               {key === "users" && can("users.manage") && <button className="btn btn-success" onClick={() => setRecord({})}><i className="bi bi-plus-lg me-1" />Add staff</button>}
               {key === "sponsorship" && can("beneficiaries.update") && <button className="btn btn-success" onClick={() => setRecord({ currency: "UGX", age_band: "School age", region_label: "Uganda", published: false })}><i className="bi bi-plus-lg me-1" />Add profile</button>}\n              {key === "beneficiaries" && can("beneficiaries.create") && <button className="btn btn-success" onClick={() => setRecord({})}><i className="bi bi-plus-lg me-1" />Add beneficiary</button>}
             </div>
-            {key === "sponsorship" && <div className="alert alert-info small"><i className="bi bi-info-circle me-2" />Only profiles with valid story consent and an active beneficiary record can be published. Private legal names and case notes are not displayed here.</div>}
+            {key === "audit" && <div className="row g-2 mb-3"><div className="col-sm-4"><label className="form-label small" htmlFor="audit-from">From</label><input id="audit-from" type="date" className="form-control form-control-sm" value={reportDates.from} onChange={e => setReportDates({ ...reportDates, from: e.target.value })} /></div><div className="col-sm-4"><label className="form-label small" htmlFor="audit-to">To</label><input id="audit-to" type="date" className="form-control form-control-sm" value={reportDates.to} onChange={e => setReportDates({ ...reportDates, to: e.target.value })} /></div><div className="col-sm-4 d-flex align-items-end"><button className="btn btn-sm btn-outline-success w-100" onClick={() => loadPage(key).catch(e => setPageError(e.message))}>Apply date range</button></div></div>}\n            {key === "sponsorship" && <div className="alert alert-info small"><i className="bi bi-info-circle me-2" />Only profiles with valid story consent and an active beneficiary record can be published. Private legal names and case notes are not displayed here.</div>}
             <DataTable rows={filteredRows} columns={columnsByKey[key] || []} onAction={canManage ? row => setRecord(row) : null} actionLabel={key === "reconciliation" ? "Verify" : key === "inbox" ? "Open" : "Manage"} onSelect={key === "inbox" ? row => setRecord(row) : null} empty={key === "reconciliation" ? "There are no payments awaiting verification." : "No records match these filters."} />
             {key === "inbox" && <div className="d-flex justify-content-between align-items-center pt-3"><span className="small text-secondary">Page {pageNumber + 1}</span><div className="btn-group"><button className="btn btn-sm btn-outline-secondary" disabled={pageNumber === 0} onClick={() => setPageNumber(p => Math.max(0,p-1))}>Previous</button><button className="btn btn-sm btn-outline-secondary" disabled={rows.length < 50} onClick={() => setPageNumber(p => p+1)}>Next</button></div></div>}
           </section>}
@@ -384,7 +384,7 @@ function Dashboard({ data, navigate, can, reload }) {
     { label: "Confirmed giving", value: money(d.received, "UGX"), note: `${d.successful || 0} successful payments`, icon: "bi-heart" },
     { label: "Giving this month", value: money(d.received_this_month, "UGX"), note: "Confirmed donations only", icon: "bi-calendar-heart" },
     { label: "Beneficiaries", value: b.total ?? "—", note: `${b.active || 0} active records`, icon: "bi-people" },
-    { label: "Registered users", value: u.total ?? "—", note: `${u.active || 0} active accounts`, icon: "bi-person-check" },
+    { label: "Registered users", value: u.total ?? "—", note: `${u.active || 0} active accounts`, icon: "bi-person-check" },\n    { label: "Payments awaiting review", value: d.pending ?? "—", note: "Initiating or pending", icon: "bi-hourglass-split" },\n    { label: "Consent follow-up", value: b.consent_pending ?? "—", note: "Beneficiary records", icon: "bi-clipboard-heart" },
   ];
   return <div className="gom-dashboard">
     <div className="gom-welcome-banner"><div><span className="small text-uppercase fw-bold">Your work makes a difference</span><h2>Welcome to your workspace</h2><p>Keep the foundation’s programmes, people and resources moving forward.</p></div><div className="gom-welcome-art"><i className="bi bi-flower1" /></div></div>
@@ -438,7 +438,7 @@ function SecurityPanel() {
       <div className="col-lg-6"><div className="border rounded-3 p-3 h-100">
         <h3 className="h6 fw-bold">Set up an authenticator</h3>
         <p className="small text-secondary">Generate a secret, add it to Google Authenticator, Microsoft Authenticator or another TOTP app, then confirm with the six-digit code.</p>
-        <button className="btn btn-outline-success" disabled={busy} onClick={setup}><i className="bi bi-qr-code me-2" />Generate setup secret</button>
+        <button className="btn btn-outline-success" disabled={busy} onClick={setup}><i className="bi bi-key me-2" />Generate setup secret</button>
         {secret && <div className="mt-3"><label className="form-label small fw-bold">Manual setup key</label><code className="d-block p-3 bg-light rounded-3 text-break">{secret}</code><label className="form-label small fw-bold mt-3">Authenticator setup URI</label><textarea className="form-control" rows="3" readOnly value={uri} /><p className="small text-secondary mt-2 mb-0">Treat this key like a password. Do not share it or save it in a public place.</p></div>}
       </div></div>
       <div className="col-lg-6"><div className="border rounded-3 p-3 h-100">
