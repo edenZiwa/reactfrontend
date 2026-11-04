@@ -167,32 +167,72 @@ const processSteps = [
 function Programs() {
   return (
     <main id="main-content">
-      {/* PAGE HEADER */}
-      <section
-        className="page-header hero"
-        aria-labelledby="programs-title"
-      >
-        <div className="overlay" aria-hidden="true" />
-
-        <div className="container text-white p-4">
-          <span className="section-label eyebrow eyebrow-light">
-            <span className="eyebrow-dot" />
-            OUR PROGRAMS
-          </span>
-
-          <h1
-            id="programs-title"
-            className="display-5 fw-bold mt-2"
-          >
-            Practical expressions of compassion.
-          </h1>
-
-          <p className="lead text-white col-lg-9 mb-0">
-            Garden of Mercy Foundation seeks to develop child-focused
-            initiatives that respond to identified needs and create
-            meaningful opportunities for children, families and
-            communities.
-          </p>
+      {/* PROGRAMS HERO */}
+      <section className="programs-hero" aria-labelledby="programs-title">
+        <div className="programs-hero-overlay" aria-hidden="true" />
+        <div className="container programs-hero-inner">
+          <div className="row align-items-center g-5">
+            <div className="col-lg-7">
+              <div className="programs-hero-copy">
+                <span className="programs-hero-eyebrow">
+                  <span className="programs-hero-eyebrow-dot" aria-hidden="true" />
+                  OUR PROGRAMS · OUR COMMITMENT
+                </span>
+                <h1 id="programs-title" className="programs-hero-title">
+                  Practical expressions of <em>compassion.</em>
+                  <span>Turning care into meaningful action.</span>
+                </h1>
+                <p className="programs-hero-description">
+                  We seek to advance the dignity and wellbeing of children,
+                  families and communities through thoughtful, child-centered
+                  initiatives shaped by real needs, responsible partnerships
+                  and the resources available.
+                </p>
+                <div className="programs-hero-actions">
+                  <a href="#program-areas-title" className="btn programs-hero-primary">
+                    Explore our program areas
+                    <i className="bi bi-arrow-down-right ms-2" aria-hidden="true" />
+                  </a>
+                  <AppLink to="/donate" className="btn programs-hero-secondary">
+                    Support our work
+                  </AppLink>
+                </div>
+                <div className="programs-hero-values" aria-label="Our program priorities">
+                  <span><i className="bi bi-person-hearts" aria-hidden="true" /> Children first</span>
+                  <span><i className="bi bi-shield-check" aria-hidden="true" /> Dignity and safety</span>
+                  <span><i className="bi bi-people" aria-hidden="true" /> Stronger communities</span>
+                </div>
+              </div>
+            </div>
+            <div className="col-lg-5">
+              <aside className="programs-hero-card" aria-label="Our commitment to responsible programs">
+                <div className="programs-hero-card-heading">
+                  <span className="programs-hero-card-icon" aria-hidden="true">
+                    <i className="bi bi-heart-pulse" />
+                  </span>
+                  <span className="programs-hero-card-kicker">OUR GUIDING COMMITMENT</span>
+                </div>
+                <h2>Every child deserves the opportunity to thrive.</h2>
+                <p>
+                  Our work begins by listening, understanding needs and
+                  protecting the dignity, rights and wellbeing of the people
+                  and communities we serve.
+                </p>
+                <div className="programs-hero-card-divider" />
+                <div className="programs-hero-card-foot">
+                  <i className="bi bi-flower1" aria-hidden="true" />
+                  <span>Sowing seeds of mercy and compassion.</span>
+                </div>
+                <span className="programs-hero-card-watermark" aria-hidden="true">
+                  <i className="bi bi-flower1" />
+                </span>
+              </aside>
+              <p className="programs-hero-caption">
+                <i className="bi bi-check-circle-fill me-2" aria-hidden="true" />
+                Thoughtful action. Responsible impact.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -246,7 +286,7 @@ function Programs() {
       </section>
 
       {/* PROGRAM AREAS */}
-      <section className="py-5" aria-labelledby="program-areas-title">
+      <section id="program-areas" className="py-5" aria-labelledby="program-areas-title">
         <div className="container">
           <div className="text-center mb-5">
             <span className="section-label">PROGRAM AREAS</span>
