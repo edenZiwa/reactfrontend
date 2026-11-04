@@ -9,7 +9,7 @@ function Cofounder({ navigate }) {
       {/* HERO */}
       <section
         id="cofounder"
-        className="founder-hero"
+        className="founder-hero founder-hero-cofounder"
         aria-labelledby="cofounder-hero-title"
       >
         <div className="container">
@@ -77,11 +77,11 @@ function Cofounder({ navigate }) {
               <div className="founder-hero-visual">
                 <div className="portrait-frame">
                   <img
-                    src="/images/founder/pastor-albert-yiga.png"
+                    src="/images/founder/pastor_albert_yiga.png"
                     alt="Pastor Albert Yiga, co-founder of Garden of Mercy Foundation"
                     width="720"
                     height="900"
-                    loading="lazy"
+                    fetchPriority="high"
                   />
 
                   <div className="portrait-placeholder" hidden>
@@ -90,6 +90,11 @@ function Cofounder({ navigate }) {
                       aria-hidden="true"
                     />
                   </div>
+                </div>
+
+                <div className="hero-portrait-label" aria-label="Co-founder portrait identification">
+                  <span className="hero-portrait-label-icon"><i className="bi bi-people" aria-hidden="true" /></span>
+                  <span><small>FOUNDATION LEADERSHIP</small><strong>Pastor Albert Yiga</strong></span>
                 </div>
 
                 <div className="portrait-caption">
