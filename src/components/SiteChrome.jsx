@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import GoogleSignIn from "./GoogleSignIn.jsx";
+import { useTheme } from "./ThemeProvider.jsx";
 
 const NAV = [
   ["Home", "/"],
@@ -92,6 +93,7 @@ function AppLink({
 // Main site header.
 function Header({ path = "/", navigate }) {
   const [open, setOpen] = useState(false);
+  const { resolvedTheme, toggleTheme } = useTheme();
   const currentPath = normalizePath(path);
 
   const closeMenu = () => setOpen(false);
@@ -158,6 +160,16 @@ function Header({ path = "/", navigate }) {
             Donate <span aria-hidden="true">↗</span>
           </AppLink>
 
+          <button
+            className="theme-toggle"
+            type="button"
+            onClick={toggleTheme}
+            aria-label={`Switch to ${resolvedTheme === "dark" ? "light" : "dark"} theme`}
+            title={`Switch to ${resolvedTheme === "dark" ? "light" : "dark"} theme`}
+          >
+            <i className={`bi ${resolvedTheme === "dark" ? "bi-sun" : "bi-moon-stars"}`} aria-hidden="true" />
+            <span>{resolvedTheme === "dark" ? "Light" : "Dark"}</span>
+          </button>
           <GoogleSignIn />
         </nav>
       </div>
