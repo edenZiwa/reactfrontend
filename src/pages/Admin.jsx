@@ -449,11 +449,11 @@ function SecurityPanel() {
       <div className="col-lg-6"><div className="border rounded-3 p-3 h-100">
         <h3 className="h6 fw-bold">Confirm or disable MFA</h3>
         <label className="form-label" htmlFor="staff-mfa-code">Current six-digit authenticator code</label>
-        <input id="staff-mfa-code" className="form-control mb-3" inputMode="numeric" autoComplete="one-time-code" maxLength="6" value={code} onChange={e => setCode(e.target.value.replace(/\\D/g,"").slice(0,6))} placeholder="000000" />
+        <input id="staff-mfa-code" className="form-control mb-3" inputMode="numeric" autoComplete="one-time-code" maxLength="6" value={code} onChange={e => setCode(e.target.value.replace(/\D/g,"").slice(0,6))} placeholder="000000" />
         <div className="d-flex flex-wrap gap-2"><button className="btn btn-success" disabled={busy || code.length !== 6 || !secret} onClick={enable}>Enable MFA</button><button className="btn btn-outline-danger" disabled={busy || code.length !== 6} onClick={disable}>Disable MFA</button></div>
         <p className="small text-secondary mt-3 mb-0">If MFA is already enabled, enter a current code to disable it before replacing an authenticator device.</p>
       </div></div>
     </div>
-    {recoveryCodes.length > 0 && <div className="alert alert-warning mt-4"><strong>Save these recovery codes now.</strong><p className="small mb-2">Each code can be used once. They will not be shown again.</p><div className="row g-2">{recoveryCodes.map(item => <div className="col-6 col-md-4" key={item}><code className="d-block bg-white rounded p-2">{item}</code></div>)}</div><button className="btn btn-sm btn-outline-dark mt-3" onClick={() => { const blob = new Blob([recoveryCodes.join("\\n")], { type: "text/plain" }); const url = URL.createObjectURL(blob); const a = document.createElement("a"); a.href = url; a.download = "garden-of-mercy-recovery-codes.txt"; a.click(); URL.revokeObjectURL(url); }}>Download recovery codes</button></div>}
+    {recoveryCodes.length > 0 && <div className="alert alert-warning mt-4"><strong>Save these recovery codes now.</strong><p className="small mb-2">Each code can be used once. They will not be shown again.</p><div className="row g-2">{recoveryCodes.map(item => <div className="col-6 col-md-4" key={item}><code className="d-block bg-white rounded p-2">{item}</code></div>)}</div><button className="btn btn-sm btn-outline-dark mt-3" onClick={() => { const blob = new Blob([recoveryCodes.join("\n")], { type: "text/plain" }); const url = URL.createObjectURL(blob); const a = document.createElement("a"); a.href = url; a.download = "garden-of-mercy-recovery-codes.txt"; a.click(); URL.revokeObjectURL(url); }}>Download recovery codes</button></div>}
   </section>;
 }
