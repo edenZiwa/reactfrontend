@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import "../css/sponsor.css";
 import { AppLink } from "../components/SiteChrome.jsx";
 
@@ -56,15 +56,21 @@ const sponsorshipSteps = [
 ];
 
 function formatMoney(amount, currency) {
-  const code = currency || "UGX";
+  const code = currency === "USD" ? "USD" : "UGX";
+  const numericAmount = Number(amount);
+
+  if (amount === null || amount === undefined || amount === "" || !Number.isFinite(numericAmount)) {
+    return "Contact us";
+  }
+
   try {
     return new Intl.NumberFormat(code === "UGX" ? "en-UG" : "en-US", {
       style: "currency",
       currency: code,
       maximumFractionDigits: code === "UGX" ? 0 : 2,
-    }).format(Number(amount));
+    }).format(numericAmount);
   } catch {
-    return `${amount} ${code}`.trim();
+    return `${numericAmount.toLocaleString()} ${code}`;
   }
 }
 
@@ -142,25 +148,32 @@ function ChildProfiles() {
   const [currency, setCurrency] = useState("all");
   const [status, setStatus] = useState("loading");
 
-  async function loadProfiles() {
+  const loadProfiles = useCallback(async (signal) => {
     setStatus("loading");
     try {
       const response = await fetch("/api/sponsorship/children", {
         headers: { Accept: "application/json" },
         cache: "no-store",
+        signal,
       });
       if (!response.ok) throw new Error("Unable to load sponsorship profiles");
+
       const data = await response.json();
-      setProfiles(Array.isArray(data.children) ? data.children : []);
+      const children = Array.isArray(data.children) ? data.children : [];
+      setProfiles(children.filter((child) =>
+        child && typeof child === "object" && child.id !== null && child.id !== undefined
+      ));
       setStatus("success");
-    } catch {
-      setStatus("error");
+    } catch (error) {
+      if (error.name !== "AbortError") setStatus("error");
     }
-  }
+  }, []);
 
   useEffect(() => {
-    loadProfiles();
-  }, []);
+    const controller = new AbortController();
+    loadProfiles(controller.signal);
+    return () => controller.abort();
+  }, [loadProfiles]);
 
   const visibleProfiles = useMemo(() => {
     const term = searchTerm.trim().toLowerCase();
@@ -392,10 +405,17 @@ export default function Sponsor({ navigate }) {
                       <li key={point}><i className="bi bi-check2-circle" aria-hidden="true" />{point}</li>
                     ))}
                   </ul>
-                  <AppLink to={path.title === "Stand alongside a child" ? "/#children" : "/contact"} navigate={navigate} className="sponsor-text-link">
-                    {path.title === "Stand alongside a child" ? "View child profiles" : "Discuss shared support"}
-                    <i className="bi bi-arrow-up-right" aria-hidden="true" />
-                  </AppLink>
+                  {path.title === "Stand alongside a child" ? (
+                    <a href="#children" className="sponsor-text-link">
+                      View child profiles
+                      <i className="bi bi-arrow-down" aria-hidden="true" />
+                    </a>
+                  ) : (
+                    <AppLink to="/contact" navigate={navigate} className="sponsor-text-link">
+                      Discuss shared support
+                      <i className="bi bi-arrow-up-right" aria-hidden="true" />
+                    </AppLink>
+                  )}
                 </article>
               </div>
             ))}
