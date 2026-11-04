@@ -299,12 +299,15 @@ function Programs() {
               Areas where we seek to make a difference
             </h2>
 
-            <p
-              className="text-secondary mx-auto mb-0"
-              style={{ maxWidth: "760px" }}
-            >
-              Our program framework can grow as community needs,
-              organizational capacity and partnerships develop.
+            <p className="programs-section-intro text-secondary mx-auto mb-0">
+              These are the key areas that guide our work. Specific activities
+              are shaped by assessed needs, available resources, safeguarding
+              requirements and responsible partnerships.
+            </p>
+            <p className="programs-framework-note mx-auto mt-3 mb-0">
+              <i className="bi bi-info-circle me-2" aria-hidden="true" />
+              This is our program framework; activities may vary according to
+              community priorities and organizational capacity.
             </p>
           </div>
 
@@ -325,7 +328,7 @@ function Programs() {
                     {program.description}
                   </p>
 
-                  <ul className="text-secondary small ps-3 mb-0">
+                  <ul className="program-area-list">
                     {program.points.map((point) => (
                       <li key={point}>{point}</li>
                     ))}
@@ -370,7 +373,7 @@ function Programs() {
                   <p className="text-secondary mb-0">
                     {principle.description}
                   </p>
-                </div>
+                </article>
               </div>
             ))}
           </div>
@@ -409,10 +412,10 @@ function Programs() {
 
                   <h3 className="h5 mt-3">{step.title}</h3>
 
-                  <p className="text-secondary small">
+                  <p className="text-secondary small mb-0">
                     {step.description}
                   </p>
-                </div>
+                </article>
               </div>
             ))}
           </div>
@@ -433,22 +436,22 @@ function Programs() {
               Help sow seeds of mercy.
             </h2>
 
-            <p className="text-secondary mb-4">
-              Support initiatives that seek to bring practical
-              compassion to children and communities.
+            <p className="programs-cta-copy mb-4 mx-auto">
+              Your support, skills and ideas can help turn shared compassion
+              into thoughtful action for children and communities.
             </p>
 
             <div className="d-flex flex-column flex-sm-row justify-content-center gap-2">
               <AppLink
                 to="/donate"
-                className="btn btn-success px-4"
+                className="btn programs-cta-primary px-4"
               >
                 Support Our Work
               </AppLink>
 
               <AppLink
                 to="/contact"
-                className="btn btn-outline-success px-4"
+                className="btn programs-cta-secondary px-4"
               >
                 Get Involved
               </AppLink>
