@@ -1,60 +1,241 @@
 /* Garden of Mercy Foundation — Donation page */
 
+/* Donation hero — welcoming, action-led and responsive. */
 .donate-hero {
     position: relative;
     isolation: isolate;
+    display: flex;
+    align-items: center;
+    min-height: 570px;
     overflow: hidden;
-    
-   background-color: #0d0d0c;
-  background-image: url("/images/main.png");
-  color: white;
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: cover;
+    padding: clamp(4rem, 8vw, 7rem) 0;
+    color: #fff;
+    background-color: #10271c;
+    background-image: url("/images/main.png");
+    background-position: center 44%;
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
 .donate-overlay {
   position: absolute;
   inset: 0;
   z-index: -1;
-
   background:
-    linear-gradient(
-      90deg,
-      rgba(13, 13, 12, 0.94) 0%,
-      rgba(13, 13, 12, 0.78) 40%,
-      rgba(13, 13, 12, 0.30) 75%,
-      rgba(13, 13, 12, 0.15) 100%
-    ),
-    radial-gradient(
-      circle at 80% 30%,
-      rgba(255, 193, 7, 0.20),
-      transparent 55%
-    ),
-    linear-gradient(
-      0deg,
-      rgba(13, 13, 12, 0.65) 0%,
-      transparent 35%
-    );
-
+    linear-gradient(90deg, rgba(8, 29, 19, .96) 0%, rgba(8, 29, 19, .88) 44%, rgba(8, 29, 19, .48) 100%),
+    linear-gradient(0deg, rgba(8, 29, 19, .42), transparent 55%);
   pointer-events: none;
 }
 
-.donate-hero {
-    color: #198754;
-    font-size: 0.78rem;
-    font-weight: 800;
-    letter-spacing: 0.13em;
+.donate-hero-content {
+    position: relative;
+    z-index: 1;
+    width: 100%;
 }
 
-.donate-hero h1 {
-    max-width: 800px;
-    line-height: 1.12;
+.donate-hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: .7rem;
+    color: #f0d28d;
+    font-size: .76rem;
+    font-weight: 800;
+    letter-spacing: .16em;
+}
+
+.donate-hero-eyebrow-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #e4bf70;
+    box-shadow: 0 0 0 5px rgba(228, 191, 112, .16);
+}
+
+.donate-hero-title {
+    max-width: 760px;
+    margin: 1.2rem 0 1.25rem;
+    color: #fff;
+    font-size: clamp(2.7rem, 6vw, 5.25rem);
+    font-weight: 800;
+    line-height: 1.04;
+    letter-spacing: -.045em;
+}
+
+.donate-hero-title em {
+    color: #edca7c;
+    font-style: normal;
+}
+
+.donate-hero-title span {
+    display: block;
+    margin-top: .35rem;
+    color: rgba(255, 255, 255, .88);
+    font-size: .58em;
+    font-weight: 600;
+    letter-spacing: -.025em;
 }
 
 .donate-intro {
-    max-width: 680px;
+    max-width: 640px;
+    margin: 0;
+    color: rgba(255, 255, 255, .86);
+    font-size: clamp(1rem, 1.5vw, 1.15rem);
+    line-height: 1.85;
+}
+
+.donate-hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .85rem;
+    margin-top: 1.8rem;
+}
+
+.donate-hero-primary,
+.donate-hero-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 52px;
+    padding: .85rem 1.35rem;
+    border-radius: .65rem;
+    font-weight: 800;
+    text-decoration: none;
+    transition: transform .18s ease, background-color .18s ease, border-color .18s ease;
+}
+
+.donate-hero-primary {
+    color: #173724;
+    background: #e8c779;
+    border: 1px solid #e8c779;
+}
+
+.donate-hero-primary:hover {
+    color: #173724;
+    background: #f2d994;
+    border-color: #f2d994;
+    transform: translateY(-2px);
+}
+
+.donate-hero-secondary {
     color: #fff;
+    background: rgba(255, 255, 255, .08);
+    border: 1px solid rgba(255, 255, 255, .55);
+}
+
+.donate-hero-secondary:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, .16);
+    border-color: #fff;
+}
+
+.donate-hero-values {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .8rem 1.5rem;
+    margin-top: 2rem;
+}
+
+.donate-hero-values span {
+    display: inline-flex;
+    align-items: center;
+    gap: .55rem;
+    color: rgba(255, 255, 255, .88);
+    font-size: .88rem;
+    font-weight: 600;
+}
+
+.donate-hero-values i {
+    color: #edca7c;
+}
+
+.donate-hero-card {
+    position: relative;
+    max-width: 370px;
+    margin: 1rem 0 1rem auto;
+    padding: 2rem;
+    overflow: hidden;
+    color: #23372b;
+    background: rgba(255, 255, 255, .96);
+    border: 1px solid rgba(255, 255, 255, .65);
+    border-radius: 1.25rem;
+    box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, .22);
+}
+
+.donate-hero-card-icon {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 1.25rem;
+    color: #176b45;
+    background: #eaf3ed;
+    border-radius: 14px;
+    font-size: 1.35rem;
+}
+
+.donate-hero-card-kicker {
+    color: #617267;
+    font-size: .68rem;
+    font-weight: 800;
+    letter-spacing: .13em;
+}
+
+.donate-hero-card-amount {
+    margin: .45rem 0 .15rem;
+    color: #176b45;
+    font-size: 3.3rem;
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -.05em;
+}
+
+.donate-hero-card h2 {
+    position: relative;
+    z-index: 1;
+    margin: .35rem 0 .75rem;
+    color: #183b29;
+    font-size: 1.3rem;
+    font-weight: 800;
+    line-height: 1.3;
+}
+
+.donate-hero-card-copy {
+    position: relative;
+    z-index: 1;
+    color: #657369;
+    font-size: .92rem;
+    line-height: 1.75;
+}
+
+.donate-hero-card-link {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    margin-top: .5rem;
+    color: #176b45;
+    font-weight: 800;
+    text-decoration: none;
+}
+
+.donate-hero-card-link:hover {
+    color: #123d2b;
+    text-decoration: underline;
+}
+
+.donate-hero-card-flower {
+    position: absolute;
+    right: -1.15rem;
+    bottom: -2.1rem;
+    color: rgba(23, 107, 69, .07);
+    font-size: 9rem;
+    line-height: 1;
+}
+
+.donate-hero a:focus-visible {
+    outline: 3px solid #f0d28d;
+    outline-offset: 4px;
 }
 
 .donation-section {
