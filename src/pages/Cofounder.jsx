@@ -5,7 +5,7 @@ import { AppLink } from "../components/SiteChrome.jsx";
 
 function Cofounder({ navigate }) {
   return (
-    <main id="main-content">
+    <main id="main-content" className="leadership-page cofounder-page">
       {/* HERO */}
       <section
         id="cofounder"
@@ -226,7 +226,7 @@ function Cofounder({ navigate }) {
       {/* LEADERSHIP VALUES */}
       <section
         id="leadership-values"
-        className="section-pad values-section shadow-lg"
+        className="section-pad values-section"
         aria-labelledby="values-title"
       >
         <div className="container">
