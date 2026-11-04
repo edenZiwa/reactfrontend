@@ -1343,8 +1343,3 @@ select:focus-visible {
 @media (prefers-reduced-motion: reduce) {
     .contact-hero-primary, .contact-hero-secondary { transition: none; }
 }
-    .contact-hero-primary,
-    .contact-hero-secondary {
-        transition: none;
-    }
-}
