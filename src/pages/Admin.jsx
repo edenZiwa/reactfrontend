@@ -120,7 +120,7 @@ function DataTable({ rows, columns, onAction, actionLabel, empty = "No records f
   </table></div>;
 }
 
-function RecordModal({ record, kind, onClose, onSave, busy }) {
+function RecordModal({ record, kind, onClose, onSave, busy, beneficiaryOptions = [] }) {
   const [form, setForm] = useState({});
   useEffect(() => {
     const initial = { ...(record || {}) };
@@ -135,7 +135,7 @@ function RecordModal({ record, kind, onClose, onSave, busy }) {
   if (!record) return null;
   const field = (label, key, type = "text", options) => <div className="mb-3" key={key}>
     <label className="form-label" htmlFor={`record-${key}`}>{label}</label>
-    {options ? <select id={`record-${key}`} className="form-select" value={form[key] ?? ""} onChange={e => setForm({ ...form, [key]: e.target.value })}>{options.map(v => <option key={v} value={v}>{titleCase(v)}</option>)}</select>
+    {options ? <select id={`record-${key}`} className="form-select" value={form[key] ?? ""} onChange={e => setForm({ ...form, [key]: e.target.value })}>{options.map(v => typeof v === "string" ? <option key={v} value={v}>{titleCase(v)}</option> : <option key={v.value} value={v.value}>{v.label}</option>)}</select>
       : type === "textarea" ? <textarea id={`record-${key}`} className="form-control" rows="4" value={form[key] ?? ""} onChange={e => setForm({ ...form, [key]: e.target.value })} />
       : <input id={`record-${key}`} className="form-control" type={type} value={form[key] ?? ""} onChange={e => setForm({ ...form, [key]: e.target.value })} />}
   </div>;
@@ -157,7 +157,7 @@ function RecordModal({ record, kind, onClose, onSave, busy }) {
   if (kind === "inbox") fields = [field("Message status", "status", "text", ["new","in_progress","resolved","spam"])];
   if (kind === "recurring") fields = [field("Plan status", "status", "text", ["pending_setup","paused","cancelled","failed","active"]), field("Payment provider (required to activate)", "provider"), field("Provider subscription ID (required to activate)", "providerSubscriptionId")];
   if (kind === "sponsorship") fields = [
-    field("Beneficiary ID (internal record UUID)", "beneficiary_id"),
+    field("Beneficiary record", "beneficiary_id", "text", beneficiaryOptions),
     field("Public display name", "display_name"), field("Age band", "age_band"),
     field("Region label", "region_label"), field("Education level", "education_level"),
     field("Story", "story", "textarea"), field("Sponsorship amount", "sponsorship_amount", "number"),
@@ -374,7 +374,7 @@ export default function Admin({ path = "/admin", navigate }) {
           </section>}
       </div>
     </main>
-    <RecordModal record={record} kind={key} onClose={() => setRecord(null)} onSave={saveRecord} busy={busy} />
+    <RecordModal record={record} kind={key} onClose={() => setRecord(null)} onSave={saveRecord} busy={busy} beneficiaryOptions={data.beneficiaryOptions || []} />
   </div>;
 }
 
