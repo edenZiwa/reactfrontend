@@ -1007,3 +1007,312 @@ select:focus-visible {
     transform: none;
   }
 }
+
+/* Contact page campaign hero */
+.contact-hero {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    align-items: center;
+    min-height: 570px;
+    padding: clamp(4.5rem, 8vw, 6.75rem) 0;
+    overflow: hidden;
+    color: #fff;
+    background-color: #10291d;
+    background-image: url("/images/main.png");
+    background-position: center 43%;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.contact-hero-overlay {
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    background:
+        linear-gradient(90deg, rgba(7, 27, 18, .97) 0%, rgba(7, 27, 18, .91) 46%, rgba(7, 27, 18, .61) 100%),
+        linear-gradient(0deg, rgba(7, 27, 18, .4), transparent 55%);
+    pointer-events: none;
+}
+
+.contact-hero-inner {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+}
+
+.contact-hero-copy {
+    max-width: 700px;
+}
+
+.contact-hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: .8rem;
+    color: #f0d28d;
+    font-size: .72rem;
+    font-weight: 800;
+    letter-spacing: .16em;
+}
+
+.contact-hero-eyebrow-dot {
+    width: 9px;
+    height: 9px;
+    flex: 0 0 9px;
+    border-radius: 50%;
+    background: #e8c779;
+    box-shadow: 0 0 0 5px rgba(232, 199, 121, .16);
+}
+
+.contact-hero-title {
+    margin: 1.35rem 0 1.4rem;
+    color: #fff;
+    font-size: clamp(2.75rem, 5.8vw, 5rem);
+    font-weight: 850;
+    line-height: 1.04;
+    letter-spacing: -.05em;
+}
+
+.contact-hero-title em {
+    color: #edca7c;
+    font-style: normal;
+}
+
+.contact-hero-title span {
+    display: block;
+    margin-top: .55rem;
+    color: rgba(255, 255, 255, .88);
+    font-size: .48em;
+    font-weight: 600;
+    letter-spacing: -.02em;
+    line-height: 1.35;
+}
+
+.contact-hero-description {
+    max-width: 610px;
+    margin: 0;
+    color: rgba(255, 255, 255, .86);
+    font-size: clamp(1rem, 1.4vw, 1.12rem);
+    line-height: 1.85;
+}
+
+.contact-hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .85rem;
+    margin-top: 1.85rem;
+}
+
+.contact-hero-primary,
+.contact-hero-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 53px;
+    padding: .85rem 1.4rem;
+    border: 1px solid transparent;
+    border-radius: .65rem;
+    font-weight: 800;
+    text-decoration: none;
+    transition: transform .18s ease, background-color .18s ease, border-color .18s ease;
+}
+
+.contact-hero-primary {
+    color: #173724;
+    background: #e8c779;
+    border-color: #e8c779;
+    box-shadow: 0 .5rem 1.3rem rgba(0, 0, 0, .15);
+}
+
+.contact-hero-primary:hover {
+    color: #173724;
+    background: #f3d995;
+    border-color: #f3d995;
+    transform: translateY(-2px);
+}
+
+.contact-hero-secondary {
+    color: #fff;
+    background: rgba(255, 255, 255, .07);
+    border-color: rgba(255, 255, 255, .5);
+}
+
+.contact-hero-secondary:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, .15);
+    border-color: rgba(255, 255, 255, .85);
+}
+
+.contact-hero-points {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .85rem 1.4rem;
+    margin-top: 2rem;
+}
+
+.contact-hero-points span {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    color: rgba(255, 255, 255, .84);
+    font-size: .83rem;
+    font-weight: 600;
+}
+
+.contact-hero-points i {
+    color: #edca7c;
+}
+
+.contact-hero-card {
+    position: relative;
+    max-width: 400px;
+    margin-left: auto;
+    padding: clamp(1.6rem, 3vw, 2.3rem);
+    overflow: hidden;
+    color: #20392b;
+    background: rgba(255, 255, 255, .97);
+    border: 1px solid rgba(255, 255, 255, .72);
+    border-radius: 1.15rem;
+    box-shadow: 0 1.6rem 4.5rem rgba(0, 0, 0, .24);
+}
+
+.contact-hero-card-icon {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 1.3rem;
+    color: #176b45;
+    background: #eaf3ed;
+    border-radius: 14px;
+    font-size: 1.35rem;
+}
+
+.contact-hero-card-kicker {
+    color: #64766a;
+    font-size: .68rem;
+    font-weight: 800;
+    letter-spacing: .13em;
+}
+
+.contact-hero-card h2 {
+    position: relative;
+    z-index: 1;
+    margin: .65rem 0 .75rem;
+    color: #183b29;
+    font-size: 1.55rem;
+    font-weight: 800;
+    line-height: 1.25;
+}
+
+.contact-hero-card p {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    color: #647369;
+    font-size: .93rem;
+    line-height: 1.75;
+}
+
+.contact-hero-card-link {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    gap: .6rem;
+    margin-top: 1.3rem;
+    color: #176b45;
+    font-weight: 800;
+    text-decoration: none;
+}
+
+.contact-hero-card-link:hover {
+    color: #123d2b;
+    text-decoration: underline;
+}
+
+.contact-hero-card-watermark {
+    position: absolute;
+    right: -.9rem;
+    bottom: -2rem;
+    color: rgba(23, 107, 69, .065);
+    font-size: 9rem;
+    line-height: 1;
+}
+
+.contact-hero-caption {
+    max-width: 400px;
+    margin: 1rem 0 0 auto;
+    color: rgba(255, 255, 255, .8);
+    font-size: .82rem;
+    text-align: center;
+}
+
+.contact-hero-caption i {
+    color: #edca7c;
+}
+
+.contact-hero a:focus-visible {
+    outline: 3px solid #f0d28d;
+    outline-offset: 4px;
+}
+
+@media (max-width: 991.98px) {
+    .contact-hero {
+        min-height: 0;
+        padding: 4.75rem 0;
+    }
+
+    .contact-hero-card {
+        max-width: 540px;
+        margin-left: 0;
+    }
+
+    .contact-hero-caption {
+        max-width: 540px;
+        margin-left: 0;
+        text-align: left;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .contact-hero {
+        padding: 3.75rem 0 3.25rem;
+        background-position: 58% center;
+    }
+
+    .contact-hero-title {
+        font-size: clamp(2.5rem, 11.5vw, 3.4rem);
+    }
+
+    .contact-hero-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .contact-hero-primary,
+    .contact-hero-secondary {
+        width: 100%;
+    }
+
+    .contact-hero-points {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: .8rem;
+    }
+
+    .contact-hero-card {
+        padding: 1.5rem;
+    }
+
+    .contact-hero-caption {
+        text-align: center;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .contact-hero-primary,
+    .contact-hero-secondary {
+        transition: none;
+    }
+}
