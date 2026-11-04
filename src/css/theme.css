@@ -309,6 +309,62 @@ a:hover { color: var(--bs-link-hover-color); }
 .bg-body, .background { background-color: var(--gomf-page) !important; color: var(--gomf-text); }
 .border, .border-top, .border-bottom { border-color: var(--gomf-border) !important; }
 
+
+/* Administration dashboard — same design tokens as the public site. */
+.gom-admin {
+  --gom-ink: var(--gomf-text);
+  --gom-muted: var(--gomf-text-muted);
+  --gom-green: var(--gomf-green);
+  background: var(--gomf-page);
+  color: var(--gomf-text);
+}
+.gom-admin-sidebar, .gom-admin-topbar, .gom-stat-card, .gom-panel,
+.gom-login-card, .gom-modal, .gom-quick-links button {
+  color: var(--gomf-text);
+  background: var(--gomf-surface);
+  border-color: var(--gomf-border);
+  box-shadow: var(--gomf-shadow-sm);
+}
+.gom-admin-brand, .gom-sidebar-footer, .gom-admin-topbar,
+.gom-admin-sidebar { border-color: var(--gomf-border); }
+.gom-nav-label, .gom-admin .gom-user-chip small,
+.gom-admin .gom-stat-card small, .gom-admin .gom-stat-card>div,
+.gom-admin .gom-panel-heading p, .gom-dashboard-footnote,
+.gom-admin-loading, .gom-empty { color: var(--gomf-text-muted); }
+.gom-nav-link { color: var(--gomf-text-muted); }
+.gom-nav-link:hover, .gom-nav-link.active {
+  color: var(--gomf-green);
+  background: var(--gomf-surface-soft);
+}
+.gom-avatar { color: var(--gomf-green); background: var(--gomf-surface-soft); }
+.gom-admin .gom-table-wrap { border-color: var(--gomf-border); }
+.gom-admin .gom-table thead th {
+  color: var(--gomf-text-muted);
+  background: var(--gomf-surface-soft);
+  border-color: var(--gomf-border);
+}
+.gom-admin .gom-table tbody td,
+.gom-admin .gom-table tbody tr { color: var(--gomf-text); border-color: var(--gomf-border); }
+.gom-record-count { color: var(--gomf-text-muted); background: var(--gomf-surface-soft); }
+.gom-quick-links button { color: var(--gomf-text); }
+.gom-quick-links button:hover { border-color: var(--gomf-green); background: var(--gomf-surface-soft); }
+.gom-admin .form-control, .gom-admin .form-select {
+  color: var(--gomf-text);
+  background-color: var(--gomf-surface);
+  border-color: var(--gomf-border);
+}
+.gom-modal-backdrop { background: rgba(0, 0, 0, .62); }
+.gom-modal-content { color: var(--gomf-text); }
+.gom-admin .gom-table .text-bg-success { background: rgba(35,150,85,.18) !important; color: var(--gomf-green) !important; }
+.gom-admin .gom-table .text-bg-warning { background: rgba(217,181,109,.2) !important; color: var(--gomf-gold) !important; }
+.gom-admin .gom-table .text-bg-danger { background: rgba(190,70,55,.18) !important; color: #d98a82 !important; }
+.gom-admin .gom-table .text-bg-secondary { background: var(--gomf-surface-soft) !important; color: var(--gomf-text-muted) !important; }
+.gom-admin .gom-table .text-success { color: var(--gomf-green) !important; }
+.gom-admin .gom-table .text-warning { color: var(--gomf-gold) !important; }
+.gom-admin .gom-table .text-danger { color: #d98a82 !important; }
+.gom-admin .gom-table .text-secondary { color: var(--gomf-text-muted) !important; }
+.gom-admin .gom-empty strong { color: var(--gomf-text); }
+
 /* Account portal legacy component tokens. */
 .topbar { background: var(--gomf-surface); border-color: var(--gomf-border); }
 .brand-name, .page-title, .panel-title, .form-label { color: var(--gomf-deep); }
