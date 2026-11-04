@@ -122,16 +122,31 @@ function Contact( {
                         </div>
                     </div>
                     <div className="col-lg-5">
-                        <aside className="contact-hero-card" aria-label="Connect with the Foundation">
-                            <span className="contact-hero-card-icon" aria-hidden="true">
-                                <i className="bi bi-envelope-paper-heart" />
-                            </span>
-                            <span className="contact-hero-card-kicker">YOUR VOICE MATTERS</span>
-                            <h2>We’re ready to listen.</h2>
-                            <p>
-                                Tell us what is on your mind. Share an idea, ask about our
-                                work or start a conversation about making a difference.
+                        <aside className="contact-hero-card" aria-label="Ways to connect with the Foundation">
+                            <div className="contact-hero-card-heading">
+                                <span className="contact-hero-card-icon" aria-hidden="true">
+                                    <i className="bi bi-envelope-paper-heart" />
+                                </span>
+                                <span className="contact-hero-card-kicker">A GOOD PLACE TO BEGIN</span>
+                            </div>
+                            <h2>What would you like to talk about?</h2>
+                            <p className="contact-hero-card-intro">
+                                Whatever brings you here, we welcome the opportunity to connect.
                             </p>
+                            <ul className="contact-hero-topics">
+                                <li>
+                                    <span className="contact-hero-topic-icon"><i className="bi bi-chat-left-text" aria-hidden="true" /></span>
+                                    <span><strong>Ask a question</strong><small>Learn more about our mission and work.</small></span>
+                                </li>
+                                <li>
+                                    <span className="contact-hero-topic-icon"><i className="bi bi-people" aria-hidden="true" /></span>
+                                    <span><strong>Explore a partnership</strong><small>Share an idea for serving communities.</small></span>
+                                </li>
+                                <li>
+                                    <span className="contact-hero-topic-icon"><i className="bi bi-heart" aria-hidden="true" /></span>
+                                    <span><strong>Get involved</strong><small>Offer your time, skills or support.</small></span>
+                                </li>
+                            </ul>
                             <a href="#contact-form" className="contact-hero-card-link">
                                 Start your conversation
                                 <i className="bi bi-arrow-right" aria-hidden="true" />
