@@ -1097,3 +1097,313 @@ a:focus-visible, button:focus-visible {
   .founder-hero .hero-actions .btn { transition: none; }
   .founder-hero .hero-actions .btn:hover { transform: none; }
 }
+
+
+/* ==========================================================================
+   Leadership profile pages — shared editorial design system
+   Scoped to Founder and Co-Founder pages to avoid changing other routes.
+   ========================================================================== */
+.leadership-page {
+  --leadership-ink: #20392b;
+  --leadership-muted: #68766d;
+  --leadership-green: #176b45;
+  --leadership-deep: #10291d;
+  --leadership-gold: #edca7c;
+  overflow: clip;
+}
+.leadership-page > section:not(.founder-hero) {
+  position: relative;
+}
+.leadership-page .section-pad {
+  padding-block: clamp(4.25rem, 7vw, 6.5rem);
+}
+.leadership-page .section-title {
+  max-width: 760px;
+  font-size: clamp(2.1rem, 4vw, 3.25rem);
+  line-height: 1.1;
+  text-wrap: balance;
+}
+.leadership-page .section-lead {
+  max-width: 690px;
+  font-size: clamp(1.02rem, 1.4vw, 1.16rem);
+  line-height: 1.85;
+}
+.leadership-page .body-copy,
+.leadership-page .message-panel p {
+  font-size: .98rem;
+  line-height: 1.9;
+}
+.leadership-page .eyebrow {
+  font-size: .68rem;
+  letter-spacing: .14em;
+}
+.leadership-page .profile-visual {
+  max-width: 460px;
+  padding: 0 1.35rem 1.35rem 0;
+}
+.leadership-page .profile-image-shell {
+  position: relative;
+  aspect-ratio: 4 / 4.85;
+  overflow: hidden;
+  border: 1px solid rgba(16,41,29,.1);
+  border-radius: 1.2rem;
+  background: #e9eee8;
+  box-shadow: 1rem 1rem 0 #edf2ed;
+}
+.leadership-page .profile-image-shell img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 24%;
+}
+.leadership-page .profile-stamp {
+  right: -.15rem;
+  bottom: 2rem;
+  max-width: 88%;
+  padding: .9rem 1.1rem;
+  color: #183b29;
+  background: #f3dfae;
+  border: 1px solid rgba(255,255,255,.7);
+  border-radius: .85rem;
+  box-shadow: 0 1rem 2.5rem rgba(16,41,29,.14);
+  font-size: .78rem;
+  letter-spacing: .015em;
+}
+.leadership-page .profile-principle {
+  margin-block: 1.6rem;
+  padding: 1.15rem 1.25rem;
+  background: #f4f7f4;
+  border-left-width: 4px;
+}
+.leadership-page .values-section {
+  background: #f5f8f5;
+}
+.leadership-page .section-heading {
+  max-width: 760px;
+  margin-bottom: 2.4rem;
+}
+.leadership-page .value-card,
+.leadership-page .ministry-card {
+  height: 100%;
+  padding: clamp(1.45rem, 2.5vw, 1.9rem);
+  background: #fff;
+  border: 1px solid #e2eae3;
+  border-radius: 1.05rem;
+  box-shadow: 0 .8rem 2.2rem rgba(18,61,43,.045);
+  transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+}
+.leadership-page .value-card:hover,
+.leadership-page .ministry-card:hover {
+  transform: translateY(-4px);
+  border-color: #bfd3c3;
+  box-shadow: 0 1.25rem 2.8rem rgba(18,61,43,.09);
+}
+.leadership-page .value-card p,
+.leadership-page .ministry-card p {
+  color: #65746a;
+  line-height: 1.8;
+}
+.leadership-page .value-card h3,
+.leadership-page .ministry-card h3 {
+  color: #20392b;
+  letter-spacing: -.025em;
+}
+.leadership-page .mission-section {
+  background:
+    radial-gradient(circle at 95% 10%, rgba(237,202,124,.13), transparent 32%),
+    linear-gradient(125deg, #10291d, #176044);
+}
+.leadership-page .scripture-panel {
+  position: relative;
+  padding: clamp(2rem, 4vw, 3rem);
+  overflow: hidden;
+  background: rgba(255,255,255,.97);
+  border: 1px solid rgba(255,255,255,.65);
+  border-radius: 1.2rem;
+  box-shadow: 0 1.5rem 3.5rem rgba(0,0,0,.16);
+}
+.leadership-page .scripture-panel blockquote {
+  position: relative;
+  color: #20392b;
+  font-size: clamp(1.3rem, 2.1vw, 1.8rem);
+  font-weight: 650;
+  line-height: 1.55;
+  text-wrap: pretty;
+}
+.leadership-page .message-section {
+  background: #f5f8f5;
+}
+.leadership-page .message-panel {
+  padding: clamp(2rem, 4.5vw, 3.75rem);
+  background: #fff;
+  border: 1px solid #e3eae4;
+  border-radius: 1.2rem;
+  box-shadow: 0 1rem 3rem rgba(18,61,43,.06);
+}
+.leadership-page .message-heading {
+  color: #20392b;
+  font-size: clamp(1.8rem, 3vw, 2.45rem);
+  font-weight: 800;
+  letter-spacing: -.045em;
+  line-height: 1.12;
+}
+.leadership-page .message-intro {
+  color: #20392b;
+  font-size: clamp(1.15rem, 2vw, 1.45rem) !important;
+  font-weight: 750;
+}
+.leadership-page .message-closing {
+  color: #176b45;
+  font-weight: 800;
+}
+.leadership-page .gallery-preview {
+  background: #fff;
+}
+.leadership-page .gallery-placeholder-grid {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr 1fr;
+  gap: 1rem;
+}
+.leadership-page .gallery-placeholder {
+  position: relative;
+  min-height: 245px;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  padding: 1.2rem;
+  color: #fff;
+  background: #183b29;
+  border: 1px solid rgba(18,61,43,.1);
+  border-radius: 1rem;
+  text-decoration: none;
+  isolation: isolate;
+}
+.leadership-page .gallery-placeholder::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  content: "";
+  background: linear-gradient(0deg, rgba(5,23,15,.88), rgba(5,23,15,.02) 75%);
+}
+.leadership-page .gallery-placeholder img {
+  position: absolute;
+  z-index: -2;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .35s ease;
+}
+.leadership-page .gallery-placeholder:hover img { transform: scale(1.045); }
+.leadership-page .gallery-placeholder > span:last-child {
+  display: grid;
+  gap: .35rem;
+  color: #fff;
+}
+.leadership-page .gallery-placeholder strong {
+  color: #fff;
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+.leadership-page .gallery-placeholder-icon {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  color: #fff;
+  background: rgba(16,41,29,.7);
+  border: 1px solid rgba(255,255,255,.28);
+  border-radius: .7rem;
+}
+.leadership-page .sources-section {
+  background: #f5f8f5;
+}
+.leadership-page .source-link-card {
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.2rem;
+  color: #20392b;
+  background: #fff;
+  border: 1px solid #e1e9e2;
+  border-radius: .95rem;
+  box-shadow: 0 .6rem 1.8rem rgba(18,61,43,.04);
+  text-decoration: none;
+  transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+.leadership-page .source-link-card:hover {
+  transform: translateY(-3px);
+  border-color: #b9d0bf;
+  box-shadow: 0 1rem 2.3rem rgba(18,61,43,.08);
+}
+.leadership-page .source-content { flex: 1; min-width: 0; }
+.leadership-page .source-content strong,
+.leadership-page .source-content small { display: block; }
+.leadership-page .source-content strong { color: #20392b; line-height: 1.4; }
+.leadership-page .source-content small { margin-top: .25rem; color: #748078; line-height: 1.5; }
+.leadership-page .source-arrow { color: #176b45; }
+.leadership-page .cta-section { background: #fff; }
+.leadership-page .cta-panel {
+  position: relative;
+  padding: clamp(2.2rem, 4.5vw, 3.8rem);
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(237,202,124,.18), transparent 38%),
+    linear-gradient(120deg, #176b45, #10291d);
+  border: 1px solid rgba(16,41,29,.08);
+  border-radius: 1.25rem;
+  box-shadow: 0 1.5rem 3.5rem rgba(16,41,29,.15);
+}
+.leadership-page .cta-panel h2 {
+  max-width: 620px;
+  color: #fff;
+  font-size: clamp(2rem, 3.8vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -.05em;
+  line-height: 1.1;
+}
+.leadership-page .cta-panel p { color: rgba(255,255,255,.82); line-height: 1.8; }
+.leadership-page .cta-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .7rem;
+  justify-content: flex-start;
+}
+.leadership-page .cta-buttons .btn {
+  min-height: 3rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: .75rem 1rem;
+  border-radius: 999px;
+  font-size: .84rem;
+  font-weight: 750;
+}
+.leadership-page a:focus-visible {
+  outline: 3px solid #c89b48;
+  outline-offset: 4px;
+}
+@media (max-width: 767.98px) {
+  .leadership-page .gallery-placeholder-grid { grid-template-columns: 1fr 1fr; }
+  .leadership-page .gallery-placeholder-large { grid-column: 1 / -1; }
+}
+@media (max-width: 575.98px) {
+  .leadership-page .section-pad { padding-block: 3.6rem; }
+  .leadership-page .profile-visual { max-width: 380px; }
+  .leadership-page .gallery-placeholder-grid { grid-template-columns: 1fr; }
+  .leadership-page .gallery-placeholder-large { grid-column: auto; }
+  .leadership-page .gallery-placeholder { min-height: 225px; }
+  .leadership-page .cta-buttons { align-items: stretch; flex-direction: column; }
+  .leadership-page .cta-buttons .btn { width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .leadership-page .value-card,
+  .leadership-page .ministry-card,
+  .leadership-page .source-link-card,
+  .leadership-page .gallery-placeholder img { transition: none; }
+  .leadership-page .value-card:hover,
+  .leadership-page .ministry-card:hover,
+  .leadership-page .source-link-card:hover { transform: none; }
+  .leadership-page .gallery-placeholder:hover img { transform: none; }
+}
