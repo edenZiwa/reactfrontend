@@ -43,6 +43,7 @@ import Account from "./pages/Account.jsx";
 import SuccessStories from "./pages/SuccessStories.jsx";
 import Cofounder from "./pages/Cofounder.jsx";
 import PowerOfRevelation from "./pages/PowerOfRevelation.jsx";
+import Admin from "./pages/Admin.jsx";
 
 function App() {
   const [path, navigate] = usePath();
@@ -54,6 +55,10 @@ function App() {
       behavior: "auto",
     });
   }, [path]);
+
+  if (path.startsWith("/admin")) {
+    return <Admin path={path} navigate={navigate} />;
+  }
 
   let page;
 
