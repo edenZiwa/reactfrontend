@@ -348,7 +348,7 @@ function Founder({ navigate }) {
 
                 <a
                   className="text-link"
-                  href="https://www.youtube.com/live/vjG_LPPfunE?si=fhcdH94u435HOanB"
+                  href="https://www.facebook.com/revelationchurchkampala/"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -382,7 +382,7 @@ function Founder({ navigate }) {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Watch a featured message
+                  Explore the podcast archive
                   <i
                     className="bi bi-box-arrow-up-right ms-2"
                     aria-hidden="true"
