@@ -49,7 +49,7 @@ const pickRows = (key, data) => {
   return data.logs || [];
 };
 const fmtDate = (value) => value ? new Date(value).toLocaleString() : "—";
-const money = (amount, currency = "UGX") => amount == null ? "—" : new Intl.NumberFormat("en-UG", { style: "currency", currency, maximumFractionDigits: currency === "UGX" ? 0 : 2 }).format(Number(amount));
+const money = (amount, currency = "UGX") => amount == null ? "—" : new Intl.NumberFormat("en-UG", { style: "currency", currency, maximumFractionDigits: currency === "UGX" ? 0 : 2 }).format(Number(amount));\nconst numberFormat = amount => amount == null ? "—" : new Intl.NumberFormat("en-UG", { maximumFractionDigits: 0 }).format(Number(amount));
 const titleCase = (value) => String(value || "—").replaceAll("_", " ").replace(/\b\w/g, c => c.toUpperCase());
 
 async function getCsrf() {
@@ -384,8 +384,8 @@ export default function Admin({ path = "/admin", navigate }) {
 function Dashboard({ data, navigate, can, reload }) {
   const d = data?.donations || {}, b = data?.beneficiaries || {}, u = data?.users || {};
   const cards = [
-    { label: "Confirmed giving", value: money(d.received, "UGX"), note: `${d.successful || 0} successful payments`, icon: "bi-heart" },
-    { label: "Giving this month", value: money(d.received_this_month, "UGX"), note: "Confirmed donations only", icon: "bi-calendar-heart" },
+    { label: "Confirmed donations", value: numberFormat(d.received), note: `${d.successful || 0} successful payments · currencies not converted`, icon: "bi-heart" },
+    { label: "Donations this month", value: numberFormat(d.received_this_month), note: "Recorded amounts · currencies not converted", icon: "bi-calendar-heart" },
     { label: "Beneficiaries", value: b.total ?? "—", note: `${b.active || 0} active records`, icon: "bi-people" },
     { label: "Registered users", value: u.total ?? "—", note: `${u.active || 0} active accounts`, icon: "bi-person-check" },
     { label: "Payments awaiting review", value: d.pending ?? "—", note: "Initiating or pending", icon: "bi-hourglass-split" },
