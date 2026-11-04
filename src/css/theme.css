@@ -364,6 +364,26 @@ a:hover { color: var(--bs-link-hover-color); }
 .gom-admin .gom-table .text-danger { color: #d98a82 !important; }
 .gom-admin .gom-table .text-secondary { color: var(--gomf-text-muted) !important; }
 .gom-admin .gom-empty strong { color: var(--gomf-text); }
+.gom-admin-theme-control {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .35rem .55rem;
+  border: 1px solid var(--gomf-border);
+  border-radius: 999px;
+  color: var(--gomf-text);
+  background: var(--gomf-surface);
+}
+.gom-admin-theme-control select {
+  border: 0;
+  color: var(--gomf-text);
+  background: transparent;
+  font-size: .82rem;
+  font-weight: 700;
+  padding: .15rem 1.2rem .15rem .1rem;
+}
+.gom-admin-theme-control select:focus { outline: 0; box-shadow: none; }
+.gom-admin-theme-control:focus-within { border-color: var(--gomf-green); box-shadow: 0 0 0 .2rem var(--gomf-focus); }
 
 /* Account portal legacy component tokens. */
 .topbar { background: var(--gomf-surface); border-color: var(--gomf-border); }
