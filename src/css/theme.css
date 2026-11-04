@@ -256,22 +256,33 @@ a:hover { color: var(--bs-link-hover-color); }
   border: 1px solid var(--gomf-border);
   background: var(--gomf-surface);
 }
-#site-header .theme-toggle {
+#site-header .theme-control {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: .45rem;
+  gap: .4rem;
   min-height: 38px;
-  padding: .45rem .7rem;
+  padding: .25rem .55rem;
+  border: 1px solid var(--gomf-border);
   border-radius: 999px;
+  color: var(--gomf-text);
+  background: var(--gomf-surface);
+}
+#site-header .theme-select {
+  width: auto;
+  min-width: 82px;
+  padding: .2rem 1.35rem .2rem .25rem;
+  border: 0;
+  color: var(--gomf-text);
+  background-color: transparent;
   font-size: .82rem;
   font-weight: 700;
   cursor: pointer;
 }
-#site-header .theme-toggle:hover {
-  color: var(--gomf-green);
+#site-header .theme-select:focus { outline: 0; box-shadow: none; }
+#site-header .theme-control:focus-within {
   border-color: var(--gomf-green);
-  background: var(--gomf-surface-soft);
+  box-shadow: 0 0 0 .2rem var(--gomf-focus);
 }
 #site-header .main-nav { color: var(--gomf-text); }
 #site-header .nav-donate { color: #fff; background: var(--gomf-green); }
@@ -319,6 +330,10 @@ a:hover { color: var(--bs-link-hover-color); }
 .amount-option { background: var(--gomf-surface); color: var(--gomf-text); }
 .amount-option[aria-pressed="true"] { background: var(--gomf-green); border-color: var(--gomf-green); color: #fff; }
 .skip-link { color: #fff; background: var(--gomf-green); }
+.gom-install-prompt { background: var(--gomf-surface); color: var(--gomf-text); border-color: var(--gomf-border); box-shadow: var(--gomf-shadow-md); }
+.gom-install-content p { color: var(--gomf-text-muted); }
+.gom-dismiss { color: var(--gomf-text); }
+.gom-offline-status { background: color-mix(in srgb, #c96e62 14%, var(--gomf-surface)); color: var(--gomf-text); }
 .loading-shimmer {
   background: linear-gradient(100deg, var(--gomf-surface-soft) 20%, var(--gomf-border) 40%, var(--gomf-surface-soft) 60%);
   background-size: 200% 100%;
@@ -334,7 +349,7 @@ a:hover { color: var(--bs-link-hover-color); }
   }
 }
 @media (max-width: 767.98px) {
-  #site-header .theme-toggle { padding: .55rem .8rem; }
+  #site-header .theme-control { padding: .35rem .6rem; }
   .section, .founder-page { padding-left: 20px; padding-right: 20px; }
 }
 @media (prefers-reduced-motion: reduce) {
