@@ -230,15 +230,24 @@ function Footer({ navigate }) {
             </AppLink>
           </div>
 
-          {/* Explore */}
+          {/* Explore the foundation */}
           <div className="col-6 col-md-6 col-lg-2">
             <h2 className="h6 text-uppercase fw-bold mb-4">
               Explore
             </h2>
 
-            <nav aria-label="Footer navigation">
+            <nav aria-label="Explore the foundation">
               <ul className="list-unstyled d-grid gap-3 mb-0">
-                {NAV.slice(2, 9).map(([label, href]) => (
+                {[
+                  ["About us", "/about"],
+                  ["Our programs", "/programs"],
+                  ["Our impact", "/impact"],
+                  ["Success stories", "/success-stories"],
+                  ["Photo gallery", "/gallery"],
+                  ["Founder", "/founder"],
+                  ["Co-Founder", "/cofounder"],
+                  ["Power of Revelation Ministries", "/power-of-revelation-ministries"],
+                ].map(([label, href]) => (
                   <li key={href}>
                     <AppLink
                       to={href}
@@ -248,65 +257,57 @@ function Footer({ navigate }) {
                       {label}
                     </AppLink>
                   </li>
-                  
                 ))}
               </ul>
             </nav>
           </div>
 
-          {/* Get involved */}
+          {/* Ways to participate */}
           <div className="col-6 col-md-6 col-lg-2">
             <h2 className="h6 text-uppercase fw-bold mb-4">
               Get involved
             </h2>
 
-            <ul className="list-unstyled d-grid gap-3 mb-0">
-              <li>
-                <AppLink
-                  to="/donate"
-                  navigate={navigate}
-                  className="link-underline-opacity-0 link-underline-opacity-75-hover"
-                >
-                  Make a donation
-                </AppLink>
-              </li>
-              <li>
-                <AppLink
-                  to="/contact"
-                  navigate={navigate}
-                  className="link-underline-opacity-0 link-underline-opacity-75-hover"
-                >
-                  Contact us
-                </AppLink>
-              </li>
-              <li>
-                <AppLink
-                  to="/success-stories"
-                  navigate={navigate}
-                  className="link-underline-opacity-0 link-underline-opacity-75-hover"
-                >
-                  Success stories
-                </AppLink>
-              </li>
-              <li>
-                <AppLink
-                  to="/impact"
-                  navigate={navigate}
-                  className="link-underline-opacity-0 link-underline-opacity-75-hover"
-                >
-                  Our impact
-                </AppLink>
-              </li>
-              <li>
-                <AppLink
-                  to="/power-of-revelation-ministries"
-                  navigate={navigate}
-                  className="link-underline-opacity-0 link-underline-opacity-75-hover"
-                >
-                  Power of Revelation Ministries
-                </AppLink>
-              </li>
-            </ul>
+            <nav aria-label="Ways to get involved">
+              <ul className="list-unstyled d-grid gap-3 mb-0">
+                <li>
+                  <AppLink
+                    to="/sponsor"
+                    navigate={navigate}
+                    className="link-underline-opacity-0 link-underline-opacity-75-hover"
+                  >
+                    Sponsor a child
+                  </AppLink>
+                </li>
+                <li>
+                  <AppLink
+                    to="/volunteer"
+                    navigate={navigate}
+                    className="link-underline-opacity-0 link-underline-opacity-75-hover"
+                  >
+                    Volunteer with us
+                  </AppLink>
+                </li>
+                <li>
+                  <AppLink
+                    to="/donate"
+                    navigate={navigate}
+                    className="link-underline-opacity-0 link-underline-opacity-75-hover"
+                  >
+                    Make a donation
+                  </AppLink>
+                </li>
+                <li>
+                  <AppLink
+                    to="/contact"
+                    navigate={navigate}
+                    className="link-underline-opacity-0 link-underline-opacity-75-hover"
+                  >
+                    Contact us
+                  </AppLink>
+                </li>
+              </ul>
+            </nav>
           </div>
 
           {/* Commitment and donation */}
