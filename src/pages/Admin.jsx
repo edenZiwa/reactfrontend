@@ -77,14 +77,14 @@ function StatusPill({ value }) {
 }
 
 function Login({ onLogin }) {
-  const [form, setForm] = useState({ email: "", password: "" });
+  const [form, setForm] = useState({ email: "", password: "", mfaCode: "", recoveryCode: "" });
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   async function submit(event) {
     event.preventDefault(); setBusy(true); setError("");
     try {
       const csrf = await getCsrf();
-      const response = await fetch(API("/auth/login"), { method: "POST", credentials: "include", headers: { "Content-Type": "application/json", Accept: "application/json", "X-CSRF-Token": csrf }, body: JSON.stringify(form) });
+      const response = await fetch(API("/auth/login"), { method: "POST", credentials: "include", headers: { "Content-Type": "application/json", Accept: "application/json", "X-CSRF-Token": csrf }, body: JSON.stringify({ email: form.email, password: form.password, ...(form.mfaCode ? { mfaCode: form.mfaCode } : {}), ...(form.recoveryCode ? { recoveryCode: form.recoveryCode } : {}) }) });
       const data = await response.json().catch(() => ({}));
       if (!response.ok) throw new Error(data.error || data.message || "Sign-in failed.");
       await onLogin();
@@ -122,7 +122,16 @@ function DataTable({ rows, columns, onAction, actionLabel, empty = "No records f
 
 function RecordModal({ record, kind, onClose, onSave, busy }) {
   const [form, setForm] = useState({});
-  useEffect(() => { setForm(record || {}); }, [record]);
+  useEffect(() => {
+    const initial = { ...(record || {}) };
+    if (kind === "users") {
+      initial.firstName = initial.firstName ?? initial.first_name ?? "";
+      initial.lastName = initial.lastName ?? initial.last_name ?? "";
+      initial.roleSlug = initial.roleSlug ?? initial.roles?.[0] ?? "staff";
+      initial.isActive = String(initial.isActive ?? initial.is_active ?? true);
+    }
+    setForm(initial);
+  }, [record, kind]);
   if (!record) return null;
   const field = (label, key, type = "text", options) => <div className="mb-3" key={key}>
     <label className="form-label" htmlFor={`record-${key}`}>{label}</label>
@@ -132,7 +141,14 @@ function RecordModal({ record, kind, onClose, onSave, busy }) {
   </div>;
   let fields = [];
   if (kind === "users") fields = [field("First name", "firstName"), field("Last name", "lastName"), field("Email", "email", "email"), field("Role", "roleSlug", "text", ["staff", "admin", ...(form.roleSlug && !["staff","admin"].includes(form.roleSlug) ? [form.roleSlug] : [])]), field("Account status", "isActive", "text", ["true", "false"])];
-  if (kind === "beneficiaries") fields = [field("First name", "first_name"), field("Last name", "last_name"), field("Date of birth", "date_of_birth", "date"), field("Sex", "sex"), field("Status", "status", "text", ["active","inactive","graduated","transferred","closed"]), field("Consent status", "consent_status", "text", ["pending","granted","withdrawn","not_required"])];
+  if (kind === "beneficiaries") fields = [
+    ...(!record.id ? [field("Beneficiary code", "beneficiaryCode")] : []),
+    field("First name", "first_name"), field("Last name", "last_name"), field("Date of birth", "date_of_birth", "date"),
+    field("Sex", "sex"), field("Status", "status", "text", ["active","inactive","graduated","transferred","closed"]),
+    field("Consent status", "consent_status", "text", ["pending","granted","withdrawn","not_required"]),
+    field("Caregiver name", "primary_caregiver_name"), field("Caregiver phone", "primary_caregiver_phone"),
+    field("Education summary", "education_summary", "textarea")
+  ];
   if (kind === "inbox") fields = [field("Message status", "status", "text", ["new","in_progress","resolved","spam"])];
   if (kind === "recurring") fields = [field("Plan status", "status", "text", ["pending_setup","paused","cancelled","failed","active"]), field("Payment provider (required to activate)", "provider"), field("Provider subscription ID (required to activate)", "providerSubscriptionId")];
   if (kind === "reconciliation") fields = [<div className="alert alert-info small" key="note">This action requests a fresh server-to-server payment verification. A browser redirect alone never confirms a donation.</div>];
@@ -141,7 +157,7 @@ function RecordModal({ record, kind, onClose, onSave, busy }) {
   if (kind === "applications") fields = [field("Application status", "status", "text", ["submitted","under_review","information_requested","approved","rejected"]), field("Staff note", "staff_note", "textarea")];
   return <div className="gom-modal-backdrop" role="presentation" onMouseDown={e => { if (e.target === e.currentTarget) onClose(); }}>
     <section className="gom-modal" role="dialog" aria-modal="true" aria-labelledby="record-modal-title">
-      <div className="d-flex justify-content-between align-items-start mb-3"><div><div className="small text-success fw-bold text-uppercase">Record details</div><h2 className="h5 fw-bold mb-0" id="record-modal-title">{kind === "reconciliation" ? "Verify payment" : `Manage ${TITLES[kind] || "record"}`}</h2></div><button className="btn-close" aria-label="Close" onClick={onClose} /></div>
+      <div className="d-flex justify-content-between align-items-start mb-3"><div><div className="small text-success fw-bold text-uppercase">Record details</div><h2 className="h5 fw-bold mb-0" id="record-modal-title">{kind === "reconciliation" ? "Verify payment" : kind === "beneficiaries" && !record.id ? "Add beneficiary record" : kind === "users" && !record.id ? "Create staff account" : `Manage ${TITLES[kind] || "record"}`}</h2></div><button className="btn-close" aria-label="Close" onClick={onClose} /></div>
       <div className="gom-modal-content">
         <div className="small text-secondary mb-3">{record.email || record.donor_email || record.merchant_reference || record.beneficiary_code || record.id || ""}</div>
         {kind === "inbox" && <div className="border rounded-3 p-3 mb-3"><strong>{record.subject || "Message"}</strong><p className="mb-0 mt-2 text-secondary" style={{ whiteSpace: "pre-wrap" }}>{record.message}</p></div>}
@@ -334,7 +350,7 @@ export default function Admin({ path = "/admin", navigate }) {
               {["beneficiaries","inbox"].includes(key) && <select className="form-select gom-filter" value={filter} onChange={e => { setFilter(e.target.value); setPageNumber(0); }}><option value="all">All statuses</option>{(key === "beneficiaries" ? ["active","inactive","graduated","transferred","closed"] : ["new","in_progress","resolved","spam"]).map(v => <option key={v} value={v}>{titleCase(v)}</option>)}</select>}
               <button className="btn btn-outline-success" onClick={() => loadPage(key).catch(e => setPageError(e.message))}><i className="bi bi-arrow-clockwise me-1" />Refresh</button>
               {key === "users" && can("users.manage") && <button className="btn btn-success" onClick={() => setRecord({})}><i className="bi bi-plus-lg me-1" />Add staff</button>}
-              {key === "beneficiaries" && can("beneficiaries.create") && <button className="btn btn-success" onClick={() => setPageError("New beneficiary creation form will be enabled after confirming the required safeguarding fields.")}><i className="bi bi-plus-lg me-1" />Add beneficiary</button>}
+              {key === "beneficiaries" && can("beneficiaries.create") && <button className="btn btn-success" onClick={() => setRecord({})}><i className="bi bi-plus-lg me-1" />Add beneficiary</button>}
             </div>
             {key === "sponsorship" && <div className="alert alert-info small"><i className="bi bi-info-circle me-2" />Only profiles with valid story consent and an active beneficiary record can be published. Private legal names and case notes are not displayed here.</div>}
             <DataTable rows={filteredRows} columns={columnsByKey[key] || []} onAction={canManage ? row => setRecord(row) : null} actionLabel={key === "reconciliation" ? "Verify" : key === "inbox" ? "Open" : "Manage"} onSelect={key === "inbox" ? row => setRecord(row) : null} empty={key === "reconciliation" ? "There are no payments awaiting verification." : "No records match these filters."} />
