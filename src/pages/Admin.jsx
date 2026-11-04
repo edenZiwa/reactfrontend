@@ -103,7 +103,11 @@ function Login({ onLogin }) {
         <label className="form-label" htmlFor="admin-email">Email address</label>
         <input id="admin-email" className="form-control form-control-lg mb-3" type="email" autoComplete="username" required value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} />
         <label className="form-label" htmlFor="admin-password">Password</label>
-        <input id="admin-password" className="form-control form-control-lg mb-4" type="password" autoComplete="current-password" required value={form.password} onChange={e => setForm({ ...form, password: e.target.value })} />
+        <input id="admin-password" className="form-control form-control-lg mb-3" type="password" autoComplete="current-password" required value={form.password} onChange={e => setForm({ ...form, password: e.target.value })} />
+        <label className="form-label" htmlFor="admin-mfa">Authenticator code <span className="text-secondary fw-normal">(if enabled)</span></label>
+        <input id="admin-mfa" className="form-control mb-3" inputMode="numeric" autoComplete="one-time-code" maxLength="6" value={form.mfaCode} onChange={e => setForm({ ...form, mfaCode: e.target.value.replace(/\\D/g, "").slice(0, 6), recoveryCode: "" })} placeholder="6-digit code" />
+        <label className="form-label" htmlFor="admin-recovery">Recovery code <span className="text-secondary fw-normal">(instead of authenticator)</span></label>
+        <input id="admin-recovery" className="form-control mb-4" autoComplete="off" value={form.recoveryCode} onChange={e => setForm({ ...form, recoveryCode: e.target.value.trim(), mfaCode: "" })} placeholder="One-time recovery code" />
         <button className="btn btn-success btn-lg w-100" disabled={busy}>{busy ? <><span className="spinner-border spinner-border-sm me-2" />Signing in…</> : "Sign in securely"}</button>
       </form>
       <p className="small text-secondary mt-4 mb-0"><i className="bi bi-shield-lock me-1" /> Staff access is protected by role permissions and session security.</p>
