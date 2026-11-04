@@ -590,3 +590,51 @@ html[data-bs-theme="dark"] .power-revelation-page .pr-upcoming-empty-icon {
   color: var(--gomf-gold);
   background: color-mix(in srgb, var(--gomf-gold) 18%, var(--gomf-surface));
 }
+
+
+/* Founder, co-founder and shared profile cards use the active surface. */
+.section-white,
+.value-card,
+.ministry-card,
+.message-panel,
+.source-link-card,
+.profile-principle,
+.success-stories-page .mercy-story-card,
+.success-stories-page .mercy-journey-card {
+  color: var(--gomf-text);
+  background-color: var(--gomf-surface);
+  border-color: var(--gomf-border);
+}
+.value-card h3,
+.ministry-card h3,
+.ministry-card p,
+.message-panel,
+.message-panel p,
+.message-panel .message-heading,
+.message-panel .message-intro,
+.profile-principle strong,
+.source-content strong {
+  color: var(--gomf-text);
+}
+.value-card p,
+.ministry-card p,
+.message-panel .muted-note,
+.source-content small {
+  color: var(--gomf-text-muted);
+}
+.profile-principle {
+  color: var(--gomf-text-muted);
+}
+
+/* Headings on branded dark sections must remain light, not inherit dark ink. */
+.success-stories-page .mercy-hero h1,
+.success-stories-page .mercy-feature h2,
+.success-stories-page .mercy-feature h3,
+.success-stories-page .mercy-cta h2,
+.success-stories-page .mercy-cta h3,
+.mercy-hero h1,
+.cta h1, .cta h2, .cta h3,
+.photo-band h1, .photo-band h2, .photo-band h3,
+.belief-strip h1, .belief-strip h2, .belief-strip h3 {
+  color: #f7fbf8;
+}
