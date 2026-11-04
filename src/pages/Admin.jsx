@@ -49,7 +49,8 @@ const pickRows = (key, data) => {
   return data.logs || [];
 };
 const fmtDate = (value) => value ? new Date(value).toLocaleString() : "—";
-const money = (amount, currency = "UGX") => amount == null ? "—" : new Intl.NumberFormat("en-UG", { style: "currency", currency, maximumFractionDigits: currency === "UGX" ? 0 : 2 }).format(Number(amount));\nconst numberFormat = amount => amount == null ? "—" : new Intl.NumberFormat("en-UG", { maximumFractionDigits: 0 }).format(Number(amount));
+const money = (amount, currency = "UGX") => amount == null ? "—" : new Intl.NumberFormat("en-UG", { style: "currency", currency, maximumFractionDigits: currency === "UGX" ? 0 : 2 }).format(Number(amount));
+const numberFormat = amount => amount == null ? "—" : new Intl.NumberFormat("en-UG", { maximumFractionDigits: 0 }).format(Number(amount));
 const titleCase = (value) => String(value || "—").replaceAll("_", " ").replace(/\b\w/g, c => c.toUpperCase());
 
 async function getCsrf() {
