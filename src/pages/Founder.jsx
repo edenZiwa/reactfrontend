@@ -8,7 +8,7 @@ function Founder({ navigate }) {
       {/* HERO */}
       <section
         id="founder"
-        className="founder-hero"
+        className="founder-hero founder-hero-founder"
         aria-labelledby="founder-hero-title"
       >
         <div className="container">
@@ -75,6 +75,11 @@ function Founder({ navigate }) {
                       aria-hidden="true"
                     />
                   </div>
+                </div>
+
+                <div className="hero-portrait-label" aria-label="Founder portrait identification">
+                  <span className="hero-portrait-label-icon"><i className="bi bi-award" aria-hidden="true" /></span>
+                  <span><small>FOUNDING LEADERSHIP</small><strong>Apostle Derrick Musinguzi</strong></span>
                 </div>
 
                 <div className="portrait-caption">
