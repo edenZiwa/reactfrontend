@@ -125,6 +125,20 @@ html[data-bs-theme="dark"] {
   --bs-box-shadow-lg: var(--gomf-shadow-lg);
 }
 
+
+/* Foundation-wide typography: one clear, warm and accessible font on every route. */
+:root {
+  --gomf-font-family: "Lato", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --bs-body-font-family: var(--gomf-font-family);
+  --bs-font-sans-serif: var(--gomf-font-family);
+}
+html body,
+html body :where(h1, h2, h3, h4, h5, h6, p, a, span, div, section, article,
+  li, button, input, textarea, select, label, small, strong, em, blockquote,
+  th, td, legend, summary, figcaption, .btn, .form-control, .form-select) {
+  font-family: var(--gomf-font-family) !important;
+}
+
 html { background: var(--gomf-page); }
 body {
   color: var(--gomf-text);
