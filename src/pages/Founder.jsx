@@ -4,7 +4,7 @@ import { AppLink } from "../components/SiteChrome.jsx";
 
 function Founder({ navigate }) {
   return (
-    <main id="main-content">
+    <main id="main-content" className="leadership-page founder-page">
       {/* HERO */}
       <section
         id="founder"
@@ -136,7 +136,7 @@ function Founder({ navigate }) {
                 </div>
 
                 <div className="profile-stamp">
-                  Apostle Derrick Musinguzi founder of garden of mercy foundation 
+                  Founder · Garden of Mercy Foundation 
                     
                 </div>
               </div>
@@ -178,7 +178,7 @@ function Founder({ navigate }) {
                 </span>
 
                 <p className="mb-0">
-                  <strong>Our guiding principle</strong>
+                  <strong>A principle that guides our work</strong>
                   <br />
                   To see a need, respond with compassion and help restore hope.
                 </p>
@@ -207,7 +207,7 @@ function Founder({ navigate }) {
             </span>
 
             <h2 id="values-title" className="section-title">
-              Leadership shaped by <em>purpose.</em>
+              A leadership vision grounded in <em>purpose.</em>
             </h2>
 
             <p className="section-lead mx-auto">
@@ -432,7 +432,7 @@ function Founder({ navigate }) {
                 id="mission-title"
                 className="section-title section-title-light"
               >
-                A foundation built around <em>mercy in action.</em>
+                A humanitarian mission built around <em>mercy in action.</em>
               </h2>
 
               <p className="mission-copy">
@@ -753,7 +753,7 @@ function Founder({ navigate }) {
                 </span>
 
                 <h2 id="cta-title">
-                  Let compassion become <em>action.</em>
+                  Turn compassion into <em>meaningful action.</em>
                 </h2>
 
                 <p className="mb-0">
