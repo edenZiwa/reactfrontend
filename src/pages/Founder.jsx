@@ -24,9 +24,7 @@ function Founder({ navigate }) {
               </h1>
 
               <p className="founder-hero-copy text-white">
-                Founder of Garden of Mercy Foundation, an organization
-                committed to sowing seeds of mercy and compassion through
-                practical care for children, vulnerable people and communities.
+                Apostle Derrick Musinguzi is the founder of Garden of Mercy Foundation. The Foundation carries a clear purpose: to turn mercy into practical care that protects dignity, supports children and strengthens vulnerable communities.
               </p>
 
               <div className="d-flex flex-wrap gap-3 hero-actions">
@@ -53,7 +51,7 @@ function Founder({ navigate }) {
 
                 <span>
                   <strong className="text-white">Sowing Seeds of Mercy and Compassion</strong>
-                  <small>Restoring hope. Transforming lives.</small>
+                  <small>A humanitarian vision expressed through service.</small>
                 </span>
               </div>
             </div>
@@ -67,6 +65,10 @@ function Founder({ navigate }) {
                     width="720"
                     height="900"
                     fetchPriority="high"
+                    onError={(event) => {
+                      event.currentTarget.onerror = null;
+                      event.currentTarget.src = "/images/founder/apostle_derrick_musinguzi.png";
+                    }}
                   />
 
                   <div className="portrait-placeholder" hidden>
@@ -124,6 +126,10 @@ function Founder({ navigate }) {
                     width="720"
                     height="900"
                     loading="lazy"
+                    onError={(event) => {
+                      event.currentTarget.onerror = null;
+                      event.currentTarget.src = "/images/founder/derrick-musinguzi.png";
+                    }}
                   />
 
                   <div className="profile-placeholder" hidden>
@@ -136,8 +142,9 @@ function Founder({ navigate }) {
                 </div>
 
                 <div className="profile-stamp">
-                  Founder · Garden of Mercy Foundation 
-                    
+                  <span className="profile-stamp-kicker">FOUNDING LEADERSHIP</span>
+                  <strong>Founder</strong>
+                  <span>Garden of Mercy Foundation</span>
                 </div>
               </div>
             </div>
@@ -149,27 +156,19 @@ function Founder({ navigate }) {
               </span>
 
               <h2 id="profile-title" className="section-title">
-                A vision that puts <em>compassion into action.</em>
+                The vision behind <em>mercy in action.</em>
               </h2>
 
               <p className="section-lead">
-                Apostle Derrick Musinguzi is the founder of Garden of Mercy
-                Foundation.
+                Apostle Derrick Musinguzi founded Garden of Mercy Foundation to give practical expression to the values of mercy, compassion and service.
               </p>
 
               <p className="body-copy">
-                The Foundation’s work is guided by a commitment to serve
-                children, vulnerable people and communities facing hardship.
-                Its message is simple: mercy is more than a feeling; it is a
-                willingness to recognize a need and respond with care.
+                At the heart of the Foundation is a belief that compassion should lead to meaningful action. Its work focuses on children, vulnerable people, families and communities experiencing hardship—responding to needs while respecting the dignity of every person.
               </p>
 
               <p className="body-copy">
-                Public ministry materials also associate Apostle Derrick
-                Musinguzi with Power of Revelation Ministries and Revelation
-                Church Kampala. These associations form part of his ministry
-                background, while Garden of Mercy Foundation maintains its own
-                humanitarian purpose and organizational responsibilities.
+                His public ministry association includes Power of Revelation Ministries and Revelation Church Kampala. This ministry context is distinct from the Foundation’s humanitarian work, which has its own mission, programmes and responsibilities.
               </p>
 
               <div className="profile-principle">
@@ -178,9 +177,9 @@ function Founder({ navigate }) {
                 </span>
 
                 <p className="mb-0">
-                  <strong>A principle that guides our work</strong>
+                  <strong>The principle behind the mission</strong>
                   <br />
-                  To see a need, respond with compassion and help restore hope.
+                  Recognize the need. Respect each person. Respond with practical compassion.
                 </p>
               </div>
 
@@ -207,12 +206,11 @@ function Founder({ navigate }) {
             </span>
 
             <h2 id="values-title" className="section-title">
-              A leadership vision grounded in <em>purpose.</em>
+              The values that shape <em>our service.</em>
             </h2>
 
             <p className="section-lead mx-auto">
-              These values express the spirit of service that Garden of Mercy
-              Foundation seeks to put into practice.
+              These principles provide a practical standard for how the Foundation seeks to serve people and work alongside communities.
             </p>
           </div>
 
@@ -291,14 +289,13 @@ function Founder({ navigate }) {
               </span>
 
               <h2 id="ministry-title" className="section-title">
-                Faith, teaching and <em>ministry.</em>
+                A wider ministry context. <em>A distinct humanitarian mission.</em>
               </h2>
             </div>
 
             <div className="col-lg-5">
               <p className="body-copy mb-0">
-                The following public resources provide context for the ministry
-                associations and teaching materials referenced on this page.
+                Apostle Derrick Musinguzi is also associated with a wider Christian ministry context. The links below direct visitors to its public channels and teaching resources.
               </p>
             </div>
           </div>
@@ -316,19 +313,16 @@ function Founder({ navigate }) {
                 <h3>Power of Revelation Ministries</h3>
 
                 <p>
-                  Public ministry materials describe Christian teaching,
-                  spiritual growth and sharing the message of God’s love.
-                  Details should be understood in the context of the ministry’s
-                  own published information.
+                  Explore public updates and information from Power of Revelation Ministries.
                 </p>
 
                 <a
                   className="text-link"
-                  href="https://awmuganda.net/discipleship-evangelism/"
+                  href="https://www.facebook.com/powerofrevelation/"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  View related public listing
+                  Visit the ministry page
                   <i
                     className="bi bi-box-arrow-up-right ms-2"
                     aria-hidden="true"
@@ -349,18 +343,16 @@ function Founder({ navigate }) {
                 <h3>Revelation Church Kampala</h3>
 
                 <p>
-                  A church and teaching ministry associated in public materials
-                  with Apostle Derrick Musinguzi. Confirm current service times
-                  and location directly with the ministry before visiting.
+                  Revelation Church Kampala shares ministry updates, church information and teaching resources through its public channels.
                 </p>
 
                 <a
                   className="text-link"
-                  href="https://podcasts.apple.com/us/podcast/revelation-church-kampala/id1551432049"
+                  href="https://www.youtube.com/live/vjG_LPPfunE?si=fhcdH94u435HOanB"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Explore public archive
+                  Visit the church page
                   <i
                     className="bi bi-box-arrow-up-right ms-2"
                     aria-hidden="true"
@@ -381,9 +373,7 @@ function Founder({ navigate }) {
                 <h3>Public Teaching Resources</h3>
 
                 <p>
-                  The indexed podcast archive includes teachings on purpose,
-                  Christian life, relationships, God’s love, grace and favour.
-                  The archive is a resource for interested visitors.
+                  Watch a featured message and explore the Revelation Church Kampala podcast archive for further teaching resources.
                 </p>
 
                 <a
@@ -392,7 +382,7 @@ function Founder({ navigate }) {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Visit the podcast archive
+                  Watch a featured message
                   <i
                     className="bi bi-box-arrow-up-right ms-2"
                     aria-hidden="true"
@@ -432,20 +422,15 @@ function Founder({ navigate }) {
                 id="mission-title"
                 className="section-title section-title-light"
               >
-                A humanitarian mission built around <em>mercy in action.</em>
+                A humanitarian purpose grounded in <em>mercy in action.</em>
               </h2>
 
               <p className="mission-copy">
-                Garden of Mercy Foundation is committed to practical
-                expressions of care for children, vulnerable people, families
-                and communities facing hardship.
+                Garden of Mercy Foundation exists to serve children, vulnerable people, families and communities through practical expressions of care. Its purpose is humanitarian: to respond to genuine needs, uphold dignity and help create opportunities for a better future.
               </p>
 
               <p className="mission-copy">
-                Inspired by the call to care for our neighbours, the Foundation
-                seeks to turn compassion into meaningful action—supporting
-                dignity, restoring hope and encouraging people to stand
-                together when help is needed.
+                The Foundation’s work is guided by compassion, responsibility and respect. It seeks to work alongside communities, partners and supporters so that assistance is thoughtful, accountable and focused on people’s needs.
               </p>
 
               <AppLink
@@ -505,7 +490,7 @@ function Founder({ navigate }) {
 
                 <span className="eyebrow">
                   <span className="eyebrow-dot" />
-                  Our Commitment
+                  The Foundation’s Commitment
                 </span>
 
                 <h2 id="message-title" className="message-heading">
@@ -546,8 +531,7 @@ function Founder({ navigate }) {
                 </div>
 
                 <p className="small text-dark mt-3 mb-0">
-                  This is presented as the Foundation’s commitment statement,
-                  not as a direct quotation from the founder.
+                  
                 </p>
               </div>
             </div>
@@ -605,13 +589,15 @@ function Founder({ navigate }) {
                 <i className="bi bi-images" aria-hidden="true" />
               </span>
 
+              <img
+                src="/images/gallery/children-01.png"
+                alt=""
+                loading="lazy"
+                aria-hidden="true"
+              />
               <span>
                 <strong>Community &amp; Outreach</strong>
-                <img
-                  src="/images/gallery/children-01.png"
-                  alt="Children participating in community outreach"
-                  loading="lazy"
-                />
+                <small>Discover stories from the Foundation’s work</small>
               </span>
             </AppLink>
 
@@ -625,13 +611,15 @@ function Founder({ navigate }) {
                 <i className="bi bi-camera" aria-hidden="true" />
               </span>
 
+              <img
+                src="/images/gallery/community-01.png"
+                alt=""
+                loading="lazy"
+                aria-hidden="true"
+              />
               <span>
                 <strong>Care in Action</strong>
-                <img
-                  src="/images/gallery/community-01.png"
-                  alt="Community members taking part in foundation activities"
-                  loading="lazy"
-                />
+                <small>See how compassion becomes practical support</small>
               </span>
             </AppLink>
 
@@ -645,92 +633,17 @@ function Founder({ navigate }) {
                 <i className="bi bi-heart" aria-hidden="true" />
               </span>
 
+              <img
+                src="/images/gallery/event-02.png"
+                alt=""
+                loading="lazy"
+                aria-hidden="true"
+              />
               <span>
                 <strong>Hope &amp; Dignity</strong>
-                <img
-                  src="/images/gallery/event-02.png"
-                  alt="Foundation event supporting hope and dignity"
-                  loading="lazy"
-                />
+                <small>Explore moments of community connection</small>
               </span>
             </AppLink>
-          </div>
-        </div>
-      </section>
-
-      {/* SOURCES */}
-      <section
-        id="resources"
-        className="section-pad sources-section"
-        aria-labelledby="sources-title"
-      >
-        <div className="container">
-          <div className="row align-items-end g-3 mb-4">
-            <div className="col-lg-8">
-              <span className="eyebrow">
-                <span className="eyebrow-dot" />
-                Further Reading
-              </span>
-
-              <h2 id="sources-title" className="section-title">
-                Ministry resources &amp; <em>references.</em>
-              </h2>
-
-              <p className="section-lead mb-0">
-                Visit these external resources for their published ministry
-                information and teaching materials.
-              </p>
-            </div>
-          </div>
-
-          <div className="row g-3">
-            <div className="col-md-6">
-              <a
-                className="source-link-card"
-                href="https://podcasts.apple.com/us/podcast/revelation-church-kampala/id1551432049"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <span className="source-icon">
-                  <i className="bi bi-apple" aria-hidden="true" />
-                </span>
-
-                <span className="source-content">
-                  <strong className="text-black">Revelation Church Kampala Podcast</strong>
-                  <small className="text-black">Publicly indexed teaching archive</small>
-                </span>
-
-                <i
-                  className="bi bi-arrow-up-right source-arrow"
-                  aria-hidden="true"
-                />
-              </a>
-            </div>
-
-            <div className="col-md-6">
-              <a
-                className="source-link-card"
-                href="https://awmuganda.net/discipleship-evangelism/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <span className="source-icon">
-                  <i className="bi bi-globe2" aria-hidden="true" />
-                </span>
-
-                <span className="source-content">
-                  <strong className="text-black">Andrew Wommack Ministries Uganda</strong>
-                  <small className="text-black">
-                    Public discipleship and evangelism information
-                  </small>
-                </span>
-
-                <i
-                  className="bi bi-arrow-up-right source-arrow"
-                  aria-hidden="true"
-                />
-              </a>
-            </div>
           </div>
         </div>
       </section>
