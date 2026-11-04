@@ -2,11 +2,11 @@
 import React, { useEffect } from "react";
 import { createRoot } from "react-dom/client";
 
-import "./css/styles.css";
-import "./css/app.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import "./css/styles.css";
+import "./css/app.css";
 import usePath from "./components/usePath.js";
 import SEO from "./components/SEO.jsx";
 import {
@@ -44,6 +44,8 @@ import SuccessStories from "./pages/SuccessStories.jsx";
 import Cofounder from "./pages/Cofounder.jsx";
 import PowerOfRevelation from "./pages/PowerOfRevelation.jsx";
 import Admin from "./pages/Admin.jsx";
+import ThemeProvider from "./components/ThemeProvider.jsx";
+import "./css/theme.css";
 
 function App() {
   const [path, navigate] = usePath();
@@ -176,15 +178,14 @@ const rootElement = document.getElementById("root");
 if (rootElement) {
   createRoot(rootElement).render(
     <React.StrictMode>
-      <PWAProvider>
-      <NetworkStatus />
-
-      <PWAUpdatePrompt />
-
-      <App />
-
-      <PWAInstallPrompt />
-    </PWAProvider>
+      <ThemeProvider>
+        <PWAProvider>
+          <NetworkStatus />
+          <PWAUpdatePrompt />
+          <App />
+          <PWAInstallPrompt />
+        </PWAProvider>
+      </ThemeProvider>
     </React.StrictMode>
   );
 }
