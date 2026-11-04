@@ -93,7 +93,7 @@ function AppLink({
 // Main site header.
 function Header({ path = "/", navigate }) {
   const [open, setOpen] = useState(false);
-  const { resolvedTheme, toggleTheme } = useTheme();
+  const { mode, setMode } = useTheme();
   const currentPath = normalizePath(path);
 
   const closeMenu = () => setOpen(false);
@@ -160,16 +160,21 @@ function Header({ path = "/", navigate }) {
             Donate <span aria-hidden="true">↗</span>
           </AppLink>
 
-          <button
-            className="theme-toggle"
-            type="button"
-            onClick={toggleTheme}
-            aria-label={`Switch to ${resolvedTheme === "dark" ? "light" : "dark"} theme`}
-            title={`Switch to ${resolvedTheme === "dark" ? "light" : "dark"} theme`}
-          >
-            <i className={`bi ${resolvedTheme === "dark" ? "bi-sun" : "bi-moon-stars"}`} aria-hidden="true" />
-            <span>{resolvedTheme === "dark" ? "Light" : "Dark"}</span>
-          </button>
+          <label className="theme-control">
+            <i className="bi bi-circle-half" aria-hidden="true" />
+            <span className="visually-hidden">Color theme</span>
+            <select
+              className="theme-select"
+              value={mode}
+              onChange={(event) => setMode(event.target.value)}
+              aria-label="Choose color theme"
+              title="Choose color theme"
+            >
+              <option value="system">System</option>
+              <option value="light">Light</option>
+              <option value="dark">Dark</option>
+            </select>
+          </label>
           <GoogleSignIn />
         </nav>
       </div>
