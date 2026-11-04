@@ -1176,6 +1176,18 @@
   }
 }
 
-.h1, .h2, .h3, .h4, .h5, .h6 {
-  color: black!important;
+/* Let Bootstrap heading utilities inherit the active theme and component context. */
+.power-revelation-page .h1,
+.power-revelation-page .h2,
+.power-revelation-page .h3,
+.power-revelation-page .h4,
+.power-revelation-page .h5,
+.power-revelation-page .h6 {
+  color: var(--gomf-deep, var(--bs-emphasis-color));
+}
+.pr-hero .h1, .pr-hero .h2, .pr-hero .h3,
+.pr-hero .h4, .pr-hero .h5, .pr-hero .h6,
+.pr-cta-section .h1, .pr-cta-section .h2, .pr-cta-section .h3,
+.pr-cta-section .h4, .pr-cta-section .h5, .pr-cta-section .h6 {
+  color: #fff;
 }
