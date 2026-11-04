@@ -140,7 +140,12 @@ function RecordModal({ record, kind, onClose, onSave, busy }) {
       : <input id={`record-${key}`} className="form-control" type={type} value={form[key] ?? ""} onChange={e => setForm({ ...form, [key]: e.target.value })} />}
   </div>;
   let fields = [];
-  if (kind === "users") fields = [field("First name", "firstName"), field("Last name", "lastName"), field("Email", "email", "email"), field("Role", "roleSlug", "text", ["staff", "admin", ...(form.roleSlug && !["staff","admin"].includes(form.roleSlug) ? [form.roleSlug] : [])]), field("Account status", "isActive", "text", ["true", "false"])];
+  if (kind === "users") fields = [
+    field("First name", "firstName"), field("Last name", "lastName"), field("Email", "email", "email"),
+    field("Role", "roleSlug", "text", ["staff","finance","programs","volunteers","communications","admin","super_admin", ...(form.roleSlug && !["staff","finance","programs","volunteers","communications","admin","super_admin"].includes(form.roleSlug) ? [form.roleSlug] : [])]),
+    field("Account status", "isActive", "text", ["true", "false"]),
+    field(record.id ? "New password (optional, minimum 12 characters)" : "Temporary password (minimum 12 characters)", "password", "password")
+  ];
   if (kind === "beneficiaries") fields = [
     ...(!record.id ? [field("Beneficiary code", "beneficiaryCode")] : []),
     field("First name", "first_name"), field("Last name", "last_name"), field("Date of birth", "date_of_birth", "date"),
@@ -151,6 +156,14 @@ function RecordModal({ record, kind, onClose, onSave, busy }) {
   ];
   if (kind === "inbox") fields = [field("Message status", "status", "text", ["new","in_progress","resolved","spam"])];
   if (kind === "recurring") fields = [field("Plan status", "status", "text", ["pending_setup","paused","cancelled","failed","active"]), field("Payment provider (required to activate)", "provider"), field("Provider subscription ID (required to activate)", "providerSubscriptionId")];
+  if (kind === "sponsorship") fields = [
+    field("Beneficiary ID (internal record UUID)", "beneficiary_id"),
+    field("Public display name", "display_name"), field("Age band", "age_band"),
+    field("Region label", "region_label"), field("Education level", "education_level"),
+    field("Story", "story", "textarea"), field("Sponsorship amount", "sponsorship_amount", "number"),
+    field("Currency", "currency", "text", ["UGX","USD"]), field("Photo URL (consented image only)", "photo_url"),
+    field("Publish profile", "published", "text", ["false","true"])
+  ];
   if (kind === "reconciliation") fields = [<div className="alert alert-info small" key="note">This action requests a fresh server-to-server payment verification. A browser redirect alone never confirms a donation.</div>];
   if (kind === "volunteers") fields = [field("Review status", "verification_status", "text", ["pending","verified","needs_information","rejected"]), field("Staff note", "review_note", "textarea")];
   if (kind === "registrations") fields = [field("Registration status", "status", "text", ["pending","approved","waitlisted","rejected","completed"]), field("Staff note", "staff_note", "textarea")];
@@ -259,6 +272,9 @@ export default function Admin({ path = "/admin", navigate }) {
       } else if (key === "beneficiaries") {
         body = { firstName: form.first_name, lastName: form.last_name, dateOfBirth: form.date_of_birth, sex: form.sex, status: form.status, consentStatus: form.consent_status };
         endpoint += `/${record.id}`;
+      } else if (key === "sponsorship") {
+        endpoint = ENDPOINTS.sponsorship; method = "POST";
+        body = { beneficiaryId: form.beneficiary_id, displayName: form.display_name, ageBand: form.age_band, regionLabel: form.region_label, educationLevel: form.education_level, story: form.story, sponsorshipAmount: Number(form.sponsorship_amount), currency: form.currency || "UGX", photoUrl: form.photo_url, published: form.published === "true" || form.published === true };
       } else if (key === "inbox") { endpoint += `/${record.id}`; body = { status: form.status }; }
       else if (key === "recurring") { endpoint += `/${record.id}`; body = { status: form.status, provider: form.provider, providerSubscriptionId: form.providerSubscriptionId }; }
       else if (key === "volunteers") { endpoint += `/${record.user_id}/review`; body = { status: form.verification_status, note: form.review_note }; }
@@ -326,7 +342,7 @@ export default function Admin({ path = "/admin", navigate }) {
       { key: "created_at", label: "Time", render: r => fmtDate(r.created_at) }, { key: "actor_email", label: "Staff member" }, { key: "action", label: "Action" }, { key: "resource_type", label: "Resource" }, { key: "resource_id", label: "Reference" },
     ],
   };
-  const actionKinds = ["users","beneficiaries","volunteers","registrations","applications","reconciliation","recurring","inbox"];
+  const actionKinds = ["users","beneficiaries","sponsorship","volunteers","registrations","applications","reconciliation","recurring","inbox"];
   const canManage = actionKinds.includes(key);
   return <div className="gom-admin">
     <aside className="gom-admin-sidebar">
@@ -350,7 +366,7 @@ export default function Admin({ path = "/admin", navigate }) {
               {["beneficiaries","inbox"].includes(key) && <select className="form-select gom-filter" value={filter} onChange={e => { setFilter(e.target.value); setPageNumber(0); }}><option value="all">All statuses</option>{(key === "beneficiaries" ? ["active","inactive","graduated","transferred","closed"] : ["new","in_progress","resolved","spam"]).map(v => <option key={v} value={v}>{titleCase(v)}</option>)}</select>}
               <button className="btn btn-outline-success" onClick={() => loadPage(key).catch(e => setPageError(e.message))}><i className="bi bi-arrow-clockwise me-1" />Refresh</button>
               {key === "users" && can("users.manage") && <button className="btn btn-success" onClick={() => setRecord({})}><i className="bi bi-plus-lg me-1" />Add staff</button>}
-              {key === "beneficiaries" && can("beneficiaries.create") && <button className="btn btn-success" onClick={() => setRecord({})}><i className="bi bi-plus-lg me-1" />Add beneficiary</button>}
+              {key === "sponsorship" && can("beneficiaries.update") && <button className="btn btn-success" onClick={() => setRecord({ currency: "UGX", age_band: "School age", region_label: "Uganda", published: false })}><i className="bi bi-plus-lg me-1" />Add profile</button>}\n              {key === "beneficiaries" && can("beneficiaries.create") && <button className="btn btn-success" onClick={() => setRecord({})}><i className="bi bi-plus-lg me-1" />Add beneficiary</button>}
             </div>
             {key === "sponsorship" && <div className="alert alert-info small"><i className="bi bi-info-circle me-2" />Only profiles with valid story consent and an active beneficiary record can be published. Private legal names and case notes are not displayed here.</div>}
             <DataTable rows={filteredRows} columns={columnsByKey[key] || []} onAction={canManage ? row => setRecord(row) : null} actionLabel={key === "reconciliation" ? "Verify" : key === "inbox" ? "Open" : "Manage"} onSelect={key === "inbox" ? row => setRecord(row) : null} empty={key === "reconciliation" ? "There are no payments awaiting verification." : "No records match these filters."} />
