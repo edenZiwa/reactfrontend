@@ -16,6 +16,18 @@
 
     <meta name="theme-color" content="#198754">
     <meta name="color-scheme" content="light dark">
+    <script>
+      (function () {
+        try {
+          var saved = localStorage.getItem("gomf-theme");
+          var mode = ["light", "dark", "system"].includes(saved) ? saved : "system";
+          var dark = mode === "dark" || (mode === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
+          document.documentElement.setAttribute("data-bs-theme", dark ? "dark" : "light");
+        } catch (_) {
+          document.documentElement.setAttribute("data-bs-theme", "light");
+        }
+      })();
+    </script>
 
     <link rel="icon" type="image/png" href="https://gardenofmercy.org/images/garden_of_mercy_icon.png">
     <link rel="apple-touch-icon" href="https://gardenofmercy.org/images/garden_of_mercy_icon.png">

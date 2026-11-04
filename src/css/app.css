@@ -191,9 +191,7 @@ body {
 .shadow-lg {
     box-shadow: var(--bs-box-shadow-lg) !important;
 }
-.nav-link, h2, h3, h4, h5, h6, p, li, strong, .small, blockquote {
-    color: var(--bs-body-color)!important;
-}
+/* Text colors are inherited from the active theme; avoid global !important overrides. */
 a {
   text-decoration: none !important;
 }

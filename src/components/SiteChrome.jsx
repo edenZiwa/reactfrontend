@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import GoogleSignIn from "./GoogleSignIn.jsx";
+import { useTheme } from "./ThemeProvider.jsx";
 
 const NAV = [
   ["Home", "/"],
@@ -92,6 +93,7 @@ function AppLink({
 // Main site header.
 function Header({ path = "/", navigate }) {
   const [open, setOpen] = useState(false);
+  const { mode, setMode } = useTheme();
   const currentPath = normalizePath(path);
 
   const closeMenu = () => setOpen(false);
@@ -158,6 +160,21 @@ function Header({ path = "/", navigate }) {
             Donate <span aria-hidden="true">↗</span>
           </AppLink>
 
+          <label className="theme-control">
+            <i className="bi bi-circle-half" aria-hidden="true" />
+            <span className="visually-hidden">Color theme</span>
+            <select
+              className="theme-select"
+              value={mode}
+              onChange={(event) => setMode(event.target.value)}
+              aria-label="Choose color theme"
+              title="Choose color theme"
+            >
+              <option value="system">System</option>
+              <option value="light">Light</option>
+              <option value="dark">Dark</option>
+            </select>
+          </label>
           <GoogleSignIn />
         </nav>
       </div>
