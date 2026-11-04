@@ -1,63 +1,90 @@
 import React, { useEffect, useMemo, useState } from "react";
 import "../css/sponsor.css";
-import { AppLink, PageIntro, CallToAction } from "../components/SiteChrome.jsx";
+import { AppLink } from "../components/SiteChrome.jsx";
 
-const sponsorshipOptions = [
+const sponsorshipPaths = [
   {
-    title: "Children & families",
-    text: "Help strengthen child wellbeing and support families with practical care.",
-    image: "https://gardenofmercy.org/images/gallery/children-03.png",
+    icon: "bi-person-heart",
+    label: "01 · INDIVIDUAL SPONSORSHIP",
+    title: "Stand alongside a child",
+    text: "Choose an available child profile and support their education and wellbeing through an agreed sponsorship plan.",
+    points: ["A child-centred support plan", "Guidance from our foundation team"],
   },
   {
-    title: "Education & opportunity",
-    text: "Support access to learning resources and opportunities for young people.",
-    image: "https://gardenofmercy.org/images/gallery/event-02.png",
+    icon: "bi-people",
+    label: "02 · SHARED SPONSORSHIP",
+    title: "Strengthen support together",
+    text: "Contribute towards shared needs and initiatives that benefit children and vulnerable communities.",
+    points: ["Contributions towards shared priorities", "Support guided by assessed needs"],
+  },
+];
+
+const sponsorshipPrinciples = [
+  {
+    icon: "bi-shield-check",
+    title: "Safeguarding comes first",
+    text: "We treat children's safety, privacy and dignity as essential in every sponsorship relationship.",
   },
   {
-    title: "Community outreach",
-    text: "Stand alongside local communities as they respond to shared needs.",
-    image: "https://gardenofmercy.org/images/gallery/outreach-01.jpg",
+    icon: "bi-calendar2-check",
+    title: "Consistent support",
+    text: "Choose a one-time contribution or discuss recurring support that fits your circumstances.",
+  },
+  {
+    icon: "bi-file-earmark-text",
+    title: "Quarterly progress updates",
+    text: "Sponsors receive progress reporting on a quarterly basis through the foundation's appropriate communication channels.",
+  },
+];
+
+const sponsorshipSteps = [
+  {
+    number: "01",
+    title: "Explore the options",
+    text: "Review available child profiles or learn about shared sponsorship priorities.",
+  },
+  {
+    number: "02",
+    title: "Talk through your support",
+    text: "Choose a one-time or recurring contribution and ask our team about the sponsorship arrangement.",
+  },
+  {
+    number: "03",
+    title: "Stay informed",
+    text: "Our team coordinates appropriate communication and quarterly progress updates while protecting children's privacy.",
   },
 ];
 
 function formatMoney(amount, currency) {
-  const code = currency === "UGX" ? "UGX" : currency;
-
+  const code = currency || "UGX";
   try {
-    return new Intl.NumberFormat(
-      code === "UGX" ? "en-UG" : "en-US",
-      {
-        style: "currency",
-        currency: code,
-        maximumFractionDigits: code === "UGX" ? 0 : 2,
-      }
-    ).format(Number(amount));
+    return new Intl.NumberFormat(code === "UGX" ? "en-UG" : "en-US", {
+      style: "currency",
+      currency: code,
+      maximumFractionDigits: code === "UGX" ? 0 : 2,
+    }).format(Number(amount));
   } catch {
-    return `${amount} ${currency || ""}`.trim();
+    return `${amount} ${code}`.trim();
   }
 }
 
 function ChildCard({ child }) {
   const photoUrl =
     typeof child.photo_url === "string" &&
-    /^https:\/\//i.test(child.photo_url)
+    (/^https:\/\//i.test(child.photo_url) || /^\/(?!\/)/.test(child.photo_url))
       ? child.photo_url
       : "";
 
-  const initial = (child.display_name || "Child")
-    .trim()
-    .charAt(0)
-    .toUpperCase();
-
+  const initial = (child.display_name || "Child").trim().charAt(0).toUpperCase();
   const donationParams = new URLSearchParams({
     purpose: "children",
     child: String(child.id),
   });
 
   return (
-    <div className="col-md-6 col-lg-4">
-      <article className="child-card">
-        <div className="child-art">
+    <div className="col-md-6 col-xl-4">
+      <article className="sponsor-child-card h-100">
+        <div className="sponsor-child-image">
           {photoUrl ? (
             <img
               src={photoUrl}
@@ -66,44 +93,41 @@ function ChildCard({ child }) {
               referrerPolicy="no-referrer"
             />
           ) : (
-            <div className="child-avatar" aria-hidden="true">
+            <div className="sponsor-child-avatar" aria-hidden="true">
               {initial}
             </div>
           )}
+          <span className="sponsor-child-image-label">
+            <i className="bi bi-heart-fill" aria-hidden="true" />
+            A future full of possibility
+          </span>
         </div>
 
-        <div className="child-body">
+        <div className="sponsor-child-content">
           <div className="d-flex flex-wrap gap-2 mb-3">
-            <span className="badge rounded-pill text-bg-light border">
-              {child.age_band || "School age"}
-            </span>
-
-            <span className="badge rounded-pill text-bg-light border">
-              {child.region_label || "Uganda"}
-            </span>
+            <span className="sponsor-profile-tag">{child.age_band || "School age"}</span>
+            <span className="sponsor-profile-tag">{child.region_label || "Uganda"}</span>
           </div>
 
-          <h3 className="child-name">{child.display_name}</h3>
+          <h3 className="sponsor-child-name">{child.display_name || "Child profile"}</h3>
+          <p className="sponsor-child-level">
+            {child.education_level || "Education and wellbeing support"}
+          </p>
+          <p className="sponsor-child-story">
+            {child.story || "Contact our team to learn more about this sponsorship opportunity."}
+          </p>
 
-          <div className="meta mb-3">
-            {child.education_level ||
-              "Education and wellbeing support"}
-          </div>
-
-          <p className="story">{child.story}</p>
-
-          <div className="support-line">
-            <div className="amount">
+          <div className="sponsor-child-footer">
+            <div className="sponsor-child-amount">
               {formatMoney(child.sponsorship_amount, child.currency)}
               <small>Suggested support amount</small>
             </div>
-
             <a
-              className="btn btn-gom"
+              className="btn sponsor-button sponsor-button-green"
               href={`/donate?${donationParams.toString()}`}
               aria-label={`Sponsor ${child.display_name || "this child"}`}
             >
-              Sponsor <span aria-hidden="true">→</span>
+              Sponsor <i className="bi bi-arrow-up-right ms-1" aria-hidden="true" />
             </a>
           </div>
         </div>
@@ -120,19 +144,13 @@ function ChildProfiles() {
 
   async function loadProfiles() {
     setStatus("loading");
-
     try {
       const response = await fetch("/api/sponsorship/children", {
         headers: { Accept: "application/json" },
         cache: "no-store",
       });
-
-      if (!response.ok) {
-        throw new Error("Unable to load sponsorship profiles");
-      }
-
+      if (!response.ok) throw new Error("Unable to load sponsorship profiles");
       const data = await response.json();
-
       setProfiles(Array.isArray(data.children) ? data.children : []);
       setStatus("success");
     } catch {
@@ -146,24 +164,18 @@ function ChildProfiles() {
 
   const visibleProfiles = useMemo(() => {
     const term = searchTerm.trim().toLowerCase();
-
     return profiles.filter((child) => {
-      const matchesCurrency =
-        currency === "all" || child.currency === currency;
-
-      const searchableFields = [
+      const matchesCurrency = currency === "all" || child.currency === currency;
+      const fields = [
         child.display_name,
         child.age_band,
         child.region_label,
         child.education_level,
         child.story,
       ];
-
-      const matchesSearch = searchableFields.some((value) =>
+      return matchesCurrency && fields.some((value) =>
         String(value || "").toLowerCase().includes(term)
       );
-
-      return matchesCurrency && matchesSearch;
     });
   }, [profiles, searchTerm, currency]);
 
@@ -173,74 +185,48 @@ function ChildProfiles() {
   };
 
   return (
-    <section className="py-5 py-lg-6" id="children">
-      <div className="container py-lg-4">
-        <div className="row align-items-end g-3 mb-4">
-          <div className="col-lg-8">
-            <div className="section-kicker mb-2">
-              Find your sponsorship match
-            </div>
-
-            <h2 className="section-title display-6 mb-2">
-              Children you can support
-            </h2>
-
-            <p className="intro-copy mb-0">
-              Read each profile to understand the child&apos;s goals and
-              the support requested. Sponsorship amounts are guidance
-              for the listed needs; our team can explain how contributions
-              are used.
+    <section className="sponsor-profiles-section" id="children" aria-labelledby="children-heading">
+      <div className="container">
+        <div className="sponsor-section-heading sponsor-profile-heading">
+          <div>
+            <span className="sponsor-kicker">CHILD SPONSORSHIP</span>
+            <h2 id="children-heading">Meet the children you can support.</h2>
+            <p>
+              Explore available profiles and the support requested. Each
+              suggested amount is provided as guidance; our team can explain
+              the needs and how contributions are coordinated.
             </p>
           </div>
-
-          <div className="col-lg-4 text-lg-end">
-            <span
-              className="badge rounded-pill text-bg-light border px-3 py-2"
-              id="results-count"
-              aria-live="polite"
-            >
-              {status === "loading"
-                ? "Loading profiles…"
-                : status === "error"
-                  ? "Profiles unavailable"
-                  : `${visibleProfiles.length} ${
-                      visibleProfiles.length === 1 ? "profile" : "profiles"
-                    }`}
-            </span>
+          <div className="sponsor-result-count" aria-live="polite">
+            {status === "loading"
+              ? "Loading profiles…"
+              : status === "error"
+                ? "Profiles unavailable"
+                : `${visibleProfiles.length} ${visibleProfiles.length === 1 ? "profile" : "profiles"}`}
           </div>
         </div>
 
-        <div className="filter-bar mb-4 shadow-lg">
-          <div className="row align-items-center g-3">
+        <div className="sponsor-filter-panel">
+          <div className="row align-items-end g-3">
             <div className="col-md-7">
-              <label
-                className="form-label fw-semibold"
-                htmlFor="child-search"
-              >
-                Search profiles
-              </label>
-
-              <input
-                className="form-control form-control-lg"
-                id="child-search"
-                type="search"
-                placeholder="Search by name, goal or education level"
-                autoComplete="off"
-                value={searchTerm}
-                onChange={(event) => setSearchTerm(event.target.value)}
-              />
+              <label className="form-label" htmlFor="child-search">Search profiles</label>
+              <div className="sponsor-input-wrap">
+                <i className="bi bi-search" aria-hidden="true" />
+                <input
+                  className="form-control"
+                  id="child-search"
+                  type="search"
+                  placeholder="Search by name, goal or education level"
+                  autoComplete="off"
+                  value={searchTerm}
+                  onChange={(event) => setSearchTerm(event.target.value)}
+                />
+              </div>
             </div>
-
             <div className="col-md-5">
-              <label
-                className="form-label fw-semibold"
-                htmlFor="currency-filter"
-              >
-                Sponsorship currency
-              </label>
-
+              <label className="form-label" htmlFor="currency-filter">Sponsorship currency</label>
               <select
-                className="form-select form-select-lg"
+                className="form-select"
                 id="currency-filter"
                 value={currency}
                 onChange={(event) => setCurrency(event.target.value)}
@@ -253,112 +239,64 @@ function ChildProfiles() {
           </div>
         </div>
 
-        <div
-          id="children-grid"
-          className="row g-4"
-          aria-live="polite"
-          aria-busy={status === "loading"}
-        >
-          {status === "loading" && (
-            <>
-              {[1, 2, 3].map((item) => (
-                <div
-                  className={`col-md-6 col-lg-4 ${
-                    item === 2 ? "d-none d-md-block" : ""
-                  } ${item === 3 ? "d-none d-lg-block" : ""}`}
-                  key={item}
-                >
-                  <div
-                    className="loading-shimmer"
-                    aria-label="Loading child sponsorship profiles"
-                  />
-                </div>
-              ))}
-            </>
-          )}
+        <div className="row g-4" aria-live="polite" aria-busy={status === "loading"}>
+          {status === "loading" && [1, 2, 3].map((item) => (
+            <div className="col-md-6 col-xl-4" key={item}>
+              <div className="sponsor-profile-skeleton" aria-label="Loading child sponsorship profile" />
+            </div>
+          ))}
 
           {status === "error" && (
             <div className="col-12">
-              <div className="empty-state">
-                <h3 className="h4 fw-bold">
-                  We could not load sponsorship profiles
-                </h3>
-
-                <p
-                  className="intro-copy mx-auto"
-                  style={{ maxWidth: "560px" }}
-                >
-                  Please try again in a moment, or contact our team and
-                  we will help you explore sponsorship opportunities.
-                </p>
-
-                <AppLink to="/contact" className="btn btn-gom">
-                  Contact our team
-                </AppLink>
-
-                <button
-                  type="button"
-                  className="btn btn-outline-success rounded-pill px-4 ms-2"
-                  onClick={loadProfiles}
-                >
-                  Try again
-                </button>
+              <div className="sponsor-empty-state">
+                <span className="sponsor-empty-icon"><i className="bi bi-cloud-exclamation" aria-hidden="true" /></span>
+                <h3>We could not load the profiles</h3>
+                <p>Please try again, or contact our team for help exploring sponsorship opportunities.</p>
+                <div className="d-flex justify-content-center flex-wrap gap-2">
+                  <button type="button" className="btn sponsor-button sponsor-button-green" onClick={loadProfiles}>
+                    Try again <i className="bi bi-arrow-clockwise ms-1" aria-hidden="true" />
+                  </button>
+                  <AppLink to="/contact" className="btn sponsor-button sponsor-button-outline">
+                    Contact our team
+                  </AppLink>
+                </div>
               </div>
             </div>
           )}
 
-          {status === "success" &&
-            visibleProfiles.map((child) => (
-              <ChildCard key={child.id} child={child} />
-            ))}
+          {status === "success" && visibleProfiles.map((child) => (
+            <ChildCard key={child.id} child={child} />
+          ))}
 
           {status === "success" && visibleProfiles.length === 0 && (
             <div className="col-12">
-              <div className="empty-state">
-                <div className="display-5 mb-3" aria-hidden="true">
-                  🌱
-                </div>
-
-                <h3 className="h4 fw-bold">
+              <div className="sponsor-empty-state">
+                <span className="sponsor-empty-icon"><i className="bi bi-flower1" aria-hidden="true" /></span>
+                <h3>{profiles.length ? "No profiles match your filters" : "New sponsorship profiles are being prepared"}</h3>
+                <p>
                   {profiles.length
-                    ? "No profiles match those filters"
-                    : "New sponsorship profiles are being prepared"}
-                </h3>
-
-                <p
-                  className="intro-copy mx-auto"
-                  style={{ maxWidth: "580px" }}
-                >
-                  {profiles.length
-                    ? "Try another search term or currency."
-                    : "We only publish profiles after the appropriate consent and safeguarding checks. Please check back soon, or contact our team to discuss current sponsorship opportunities."}
+                    ? "Try another search term or select a different currency."
+                    : "Profiles are published only after appropriate consent and safeguarding checks. Contact our team to discuss current sponsorship opportunities."}
                 </p>
-
-                <div className="d-flex justify-content-center flex-wrap gap-2">
-                  {profiles.length > 0 ? (
-                    <button
-                      type="button"
-                      className="btn btn-outline-success rounded-pill px-4"
-                      onClick={clearFilters}
-                    >
-                      Clear filters
-                    </button>
-                  ) : (
-                    <AppLink to="/contact" className="btn btn-gom">
-                      Contact our team
-                    </AppLink>
-                  )}
-                </div>
+                {profiles.length ? (
+                  <button type="button" className="btn sponsor-button sponsor-button-outline" onClick={clearFilters}>
+                    Clear filters
+                  </button>
+                ) : (
+                  <AppLink to="/contact" className="btn sponsor-button sponsor-button-green">Talk to our team</AppLink>
+                )}
               </div>
             </div>
           )}
         </div>
 
-        <div className="safety-note mt-4">
-          <strong className="text-dark">Protecting children comes first.</strong> We use first
-          names or chosen display names and broad age ranges. We do not
-          publish exact birth dates, home addresses, caregiver contacts,
-          case notes or other private records.
+        <div className="sponsor-safeguarding-note">
+          <i className="bi bi-shield-lock-fill" aria-hidden="true" />
+          <p className="mb-0">
+            <strong>Children's safety and dignity come first.</strong> We limit
+            public profile information and do not publish exact birth dates,
+            home addresses, caregiver contacts or private case records.
+          </p>
         </div>
       </div>
     </section>
@@ -367,218 +305,176 @@ function ChildProfiles() {
 
 export default function Sponsor({ navigate }) {
   return (
-    <>
-      
-      {/* SPONSORSHIP HERO */}
-      <header className="sponsor-hero">
-        <div className="container">
-          <div className="row align-items-center text-white">
-            <div className="overlay" />
-
+    <main className="sponsor-page">
+      <section className="sponsor-hero" aria-labelledby="sponsor-title">
+        <div className="container sponsor-hero-container">
+          <div className="row align-items-center g-5">
             <div className="col-lg-7">
-              <span className="section-label eyebrow eyebrow-light">
-                <span className="eyebrow-dot" />
-                Give a child room to grow
-              </span>
-
-              <h1 className="mt-3 mb-1">
-                One caring sponsor can help change a child’s future.
-              </h1>
-
-              <p className="text-white">
-                Discover children whose education and wellbeing could
-                benefit from steady support. Your sponsorship can help
-                provide school essentials, learning opportunities and
-                care—with dignity, safety and transparency at the heart
-                of every connection.
-              </p>
-
-              <div className="d-flex flex-wrap gap-3 mt-4">
-                <a className="btn btn-gom" href="#children">
-                  Explore children <span aria-hidden="true">↓</span>
-                </a>
-
-                <AppLink
-                  to="/contact"
-                  navigate={navigate}
-                  className="btn btn-success fw-bold"
-                >
-                  Ask us how it works
-                </AppLink>
+              <div className="sponsor-hero-copy">
+                <span className="sponsor-hero-eyebrow">
+                  <span className="sponsor-hero-dot" aria-hidden="true" />
+                  CHILD SPONSORSHIP · SHARED SUPPORT
+                </span>
+                <h1 id="sponsor-title">
+                  Help a child take the next step towards a <em>brighter future.</em>
+                </h1>
+                <p>
+                  Your support can help create access to education, strengthen
+                  wellbeing and bring practical care within reach. Choose a
+                  child sponsorship or contribute towards shared community
+                  priorities, with dignity and safeguarding at the heart of our work.
+                </p>
+                <div className="sponsor-hero-actions">
+                  <a href="#children" className="btn sponsor-button sponsor-button-gold">
+                    Explore child profiles <i className="bi bi-arrow-down ms-1" aria-hidden="true" />
+                  </a>
+                  <AppLink to="/contact" navigate={navigate} className="btn sponsor-button sponsor-button-glass">
+                    Discuss sponsorship
+                  </AppLink>
+                </div>
+                <div className="sponsor-hero-points">
+                  <span><i className="bi bi-shield-check" aria-hidden="true" /> Safeguarding-led</span>
+                  <span><i className="bi bi-heart" aria-hidden="true" /> Child-centred</span>
+                  <span><i className="bi bi-clipboard2-check" aria-hidden="true" /> Accountable support</span>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-      </header>
-
-      <PageIntro
-        eyebrow="PARTNER WITH PURPOSE"
-        title={
-          <>
-            Help compassion <em>grow.</em>
-          </>
-        }
-        text="Choose an area of interest and connect with Garden of Mercy Foundation to explore responsible ways to support our work."
-      />
-
-      <div className="container p-4">
-        <div className="hero-art" aria-hidden="true">
-          <div className="hero-emblem">
-            <span className="hero-heart">💚</span>
-          </div>
-        </div>
-      </div>
-
-      {/* TRUST STRIP */}
-      <section className="trust-strip">
-        <div className="container">
-          <div className="row g-2 justify-content-center">
-            <div className="col-12 col-md-4">
-              <div className="trust-item">
-                <span className="trust-icon">🛡️</span>
-                <span>Child dignity and safeguarding</span>
-              </div>
-            </div>
-
-            <div className="col-12 col-md-4">
-              <div className="trust-item">
-                <span className="trust-icon">📚</span>
-                <span>Support focused on opportunity</span>
-              </div>
-            </div>
-
-            <div className="col-12 col-md-4">
-              <div className="trust-item">
-                <span className="trust-icon">🤝</span>
-                <span>Guidance from our team</span>
-              </div>
+            <div className="col-lg-5">
+              <aside className="sponsor-hero-card">
+                <span className="sponsor-hero-card-icon"><i className="bi bi-flower1" aria-hidden="true" /></span>
+                <span className="sponsor-kicker">A COMMITMENT THAT MATTERS</span>
+                <h2>Every child deserves the chance to learn, grow and thrive.</h2>
+                <p>
+                  Sponsorship is a partnership. We work to connect generosity
+                  with assessed needs while protecting the dignity and privacy
+                  of every child.
+                </p>
+                <div className="sponsor-hero-card-foot">
+                  <span>Garden of Mercy Foundation</span>
+                  <i className="bi bi-heart-fill" aria-hidden="true" />
+                </div>
+              </aside>
             </div>
           </div>
         </div>
       </section>
 
-      <main>
-        <ChildProfiles />
+      <section className="sponsor-trust-strip" aria-label="Our sponsorship commitments">
+        <div className="container">
+          <div className="row g-3">
+            <div className="col-md-4"><div><i className="bi bi-shield-check" /><span>Child dignity and safeguarding</span></div></div>
+            <div className="col-md-4"><div><i className="bi bi-journal-check" /><span>Responsible contribution management</span></div></div>
+            <div className="col-md-4"><div><i className="bi bi-calendar2-check" /><span>Quarterly progress updates</span></div></div>
+          </div>
+        </div>
+      </section>
 
-        {/* HOW SPONSORSHIP WORKS */}
-        <section
-          className="py-5 shadow-lg"
-          aria-labelledby="how-sponsorship-works"
-        >
-          <div className="container py-lg-4">
-            <div
-              className="text-center mx-auto mb-5"
-              style={{ maxWidth: "700px" }}
-            >
-              <div className="section-kicker mb-2">
-                A simple, supported process
+      <section className="sponsor-pathways-section" aria-labelledby="pathways-heading">
+        <div className="container">
+          <div className="sponsor-section-heading text-center mx-auto">
+            <span className="sponsor-kicker">WAYS TO MAKE A DIFFERENCE</span>
+            <h2 id="pathways-heading">Choose how you would like to support.</h2>
+            <p>
+              There is more than one way to take part. Our team can help you
+              understand the available options and choose an approach that is right for you.
+            </p>
+          </div>
+          <div className="row g-4 mt-2">
+            {sponsorshipPaths.map((path) => (
+              <div className="col-lg-6" key={path.title}>
+                <article className="sponsor-path-card h-100">
+                  <div className="sponsor-path-icon"><i className={`bi ${path.icon}`} aria-hidden="true" /></div>
+                  <span className="sponsor-path-label">{path.label}</span>
+                  <h3>{path.title}</h3>
+                  <p>{path.text}</p>
+                  <ul>
+                    {path.points.map((point) => (
+                      <li key={point}><i className="bi bi-check2-circle" aria-hidden="true" />{point}</li>
+                    ))}
+                  </ul>
+                  <AppLink to={path.title === "Stand alongside a child" ? "/#children" : "/contact"} navigate={navigate} className="sponsor-text-link">
+                    {path.title === "Stand alongside a child" ? "View child profiles" : "Discuss shared support"}
+                    <i className="bi bi-arrow-up-right" aria-hidden="true" />
+                  </AppLink>
+                </article>
               </div>
+            ))}
+          </div>
+          <p className="sponsor-contribution-note">
+            <i className="bi bi-info-circle" aria-hidden="true" />
+            Contributions may be made as a one-time gift or through recurring support arrangements.
+            Please contact our team to confirm the available sponsorship plan and payment details.
+          </p>
+        </div>
+      </section>
 
-              <h2 className="section-title display-6">
-                How child sponsorship works
-              </h2>
+      <ChildProfiles />
 
-              <p className="intro-copy">
-                You don’t have to navigate the process alone. Our team
-                will help you understand the needs and the next steps.
+      <section className="sponsor-principles-section" aria-labelledby="principles-heading">
+        <div className="container">
+          <div className="sponsor-section-heading">
+            <span className="sponsor-kicker">OUR RESPONSIBILITY TO YOU AND THE CHILDREN</span>
+            <h2 id="principles-heading">Support built on care, responsibility and trust.</h2>
+            <p>We aim to make every sponsorship relationship thoughtful, safe and accountable.</p>
+          </div>
+          <div className="row g-4 mt-2">
+            {sponsorshipPrinciples.map((item) => (
+              <div className="col-md-4" key={item.title}>
+                <article className="sponsor-principle-card h-100">
+                  <span className="sponsor-principle-icon"><i className={`bi ${item.icon}`} aria-hidden="true" /></span>
+                  <h3>{item.title}</h3>
+                  <p className="mb-0">{item.text}</p>
+                </article>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="sponsor-process-section" aria-labelledby="process-heading">
+        <div className="container">
+          <div className="sponsor-section-heading text-center mx-auto">
+            <span className="sponsor-kicker">A CLEAR, SUPPORTED PROCESS</span>
+            <h2 id="process-heading">How sponsorship works.</h2>
+            <p>Our team will guide you through the process and help you understand each step.</p>
+          </div>
+          <div className="row g-4 mt-2">
+            {sponsorshipSteps.map((step) => (
+              <div className="col-md-4" key={step.number}>
+                <article className="sponsor-process-card h-100">
+                  <span className="sponsor-process-number">{step.number}</span>
+                  <h3>{step.title}</h3>
+                  <p className="mb-0">{step.text}</p>
+                </article>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="sponsor-final-cta" aria-labelledby="sponsor-cta-heading">
+        <div className="container">
+          <div className="sponsor-final-cta-panel">
+            <div className="sponsor-final-cta-copy">
+              <span className="sponsor-kicker">SOW A SEED OF MERCY</span>
+              <h2 id="sponsor-cta-heading">Your support can help create room for hope.</h2>
+              <p>
+                Whether you want to sponsor a child, contribute towards shared
+                needs or simply learn more, our team is ready to help you take
+                the next step.
               </p>
             </div>
-
-            <div className="row g-4">
-              <div className="col-md-4">
-                <div className="how-card shadow-lg">
-                  <div className="step-num">01</div>
-                  <h3 className="h5 fw-bold">Explore profiles</h3>
-                  <p className="intro-copy mb-0">
-                    Learn about a child’s interests, education goals and
-                    the type of support being sought.
-                  </p>
-                </div>
-              </div>
-
-              <div className="col-md-4">
-                <div className="how-card shadow-lg">
-                  <div className="step-num">02</div>
-                  <h3 className="h5 fw-bold">Choose how to help</h3>
-                  <p className="intro-copy mb-0">
-                    Select a profile and start a secure donation, or
-                    contact our team if you want to discuss a sponsorship
-                    plan first.
-                  </p>
-                </div>
-              </div>
-
-              <div className="col-md-4">
-                <div className="how-card shadow-lg">
-                  <div className="step-num">03</div>
-                  <h3 className="h5 fw-bold">
-                    Stay connected through us
-                  </h3>
-                  <p className="intro-copy mb-0">
-                    Our team coordinates appropriate updates and handles
-                    communication in line with safeguarding and privacy
-                    rules.
-                  </p>
-                </div>
-              </div>
+            <div className="sponsor-final-cta-actions">
+              <AppLink to="/contact" navigate={navigate} className="btn sponsor-button sponsor-button-gold">
+                Talk to our team <i className="bi bi-arrow-up-right ms-1" aria-hidden="true" />
+              </AppLink>
+              <AppLink to="/donate" navigate={navigate} className="sponsor-final-donate-link">
+                Make a general donation
+              </AppLink>
             </div>
           </div>
-        </section>
-
-        {/* SPONSORSHIP CTA */}
-        <section className="py-5">
-          <div className="container py-lg-3">
-            <div className="cta">
-              <div className="row align-items-center g-4">
-                <div className="col-lg-8">
-                  <div
-                    className="section-kicker mb-2"
-                    style={{ color: "#f0ce78" }}
-                  >
-                    Every act of care matters
-                  </div>
-
-                  <h2 className="section-title display-6 mb-3">
-                    Not sure which child to sponsor?
-                  </h2>
-
-                  <p className="mb-0">
-                    Tell us what kind of support you would like to provide.
-                    We can help you understand current needs and find a
-                    suitable way to contribute.
-                  </p>
-                </div>
-
-                <div className="col-lg-4 text-lg-end">
-                  <AppLink
-                    to="/contact"
-                    navigate={navigate}
-                    className="btn btn-light rounded-pill px-4 py-3 fw-bold"
-                  >
-                    Talk to our team{" "}
-                    <span aria-hidden="true">→</span>
-                  </AppLink>
-
-                  <div
-                    className="small mt-3"
-                    style={{ color: "#c9dfd0" }}
-                  >
-                    You can also{" "}
-                    <AppLink
-                      to="/donate"
-                      navigate={navigate}
-                      className="fw-bold"
-                    >
-                      make a general donation
-                    </AppLink>
-                    .
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      </main>
-    </>
+        </div>
+      </section>
+    </main>
   );
 }
