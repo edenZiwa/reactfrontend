@@ -5,7 +5,7 @@ async function request(path,options={}){const method=(options.method||"GET").toU
 export default function VolunteerPortal(){
  const [data,setData]=useState(null),[error,setError]=useState(""),[busy,setBusy]=useState(false);
  const [contact,setContact]=useState({contactName:"",relationship:"",phone:""}),[message,setMessage]=useState("");
- const load=useCallback(async()=>{try{setError("");setData(await request("/account/volunteer-operations"));}catch(e){setError(e.message);}},[]);
+ const load=useCallback(async()=>{try{setError("");const result=await request("/account/volunteer-operations");setData(result);if(result.emergencyContact)setContact({contactName:result.emergencyContact.contact_name||"",relationship:result.emergencyContact.relationship||"",phone:result.emergencyContact.phone||""});}catch(e){setError(e.message);}},[]);
  useEffect(()=>{load();},[load]);
  async function taskStatus(id,status){setBusy(true);try{await request("/account/volunteer-operations/tasks/"+id,{method:"PATCH",body:JSON.stringify({status})});await load();}catch(e){setError(e.message);}finally{setBusy(false);}}
  async function saveContact(e){e.preventDefault();setBusy(true);setMessage("");try{await request("/account/volunteer-operations/emergency-contact",{method:"PUT",headers:{"X-CSRF-Token":window.__gomCsrfToken||""},body:JSON.stringify(contact)});setMessage("Emergency contact saved.");}catch(e){setError(e.message);}finally{setBusy(false);}}
