@@ -1,13 +1,13 @@
 import React,{useCallback,useEffect,useState} from "react";
 const BASE=(import.meta.env.VITE_API_BASE_URL||"/api").replace(/\/$/,"");
 const date=v=>v?new Date(v).toLocaleDateString():"—";
-async function request(path,options={}){const r=await fetch(BASE+path,{...options,credentials:"include",cache:"no-store",headers:{"Content-Type":"application/json",...(options.headers||{})}}),d=await r.json().catch(()=>({}));if(!r.ok)throw Error(d.error||"Unable to load volunteer information.");return d;}
+async function request(path,options={}){const method=(options.method||"GET").toUpperCase(),headers={"Content-Type":"application/json",...(options.headers||{})};if(!["GET","HEAD","OPTIONS"].includes(method)){const origin=(import.meta.env.VITE_API_BASE_URL||"").replace(/\\/$/,"");const c=await fetch(origin+"/auth/csrf",{credentials:"include",cache:"no-store"}),token=await c.json().catch(()=>({}));if(!c.ok||!token.csrfToken)throw Error(token.error||"Secure session unavailable.");headers["X-CSRF-Token"]=token.csrfToken;}const r=await fetch(BASE+path,{...options,method,credentials:"include",cache:"no-store",headers}),d=await r.json().catch(()=>({}));if(!r.ok)throw Error(d.error||"Unable to load volunteer information.");return d;}
 export default function VolunteerPortal(){
  const [data,setData]=useState(null),[error,setError]=useState(""),[busy,setBusy]=useState(false);
  const [contact,setContact]=useState({contactName:"",relationship:"",phone:""}),[message,setMessage]=useState("");
  const load=useCallback(async()=>{try{setError("");setData(await request("/account/volunteer-operations"));}catch(e){setError(e.message);}},[]);
  useEffect(()=>{load();},[load]);
- async function taskStatus(id,status){setBusy(true);try{await request("/account/volunteer-operations/tasks/"+id,{method:"PATCH",headers:{"X-CSRF-Token":window.__gomCsrfToken||""},body:JSON.stringify({status})});await load();}catch(e){setError(e.message);}finally{setBusy(false);}}
+ async function taskStatus(id,status){setBusy(true);try{await request("/account/volunteer-operations/tasks/"+id,{method:"PATCH",body:JSON.stringify({status})});await load();}catch(e){setError(e.message);}finally{setBusy(false);}}
  async function saveContact(e){e.preventDefault();setBusy(true);setMessage("");try{await request("/account/volunteer-operations/emergency-contact",{method:"PUT",headers:{"X-CSRF-Token":window.__gomCsrfToken||""},body:JSON.stringify(contact)});setMessage("Emergency contact saved.");}catch(e){setError(e.message);}finally{setBusy(false);}}
  if(!data&&!error)return <section className="panel p-4">Loading your volunteer service…</section>;
  return <section className="panel p-3 p-md-4 mb-4"><div className="d-flex justify-content-between align-items-center gap-2"><div><h2 className="panel-title mb-1">My volunteer service</h2><p className="small-muted">Your assignments, tasks, verified service hours and recognition.</p></div><button className="btn btn-outline-success btn-sm" onClick={load}>Refresh</button></div>
