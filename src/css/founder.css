@@ -589,7 +589,7 @@ body {
 .message-signoff span {
     width: 2.5rem;
     height: 2px;
-    background: black!important;
+    background: var(--gomf-deep, #203129);
 }
 
 /* Gallery preview */
