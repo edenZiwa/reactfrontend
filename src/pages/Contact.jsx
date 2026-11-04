@@ -1,10 +1,7 @@
 import React, {
     useState
 } from "react";
-import {
-    PageIntro,
-    Eyebrow
-} from "../components/SiteChrome.jsx";
+import { Eyebrow } from "../components/SiteChrome.jsx";
 
 const initialForm = {
     name: "",
