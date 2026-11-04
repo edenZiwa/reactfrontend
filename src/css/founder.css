@@ -413,7 +413,7 @@ body {
 }
 .value-card p {
     margin: 0;
-    color: black!important;
+    color: var(--gomf-text, #203129);
     font-size: .94rem;
     line-height: 1.8;
 }
@@ -446,13 +446,13 @@ body {
 }
 .ministry-card h3 {
     margin-bottom: .85rem;
-    color: black!important;
+    color: var(--gomf-text, #203129);
     font-size: 1.3rem;
     font-weight: 800;
 }
 .ministry-card p {
     flex: 1;
-    color: black!important;
+    color: var(--gomf-text, #203129);
     font-size: .94rem;
     line-height: 1.8;
 }
@@ -560,23 +560,23 @@ body {
 }
 .message-heading {
     margin: .9rem 0 0;
-    color: black!important;
+    color: var(--gomf-text, #203129);
     font-size: clamp(1.9rem, 3.4vw, 2.8rem);
     font-weight: 800;
     letter-spacing: -.045em;
     line-height: 1.1;
 }
 .message-intro {
-    color: black!important;
+    color: var(--gomf-text, #203129);
     font-family: Georgia, serif;
     font-size: clamp(1.3rem, 2vw, 1.7rem);
 }
 .message-panel p:not(.muted-note) {
-    color: black!important;
+    color: var(--gomf-text, #203129);
     line-height: 1.9;
 }
 .message-panel .message-closing {
-    color: black!important;
+    color: var(--gomf-text, #203129);
     font-weight: 800;
 }
 .message-signoff {
@@ -584,7 +584,7 @@ body {
     align-items: center;
     gap: .75rem;
     margin-top: 1.5rem;
-    color: black!important;
+    color: var(--gomf-text, #203129);
 }
 .message-signoff span {
     width: 2.5rem;
