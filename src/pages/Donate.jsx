@@ -172,20 +172,6 @@ function Donate() {
                   </a>
                 </div>
 
-                <div className="donate-hero-assurances" aria-label="Donation options">
-                  <span>
-                    <i className="bi bi-check-circle-fill" aria-hidden="true" />
-                    Choose your impact
-                  </span>
-                  <span>
-                    <i className="bi bi-currency-exchange" aria-hidden="true" />
-                    Give in UGX or USD
-                  </span>
-                  <span>
-                    <i className="bi bi-lock-fill" aria-hidden="true" />
-                    Secure checkout
-                  </span>
-                </div>
               </div>
             </div>
 
