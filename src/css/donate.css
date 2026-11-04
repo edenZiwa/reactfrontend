@@ -1,30 +1,30 @@
 /* Garden of Mercy Foundation — Donation page */
 
-/* Donation hero — welcoming, action-led and responsive. */
+/* Premium campaign hero */
 .donate-hero {
     position: relative;
     isolation: isolate;
     display: flex;
     align-items: center;
-    min-height: 570px;
+    min-height: 600px;
+    padding: clamp(4.5rem, 8vw, 7rem) 0;
     overflow: hidden;
-    padding: clamp(4rem, 8vw, 7rem) 0;
     color: #fff;
-    background-color: #10271c;
+    background-color: #10291d;
     background-image: url("/images/main.png");
-    background-position: center 44%;
-    background-size: cover;
     background-repeat: no-repeat;
+    background-position: center 42%;
+    background-size: cover;
 }
 
 .donate-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background:
-    linear-gradient(90deg, rgba(8, 29, 19, .96) 0%, rgba(8, 29, 19, .88) 44%, rgba(8, 29, 19, .48) 100%),
-    linear-gradient(0deg, rgba(8, 29, 19, .42), transparent 55%);
-  pointer-events: none;
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+        linear-gradient(90deg, rgba(7, 27, 18, .97) 0%, rgba(7, 27, 18, .91) 43%, rgba(7, 27, 18, .62) 100%),
+        linear-gradient(0deg, rgba(7, 27, 18, .45), transparent 48%);
+    pointer-events: none;
 }
 
 .donate-hero-content {
@@ -33,32 +33,37 @@
     width: 100%;
 }
 
+.donate-hero-copy {
+    max-width: 690px;
+}
+
 .donate-hero-eyebrow {
     display: inline-flex;
     align-items: center;
-    gap: .7rem;
+    gap: .8rem;
     color: #f0d28d;
-    font-size: .76rem;
+    font-size: .72rem;
     font-weight: 800;
-    letter-spacing: .16em;
+    letter-spacing: .17em;
 }
 
 .donate-hero-eyebrow-dot {
     width: 9px;
     height: 9px;
+    flex: 0 0 9px;
     border-radius: 50%;
-    background: #e4bf70;
-    box-shadow: 0 0 0 5px rgba(228, 191, 112, .16);
+    background: #e8c779;
+    box-shadow: 0 0 0 5px rgba(232, 199, 121, .16);
 }
 
 .donate-hero-title {
-    max-width: 760px;
-    margin: 1.2rem 0 1.25rem;
+    max-width: 700px;
+    margin: 1.35rem 0 1.4rem;
     color: #fff;
-    font-size: clamp(2.7rem, 6vw, 5.25rem);
-    font-weight: 800;
-    line-height: 1.04;
-    letter-spacing: -.045em;
+    font-size: clamp(2.8rem, 6.1vw, 5.35rem);
+    font-weight: 850;
+    line-height: 1.02;
+    letter-spacing: -.055em;
 }
 
 .donate-hero-title em {
@@ -68,18 +73,18 @@
 
 .donate-hero-title span {
     display: block;
-    margin-top: .35rem;
+    margin-top: .55rem;
     color: rgba(255, 255, 255, .88);
-    font-size: .58em;
+    font-size: .53em;
     font-weight: 600;
     letter-spacing: -.025em;
 }
 
 .donate-intro {
-    max-width: 640px;
+    max-width: 610px;
     margin: 0;
     color: rgba(255, 255, 255, .86);
-    font-size: clamp(1rem, 1.5vw, 1.15rem);
+    font-size: clamp(1rem, 1.45vw, 1.13rem);
     line-height: 1.85;
 }
 
@@ -87,7 +92,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: .85rem;
-    margin-top: 1.8rem;
+    margin-top: 1.9rem;
 }
 
 .donate-hero-primary,
@@ -95,8 +100,9 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-height: 52px;
-    padding: .85rem 1.35rem;
+    min-height: 54px;
+    padding: .9rem 1.5rem;
+    border: 1px solid transparent;
     border-radius: .65rem;
     font-weight: 800;
     text-decoration: none;
@@ -106,131 +112,156 @@
 .donate-hero-primary {
     color: #173724;
     background: #e8c779;
-    border: 1px solid #e8c779;
+    border-color: #e8c779;
+    box-shadow: 0 .55rem 1.4rem rgba(0, 0, 0, .15);
 }
 
 .donate-hero-primary:hover {
     color: #173724;
-    background: #f2d994;
-    border-color: #f2d994;
+    background: #f3d995;
+    border-color: #f3d995;
     transform: translateY(-2px);
 }
 
 .donate-hero-secondary {
     color: #fff;
-    background: rgba(255, 255, 255, .08);
-    border: 1px solid rgba(255, 255, 255, .55);
+    background: rgba(255, 255, 255, .07);
+    border-color: rgba(255, 255, 255, .48);
 }
 
 .donate-hero-secondary:hover {
     color: #fff;
-    background: rgba(255, 255, 255, .16);
-    border-color: #fff;
+    background: rgba(255, 255, 255, .15);
+    border-color: rgba(255, 255, 255, .85);
 }
 
-.donate-hero-values {
+.donate-hero-assurances {
     display: flex;
     flex-wrap: wrap;
-    gap: .8rem 1.5rem;
-    margin-top: 2rem;
+    gap: .85rem 1.4rem;
+    margin-top: 2.1rem;
 }
 
-.donate-hero-values span {
+.donate-hero-assurances span {
     display: inline-flex;
     align-items: center;
-    gap: .55rem;
-    color: rgba(255, 255, 255, .88);
-    font-size: .88rem;
+    gap: .5rem;
+    color: rgba(255, 255, 255, .83);
+    font-size: .82rem;
     font-weight: 600;
 }
 
-.donate-hero-values i {
+.donate-hero-assurances i {
     color: #edca7c;
+    font-size: .95rem;
 }
 
-.donate-hero-card {
+.donate-hero-feature {
     position: relative;
-    max-width: 370px;
-    margin: 1rem 0 1rem auto;
-    padding: 2rem;
+    max-width: 405px;
+    margin: 0 0 0 auto;
+    padding: clamp(1.6rem, 3vw, 2.35rem);
     overflow: hidden;
-    color: #23372b;
-    background: rgba(255, 255, 255, .96);
-    border: 1px solid rgba(255, 255, 255, .65);
-    border-radius: 1.25rem;
-    box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, .22);
+    color: #20392b;
+    background: rgba(255, 255, 255, .97);
+    border: 1px solid rgba(255, 255, 255, .72);
+    border-radius: 1.15rem;
+    box-shadow: 0 1.6rem 4.5rem rgba(0, 0, 0, .25);
 }
 
-.donate-hero-card-icon {
+.donate-hero-feature-top {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: .85rem;
+}
+
+.donate-hero-feature-icon {
     display: grid;
     place-items: center;
-    width: 48px;
-    height: 48px;
-    margin-bottom: 1.25rem;
+    width: 46px;
+    height: 46px;
+    flex: 0 0 46px;
     color: #176b45;
     background: #eaf3ed;
-    border-radius: 14px;
-    font-size: 1.35rem;
+    border-radius: 13px;
+    font-size: 1.25rem;
 }
 
-.donate-hero-card-kicker {
-    color: #617267;
+.donate-hero-feature-label {
+    color: #64766a;
     font-size: .68rem;
     font-weight: 800;
     letter-spacing: .13em;
 }
 
-.donate-hero-card-amount {
-    margin: .45rem 0 .15rem;
+.donate-hero-feature-amount {
+    position: relative;
+    z-index: 1;
+    margin: 1.5rem 0 .15rem;
     color: #176b45;
-    font-size: 3.3rem;
+    font-size: clamp(3rem, 5vw, 4rem);
     font-weight: 900;
-    line-height: 1.1;
-    letter-spacing: -.05em;
+    line-height: 1;
+    letter-spacing: -.06em;
 }
 
-.donate-hero-card h2 {
+.donate-hero-feature h2 {
     position: relative;
     z-index: 1;
-    margin: .35rem 0 .75rem;
+    margin: .75rem 0 .8rem;
     color: #183b29;
-    font-size: 1.3rem;
+    font-size: 1.35rem;
     font-weight: 800;
-    line-height: 1.3;
+    line-height: 1.35;
 }
 
-.donate-hero-card-copy {
+.donate-hero-feature-copy {
     position: relative;
     z-index: 1;
-    color: #657369;
+    margin: 0;
+    color: #647369;
     font-size: .92rem;
     line-height: 1.75;
 }
 
-.donate-hero-card-link {
+.donate-hero-feature-link {
     position: relative;
     z-index: 1;
     display: inline-flex;
     align-items: center;
-    gap: .5rem;
-    margin-top: .5rem;
+    gap: .65rem;
+    margin-top: 1.25rem;
     color: #176b45;
     font-weight: 800;
     text-decoration: none;
 }
 
-.donate-hero-card-link:hover {
+.donate-hero-feature-link:hover {
     color: #123d2b;
     text-decoration: underline;
 }
 
-.donate-hero-card-flower {
+.donate-hero-feature-watermark {
     position: absolute;
-    right: -1.15rem;
-    bottom: -2.1rem;
-    color: rgba(23, 107, 69, .07);
+    right: -.9rem;
+    bottom: -2rem;
+    color: rgba(23, 107, 69, .065);
     font-size: 9rem;
     line-height: 1;
+}
+
+.donate-hero-caption {
+    max-width: 405px;
+    margin: 1rem 0 0 auto;
+    color: rgba(255, 255, 255, .78);
+    font-size: .82rem;
+    text-align: center;
+}
+
+.donate-hero-caption i {
+    color: #edca7c;
 }
 
 .donate-hero a:focus-visible {
@@ -343,19 +374,59 @@
 }
 
 @media (max-width: 991.98px) {
+    .donate-hero {
+        min-height: 0;
+        padding: 4.75rem 0;
+    }
+
+    .donate-hero-feature {
+        max-width: 520px;
+        margin: 0;
+    }
+
+    .donate-hero-caption {
+        max-width: 520px;
+        margin-left: 0;
+        text-align: left;
+    }
+
     .donation-aside {
         position: static;
     }
 }
 
 @media (max-width: 575.98px) {
-    .donation-card,
-    .donation-aside {
-        border-radius: 1rem;
+    .donate-hero {
+        padding: 3.75rem 0 3.25rem;
+        background-position: 58% center;
     }
 
-    .donate-hero {
-        padding-top: 1rem;
+    .donate-hero-title {
+        font-size: clamp(2.55rem, 12vw, 3.5rem);
+    }
+
+    .donate-hero-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .donate-hero-primary,
+    .donate-hero-secondary {
+        width: 100%;
+    }
+
+    .donate-hero-assurances {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: .8rem;
+    }
+
+    .donate-hero-feature {
+        padding: 1.5rem;
+    }
+
+    .donate-hero-caption {
+        text-align: center;
     }
 }
 
