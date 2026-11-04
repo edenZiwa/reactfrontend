@@ -270,8 +270,8 @@ export default function Admin({ path = "/admin", navigate }) {
         if (!record.id) { method = "POST"; body.password = form.password; }
         endpoint += record.id ? `/${record.id}` : "";
       } else if (key === "beneficiaries") {
-        body = { firstName: form.first_name, lastName: form.last_name, dateOfBirth: form.date_of_birth, sex: form.sex, status: form.status, consentStatus: form.consent_status };
-        endpoint += `/${record.id}`;
+        body = { ...(form.beneficiaryCode ? { beneficiaryCode: form.beneficiaryCode } : {}), firstName: form.first_name, lastName: form.last_name, dateOfBirth: form.date_of_birth || null, sex: form.sex, status: form.status, consentStatus: form.consent_status, primaryCaregiverName: form.primary_caregiver_name, primaryCaregiverPhone: form.primary_caregiver_phone, educationSummary: form.education_summary };
+        if (!record.id) { method = "POST"; } else { endpoint += `/${record.id}`; }
       } else if (key === "sponsorship") {
         endpoint = ENDPOINTS.sponsorship; method = "POST";
         body = { beneficiaryId: form.beneficiary_id, displayName: form.display_name, ageBand: form.age_band, regionLabel: form.region_label, educationLevel: form.education_level, story: form.story, sponsorshipAmount: Number(form.sponsorship_amount), currency: form.currency || "UGX", photoUrl: form.photo_url, published: form.published === "true" || form.published === true };
@@ -343,7 +343,7 @@ export default function Admin({ path = "/admin", navigate }) {
     ],
   };
   const actionKinds = ["users","beneficiaries","sponsorship","volunteers","registrations","applications","reconciliation","recurring","inbox"];
-  const canManage = actionKinds.includes(key);
+  const canManage = actionKinds.includes(key) && (key !== "sponsorship" || can("beneficiaries.update"));
   return <div className="gom-admin">
     <aside className="gom-admin-sidebar">
       <a href="/" className="gom-admin-brand"><img src="/images/garden_of_mercy_icon.png" alt="" /><span><strong>Garden of Mercy</strong><small>Administration</small></span></a>
