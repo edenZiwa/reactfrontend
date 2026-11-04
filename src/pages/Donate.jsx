@@ -139,71 +139,95 @@ function Donate() {
   return (
     <main id="main-content" className="donate-page">
       {/* Donation hero */}
-      <section className="donate-hero">
+      <section className="donate-hero" aria-labelledby="donate-hero-title">
         <div className="donate-overlay" aria-hidden="true" />
 
         <div className="container donate-hero-content">
-          <div className="row align-items-center g-4 g-lg-5">
-            <div className="col-lg-8 col-xl-7">
-              <span className="donate-hero-eyebrow">
-                <span className="donate-hero-eyebrow-dot" aria-hidden="true" />
-                GIVE HOPE. CHANGE A LIFE.
-              </span>
+          <div className="row align-items-center g-5">
+            <div className="col-lg-7">
+              <div className="donate-hero-copy">
+                <span className="donate-hero-eyebrow">
+                  <span className="donate-hero-eyebrow-dot" aria-hidden="true" />
+                  GARDEN OF MERCY FOUNDATION
+                </span>
 
-              <h1 className="donate-hero-title">
-                Sow a seed of <em>mercy.</em>
-                <span>Help hope take root.</span>
-              </h1>
+                <h1 id="donate-hero-title" className="donate-hero-title">
+                  Sow a seed of <em>mercy.</em>
+                  <span>Help hope take root.</span>
+                </h1>
 
-              <p className="donate-intro">
-                Your generosity can help children access education, support
-                vulnerable families and strengthen communities. Every gift is
-                an opportunity to put compassion into action.
-              </p>
+                <p className="donate-intro">
+                  Your generosity can help children access education, support
+                  vulnerable families and strengthen communities. Together,
+                  we can turn compassion into practical care and lasting hope.
+                </p>
 
-              <div className="donate-hero-actions">
-                <a className="btn donate-hero-primary" href="#donation-form">
-                  Make a donation
-                  <i className="bi bi-arrow-right ms-2" aria-hidden="true" />
-                </a>
-                <a className="btn donate-hero-secondary" href="#donation-form">
-                  Explore ways to give
-                </a>
-              </div>
+                <div className="donate-hero-actions">
+                  <a className="btn donate-hero-primary" href="#donation-form">
+                    Give today
+                    <i className="bi bi-arrow-up-right ms-2" aria-hidden="true" />
+                  </a>
+                  <a className="btn donate-hero-secondary" href="#ways-to-give">
+                    Ways to give
+                  </a>
+                </div>
 
-              <div className="donate-hero-values" aria-label="Our commitments">
-                <span><i className="bi bi-heart-fill" aria-hidden="true" /> Compassion</span>
-                <span><i className="bi bi-people-fill" aria-hidden="true" /> Community</span>
-                <span><i className="bi bi-shield-check" aria-hidden="true" /> Responsible giving</span>
+                <div className="donate-hero-assurances" aria-label="Donation options">
+                  <span>
+                    <i className="bi bi-check-circle-fill" aria-hidden="true" />
+                    Choose your impact
+                  </span>
+                  <span>
+                    <i className="bi bi-currency-exchange" aria-hidden="true" />
+                    Give in UGX or USD
+                  </span>
+                  <span>
+                    <i className="bi bi-lock-fill" aria-hidden="true" />
+                    Secure checkout
+                  </span>
+                </div>
               </div>
             </div>
 
-            <div className="col-lg-4 col-xl-5">
-              <div className="donate-hero-card">
-                <div className="donate-hero-card-icon" aria-hidden="true">
-                  <i className="bi bi-mortarboard-fill" />
+            <div className="col-lg-5">
+              <article className="donate-hero-feature">
+                <div className="donate-hero-feature-top">
+                  <span className="donate-hero-feature-icon" aria-hidden="true">
+                    <i className="bi bi-book-half" />
+                  </span>
+                  <span className="donate-hero-feature-label">
+                    THE POWER OF A GIFT
+                  </span>
                 </div>
-                <span className="donate-hero-card-kicker">A GIFT CAN OPEN DOORS</span>
-                <p className="donate-hero-card-amount">$30</p>
-                <h2>Can help a child go to school.</h2>
-                <p className="donate-hero-card-copy">
-                  A simple act of generosity can become a meaningful step
-                  towards learning, dignity and a brighter future.
+
+                <p className="donate-hero-feature-amount">$30</p>
+                <h2>A step towards a child’s education.</h2>
+                <p className="donate-hero-feature-copy">
+                  A gift of $30 can help a child go to school. Your support
+                  helps open the door to learning, opportunity and a brighter
+                  future.
                 </p>
-                <a href="#donation-form" className="donate-hero-card-link">
-                  Give a child hope <i className="bi bi-arrow-up-right" aria-hidden="true" />
+
+                <a href="#donation-form" className="donate-hero-feature-link">
+                  Make this gift
+                  <i className="bi bi-arrow-right" aria-hidden="true" />
                 </a>
-                <span className="donate-hero-card-flower" aria-hidden="true">
+
+                <span className="donate-hero-feature-watermark" aria-hidden="true">
                   <i className="bi bi-flower1" />
                 </span>
-              </div>
+              </article>
+              <p className="donate-hero-caption">
+                <i className="bi bi-heart-fill me-2" aria-hidden="true" />
+                Every act of mercy can plant a seed of hope.
+              </p>
             </div>
           </div>
         </div>
       </section>
 
       {/* Donation form and payment information */}
-      <section id="donation-form" className="py-5 donation-section">
+      <section id="donation-form" className="py-5 donation-section" aria-labelledby="donation-form-title">
         <div className="container">
           <div className="row g-4 g-lg-5 align-items-start">
             <div className="col-lg-7">
@@ -213,7 +237,7 @@ function Donate() {
                     <i className="bi bi-heart-fill" />
                   </div>
 
-                  <h2 className="h3 fw-bold">Plan your donation</h2>
+                  <h2 id="donation-form-title" className="h3 fw-bold">Plan your donation</h2>
 
                   <p className="text-secondary mb-0">
                     Choose an amount and tell us how you would like your
@@ -554,7 +578,7 @@ function Donate() {
 
             {/* Sidebar */}
             <aside className="col-lg-5">
-              <div className="donation-aside p-4 p-md-5 rounded-4">
+              <div id="ways-to-give" className="donation-aside p-4 p-md-5 rounded-4">
                 <div className="icon-circle mb-3" aria-hidden="true">
                   <i className="bi bi-flower1" />
                 </div>
