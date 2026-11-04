@@ -18,7 +18,7 @@ const NAV = [
     { id: "recurring", label: "Recurring giving", icon: "bi-repeat", path: "/admin/recurring-donations", permission: "donations.manage" },
     { id: "reports", label: "Reports & exports", icon: "bi-file-earmark-spreadsheet", path: "/admin/reports", permission: "reports.view" },
   ]},
-  { group: "Communications & security", items: [
+  { group: "Communications & security", items: [\n    { id: "security", label: "Account security", icon: "bi-shield-lock", path: "/admin/security" },
     { id: "inbox", label: "Contact inbox", icon: "bi-envelope", path: "/admin/contact-inbox", permission: "content.manage" },
     { id: "audit", label: "Audit log", icon: "bi-shield-check", path: "/admin/audit-log", permission: "reports.view" },
   ]},
@@ -33,7 +33,7 @@ const ENDPOINTS = {
 const TITLES = {
   users: "Staff & users", beneficiaries: "Beneficiaries", sponsorship: "Child sponsorship",
   volunteers: "Volunteer profiles", registrations: "Program registrations", applications: "Applications",
-  reconciliation: "Payment reconciliation", recurring: "Recurring giving", inbox: "Contact inbox", audit: "Audit log",
+  reconciliation: "Payment reconciliation", recurring: "Recurring giving", inbox: "Contact inbox", audit: "Audit log", security: "Account security",
 };
 const pickRows = (key, data) => {
   if (key === "users") return data.users || [];
@@ -359,7 +359,7 @@ export default function Admin({ path = "/admin", navigate }) {
         {pageError && <div className="alert alert-danger d-flex justify-content-between align-items-start"><span>{pageError}</span><button className="btn-close" aria-label="Dismiss" onClick={() => setPageError("")} /></div>}
         {notice && <div className="alert alert-success alert-dismissible">{notice}<button className="btn-close" onClick={() => setNotice("")} /></div>}
         {isDashboard ? <Dashboard data={dashboard} navigate={navigate} can={can} reload={() => loadPage("dashboard").catch(e => setPageError(e.message))} /> :
-          key === "reports" ? <section className="gom-panel"><div className="gom-panel-heading"><div><h2>Donation report export</h2><p>Download a date-bounded CSV report for finance review.</p></div><i className="bi bi-file-earmark-arrow-down" /></div><div className="row g-3 align-items-end"><div className="col-sm-4"><label className="form-label">From date</label><input type="date" className="form-control" value={reportDates.from} onChange={e => setReportDates({ ...reportDates, from: e.target.value })} /></div><div className="col-sm-4"><label className="form-label">To date</label><input type="date" className="form-control" value={reportDates.to} onChange={e => setReportDates({ ...reportDates, to: e.target.value })} /></div><div className="col-sm-4"><button className="btn btn-success w-100" onClick={downloadCsv}><i className="bi bi-download me-2" />Export donations CSV</button></div></div><p className="small text-secondary mt-3 mb-0">Exports are limited by the backend and include donor contact details. Store downloaded files securely.</p></section> :
+          key === "security" ? <SecurityPanel /> : key === "reports" ? <section className="gom-panel"><div className="gom-panel-heading"><div><h2>Donation report export</h2><p>Download a date-bounded CSV report for finance review.</p></div><i className="bi bi-file-earmark-arrow-down" /></div><div className="row g-3 align-items-end"><div className="col-sm-4"><label className="form-label">From date</label><input type="date" className="form-control" value={reportDates.from} onChange={e => setReportDates({ ...reportDates, from: e.target.value })} /></div><div className="col-sm-4"><label className="form-label">To date</label><input type="date" className="form-control" value={reportDates.to} onChange={e => setReportDates({ ...reportDates, to: e.target.value })} /></div><div className="col-sm-4"><button className="btn btn-success w-100" onClick={downloadCsv}><i className="bi bi-download me-2" />Export donations CSV</button></div></div><p className="small text-secondary mt-3 mb-0">Exports are limited by the backend and include donor contact details. Store downloaded files securely.</p></section> :
           <section className="gom-panel">
             <div className="gom-panel-heading"><div><h2>{TITLES[key] || current.label}</h2><p>{key === "reconciliation" ? "Review unsettled payments and request a fresh provider verification." : key === "audit" ? "A traceable record of staff and system actions." : key === "sponsorship" ? "Manage public-facing child profiles. Publication is guarded by current consent." : "Review, search and manage records within your assigned permissions."}</p></div><span className="gom-record-count">{filteredRows.length} records</span></div>
             <div className="gom-toolbar"><div className="input-group gom-search"><span className="input-group-text"><i className="bi bi-search" /></span><input className="form-control" placeholder={key === "audit" ? "Search action…" : "Search this list…"} value={search} onChange={e => { setSearch(e.target.value); setPageNumber(0); }} /></div>
@@ -398,4 +398,57 @@ function Dashboard({ data, navigate, can, reload }) {
     ].map(item=><button key={item.path} onClick={()=>navigate(item.path)}><i className={`bi ${item.icon}`} /><span>{item.label}</span><i className="bi bi-chevron-right ms-auto" /></button>)}</div></section></div></div>
     <div className="gom-dashboard-footnote"><i className="bi bi-shield-lock me-2" />Dashboard totals are aggregate reporting data. Donor and beneficiary private details are available only in permission-controlled sections.</div>
   </div>;
+}
+
+function SecurityPanel() {
+  const [secret, setSecret] = useState("");
+  const [uri, setUri] = useState("");
+  const [code, setCode] = useState("");
+  const [recoveryCodes, setRecoveryCodes] = useState([]);
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
+  async function setup() {
+    setBusy(true); setError(""); setMessage("");
+    try {
+      const result = await api("/auth/mfa/setup", { method: "POST", body: JSON.stringify({}) });
+      setSecret(result.secret); setUri(result.otpauthUrl); setMessage(result.message || "Add this account to an authenticator app.");
+    } catch (e) { setError(e.message); } finally { setBusy(false); }
+  }
+  async function enable() {
+    setBusy(true); setError(""); setMessage("");
+    try {
+      const result = await api("/auth/mfa/enable", { method: "POST", body: JSON.stringify({ code }) });
+      setRecoveryCodes(result.recoveryCodes || []); setSecret(""); setUri(""); setCode(""); setMessage(result.message || "Multi-factor authentication enabled.");
+    } catch (e) { setError(e.message); } finally { setBusy(false); }
+  }
+  async function disable() {
+    if (!window.confirm("Disable multi-factor authentication for this staff account?")) return;
+    setBusy(true); setError(""); setMessage("");
+    try {
+      await api("/auth/mfa/disable", { method: "POST", body: JSON.stringify({ code }) });
+      setCode(""); setRecoveryCodes([]); setMessage("Multi-factor authentication has been disabled.");
+    } catch (e) { setError(e.message); } finally { setBusy(false); }
+  }
+  return <section className="gom-panel">
+    <div className="gom-panel-heading"><div><h2>Protect your staff account</h2><p>Use an authenticator app and one-time recovery codes to add another layer of security.</p></div><i className="bi bi-shield-lock" /></div>
+    {error && <div className="alert alert-danger">{error}</div>}
+    {message && <div className="alert alert-info">{message}</div>}
+    <div className="row g-4">
+      <div className="col-lg-6"><div className="border rounded-3 p-3 h-100">
+        <h3 className="h6 fw-bold">Set up an authenticator</h3>
+        <p className="small text-secondary">Generate a secret, add it to Google Authenticator, Microsoft Authenticator or another TOTP app, then confirm with the six-digit code.</p>
+        <button className="btn btn-outline-success" disabled={busy} onClick={setup}><i className="bi bi-qr-code me-2" />Generate setup secret</button>
+        {secret && <div className="mt-3"><label className="form-label small fw-bold">Manual setup key</label><code className="d-block p-3 bg-light rounded-3 text-break">{secret}</code><label className="form-label small fw-bold mt-3">Authenticator setup URI</label><textarea className="form-control" rows="3" readOnly value={uri} /><p className="small text-secondary mt-2 mb-0">Treat this key like a password. Do not share it or save it in a public place.</p></div>}
+      </div></div>
+      <div className="col-lg-6"><div className="border rounded-3 p-3 h-100">
+        <h3 className="h6 fw-bold">Confirm or disable MFA</h3>
+        <label className="form-label" htmlFor="staff-mfa-code">Current six-digit authenticator code</label>
+        <input id="staff-mfa-code" className="form-control mb-3" inputMode="numeric" autoComplete="one-time-code" maxLength="6" value={code} onChange={e => setCode(e.target.value.replace(/\\D/g,"").slice(0,6))} placeholder="000000" />
+        <div className="d-flex flex-wrap gap-2"><button className="btn btn-success" disabled={busy || code.length !== 6 || !secret} onClick={enable}>Enable MFA</button><button className="btn btn-outline-danger" disabled={busy || code.length !== 6} onClick={disable}>Disable MFA</button></div>
+        <p className="small text-secondary mt-3 mb-0">If MFA is already enabled, enter a current code to disable it before replacing an authenticator device.</p>
+      </div></div>
+    </div>
+    {recoveryCodes.length > 0 && <div className="alert alert-warning mt-4"><strong>Save these recovery codes now.</strong><p className="small mb-2">Each code can be used once. They will not be shown again.</p><div className="row g-2">{recoveryCodes.map(item => <div className="col-6 col-md-4" key={item}><code className="d-block bg-white rounded p-2">{item}</code></div>)}</div><button className="btn btn-sm btn-outline-dark mt-3" onClick={() => { const blob = new Blob([recoveryCodes.join("\\n")], { type: "text/plain" }); const url = URL.createObjectURL(blob); const a = document.createElement("a"); a.href = url; a.download = "garden-of-mercy-recovery-codes.txt"; a.click(); URL.revokeObjectURL(url); }}>Download recovery codes</button></div>}
+  </section>;
 }
