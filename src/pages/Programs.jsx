@@ -164,7 +164,7 @@ const processSteps = [
   },
 ];
 
-function Programs() {
+function Programs({ navigate }) {
   return (
     <main id="main-content" className="programs-page">
       {/* PROGRAMS HERO */}
@@ -193,7 +193,7 @@ function Programs() {
                     Explore our program areas
                     <i className="bi bi-arrow-down-right ms-2" aria-hidden="true" />
                   </a>
-                  <AppLink to="/donate" className="btn programs-hero-secondary">
+                  <AppLink to="/donate" navigate={navigate} className="btn programs-hero-secondary">
                     Support our work
                   </AppLink>
                 </div>
@@ -444,6 +444,7 @@ function Programs() {
             <div className="d-flex flex-column flex-sm-row justify-content-center gap-2">
               <AppLink
                 to="/donate"
+                navigate={navigate}
                 className="btn programs-cta-primary px-4"
               >
                 Support Our Work
@@ -451,6 +452,7 @@ function Programs() {
 
               <AppLink
                 to="/contact"
+                navigate={navigate}
                 className="btn programs-cta-secondary px-4"
               >
                 Get Involved
