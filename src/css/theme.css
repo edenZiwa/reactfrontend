@@ -431,3 +431,162 @@ a:hover { color: var(--bs-link-hover-color); }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
 }
+
+
+/* Theme contrast pass: normalize Bootstrap utility colors and legacy page surfaces. */
+html[data-bs-theme="dark"] .bg-white,
+html[data-bs-theme="dark"] .text-bg-light {
+  background-color: var(--gomf-surface) !important;
+}
+html[data-bs-theme="dark"] .text-bg-light {
+  color: var(--gomf-text) !important;
+}
+html[data-bs-theme="dark"] .text-dark,
+html[data-bs-theme="dark"] .text-black {
+  color: var(--gomf-text) !important;
+}
+html[data-bs-theme="dark"] .bg-warning .text-dark,
+html[data-bs-theme="dark"] .bg-warning.text-dark,
+html[data-bs-theme="dark"] .text-bg-warning {
+  color: #342a16 !important;
+}
+
+/* Success stories had fixed white/cream surfaces that ignored dark mode. */
+.success-stories-page {
+  --mercy-green: var(--gomf-green);
+  --mercy-green-dark: var(--gomf-deep);
+  --mercy-green-light: var(--gomf-surface-soft);
+  --mercy-cream: var(--gomf-page);
+  --mercy-text: var(--gomf-text);
+}
+.success-stories-page .mercy-intro,
+.success-stories-page .mercy-journey {
+  background: var(--gomf-page);
+}
+.success-stories-page .mercy-stories,
+.success-stories-page .mercy-quote,
+.success-stories-page .mercy-story-card,
+.success-stories-page .mercy-journey-card {
+  color: var(--gomf-text);
+  background: var(--gomf-surface);
+  border-color: var(--gomf-border);
+}
+.success-stories-page .mercy-section-copy,
+.success-stories-page .mercy-story-card p,
+.success-stories-page .mercy-journey-card p {
+  color: var(--gomf-text-muted);
+}
+.success-stories-page .mercy-section-title,
+.success-stories-page .mercy-stat-label,
+.success-stories-page .mercy-story-card h3,
+.success-stories-page .mercy-journey-card h3,
+.success-stories-page .mercy-quote-text {
+  color: var(--gomf-deep);
+}
+.success-stories-page .mercy-stat-icon,
+.success-stories-page .mercy-category {
+  color: var(--gomf-green);
+  background: var(--gomf-surface-soft);
+  border-color: var(--gomf-border);
+}
+html[data-bs-theme="dark"] .success-stories-page .mercy-feature {
+  background: #10251b;
+}
+html[data-bs-theme="dark"] .success-stories-page .mercy-hero,
+html[data-bs-theme="dark"] .success-stories-page .mercy-cta {
+  color: #f7fbf8;
+}
+
+/* Power of Revelation: shared theme tokens for all light surfaces and copy. */
+.power-revelation-page {
+  --pr-primary: var(--gomf-green);
+  --pr-primary-dark: var(--gomf-deep);
+  --pr-cream: var(--gomf-surface-soft);
+  --pr-ink: var(--gomf-text);
+  --pr-muted: var(--gomf-text-muted);
+  color: var(--gomf-text);
+  background: var(--gomf-page);
+}
+.power-revelation-page .pr-stats-section,
+.power-revelation-page .pr-values-section,
+.power-revelation-page .pr-location-section,
+.power-revelation-page .pr-events-section {
+  color: var(--gomf-text);
+  background: var(--gomf-page);
+}
+.power-revelation-page .pr-purpose-card,
+.power-revelation-page .pr-value-card,
+.power-revelation-page .pr-sermon-card,
+.power-revelation-page .pr-featured-video,
+.power-revelation-page .ministry-media-link,
+.power-revelation-page .pr-map-card {
+  color: var(--gomf-text);
+  background: var(--gomf-surface);
+  border-color: var(--gomf-border);
+}
+.power-revelation-page .pr-purpose-card h3,
+.power-revelation-page .pr-value-card h3,
+.power-revelation-page .pr-sermon-card h3,
+.power-revelation-page .pr-featured-video h3,
+.power-revelation-page .ministry-media-link strong,
+.power-revelation-page .pr-address-card strong,
+.power-revelation-page .pr-map-footer strong {
+  color: var(--gomf-deep);
+}
+.power-revelation-page .pr-purpose-card > p,
+.power-revelation-page .pr-timeline-content p,
+.power-revelation-page .pr-inline-scripture p,
+.power-revelation-page .pr-map-label span,
+.power-revelation-page .ministry-media-link .text-secondary {
+  color: var(--gomf-text-muted) !important;
+}
+.power-revelation-page .pr-inline-scripture,
+.power-revelation-page .pr-founder-panel,
+.power-revelation-page .pr-podcast-panel,
+.power-revelation-page .pr-network-callout,
+.power-revelation-page .pr-scripture {
+  color: var(--gomf-text);
+  background: var(--gomf-surface-soft);
+  border-color: var(--gomf-border);
+}
+.power-revelation-page .pr-map-label {
+  color: var(--gomf-deep);
+  background: var(--gomf-surface);
+}
+.power-revelation-page .pr-timeline-marker {
+  border-color: var(--gomf-surface);
+}
+.power-revelation-page .pr-timeline:before {
+  background: var(--gomf-border);
+}
+.power-revelation-page .pr-leader-card {
+  color: var(--gomf-text);
+}
+html[data-bs-theme="dark"] .power-revelation-page .pr-events-section {
+  background: var(--gomf-page);
+}
+html[data-bs-theme="dark"] .power-revelation-page .pr-events-section .bg-light {
+  background: var(--gomf-surface-soft) !important;
+}
+html[data-bs-theme="dark"] .power-revelation-page .text-dark {
+  color: var(--gomf-text) !important;
+}
+html[data-bs-theme="dark"] .power-revelation-page .pr-network-visual {
+  background: radial-gradient(circle at center, #34483a 0%, #25372c 60%, #1b2a21 100%);
+}
+html[data-bs-theme="dark"] .power-revelation-page .pr-map-decoration {
+  background: radial-gradient(circle at 20% 20%, #34483a, transparent 30%), radial-gradient(circle at 85% 70%, #293e31, transparent 30%), #202e25;
+}
+html[data-bs-theme="dark"] .power-revelation-page .pr-map-road {
+  border-color: #aebcaf;
+  background: #65766a;
+}
+html[data-bs-theme="dark"] .power-revelation-page .pr-map-pin {
+  border-color: var(--gomf-surface);
+}
+html[data-bs-theme="dark"] .power-revelation-page .pr-event-heading-icon,
+html[data-bs-theme="dark"] .power-revelation-page .pr-event-date-icon,
+html[data-bs-theme="dark"] .power-revelation-page .pr-upcoming-empty-icon {
+  color: var(--gomf-gold);
+  background: color-mix(in srgb, var(--gomf-gold) 18%, var(--gomf-surface));
+}
