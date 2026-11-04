@@ -2,6 +2,8 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import "../css/admin.css";
 import Donors from "./admin/Donors.jsx";
 import SponsorshipManagement from "./admin/SponsorshipManagement.jsx";
+import ProjectsImpact from "./admin/ProjectsImpact.jsx";
+import "../css/projects-impact.css";
 import "../css/sponsorship-management.css";
 
 const API_ORIGIN = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/$/, "");
@@ -17,6 +19,9 @@ const NAV = [
     { id: "volunteers", label: "Volunteer profiles", icon: "bi-person-check", path: "/admin/volunteers", permission: "volunteers.manage" },
     { id: "registrations", label: "Program registrations", icon: "bi-calendar-check", path: "/admin/registrations", permission: "programs.manage" },
     { id: "applications", label: "Applications", icon: "bi-inbox", path: "/admin/applications", permission: "volunteers.manage" },
+  ]},
+  { group: "Programmes & impact", items: [
+    { id: "projects", label: "Projects & impact", icon: "bi-kanban", path: "/admin/projects", permission: "projects.manage" },
   ]},
   { group: "Finance", items: [
     { id: "reconciliation", label: "Payment reconciliation", icon: "bi-arrow-left-right", path: "/admin/finance-reconciliation", permission: "donations.manage" },
@@ -37,7 +42,7 @@ const ENDPOINTS = {
   recurring: "/admin/api/recurring-donations", inbox: "/admin/api/contact-messages", audit: "/admin/api/audit",
 };
 const TITLES = {
-  users: "Staff & users", beneficiaries: "Beneficiaries", sponsorship: "Public child profiles", sponsorshipOps: "Sponsorship operations",
+  projects: "Projects & impact", users: "Staff & users", beneficiaries: "Beneficiaries", sponsorship: "Public child profiles", sponsorshipOps: "Sponsorship operations",
   volunteers: "Volunteer profiles", registrations: "Program registrations", applications: "Applications",
   reconciliation: "Payment reconciliation", recurring: "Recurring giving", inbox: "Contact inbox", audit: "Audit log", security: "Account security",
 };
@@ -372,9 +377,9 @@ export default function Admin({ path = "/admin", navigate }) {
         {pageError && <div className="alert alert-danger d-flex justify-content-between align-items-start"><span>{pageError}</span><button className="btn-close" aria-label="Dismiss" onClick={() => setPageError("")} /></div>}
         {notice && <div className="alert alert-success alert-dismissible">{notice}<button className="btn-close" onClick={() => setNotice("")} /></div>}
         {isDashboard ? <Dashboard data={dashboard} navigate={navigate} can={can} reload={() => loadPage("dashboard").catch(e => setPageError(e.message))} /> :
-          key === "security" ? <SecurityPanel /> : key === "donors" ? <Donors canManage={can("donors.manage")} /> : key === "sponsorshipOps" ? <SponsorshipManagement canViewPrivate={can("sponsorship.view_private")} /> : key === "reports" ? <section className="gom-panel"><div className="gom-panel-heading"><div><h2>Donation report export</h2><p>Download a date-bounded CSV report for finance review.</p></div><i className="bi bi-file-earmark-arrow-down" /></div><div className="row g-3 align-items-end"><div className="col-sm-4"><label className="form-label">From date</label><input type="date" className="form-control" value={reportDates.from} onChange={e => setReportDates({ ...reportDates, from: e.target.value })} /></div><div className="col-sm-4"><label className="form-label">To date</label><input type="date" className="form-control" value={reportDates.to} onChange={e => setReportDates({ ...reportDates, to: e.target.value })} /></div><div className="col-sm-4"><button className="btn btn-success w-100" onClick={downloadCsv}><i className="bi bi-download me-2" />Export donations CSV</button></div></div><p className="small text-secondary mt-3 mb-0">Exports are limited by the backend and include donor contact details. Store downloaded files securely.</p></section> :
+          key === "security" ? <SecurityPanel /> : key === "donors" ? <Donors canManage={can("donors.manage")} /> : key === "sponsorshipOps" ? <SponsorshipManagement canViewPrivate={can("sponsorship.view_private")} /> : key === "projects" ? <ProjectsImpact canApproveExpenses={can("projects.expenses.approve")} canViewReports={can("projects.reports.view")} /> : key === "reports" ? <section className="gom-panel"><div className="gom-panel-heading"><div><h2>Donation report export</h2><p>Download a date-bounded CSV report for finance review.</p></div><i className="bi bi-file-earmark-arrow-down" /></div><div className="row g-3 align-items-end"><div className="col-sm-4"><label className="form-label">From date</label><input type="date" className="form-control" value={reportDates.from} onChange={e => setReportDates({ ...reportDates, from: e.target.value })} /></div><div className="col-sm-4"><label className="form-label">To date</label><input type="date" className="form-control" value={reportDates.to} onChange={e => setReportDates({ ...reportDates, to: e.target.value })} /></div><div className="col-sm-4"><button className="btn btn-success w-100" onClick={downloadCsv}><i className="bi bi-download me-2" />Export donations CSV</button></div></div><p className="small text-secondary mt-3 mb-0">Exports are limited by the backend and include donor contact details. Store downloaded files securely.</p></section> :
           <section className="gom-panel">
-            <div className="gom-panel-heading"><div><h2>{TITLES[key] || current.label}</h2><p>{key === "reconciliation" ? "Review unsettled payments and request a fresh provider verification." : key === "audit" ? "A traceable record of staff and system actions." : key === "sponsorship" ? "Manage public-facing child profiles. Publication is guarded by current consent." : "Review, search and manage records within your assigned permissions."}</p></div><span className="gom-record-count">{filteredRows.length} records</span></div>
+            <div className="gom-panel-heading"><div><h2>{TITLES[key] || current.label}</h2><p>{key === "projects" ? "Manage project delivery, budgets, milestones and verified impact outcomes." : key === "reconciliation" ? "Review unsettled payments and request a fresh provider verification." : key === "audit" ? "A traceable record of staff and system actions." : key === "sponsorship" ? "Manage public-facing child profiles. Publication is guarded by current consent." : "Review, search and manage records within your assigned permissions."}</p></div><span className="gom-record-count">{filteredRows.length} records</span></div>
             <div className="gom-toolbar"><div className="input-group gom-search"><span className="input-group-text"><i className="bi bi-search" /></span><input className="form-control" placeholder={key === "audit" ? "Search action…" : "Search this list…"} value={search} onChange={e => { setSearch(e.target.value); setPageNumber(0); }} /></div>
               {["beneficiaries","inbox"].includes(key) && <select className="form-select gom-filter" value={filter} onChange={e => { setFilter(e.target.value); setPageNumber(0); }}><option value="active">Active</option>{(key === "beneficiaries" ? ["inactive","graduated","transferred","closed"] : ["new","in_progress","resolved","spam"]).map(v => <option key={v} value={v}>{titleCase(v)}</option>)}</select>}
               <button className="btn btn-outline-success" onClick={() => loadPage(key).catch(e => setPageError(e.message))}><i className="bi bi-arrow-clockwise me-1" />Refresh</button>
