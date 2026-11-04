@@ -33,19 +33,19 @@ export default function Impact({ navigate }) {
               <div className="impact-hero-copy">
                 <span className="impact-hero-eyebrow">
                   <span className="impact-hero-eyebrow-dot" aria-hidden="true" />
-                  OUR IMPACT · OUR ACCOUNTABILITY
+                  FROM COMPASSION TO MEASURABLE PROGRESS
                 </span>
 
                 <h1 id="impact-title" className="impact-hero-title">
-                  Compassion that creates <em>lasting change.</em>
-                  <span>Every act of mercy should make a meaningful difference.</span>
+                  A future shaped by <em>compassion.</em>
+                  <span>Turning meaningful support into lasting opportunity.</span>
                 </h1>
 
                 <p className="impact-hero-description">
-                  We are committed to making a positive difference in the lives
-                  of children and vulnerable communities. We believe that impact
-                  should be grounded in real action, responsible stewardship
-                  and transparent reporting.
+                  Real impact begins with people. Our commitment is to stand
+                  alongside children, families and vulnerable communities through
+                  thoughtful action, responsible stewardship and a clear account
+                  of the progress we make together.
                 </p>
 
                 <div className="impact-hero-actions">
@@ -80,22 +80,23 @@ export default function Impact({ navigate }) {
                   <span className="impact-hero-card-icon" aria-hidden="true">
                     <i className="bi bi-graph-up-arrow" />
                   </span>
-                  <span className="impact-hero-card-kicker">OUR COMMITMENT</span>
+                  <span className="impact-hero-card-kicker">THE WAY WE MEASURE OUR WORK</span>
                 </div>
 
-                <h2>Impact should be seen, understood and trusted.</h2>
+                <h2>Progress should be meaningful, responsible and transparent.</h2>
                 <p>
-                  We aim to share clear, verified information about our
-                  activities, the support delivered and the progress made
-                  alongside the communities we serve.
+                  We are building an approach to impact that puts people first,
+                  uses resources responsibly and learns from every initiative.
+                  Verified results will be shared as reliable information becomes
+                  available.
                 </p>
 
                 <div className="impact-hero-card-divider" />
 
                 <ul className="impact-hero-card-list">
-                  <li><i className="bi bi-check-circle-fill" aria-hidden="true" /> Honest, evidence-based reporting</li>
-                  <li><i className="bi bi-check-circle-fill" aria-hidden="true" /> Responsible use of resources</li>
-                  <li><i className="bi bi-check-circle-fill" aria-hidden="true" /> Learning and continuous improvement</li>
+                  <li><span className="impact-hero-card-step">01</span><span><strong>People at the centre</strong><small>Respecting dignity, needs and wellbeing</small></span></li>
+                  <li><span className="impact-hero-card-step">02</span><span><strong>Responsible action</strong><small>Stewardship, safeguarding and partnership</small></span></li>
+                  <li><span className="impact-hero-card-step">03</span><span><strong>Transparent progress</strong><small>Verified reporting and continuous learning</small></span></li>
                 </ul>
 
                 <span className="impact-hero-card-watermark" aria-hidden="true">
