@@ -166,7 +166,7 @@ const processSteps = [
 
 function Programs() {
   return (
-    <main id="main-content">
+    <main id="main-content" className="programs-page">
       {/* PROGRAMS HERO */}
       <section className="programs-hero" aria-labelledby="programs-title">
         <div className="programs-hero-overlay" aria-hidden="true" />
@@ -189,7 +189,7 @@ function Programs() {
                   and the resources available.
                 </p>
                 <div className="programs-hero-actions">
-                  <a href="#program-areas-title" className="btn programs-hero-primary">
+                  <a href="#program-areas" className="btn programs-hero-primary">
                     Explore our program areas
                     <i className="bi bi-arrow-down-right ms-2" aria-hidden="true" />
                   </a>
@@ -237,7 +237,7 @@ function Programs() {
       </section>
 
       {/* PROGRAM PHILOSOPHY */}
-      <section className="p-4" aria-labelledby="approach-title">
+      <section className="programs-approach py-5" aria-labelledby="approach-title">
         <div className="container">
           <div className="row g-5 align-items-center">
             <div className="col-lg-6">
@@ -265,7 +265,7 @@ function Programs() {
             </div>
 
             <div className="col-lg-6">
-              <div className="quote-card background shadow-lg rounded-4 p-4 p-md-5">
+              <div className="programs-approach-card rounded-4 p-4 p-md-5 h-100">
                 <i
                   className="bi bi-heart-fill display-5 text-success"
                   aria-hidden="true"
@@ -286,10 +286,11 @@ function Programs() {
       </section>
 
       {/* PROGRAM AREAS */}
-      <section id="program-areas" className="py-5" aria-labelledby="program-areas-title">
+      <section id="program-areas" className="programs-areas py-5" aria-labelledby="program-areas-title">
         <div className="container">
           <div className="text-center mb-5">
             <span className="section-label">PROGRAM AREAS</span>
+            <span className="programs-section-kicker">A FRAMEWORK FOR PRACTICAL COMPASSION</span>
 
             <h2
               id="program-areas-title"
@@ -313,14 +314,14 @@ function Programs() {
                 className="col-md-6 col-xl-4"
                 key={program.title}
               >
-                <article className="program-card rounded-4 background shadow-lg h-100">
-                  <div className="program-icon" aria-hidden="true">
+                <article className="program-area-card h-100">
+                  <div className="program-area-icon" aria-hidden="true">
                     <i className={`bi ${program.icon}`} />
                   </div>
 
-                  <h3 className="h4">{program.title}</h3>
+                  <div className="program-area-heading"><span className="program-area-label">AREA OF FOCUS</span><h3>{program.title}</h3></div>
 
-                  <p className="text-secondary">
+                  <p className="program-area-description">
                     {program.description}
                   </p>
 
@@ -337,7 +338,7 @@ function Programs() {
       </section>
 
       {/* PROGRAM PRINCIPLES */}
-      <section className="py-5" aria-labelledby="principles-title">
+      <section className="programs-principles py-5" aria-labelledby="principles-title">
         <div className="container">
           <div className="text-center mb-5">
             <span className="section-label">OUR PRINCIPLES</span>
@@ -356,9 +357,9 @@ function Programs() {
                 className="col-md-6 col-lg-3"
                 key={principle.title}
               >
-                <div className="feature-card rounded-4 background shadow-lg h-100">
+                <article className="program-principle-card h-100">
                   <i
-                    className={`bi ${principle.icon} display-6 text-success`}
+                    className={`bi ${principle.icon} program-principle-icon`}
                     aria-hidden="true"
                   />
 
@@ -377,7 +378,7 @@ function Programs() {
       </section>
 
       {/* HOW WE WORK */}
-      <section className="py-5" aria-labelledby="process-title">
+      <section className="programs-process py-5" aria-labelledby="process-title">
         <div className="container">
           <div className="row justify-content-center">
             <div className="col-lg-9 text-center">
@@ -398,16 +399,13 @@ function Programs() {
             </div>
           </div>
 
-          <div className="row m-2 rounded-4 g-4 mt-4 background shadow-lg">
+          <div className="row g-4 mt-3">
             {processSteps.map((step) => (
               <div
                 className="col-md-6 col-lg-3"
                 key={step.number}
               >
-                <div className="text-center">
-                  <div className="display-6 fw-bold text-success">
-                    {step.number}
-                  </div>
+                <article className="program-process-card h-100"><span className="program-process-number">{step.number}</span>
 
                   <h3 className="h5 mt-3">{step.title}</h3>
 
@@ -427,7 +425,7 @@ function Programs() {
         aria-labelledby="program-cta-title"
       >
         <div className="container">
-          <div className="cta-section rounded-4 p-4 p-md-5 text-center">
+          <div className="programs-cta rounded-4 p-4 p-md-5 text-center">
             <h2
               id="program-cta-title"
               className="fw-bold"
