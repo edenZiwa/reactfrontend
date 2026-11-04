@@ -268,10 +268,12 @@ export default function Admin({ path = "/admin", navigate }) {
       let method = "PATCH";
       let body = {};
       if (key === "users") {
+        if (record.id) method = "PUT";
         body = { firstName: form.firstName, lastName: form.lastName, email: form.email, roleSlug: form.roleSlug, isActive: form.isActive !== "false" && form.isActive !== false };
         if (!record.id) { method = "POST"; body.password = form.password; }
         endpoint += record.id ? `/${record.id}` : "";
       } else if (key === "beneficiaries") {
+        if (record.id) method = "PUT";
         body = { ...(form.beneficiaryCode ? { beneficiaryCode: form.beneficiaryCode } : {}), firstName: form.first_name, lastName: form.last_name, dateOfBirth: form.date_of_birth || null, sex: form.sex, status: form.status, consentStatus: form.consent_status, primaryCaregiverName: form.primary_caregiver_name, primaryCaregiverPhone: form.primary_caregiver_phone, educationSummary: form.education_summary };
         if (!record.id) { method = "POST"; } else { endpoint += `/${record.id}`; }
       } else if (key === "sponsorship") {
