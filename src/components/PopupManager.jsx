@@ -103,21 +103,24 @@ export default function PopupManager({ path, navigate }) {
     };
   }, [path, isDonationFlow]);
 
-  // Offer education support after engagement, never on the donation flow.
+  // Offer education support only after genuine engagement, and only once per tab session.
   useEffect(() => {
     if (
       isDonationFlow ||
       welcomeOpen ||
       educationOpen ||
       wasShown(EDUCATION_KEY)
-    ) {
-      return;
-    }
+    ) return;
 
     let opened = false;
+    let timer;
 
     const tryOpen = () => {
-      if (opened || wasShown(EDUCATION_KEY)) return;
+      if (
+        opened ||
+        wasShown(EDUCATION_KEY) ||
+        document.visibilityState !== "visible"
+      ) return;
 
       opened = true;
       markShown(EDUCATION_KEY);
@@ -125,45 +128,21 @@ export default function PopupManager({ path, navigate }) {
     };
 
     const handleScroll = () => {
-      const scrollable =
-        document.documentElement.scrollHeight -
-        window.innerHeight;
-
+      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
       if (scrollable <= 0) return;
-
-      const progress = window.scrollY / scrollable;
-
-      if (progress >= 0.65) {
-        tryOpen();
-      }
+      if (window.scrollY / scrollable >= 0.7) tryOpen();
     };
 
-    // Explicit support buttons can request the education popup.
-    const handleEducationRequest = () => {
-      tryOpen();
-    };
+    const handleEducationRequest = () => tryOpen();
 
-    window.addEventListener("scroll", handleScroll, {
-      passive: true,
-    });
-
-    window.addEventListener(
-      "gom:open-education-popup",
-      handleEducationRequest
-    );
-
-    // Also allow the prompt after 45 seconds of browsing.
-    const timer = window.setTimeout(tryOpen, 45000);
+    timer = window.setTimeout(tryOpen, 60000);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("gom:open-education-popup", handleEducationRequest);
 
     return () => {
       window.clearTimeout(timer);
-
       window.removeEventListener("scroll", handleScroll);
-
-      window.removeEventListener(
-        "gom:open-education-popup",
-        handleEducationRequest
-      );
+      window.removeEventListener("gom:open-education-popup", handleEducationRequest);
     };
   }, [path, isDonationFlow, welcomeOpen, educationOpen]);
 
