@@ -20,7 +20,7 @@ function Home( {
                 <div className="container position-relative py-0">
                     <div className="row align-items-center min-vh-75 py-0">
                         <div className="col-lg-8 col-xl-7">
-                            <div className="d-inline-flex align-items-center gap-2 px-3 py-2 rounded-pill bg-success bg-opacity-90 text-white fw-semibold mb-2">
+                            <div className="d-inline-flex align-items-center gap-2 px-3 py-2 rounded-pill bg-success bg-opacity-90 theme-on-dark fw-semibold mb-2">
                                 <img
                                 className="logo"
                                 src="https://gardenofmercy.org/images/garden_of_mercy_logo.png"
@@ -29,13 +29,13 @@ function Home( {
                             <span>Sowing Seeds of Mercy and Compassion</span>
                         </div>
 
-                        <h1 className="display-3 fw-bold lh-sm text-white">
+                        <h1 className="display-3 fw-bold lh-sm theme-on-dark">
                             Serving children with{" "}
                             <span className="text-warning">mercy, dignity</span>{" "}
                             and compassion.
                         </h1>
 
-                        <p className="lead mt-4 mb-4 text-white">
+                        <p className="lead mt-4 mb-4 theme-on-dark">
                             Garden of Mercy Foundation exists to turn compassion into
                             practical action — creating opportunities for children and
                             communities to experience dignity, hope and a better future.
@@ -64,7 +64,7 @@ function Home( {
         </section>
 
         {/* MISSION STRIP */}
-        <section className="py-4 bg-success text-white">
+        <section className="py-4 bg-success theme-on-dark">
             <div className="container">
                 <div className="row align-items-center g-3">
                     <div className="col-lg-8">
@@ -74,10 +74,10 @@ function Home( {
                             </div>
 
                             <div>
-                                <h2 className="mb-1 text-white">
+                                <h2 className="mb-1 theme-on-dark">
                                     Every act of mercy can plant a seed of hope.
                                 </h2>
-                                <p className="mb-0 text-white opacity-75">
+                                <p className="mb-0 theme-on-dark opacity-75">
                                     Together, we can nurture those seeds into lasting impact.
                                 </p>
                             </div>
@@ -554,7 +554,7 @@ function Home( {
                     loading="lazy"
                   />
 
-                  <p className="mb-0 mt-3 text-white">
+                  <p className="mb-0 mt-3 theme-on-dark">
                     Apostle Derrick Musinguzi with his wife Silvia Musinguzi
                   </p>
                 </div>
@@ -666,11 +666,11 @@ function Home( {
                       Featured
                     </span>
 
-                    <h3 className="fw-bold text-white mb-1">
+                    <h3 className="fw-bold theme-on-dark mb-1">
                       Compassion in Action
                     </h3>
 
-                    <p className="text-white-50 mb-0">
+                    <p className="theme-on-dark-muted mb-0">
                       Stories of hope, dignity and community.
                     </p>
                   </div>
@@ -696,7 +696,7 @@ function Home( {
                     />
 
                     <div className="home-gallery-overlay">
-                      <span className="text-white fw-semibold">
+                      <span className="theme-on-dark fw-semibold">
                         Children
                       </span>
                     </div>
@@ -718,7 +718,7 @@ function Home( {
                     />
 
                     <div className="home-gallery-overlay">
-                      <span className="text-white fw-semibold">
+                      <span className="theme-on-dark fw-semibold">
                         Community
                       </span>
                     </div>
@@ -741,7 +741,7 @@ function Home( {
                     />
 
                     <div className="home-gallery-overlay">
-                      <span className="text-white fw-semibold">
+                      <span className="theme-on-dark fw-semibold">
                         Outreach
                       </span>
                     </div>
@@ -764,7 +764,7 @@ function Home( {
                     />
 
                     <div className="home-gallery-overlay">
-                      <span className="text-white fw-semibold">
+                      <span className="theme-on-dark fw-semibold">
                         Volunteers
                       </span>
                     </div>
@@ -829,14 +829,14 @@ function Home( {
               </div>
 
               {/* Get involved */}
-              <div className="col-lg-5 bg-success text-white p-4 p-lg-5">
+              <div className="col-lg-5 bg-success theme-on-dark p-4 p-lg-5">
                 <i className="bi bi-flower1 display-3 text-warning"></i>
 
-                <h3 className="text-white mt-4">
+                <h3 className="theme-on-dark mt-4">
                   Every seed matters.
                 </h3>
 
-                <p className="text-white">
+                <p className="theme-on-dark">
                   Whether through financial support, volunteering,
                   partnership or prayer, every contribution can help
                   strengthen the mission.
