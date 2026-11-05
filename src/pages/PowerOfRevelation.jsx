@@ -744,10 +744,6 @@ export default function PowerOfRevelation() {
                   );
                 })}
               </div>
-              <p className="text-secondary small text-center mt-3 mb-0">
-                Illustrative network graphic; branch positions are not
-                geographic locations.
-              </p>
             </div>
           </div>
         </div>
