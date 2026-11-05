@@ -31,7 +31,7 @@ export default function WelcomePopup({ onClose, navigate }) {
           style={{ width: 64, height: 64 }}
           aria-hidden="true"
         >
-          <img src="../images/garden_of_mercy_logo.png" />
+          <img src="/images/garden_of_mercy_logo.png" alt="Garden of Mercy Foundation" width="48" height="48" className="img-fluid" />
         </div>
 
         <p className="small text-success fw-bold text-uppercase mb-2">
@@ -42,7 +42,7 @@ export default function WelcomePopup({ onClose, navigate }) {
           id="welcome-popup-title"
           className="h2 fw-bold lh-sm mb-3"
         >
-          Welcome to a place where compassion creates hope.
+          Welcome to Garden of Mercy.
         </h2>
 
         <p className="text-secondary mb-3">
@@ -51,8 +51,7 @@ export default function WelcomePopup({ onClose, navigate }) {
         </p>
 
         <p className="text-secondary mb-4">
-          Through your kindness and generosity, we can support vulnerable
-          children and communities and help create a brighter future.
+          Together, we can support vulnerable children, uphold dignity, and strengthen communities.
         </p>
 
         <div className="d-grid gap-2">
@@ -62,7 +61,7 @@ export default function WelcomePopup({ onClose, navigate }) {
             onClick={() => handleNavigate("/donate")}
           >
             <i className="bi bi-heart-fill me-2" aria-hidden="true" />
-            Sow a Seed of Mercy
+            Support Our Mission
           </button>
 
           <button
@@ -70,7 +69,7 @@ export default function WelcomePopup({ onClose, navigate }) {
             className="btn btn-outline-success rounded-pill"
             onClick={() => handleNavigate("/about")}
           >
-            Discover Our Mission
+            Explore Our Mission
           </button>
 
           <button
