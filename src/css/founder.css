@@ -1605,3 +1605,87 @@ a:focus-visible, button:focus-visible {
     padding-inline: 1.25rem;
   }
 }
+
+
+/* Theme-aware shared leadership sections (Founder and Co-Founder). */
+.leadership-page {
+  color: var(--bs-body-color);
+  background-color: var(--bs-body-bg);
+}
+.leadership-page > .section-pad:not(.values-section):not(.message-section):not(.gallery-preview):not(.sources-section):not(.cta-section) {
+  background-color: var(--bs-body-bg);
+}
+.leadership-page > .values-section,
+.leadership-page > .message-section,
+.leadership-page > .sources-section {
+  background-color: var(--bs-tertiary-bg);
+}
+.leadership-page > .gallery-preview,
+.leadership-page > .cta-section {
+  background-color: var(--bs-body-bg);
+}
+.leadership-page .hero-signature-title {
+  display: block;
+  color: #fff;
+}
+.leadership-page .founder-hero-copy {
+  color: rgba(255,255,255,.82);
+}
+.leadership-page .scripture-panel blockquote {
+  color: var(--bs-emphasis-color);
+}
+.leadership-page .scripture-panel,
+.leadership-page .message-panel,
+.leadership-page .value-card,
+.leadership-page .ministry-card,
+.leadership-page .source-link-card {
+  color: var(--bs-body-color);
+  background-color: var(--bs-body-bg);
+  border-color: var(--bs-border-color);
+  box-shadow: 0 .9rem 2.5rem rgba(18,61,43,.07);
+}
+.leadership-page .value-card h3,
+.leadership-page .ministry-card h3,
+.leadership-page .message-heading,
+.leadership-page .message-intro,
+.leadership-page .source-content strong {
+  color: var(--bs-emphasis-color);
+}
+.leadership-page .value-card p,
+.leadership-page .ministry-card p,
+.leadership-page .source-content small {
+  color: var(--bs-secondary-color);
+}
+[data-bs-theme="dark"] .leadership-page > .values-section,
+[data-bs-theme="dark"] .leadership-page > .message-section,
+[data-bs-theme="dark"] .leadership-page > .sources-section {
+  background-color: var(--bs-tertiary-bg);
+}
+[data-bs-theme="dark"] .leadership-page > .gallery-preview,
+[data-bs-theme="dark"] .leadership-page > .cta-section,
+[data-bs-theme="dark"] .leadership-page > .section-pad:not(.values-section):not(.message-section):not(.gallery-preview):not(.sources-section):not(.cta-section) {
+  background-color: var(--bs-body-bg);
+}
+[data-bs-theme="dark"] .leadership-page .scripture-panel,
+[data-bs-theme="dark"] .leadership-page .message-panel,
+[data-bs-theme="dark"] .leadership-page .value-card,
+[data-bs-theme="dark"] .leadership-page .ministry-card,
+[data-bs-theme="dark"] .leadership-page .source-link-card {
+  color: var(--bs-body-color);
+  background-color: var(--bs-secondary-bg);
+  border-color: var(--bs-border-color);
+  box-shadow: 0 1rem 2.8rem rgba(0,0,0,.25);
+}
+[data-bs-theme="dark"] .leadership-page .value-card h3,
+[data-bs-theme="dark"] .leadership-page .ministry-card h3,
+[data-bs-theme="dark"] .leadership-page .message-heading,
+[data-bs-theme="dark"] .leadership-page .message-intro,
+[data-bs-theme="dark"] .leadership-page .source-content strong,
+[data-bs-theme="dark"] .leadership-page .scripture-panel blockquote {
+  color: var(--bs-emphasis-color);
+}
+[data-bs-theme="dark"] .leadership-page .value-card p,
+[data-bs-theme="dark"] .leadership-page .ministry-card p,
+[data-bs-theme="dark"] .leadership-page .source-content small {
+  color: var(--bs-secondary-color);
+}
