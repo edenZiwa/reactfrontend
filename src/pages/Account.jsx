@@ -101,10 +101,16 @@ function Account( {
                     if (!cancelled) setError(redirectError.message || "Google sign-in could not be completed.");
                 }
 
-                const response = await fetch(`${API_BASE}/account/overview`, {
-                    credentials: "include",
-                    cache: "no-store",
-                });
+                let response;
+                try {
+                    response = await fetch(`${API_BASE}/account/overview`, {
+                        credentials: "include",
+                        cache: "no-store",
+                        headers: { Accept: "application/json" },
+                    });
+                } catch {
+                    throw new Error("We could not connect to your account. Check your internet connection and try again.");
+                }
 
                 if (response.status === 401) {
                     if (!cancelled) {
@@ -115,7 +121,15 @@ function Account( {
                 }
 
                 if (!response.ok) {
-                    throw new Error("Unable to load your account.");
+                    const payload = await response.json().catch(() => ({}));
+                    const messages = {
+                        403: "Your account does not have permission to view this information.",
+                        404: "Your account information could not be found. Please contact the foundation.",
+                        429: "Too many requests. Please wait a moment and refresh.",
+                    };
+                    throw new Error(payload.message || payload.error || messages[response.status] || (response.status >= 500
+                        ? "The account service is temporarily unavailable. Please try again shortly."
+                        : "We could not load your account. Please refresh and try again."));
                 }
 
                 const data = await response.json();
@@ -214,10 +228,19 @@ function Account( {
                 });
 
             if (!response.ok) {
-                throw new Error("Unable to save your profile. Please try again.");
+                const result = await response.json().catch(() => ({}));
+                throw new Error(result.message || result.error || (response.status === 401
+                    ? "Your session has expired. Please sign in again."
+                    : response.status === 403
+                        ? "You are not authorised to update this profile."
+                        : response.status === 422
+                            ? "Some profile details are invalid. Please review your entries."
+                            : response.status >= 500
+                                ? "The account service is temporarily unavailable. Please try again shortly."
+                                : "We could not save your profile. Please try again."));
             }
 
-            setProfileMessage("Your volunteer profile has been saved.");
+            setProfileMessage("Your volunteer profile has been saved successfully.");
         } catch (err) {
             setProfileMessage(err.message);
         } finally {
@@ -241,10 +264,19 @@ function Account( {
             });
 
             if (!response.ok) {
-                throw new Error("Unable to submit your application.");
+                const result = await response.json().catch(() => ({}));
+                throw new Error(result.message || result.error || (response.status === 401
+                    ? "Your session has expired. Please sign in again."
+                    : response.status === 403
+                        ? "You are not authorised to submit this application."
+                        : response.status === 422
+                            ? "Please review the application details and try again."
+                            : response.status >= 500
+                                ? "The application service is temporarily unavailable. Please try again shortly."
+                                : "We could not submit your application. Please try again."));
             }
 
-            const result = await response.json();
+            const result = await response.json().catch(() => ({}));
 
             if (result?.application) {
                 setApplications((previous) => [result.application, ...(Array.isArray(previous) ? previous : [])]);
@@ -256,7 +288,7 @@ function Account( {
                 message: "",
             });
 
-            setApplicationMessage("Your application has been submitted.");
+            setApplicationMessage(result?.message || "Your application has been submitted successfully. The foundation team will review it and update your account.");
         } catch (err) {
             setApplicationMessage(err.message);
         }
@@ -273,7 +305,10 @@ function Account( {
             });
 
             if (!response.ok) {
-                throw new Error("Unable to sign out. Please try again.");
+                const result = await response.json().catch(() => ({}));
+                throw new Error(result.message || result.error || (response.status === 401
+                    ? "Your session has already expired. Please sign in again."
+                    : "We could not sign you out. Please try again."));
             }
             await signOutGoogle();
 
