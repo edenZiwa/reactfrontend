@@ -497,6 +497,8 @@ function Donate() {
                         value={form.email}
                         onChange={update}
                         required={!form.phone.trim()}
+                        aria-describedby="donor-contact-help"
+                        autoCapitalize="none"
                       />
                     </div>
 
@@ -511,12 +513,13 @@ function Donate() {
                         name="phone"
                         autoComplete="tel"
                         maxLength={30}
+                        inputMode="tel"
                         value={form.phone}
                         onChange={update}
                         required={!form.email.trim()}
                       />
-                      <div className="form-text">
-                        Provide an email address or phone number.
+                      <div className="form-text" id="donor-contact-help">
+                        Provide at least one contact method so we can identify your donation.
                       </div>
                     </div>
                   </fieldset>
@@ -547,16 +550,7 @@ function Donate() {
                   </div>
 
                   {status.message && (
-                    <div
-                      className={`alert ${
-                        status.type === "error"
-                          ? "alert-danger"
-                          : "alert-success"
-                      }`}
-                      role="alert"
-                    >
-                      {status.message}
-                    </div>
+                    <InlineFeedback type={status.type || "info"} message={status.message} className="mb-3" />
                   )}
 
                   <button
