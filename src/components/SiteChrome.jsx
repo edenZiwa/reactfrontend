@@ -109,6 +109,7 @@ function Header({ path = "/", navigate }) {
           onClick={closeMenu}
         >
           <img
+            className="brand-logo"
             src="https://gardenofmercy.org/images/logo.png"
             alt="Garden of Mercy Foundation — Sowing seeds of mercy and compassion"
           />
@@ -202,7 +203,7 @@ function Footer({ navigate }) {
               <img
                 src="https://gardenofmercy.org/images/garden_of_mercy_horizontal.png"
                 alt="Garden of Mercy Foundation"
-                className="img-fluid"
+                className="img-fluid footer-brand-logo"
                 width="260"
                 height="auto"
                 loading="lazy"
