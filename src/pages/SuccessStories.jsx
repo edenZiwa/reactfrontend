@@ -224,14 +224,7 @@ const SuccessStories = () => {
                             </article>
                         </div>
                         ))}
-                </div>
-
-                <p className="text-center small text-secondary mt-4 mb-0">
-                    These are thematic story introductions. Add verified beneficiary
-                    accounts and documented outcomes before presenting them as
-                    completed foundation projects.
-                </p>
-            </div>
+                </div></div>
         </section>
 
         {/* FEATURED IMPACT SECTION */}
@@ -377,12 +370,7 @@ const SuccessStories = () => {
                             background: "var(--mercy-gold)",
                         }}
                         />
-                </div>
-
-                <p className="small text-secondary mt-3 mb-0">
-                    Foundation values statement — not a beneficiary testimonial.
-                </p>
-            </div>
+                </div></div>
         </div>
     </section>
 
