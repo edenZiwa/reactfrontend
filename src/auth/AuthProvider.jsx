@@ -105,7 +105,7 @@ export function AuthProvider({ children }) {
     }
     const csrfData = await csrfResponse.json().catch(() => ({}));
     if (!csrfResponse.ok || !csrfData.csrfToken) {
-      if (csrfResponse.status === 401 || csrfResponse.status === 403) { await clearLocalSession(); return; }
+      if (csrfResponse.status === 401) { await clearLocalSession(); return; }
       throw new Error(csrfData.error || csrfData.message || "Could not start a secure logout.");
     }
 
@@ -124,7 +124,7 @@ export function AuthProvider({ children }) {
     }
     const data = await response.json().catch(() => ({}));
     if (!response.ok) {
-      if (response.status === 401 || response.status === 403) { await clearLocalSession(); return; }
+      if (response.status === 401) { await clearLocalSession(); return; }
       throw new Error(data.error || data.message || "Could not sign out. Please try again.");
     }
     await clearLocalSession();
