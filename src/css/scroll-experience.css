@@ -1,0 +1,47 @@
+/* Site-wide scrolling and reading experience */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100%;
+  overscroll-behavior-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Keep in-page destinations visible below the site header. */
+:where(main, section, article, footer, [id]) {
+  scroll-margin-top: 6rem;
+}
+
+#main-content:focus { outline: none; }
+#main-content:focus-visible {
+  outline: 2px solid var(--bs-success, #198754);
+  outline-offset: 4px;
+}
+
+/* Avoid nested scroll traps; only intentionally scrollable regions scroll. */
+.table-responsive,
+.modal-dialog-scrollable .modal-body,
+.offcanvas-body,
+.dropdown-menu {
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Long data tables remain usable on touch devices. */
+.table-responsive { max-width: 100%; }
+
+@media (max-width: 767.98px) {
+  html { scroll-padding-top: 5rem; }
+  :where(main, section, article, footer, [id]) { scroll-margin-top: 5rem; }
+  body { overflow-x: clip; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { scroll-behavior: auto !important; }
+}
