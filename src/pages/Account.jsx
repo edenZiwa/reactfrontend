@@ -60,7 +60,7 @@ const TABS = [{
 function Account( {
     navigate
 }) {
-    const { login, logout, status: authStatus } = useAuth();
+    const { login, user, status: authStatus, authError, refreshSession } = useAuth();
     const [loading,
         setLoading] = useState(true);
     const [retryKey, setRetryKey] = useState(0);
@@ -107,8 +107,30 @@ function Account( {
     const [donations,
         setDonations] = useState([]);
 
+    const staffRoles = ["super_admin", "admin", "staff", "finance", "programs", "volunteers", "communications"];
+    const hasPublicRole = Array.isArray(user?.roles)
+        && user.roles.includes("public_user")
+        && !user.roles.some((role) => staffRoles.includes(role));
+
     useEffect(() => {
         if (authStatus === "loading") return undefined;
+
+        if (authStatus === "anonymous") {
+            setAccount(null);
+            setNeedsSignIn(!authError);
+            setError(authError || "");
+            setLoading(false);
+            return undefined;
+        }
+
+        if (!hasPublicRole) {
+            setAccount(null);
+            setNeedsSignIn(false);
+            setError("");
+            setLoading(false);
+            return undefined;
+        }
+
         let cancelled = false;
 
         async function loadAccount() {
@@ -125,9 +147,15 @@ function Account( {
                 }
 
                 if (response.status === 401) {
+                    const currentUser = await refreshSession();
                     if (!cancelled) {
-                        setNeedsSignIn(true);
-                        setAccount(null);
+                        if (!currentUser) {
+                            setNeedsSignIn(true);
+                            setAccount(null);
+                            setCsrfToken("");
+                        } else {
+                            throw new Error("Your account service rejected the current session. Please refresh and try again.");
+                        }
                     }
                     return;
                 }
@@ -148,12 +176,7 @@ function Account( {
 
                 if (cancelled) return;
 
-                setAccount(data?.user ?? {
-                    email: data?.email,
-                    fullName: data?.fullName,
-                    firstName: data?.firstName,
-                    lastName: data?.lastName,
-                } ?? data ?? null);
+                setAccount(data?.user ?? user ?? null);
                 setCsrfToken(data?.csrfToken || "");
                 const profile = data?.profile ?? data?.volunteerProfile ?? {};
 
@@ -186,7 +209,20 @@ function Account( {
             cancelled = true;
         };
     },
-        [retryKey, authStatus]);
+        [retryKey, authStatus, hasPublicRole, authError, user]);
+
+    async function reconcileExpiredSession() {
+        try {
+            const currentUser = await refreshSession();
+            if (!currentUser) {
+                setNeedsSignIn(true);
+                setAccount(null);
+                setCsrfToken("");
+            }
+        } catch (sessionError) {
+            setError(sessionError.message || "We could not verify your session. Please sign in again.");
+        }
+    }
 
     async function handleGoogleSignIn() {
         setSigningIn(true);
@@ -260,7 +296,7 @@ function Account( {
 
             setProfileMessage({ text: "Your volunteer profile has been saved successfully.", tone: "success" });
         } catch (err) {
-            if (/session has expired|sign in again/i.test(err.message)) { setNeedsSignIn(true); setAccount(null); }
+            if (/session has expired|sign in again/i.test(err.message)) await reconcileExpiredSession();
             setProfileMessage({ text: err.message || "We could not save your profile. Please try again.", tone: "danger" });
         } finally {
             setSavingProfile(false);
@@ -313,7 +349,7 @@ function Account( {
 
             setApplicationMessage({ text: result?.message || "Your application has been submitted successfully. The foundation team will review it and update your account.", tone: "success" });
         } catch (err) {
-            if (/session has expired|sign in again/i.test(err.message)) { setNeedsSignIn(true); setAccount(null); }
+            if (/session has expired|sign in again/i.test(err.message)) await reconcileExpiredSession();
             setApplicationMessage({ text: err.message || "We could not submit your application. Please try again.", tone: "danger" });
         } finally {
             setSubmittingApplication(false);
@@ -343,6 +379,22 @@ function Account( {
         }
     }
 
+    async function retryAccountAccess() {
+        setError("");
+        setLoading(true);
+        setNeedsSignIn(false);
+        try {
+            const currentUser = await refreshSession();
+            if (!currentUser) {
+                setNeedsSignIn(true);
+                setLoading(false);
+            }
+        } catch (err) {
+            setError(err.message || "We could not verify your session. Please try again.");
+            setLoading(false);
+        }
+    }
+
     if (loading) {
         return (
             <main className="container wrap py-5">
@@ -359,6 +411,27 @@ function Account( {
                         Securely retrieving your information…
                     </p>
                 </div>
+            </main>
+        );
+    }
+
+    if (authStatus === "authenticated" && !hasPublicRole) {
+        return (
+            <main className="container wrap py-5">
+                <section className="panel p-4 p-md-5 mx-auto" style={{ maxWidth: 620 }}>
+                    <div className="eyebrow mb-2">Garden of Mercy Foundation</div>
+                    <h1 className="page-title h2 mb-3">Staff account detected</h1>
+                    <p className="text-secondary mb-4">
+                        This account is reserved for staff access and cannot open the community member portal.
+                        Continue to the secure staff workspace instead.
+                    </p>
+                    <button type="button" className="btn btn-success" onClick={() => goToPage("/admin", "/admin")}>
+                        <i className="bi bi-shield-lock me-2" />Open staff workspace
+                    </button>
+                    <button type="button" className="btn btn-link ms-2" onClick={() => goToPage("/", "/")}>
+                        Return to website
+                    </button>
+                </section>
             </main>
         );
     }
@@ -404,7 +477,7 @@ function Account( {
             <main className="container wrap py-5">
                 <div className="alert alert-warning" role="alert">{error}</div>
                 <div className="d-flex flex-wrap gap-2">
-                    <button className="btn btn-success" onClick={() => { setError(""); setLoading(true); setNeedsSignIn(false); setRetryKey((value) => value + 1); }}>Try again</button>
+                    <button className="btn btn-success" onClick={retryAccountAccess}>Try again</button>
                     <button className="btn btn-outline-secondary" onClick={() => goToPage("/", "/")}>Return to home</button>
                 </div>
             </main>
@@ -548,7 +621,6 @@ function Account( {
                             role="tab"
                             aria-selected={activeTab === tab.id}
                             aria-controls={`tab-${tab.id}`}
-                            tabIndex={activeTab === tab.id ? 0 : -1}
                             tabIndex={activeTab === tab.id ? 0 : -1}
                             onClick={() => setActiveTab(tab.id)}
                             >
@@ -708,6 +780,8 @@ tabIndex={0}
 id="tab-programs"
 className="tab-panel panel p-4 p-md-5 mb-4"
 role="tabpanel"
+aria-labelledby="tab-button-programs"
+tabIndex={0}
 >
 <h2 className="panel-title mb-1">Program registrations</h2>
 <p className="small-muted mb-3">
@@ -769,6 +843,8 @@ You have no program registrations yet.
 id="tab-applications"
 className="tab-panel panel p-4 p-md-5 mb-4"
 role="tabpanel"
+aria-labelledby="tab-button-applications"
+tabIndex={0}
 >
 <h2 className="panel-title mb-1">Applications and requests</h2>
 <p className="small-muted mb-3">
@@ -887,9 +963,17 @@ You have not submitted any applications yet.
 </section>
 )}
 
-{activeTab === "sponsorship" && <SponsorPortal />}
+{activeTab === "sponsorship" && (
+                <div id="tab-sponsorship" role="tabpanel" aria-labelledby="tab-button-sponsorship" tabIndex={0}>
+                    <SponsorPortal />
+                </div>
+            )}
 
-            {activeTab === "volunteerService" && <VolunteerPortal />}
+            {activeTab === "volunteerService" && (
+                <div id="tab-volunteerService" role="tabpanel" aria-labelledby="tab-button-volunteerService" tabIndex={0}>
+                    <VolunteerPortal />
+                </div>
+            )}
 
 {/* Donation history */}
 {activeTab === "donations" && (
@@ -897,6 +981,8 @@ You have not submitted any applications yet.
 id="tab-donations"
 className="tab-panel panel p-4 p-md-5 mb-4"
 role="tabpanel"
+aria-labelledby="tab-button-donations"
+tabIndex={0}
 >
 <h2 className="panel-title mb-1">Donation history</h2>
 <p className="small-muted mb-3">
@@ -925,10 +1011,10 @@ No donation records were found for your account.
 {donations.map((donation) => (
 <tr key={donation.id}>
 <td>
-{donation.date
-? new Date(donation.date).toLocaleDateString(): "—"}
+{(donation.date || donation.created_at)
+? new Date(donation.date || donation.created_at).toLocaleDateString(): "—"}
 </td>
-<td>{donation.reference || "—"}</td>
+<td>{donation.reference || donation.merchant_reference || "—"}</td>
 <td>
 {donation.amount != null
 ? `${donation.currency || "UGX"} ${donation.amount}`: "—"}
