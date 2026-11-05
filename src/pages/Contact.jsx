@@ -69,9 +69,8 @@ function Contact( {
 
         if (!validateForm()) return;
 
-        // Connect this handler to your backend contact endpoint before publishing.
         setNotice(
-            "Your message has been validated, but it has not been sent. Please connect the contact form to the foundation's backend."
+            "Your details are valid, but this form is not connected to the foundation's messaging service yet. Your message has not been sent. Please contact the foundation using its published contact details."
         );
 
     };
