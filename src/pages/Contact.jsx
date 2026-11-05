@@ -75,7 +75,7 @@ function Contact( {
             `Name: ${form.name.trim()}\nEmail: ${form.email.trim()}\n\n${form.message.trim()}`
         );
         setNotice(
-            "Your email app should open with your inquiry prepared. It has not been sent until you review it and press Send."
+            "Your email app is opening with your inquiry prepared. Your message has not been sent until you review it and press Send. If no email app opens, use the email address shown on this page."
         );
         window.location.href = `mailto:${recipient}?subject=${subject}&body=${body}`;
 
@@ -270,7 +270,10 @@ function Contact( {
                                         </div>
                                     )}
 
-                                    <form onSubmit={handleSubmit} noValidate>
+                                    <div className="alert alert-info rounded-3 small" role="note">
+                        <strong>How this form works:</strong> Submitting opens your device’s email application with the message prepared. Nothing is sent automatically; review it and press Send in your email app.
+                    </div>
+                    <form onSubmit={handleSubmit} noValidate>
                                         <div className="row g-3">
                                             <div className="col-md-6">
                                                 <label htmlFor="contact-name" className="form-label">
