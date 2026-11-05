@@ -124,6 +124,7 @@ function Account( {
                 if (response.status === 401) {
                     if (!cancelled) {
                         setNeedsSignIn(true);
+                        setAccount(null);
                         setError("");
                     }
                     return;
@@ -252,7 +253,7 @@ function Account( {
 
             setProfileMessage({ text: "Your volunteer profile has been saved successfully.", tone: "success" });
         } catch (err) {
-            if (/session has expired|sign in again/i.test(err.message)) setNeedsSignIn(true);
+            if (/session has expired|sign in again/i.test(err.message)) { setNeedsSignIn(true); setAccount(null); }
             setProfileMessage({ text: err.message || "We could not save your profile. Please try again.", tone: "danger" });
         } finally {
             setSavingProfile(false);
@@ -303,7 +304,7 @@ function Account( {
 
             setApplicationMessage({ text: result?.message || "Your application has been submitted successfully. The foundation team will review it and update your account.", tone: "success" });
         } catch (err) {
-            if (/session has expired|sign in again/i.test(err.message)) setNeedsSignIn(true);
+            if (/session has expired|sign in again/i.test(err.message)) { setNeedsSignIn(true); setAccount(null); }
             setApplicationMessage({ text: err.message || "We could not submit your application. Please try again.", tone: "danger" });
         } finally {
             setSubmittingApplication(false);
@@ -854,12 +855,12 @@ message: event.target.value,
 </div>
 
 <div className="col-12">
-<button className="btn btn-mercy" type="submit">
+<button className="btn btn-mercy" type="submit" disabled={submittingApplication}>
 Submit application
 </button>
 </div>
 
-{applicationMessage && (
+{applicationMessage.text && (
 <div className="col-12">
 <p className="small-muted mb-0" role="status" aria-live="polite">
 {applicationMessage}
@@ -910,7 +911,9 @@ Donation records associated with your signed-in account email.
 Only confirmed payments should be considered completed.
 </p>
 
-{donations.length === 0 ? (
+{donationsLoadError ? (
+                <div className="alert alert-warning mb-0" role="status">Donation history could not be loaded from your account response. Please refresh and try again.</div>
+                ) : donations.length === 0 ? (
 <p className="text-secondary mb-0">
 No donation records were found for your account.
 </p>
