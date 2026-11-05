@@ -210,7 +210,7 @@ function Founder({ navigate }) {
             </h2>
 
             <p className="section-lead mx-auto">
-              These principles provide a practical standard for how the Foundation seeks to serve people and work alongside communities.
+              These values guide how we serve people, steward resources, and work alongside communities.
             </p>
           </div>
 
