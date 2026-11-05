@@ -9,16 +9,19 @@ import EducationGiftPopup from "./EducationGiftPopup";
 
 const WELCOME_KEY = "gom_welcome_shown";
 const EDUCATION_KEY = "gom_education_popup_shown";
+const WELCOME_DELAY = 7000;
+const memoryShown = new Set();
 
 function wasShown(key) {
   try {
-    return window.sessionStorage.getItem(key) === "true";
+    return window.sessionStorage.getItem(key) === "true" || memoryShown.has(key);
   } catch {
-    return false;
+    return memoryShown.has(key);
   }
 }
 
 function markShown(key) {
+  memoryShown.add(key);
   try {
     window.sessionStorage.setItem(key, "true");
   } catch {
@@ -57,22 +60,47 @@ export default function PopupManager({ path, navigate }) {
     setEducationOpen(true);
   }, [isDonationFlow, welcomeOpen]);
 
-  // Welcome first-time visitors on the homepage.
+  // A welcome prompt should never follow a visitor onto another page.
   useEffect(() => {
-    if (
-      path !== "/" ||
-      isDonationFlow ||
-      wasShown(WELCOME_KEY)
-    ) {
-      return;
-    }
+    setWelcomeOpen(false);
+    setEducationOpen(false);
+  }, [path]);
 
-    const timer = window.setTimeout(() => {
-      markShown(WELCOME_KEY);
-      setWelcomeOpen(true);
-    }, 4000);
+  // Welcome visitors who remain on the homepage with the tab visible.
+  // The delay restarts if they switch away before the prompt appears.
+  useEffect(() => {
+    if (path !== "/" || isDonationFlow || wasShown(WELCOME_KEY)) return;
 
-    return () => window.clearTimeout(timer);
+    let timer;
+
+    const clearTimer = () => {
+      if (timer) window.clearTimeout(timer);
+      timer = undefined;
+    };
+
+    const scheduleWelcome = () => {
+      clearTimer();
+      if (document.visibilityState !== "visible" || wasShown(WELCOME_KEY)) return;
+
+      timer = window.setTimeout(() => {
+        if (document.visibilityState !== "visible" || wasShown(WELCOME_KEY)) return;
+        markShown(WELCOME_KEY);
+        setWelcomeOpen(true);
+      }, WELCOME_DELAY);
+    };
+
+    const handleVisibility = () => {
+      if (document.visibilityState === "visible") scheduleWelcome();
+      else clearTimer();
+    };
+
+    scheduleWelcome();
+    document.addEventListener("visibilitychange", handleVisibility);
+
+    return () => {
+      clearTimer();
+      document.removeEventListener("visibilitychange", handleVisibility);
+    };
   }, [path, isDonationFlow]);
 
   // Offer education support after engagement, never on the donation flow.
