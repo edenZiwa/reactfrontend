@@ -69,9 +69,15 @@ function Contact( {
 
         if (!validateForm()) return;
 
-        setNotice(
-            "Your inquiry has been prepared, but it has not been sent to Garden of Mercy Foundation. This form does not currently deliver messages. Please contact our team through our verified official communication channels."
+        const recipient = "mercygarden@gmail.com";
+        const subject = encodeURIComponent(form.subject || "General Inquiry");
+        const body = encodeURIComponent(
+            `Name: ${form.name.trim()}\nEmail: ${form.email.trim()}\n\n${form.message.trim()}`
         );
+        setNotice(
+            "Your email app should open with your inquiry prepared. It has not been sent until you review it and press Send."
+        );
+        window.location.href = `mailto:${recipient}?subject=${subject}&body=${body}`;
 
     };
 
@@ -106,7 +112,7 @@ function Contact( {
                             </p>
                             <div className="contact-hero-actions">
                                 <a href="#contact-form" className="btn contact-hero-primary">
-                                    Prepare an inquiry
+                                    Send us an email
                                     <i className="bi bi-arrow-up-right ms-2" aria-hidden="true" />
                                 </a>
                                 <a href="#contact-details" className="btn contact-hero-secondary">
@@ -190,7 +196,7 @@ function Contact( {
                                         <h3 className="h5 fw-bold mb-2">General inquiries</h3>
                                         <p className="text-secondary mb-0">
                                             Ask questions about our mission, activities or how to
-                                            get involved. Prepare your inquiry here, then contact our team through our verified official communication channels.
+                                            get involved. Use the form to prepare an email to our team.
                                         </p>
                                     </div>
                                 </div>
@@ -206,7 +212,7 @@ function Contact( {
                                         </h3>
                                         <p className="text-secondary mb-0">
                                             Have an idea for a community initiative or collaboration?
-                                            Share your idea with us through our verified official communication channels.
+                                            Share your idea with us by email.
                                         </p>
                                     </div>
                                 </div>
@@ -251,7 +257,7 @@ function Contact( {
                                     </h2>
 
                                     <p className="text-secondary mb-4">
-                                        Enter your details and message below. This form prepares your inquiry but does not deliver it to our team. Fields marked with * are required.
+                                        Enter your details below. We’ll prepare an email in your device’s email app so you can review it and send it to our team. Fields marked with * are required.
                                     </p>
 
                                     {notice && (
@@ -405,7 +411,7 @@ function Contact( {
                                             type="submit"
                                             className="btn btn-success btn-lg px-4 w-100 contact-submit"
                                             >
-                                            Prepare inquiry
+                                            Open email to send
                                             <i
                                                 className="bi bi-arrow-right ms-2"
                                                 aria-hidden="true"
