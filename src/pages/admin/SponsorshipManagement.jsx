@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
+import { API_ORIGIN } from "../../services/api-config.js";
 
-const ROOT = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/$/, "");
-const API = path => ROOT + path;
+const API = path => API_ORIGIN + path;
 async function csrf() {
   let r; try { r = await fetch(API("/auth/csrf"), { credentials: "include", cache: "no-store" }); }
   catch { throw new Error("Your staff session could not be reached. Check your connection and sign in again."); }
