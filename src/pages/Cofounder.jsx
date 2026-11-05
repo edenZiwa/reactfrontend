@@ -27,7 +27,7 @@ function Cofounder({ navigate }) {
                 Pastor Albert <span>Yiga</span>
               </h1>
 
-              <p className="founder-hero-copy text-white">
+              <p className="founder-hero-copy">
                 Co-Founder of Garden of Mercy Foundation, sharing in
                 the vision of sowing seeds of mercy and compassion
                 through practical care, community outreach and support
@@ -63,7 +63,7 @@ function Cofounder({ navigate }) {
                 </span>
 
                 <span>
-                  <strong className="text-white">
+                  <strong className="hero-signature-title">
                     Compassion That Makes a Difference
                   </strong>
                   <small>
@@ -496,7 +496,7 @@ function Cofounder({ navigate }) {
                   OUR BIBLICAL INSPIRATION
                 </span>
 
-                <blockquote className="text-white">
+                <blockquote>
                   “for I was hungry and you gave Me food; I was thirsty and you gave Me drink;  I was a stranger and you took Me in;”
                 </blockquote>
 
