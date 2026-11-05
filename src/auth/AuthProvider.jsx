@@ -13,18 +13,27 @@ import {
 } from "../services/firebase-auth.js";
 
 const AuthContext = createContext(null);
-const AUTH_BASE = (import.meta.env.VITE_API_BASE_URL || "").replace(/\\/$/, "").replace(/\\/api$/i, "");
+const AUTH_BASE = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/$/, "").replace(/\/api$/i, "");
 
 async function readBackendSession() {
-  const response = await fetch(`${AUTH_BASE}/auth/me`, {
+  const response = await fetch(`${AUTH_BASE}/api/account/overview`, {
     credentials: "include",
     cache: "no-store",
     headers: { Accept: "application/json" },
   });
   const data = await response.json().catch(() => ({}));
   if (response.status === 401) return null;
-  if (!response.ok) throw new Error(data.error || "Could not check your account session.");
-  return data.user || null;
+  if (!response.ok) {
+    throw new Error(data.message || data.error || "Could not check your account session.");
+  }
+  return data.user || (data.email || data.fullName || data.firstName
+    ? {
+        email: data.email,
+        fullName: data.fullName,
+        firstName: data.firstName,
+        lastName: data.lastName,
+      }
+    : null);
 }
 
 export function AuthProvider({ children }) {
