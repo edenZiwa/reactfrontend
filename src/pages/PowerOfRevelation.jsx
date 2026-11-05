@@ -356,11 +356,11 @@ export default function PowerOfRevelation() {
                 <br />
                 Revelation <span>Ministries</span>
               </h1>
-              <p className="pr-hero-subtitle text-white mt-4">
+              <p className="pr-hero-subtitle theme-on-dark mt-4">
                 Reconciling people with God. Proclaiming the Good News.
                 Demonstrating the love of Christ.
               </p>
-              <p className="pr-hero-description text-white mt-3">
+              <p className="pr-hero-description theme-on-dark mt-3">
                 Discover the story, spiritual vision, leadership, church
                 community, and biblical teachings of Power of Revelation
                 Ministries, with its headquarters at Revelation Church Kampala,
@@ -389,11 +389,11 @@ export default function PowerOfRevelation() {
                 <div className="pr-feature-symbol">
                   <i className="bi bi-sunrise" aria-hidden="true" />
                 </div>
-                <span className="text-uppercase fw-semibold text-white">
+                <span className="text-uppercase fw-semibold theme-on-dark">
                   Our spiritual foundation
                 </span>
-                <h2 className="fw-bold mt-3 text-white">A glorious life in Christ</h2>
-                <p className="mb-4 text-white">
+                <h2 className="fw-bold mt-3 theme-on-dark">A glorious life in Christ</h2>
+                <p className="mb-4 theme-on-dark">
                   We believe the Gospel calls people into a relationship with
                   God, a deeper understanding of His Word, and a life that
                   reflects His love.
@@ -439,7 +439,7 @@ export default function PowerOfRevelation() {
                 </div>
                 <div className="pr-about-note">
                   <i className="bi bi-quote" aria-hidden="true" />
-                  <p className="mb-2 text-white">
+                  <p className="mb-2 theme-on-dark">
                     A people reconciled to God and equipped to demonstrate His
                     love.
                   </p>
@@ -1172,10 +1172,10 @@ export default function PowerOfRevelation() {
           <span className="pr-kicker mt-4 d-inline-flex">
             GROW IN FAITH · WALK IN PURPOSE
           </span>
-          <h2 className="display-5 fw-bold mt-3 text-white">
+          <h2 className="display-5 fw-bold mt-3 theme-on-dark">
             Discover the life God has called you to live.
           </h2>
-          <p className="mx-auto mt-3 text-white">
+          <p className="mx-auto mt-3 theme-on-dark">
             Explore the Word, connect with the church community, and discover
             more of the ministry's teachings as you grow in faith and
             fellowship.
