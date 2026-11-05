@@ -3332,21 +3332,11 @@ select:focus-visible {
     .about-value-card:hover { transform: none; }
 }
 
-/* Theme-aware Foundation logos */
+
+/* Foundation logo sizing — preserve the artwork's original colours. */
 .brand-logo,
 .footer-brand-logo {
   display: block;
   height: auto;
   object-fit: contain;
-  transition: filter 0.2s ease;
-}
-
-/* The header artwork is dark on transparent; render it in white on dark surfaces. */
-[data-bs-theme="dark"] .brand-logo {
-  filter: brightness(0) invert(1);
-}
-
-/* Footer sits on a dark brand surface in both themes, so keep its complete lockup white. */
-#site-footer .footer-brand-logo {
-  filter: brightness(0) invert(1);
 }
