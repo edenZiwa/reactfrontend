@@ -66,7 +66,6 @@ function Account( {
         setLoading] = useState(true);
     const [retryKey, setRetryKey] = useState(0);
     const [submittingApplication, setSubmittingApplication] = useState(false);
-    const [signingOut, setSigningOut] = useState(false);
     const [donationsLoadError, setDonationsLoadError] = useState(false);
     const [needsSignIn, setNeedsSignIn] = useState(false);
     const [signingIn, setSigningIn] = useState(false);
@@ -322,26 +321,6 @@ function Account( {
         }
     }
 
-    async function handleLogout(event) {
-        event.preventDefault();
-        if (signingOut) return;
-        setSigningOut(true);
-        setError("");
-
-        try {
-            await logout();
-
-            if (navigate) {
-                navigate("/");
-            } else {
-                window.location.href = "/";
-            }
-        } catch (err) {
-            setError(err.message || "We could not sign you out. Please try again.");
-        } finally {
-            setSigningOut(false);
-        }
-    }
 
     function handleTabKeyDown(event) {
         const currentIndex = TABS.findIndex((tab) => tab.id === activeTab);
