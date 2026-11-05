@@ -5,9 +5,11 @@ const API_ORIGIN = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/$/, "");
 const API = path => API_ORIGIN + path;
 
 async function csrfToken() {
-  const response = await fetch(API("/auth/csrf"), { credentials: "include", cache: "no-store" });
+  let response;
+  try { response = await fetch(API("/auth/csrf"), { credentials: "include", cache: "no-store" }); }
+  catch { throw new Error("Your secure session could not be reached. Check your connection and sign in again."); }
   const data = await response.json().catch(() => ({}));
-  if (!response.ok || !data.csrfToken) throw new Error(data.error || "Could not start a secure session.");
+  if (!response.ok || !data.csrfToken) throw new Error(data.error || "Your staff session has expired. Please sign in again.");
   return data.csrfToken;
 }
 
@@ -15,10 +17,16 @@ async function request(path, options = {}) {
   const method = (options.method || "GET").toUpperCase();
   const headers = { Accept: "application/json", ...(options.body ? { "Content-Type": "application/json" } : {}) };
   if (!["GET", "HEAD", "OPTIONS"].includes(method)) headers["X-CSRF-Token"] = await csrfToken();
-  const response = await fetch(API(path), { ...options, method, headers, credentials: "include", cache: "no-store" });
+  let response;
+  try { response = await fetch(API(path), { ...options, method, headers, credentials: "include", cache: "no-store" }); }
+  catch { throw new Error("We could not reach the administration service. Check your internet connection and try again."); }
   const type = response.headers.get("content-type") || "";
-  const data = type.includes("application/json") ? await response.json().catch(() => ({})) : {};
-  if (!response.ok) throw new Error(data.error || data.message || "The request could not be completed.");
+  const data = type.toLowerCase().includes("application/json") ? await response.json().catch(() => ({})) : {};
+  if (!response.ok) {
+    const messages = { 400: "Some information is missing or invalid. Review the form and try again.", 401: "Your staff session has expired. Please sign in again.", 403: "Your account does not have permission to complete this action.", 404: "The requested donor record could not be found. Refresh and try again.", 409: "This change conflicts with the latest record. Refresh and review before retrying.", 422: "Please review the information entered and correct any invalid fields.", 429: "Too many requests. Please wait a moment and try again." };
+    throw new Error(data.error || data.message || messages[response.status] || (response.status >= 500 ? "The donor service is temporarily unavailable. Please try again shortly." : "The request could not be completed. Please try again."));
+  }
+  if (response.status !== 204 && !type.toLowerCase().includes("application/json")) throw new Error("The donor service returned an unexpected response. Please try again later.");
   return data;
 }
 
