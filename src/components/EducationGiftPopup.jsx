@@ -4,7 +4,7 @@ import PopupModal from "./PopupModal";
 export default function EducationGiftPopup({ onClose, navigate }) {
   const handleDonate = useCallback(() => {
     onClose();
-    navigate?.("/donate");
+    navigate?.("/donate?amount=30&currency=USD&purpose=children&frequency=one-time#donation-form");
   }, [navigate, onClose]);
 
   return (
