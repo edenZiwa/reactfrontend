@@ -404,6 +404,70 @@ function Founder({ navigate }) {
         </div>
       </section>
 
+      {/* APOSTLE DERRICK MUSINGUZI — VIDEO PLAYLISTS */}
+      <section id="founder-teachings" className="section-pad bg-light" aria-labelledby="founder-teachings-title">
+        <div className="container">
+          <div className="section-heading text-center">
+            <span className="eyebrow"><span className="eyebrow-dot" /> VIDEO TEACHINGS</span>
+            <h2 id="founder-teachings-title" className="section-title">
+              Teachings by <em>Apostle Derrick Musinguzi.</em>
+            </h2>
+            <p className="section-lead mx-auto">
+              Explore selected teaching playlists and follow Revelation Church Kampala for additional messages and ministry broadcasts.
+            </p>
+          </div>
+          <div className="row g-4 mt-3">
+            <div className="col-lg-4" key="PL7tGpntrFQt-YkOjoXWzq8WarQmaMPk5m">
+              <article className="card border-0 shadow-sm rounded-4 h-100 overflow-hidden">
+                <div className="ratio ratio-16x9">
+                  <iframe src="https://www.youtube-nocookie.com/embed/videoseries?list=PL7tGpntrFQt-YkOjoXWzq8WarQmaMPk5m" title="Apostle Derrick Musinguzi — Playlist 1" loading="lazy" referrerPolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen />
+                </div>
+                <div className="card-body p-4">
+                  <span className="small text-uppercase text-secondary fw-semibold">TEACHING PLAYLIST 01</span>
+                  <h3 className="h5 fw-bold mt-2">Apostle Derrick Musinguzi — Playlist 1</h3>
+                  <a className="text-link" href="https://www.youtube.com/playlist?list=PL7tGpntrFQt-YkOjoXWzq8WarQmaMPk5m" target="_blank" rel="noopener noreferrer">
+                    Open playlist on YouTube <i className="bi bi-arrow-up-right ms-2" aria-hidden="true" />
+                  </a>
+                </div>
+              </article>
+            </div>
+            <div className="col-lg-4" key="PL7tGpntrFQt_ykpOfPqY0SU8mfiGrWPwz">
+              <article className="card border-0 shadow-sm rounded-4 h-100 overflow-hidden">
+                <div className="ratio ratio-16x9">
+                  <iframe src="https://www.youtube-nocookie.com/embed/videoseries?list=PL7tGpntrFQt_ykpOfPqY0SU8mfiGrWPwz" title="Apostle Derrick Musinguzi — Playlist 2" loading="lazy" referrerPolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen />
+                </div>
+                <div className="card-body p-4">
+                  <span className="small text-uppercase text-secondary fw-semibold">TEACHING PLAYLIST 02</span>
+                  <h3 className="h5 fw-bold mt-2">Apostle Derrick Musinguzi — Playlist 2</h3>
+                  <a className="text-link" href="https://www.youtube.com/playlist?list=PL7tGpntrFQt_ykpOfPqY0SU8mfiGrWPwz" target="_blank" rel="noopener noreferrer">
+                    Open playlist on YouTube <i className="bi bi-arrow-up-right ms-2" aria-hidden="true" />
+                  </a>
+                </div>
+              </article>
+            </div>
+            <div className="col-lg-4" key="PL7tGpntrFQt-X1ZvVjKd--wz9ZFdDnL39">
+              <article className="card border-0 shadow-sm rounded-4 h-100 overflow-hidden">
+                <div className="ratio ratio-16x9">
+                  <iframe src="https://www.youtube-nocookie.com/embed/videoseries?list=PL7tGpntrFQt-X1ZvVjKd--wz9ZFdDnL39" title="Apostle Derrick Musinguzi — Playlist 3" loading="lazy" referrerPolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen />
+                </div>
+                <div className="card-body p-4">
+                  <span className="small text-uppercase text-secondary fw-semibold">TEACHING PLAYLIST 03</span>
+                  <h3 className="h5 fw-bold mt-2">Apostle Derrick Musinguzi — Playlist 3</h3>
+                  <a className="text-link" href="https://www.youtube.com/playlist?list=PL7tGpntrFQt-X1ZvVjKd--wz9ZFdDnL39" target="_blank" rel="noopener noreferrer">
+                    Open playlist on YouTube <i className="bi bi-arrow-up-right ms-2" aria-hidden="true" />
+                  </a>
+                </div>
+              </article>
+            </div>
+          </div>
+          <div className="text-center mt-4">
+            <a className="btn btn-outline-dark" href="https://www.youtube.com/@RCKLIVEat10" target="_blank" rel="noopener noreferrer">
+              <i className="bi bi-youtube me-2" aria-hidden="true" /> Visit Revelation Church Kampala on YouTube
+            </a>
+          </div>
+        </div>
+      </section>
+
       {/* FOUNDATION MISSION */}
       <section
         id="foundation-vision"
