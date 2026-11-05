@@ -395,9 +395,10 @@ function Programs({ navigate }) {
               </h2>
 
               <p className="text-secondary">
-                A mature program should begin with understanding a need,
-                continue through planning and implementation, and include
-                monitoring, accountability and learning.
+                We begin by listening to communities and understanding
+                their needs. We then plan and deliver practical support,
+                monitor progress, and learn from each programme to strengthen
+                our accountability and service.
               </p>
             </div>
           </div>
