@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { useAuth } from "../auth/AuthProvider.jsx";
 import { API_BASE, API_ORIGIN } from "../services/api-config.js";
 const money = (amount, currency) => new Intl.NumberFormat("en-UG", { style: "currency", currency: currency || "UGX", maximumFractionDigits: currency === "UGX" ? 0 : 2 }).format(Number(amount || 0));
 
 export default function SponsorPortal() {
+  const { refreshSession } = useAuth();
   const [data, setData] = useState({ sponsorships: [], approvedReports: [], payments: [], schedules: [] });
   const [children, setChildren] = useState([]);
   const [form, setForm] = useState({ childProfileId: "", sponsorshipModel: "individual", contributionFrequency: "monthly", proposedAmount: "", currency: "UGX", message: "" });
@@ -29,8 +31,13 @@ export default function SponsorPortal() {
         throw new Error(failed.status === 401 ? "Your session has expired. Please sign in again." : failed.status === 403 ? "You do not have permission to view this sponsorship information." : failed.status >= 500 ? "The sponsorship service is temporarily unavailable. Please try again shortly." : own.error || directory.error || "We could not load sponsorship information. Please refresh and try again.");
       }
       setData(own); setChildren(directory.children || []);
-    } catch (e) { setError(e.message); setLoadingError(e.message); }
-    finally { setLoading(false); }
+    } catch (e) {
+      setError(e.message);
+      setLoadingError(e.message);
+      if (/session has expired|sign in again/i.test(e.message)) {
+        try { await refreshSession(); } catch { /* Keep the page-level recovery message visible. */ }
+      }
+    } finally { setLoading(false); }
   }
   useEffect(() => { load(); }, []);
 
@@ -54,6 +61,7 @@ export default function SponsorPortal() {
       }
       setNotice(result.message || "Your sponsorship interest has been submitted.");
       setForm({ childProfileId: "", sponsorshipModel: "individual", contributionFrequency: "monthly", proposedAmount: "", currency: "UGX", message: "" });
+      await load();
     } catch (e) { setError(e.message || "We could not submit your sponsorship interest. Please try again."); }
     finally { setBusy(false); }
   }
@@ -61,7 +69,7 @@ export default function SponsorPortal() {
   if (loading) return <section className="panel p-4 text-center" role="status"><span className="spinner-border spinner-border-sm text-success me-2" />Loading sponsorship information…</section>;
   return <section className="panel p-4 p-md-5 mb-4">
     <div className="d-flex justify-content-between flex-wrap gap-2 mb-3"><div><h2 className="panel-title mb-1">Child sponsorship</h2><p className="small-muted">Your sponsorships, approved quarterly updates and contributions.</p></div><button className="btn btn-sm btn-outline-success" onClick={load} disabled={loading}>Refresh</button></div>
-    {error && <div className="alert alert-danger" role="alert">{error}</div>}{notice && <div className="alert alert-success" role="status">{notice}</div>}
+    {error && <div className="alert alert-danger" role="alert">{error} {loadingError && <button type="button" className="btn btn-sm btn-outline-danger ms-2" onClick={load}>Try again</button>}</div>}{notice && <div className="alert alert-success" role="status">{notice}</div>}
     <h3 className="h5 fw-bold">Your sponsorships</h3>
     {!data.sponsorships?.length ? <p className="text-secondary">No sponsorship assignments are linked to your account yet.</p> : <div className="row g-3 mb-4">{data.sponsorships.map(item => <div className="col-12 col-lg-6" key={item.id}><article className="feature h-100"><div className="d-flex justify-content-between"><strong>{item.display_name}</strong><span className="badge text-bg-light border">{item.status}</span></div><p className="small-muted">{item.age_band} · {item.region_label}</p><strong>{money(item.expected_amount,item.currency)}</strong><div className="small text-secondary">{item.sponsorship_model} · {item.contribution_frequency}</div></article></div>)}</div>}
     <h3 className="h5 fw-bold mt-4">Approved quarterly progress reports</h3>
