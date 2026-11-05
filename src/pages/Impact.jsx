@@ -1,5 +1,6 @@
 import React from "react";
 import { AppLink } from "../components/SiteChrome.jsx";
+import ContentStatus from "../components/ContentStatus.jsx";
 
 const impactAreas = [
   {
@@ -25,6 +26,7 @@ const impactAreas = [
 export default function Impact({ navigate }) {
   return (
     <main id="main-content" className="impact-page">
+      <ContentStatus tone="info">We will publish measured results only when they are supported by reviewed project and beneficiary records. The measures shown on this page describe our reporting approach, not achieved totals.</ContentStatus>
       {/* IMPACT HERO */}
       <section className="impact-hero" aria-labelledby="impact-title">
         <div className="impact-hero-inner container">
