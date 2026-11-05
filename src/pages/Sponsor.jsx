@@ -165,7 +165,10 @@ function ChildProfiles() {
       ));
       setStatus("success");
     } catch (error) {
-      if (error.name !== "AbortError") setStatus("error");
+      if (error.name !== "AbortError") {
+        setStatus("error");
+        setLoadError(error.message || "We could not load sponsorship profiles. Please try again.");
+      }
     }
   }, []);
 
