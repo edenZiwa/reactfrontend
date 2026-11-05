@@ -72,9 +72,6 @@ export function ToastProvider({ children }) {
       {children}
       <div
         className="gom-toast-viewport"
-        aria-label="Notifications"
-        aria-live="polite"
-        aria-relevant="additions text"
       >
         {items.map((item) => (
           <ToastItem key={item.id} item={item} onDismiss={dismiss} />
