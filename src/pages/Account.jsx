@@ -60,7 +60,7 @@ const TABS = [{
 function Account( {
     navigate
 }) {
-    const { login, user, status: authStatus, authError } = useAuth();
+    const { login, user, status: authStatus, authError, refreshSession } = useAuth();
     const [loading,
         setLoading] = useState(true);
     const [retryKey, setRetryKey] = useState(0);
@@ -360,6 +360,22 @@ function Account( {
         }
     }
 
+    async function retryAccountAccess() {
+        setError("");
+        setLoading(true);
+        setNeedsSignIn(false);
+        try {
+            const currentUser = await refreshSession();
+            if (!currentUser) {
+                setNeedsSignIn(true);
+                setLoading(false);
+            }
+        } catch (err) {
+            setError(err.message || "We could not verify your session. Please try again.");
+            setLoading(false);
+        }
+    }
+
     if (loading) {
         return (
             <main className="container wrap py-5">
@@ -442,7 +458,7 @@ function Account( {
             <main className="container wrap py-5">
                 <div className="alert alert-warning" role="alert">{error}</div>
                 <div className="d-flex flex-wrap gap-2">
-                    <button className="btn btn-success" onClick={() => { setError(""); setLoading(true); setNeedsSignIn(false); setRetryKey((value) => value + 1); }}>Try again</button>
+                    <button className="btn btn-success" onClick={retryAccountAccess}>Try again</button>
                     <button className="btn btn-outline-secondary" onClick={() => goToPage("/", "/")}>Return to home</button>
                 </div>
             </main>
