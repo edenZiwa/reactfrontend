@@ -1,4 +1,4 @@
-const API_BASE = (import.meta.env.VITE_API_BASE_URL || "/api").replace(/\/$/, "");
+import { API_BASE } from "./api-config.js";
 
 function statusMessage(status, fallback) {
     const messages = {
@@ -15,14 +15,22 @@ function statusMessage(status, fallback) {
         : fallback || "We could not complete your request. Please try again.");
 }
 
-async function request(path, options = {}) {
+export async function apiRequest(path, options = {}) {
+    const { headers: requestHeaders = {}, credentials = "same-origin", ...fetchOptions } = options;
+    const endpoint = `${API_BASE}${path.startsWith("/") ? path : `/${path}`}`;
     let response;
     try {
-        response = await fetch(`${API_BASE}${path}`, {
-            headers: { Accept: "application/json", "Content-Type": "application/json", ...(options.headers || {}) },
-            ...options,
+        response = await fetch(endpoint, {
+            ...fetchOptions,
+            credentials,
+            headers: {
+                Accept: "application/json",
+                ...(fetchOptions.body ? { "Content-Type": "application/json" } : {}),
+                ...requestHeaders,
+            },
         });
-    } catch {
+    } catch (error) {
+        if (error?.name === "AbortError") throw error;
         throw new Error("We could not reach the foundation service. Check your internet connection and try again.");
     }
 
@@ -34,7 +42,7 @@ async function request(path, options = {}) {
         } else {
             const body = await response.text().catch(() => "");
             if (body.trimStart().startsWith("<")) {
-                throw new Error("The service returned an unexpected webpage. Please try again later or contact the foundation.");
+                throw new Error("The service returned an unexpected webpage. Check the backend API configuration and try again.");
             }
         }
     }
@@ -44,13 +52,12 @@ async function request(path, options = {}) {
     }
     return data;
 }
-
 export async function startDonation(payload) {
-    return request("/donations", { method: "POST", body: JSON.stringify(payload) });
+    return apiRequest("/donations", { method: "POST", body: JSON.stringify(payload) });
 }
 
-export async function getDonationStatus(reference) {
-    return request(`/donations/${encodeURIComponent(reference)}`);
+export async function getDonationStatus(reference, options = {}) {
+    return apiRequest(`/donations/${encodeURIComponent(reference)}`, options);
 }
 
 export function describeDonationStatus(status) {

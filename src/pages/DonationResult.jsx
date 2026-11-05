@@ -9,7 +9,7 @@ function DonationResult({ navigate }) {
   const [error, setError] = useState("");
   const [refreshing, setRefreshing] = useState(false);
   const requestLock = useRef(false);
-  async function refreshStatus() {
+  async function refreshStatus(signal) {
     if (!reference) {
       setError(
         "No donation reference was provided. Please use the link from your payment journey or return to the donation page.",
@@ -21,8 +21,9 @@ function DonationResult({ navigate }) {
     setRefreshing(true);
     setError("");
     try {
-      setResult(await getDonationStatus(reference));
+      setResult(await getDonationStatus(reference, signal ? { signal } : {}));
     } catch (requestError) {
+      if (requestError?.name === "AbortError") return;
       setError(
         requestError.message ||
           "We could not retrieve the donation status. Please try again.",
@@ -33,14 +34,28 @@ function DonationResult({ navigate }) {
     }
   }
   useEffect(() => {
-    refreshStatus();
+    const controller = new AbortController();
+    refreshStatus(controller.signal);
+    return () => controller.abort();
   }, [reference]);
+
   useEffect(() => {
-    if (!result || ["completed", "failed", "reversed"].includes(result.status))
+    if (!result || ["completed", "failed", "reversed"].includes(String(result.status || "").toLowerCase())) {
       return undefined;
+    }
+
+    let attempts = 0;
+    const maxAttempts = 24;
     const timer = window.setInterval(() => {
+      if (document.visibilityState !== "visible") return;
+      if (attempts >= maxAttempts) {
+        window.clearInterval(timer);
+        return;
+      }
+      attempts += 1;
       refreshStatus();
     }, 5000);
+
     return () => window.clearInterval(timer);
   }, [result?.status, reference]);
   const detail = describeDonationStatus(result?.status);

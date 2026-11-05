@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { AppLink } from "../components/SiteChrome.jsx";
+import { apiRequest } from "../services/api.js";
 
 const interests = [
   "Community outreach",
@@ -11,24 +12,6 @@ const interests = [
   "Administration and communications",
   "Other",
 ];
-
-async function readResponse(response) {
-  const contentType = response.headers.get("content-type") || "";
-  if (!contentType.toLowerCase().includes("application/json")) {
-    const body = await response.text();
-    if (body.trimStart().startsWith("<!doctype") || body.trimStart().startsWith("<html")) {
-      throw new Error(
-        "The volunteer API returned a webpage instead of JSON. Please check that the backend has a POST /api/volunteer route and that the frontend API URL is configured correctly."
-      );
-    }
-    throw new Error("The server returned an unexpected response. Please try again later.");
-  }
-  const data = await response.json();
-  if (!response.ok) {
-    throw new Error(data?.message || data?.error || "Your application could not be submitted. Please try again.");
-  }
-  return data;
-}
 
 export default function Volunteer({ navigate }) {
   const [form, setForm] = useState({
@@ -54,10 +37,8 @@ export default function Volunteer({ navigate }) {
     setStatus({ type: "", message: "" });
     setSubmitting(true);
     try {
-      const baseUrl = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/$/, "");
-      const response = await fetch(`${baseUrl}/api/volunteer`, {
+      const data = await apiRequest("/volunteer", {
         method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
         credentials: "include",
         body: JSON.stringify({
           fullName: form.fullName.trim(),
@@ -70,7 +51,6 @@ export default function Volunteer({ navigate }) {
           consent: form.consent,
         }),
       });
-      const data = await readResponse(response);
       setStatus({ type: "success", message: data?.message || "Thank you for volunteering! Your interest has been submitted." });
       setForm({ fullName: "", email: "", phone: "", interest: "", availability: "", experience: "", message: "", consent: false });
     } catch (error) {
