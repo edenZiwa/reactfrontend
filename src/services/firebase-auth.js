@@ -12,6 +12,7 @@ import {
 } from "firebase/auth";
 
 const APP_NAME = "garden-of-mercy-web";
+const AUTH_BASE = (import.meta.env.VITE_API_BASE_URL || "").replace(/\\/$/, "").replace(/\\/api$/i, "");
 let authPromise;
 let csrfPromise;
 
@@ -20,8 +21,8 @@ async function getFirebaseAuth() {
     authPromise = (async () => {
       let response;
       try {
-        response = await fetch("/auth/google-config", {
-          credentials: "same-origin",
+        response = await fetch(`${AUTH_BASE}/auth/google-config`, {
+          credentials: "include",
           cache: "no-store",
           headers: { Accept: "application/json" },
         });
@@ -46,8 +47,8 @@ async function getFirebaseAuth() {
 
 async function getCsrfToken() {
   if (!csrfPromise) {
-    csrfPromise = fetch("/auth/csrf", {
-      credentials: "same-origin",
+    csrfPromise = fetch(`${AUTH_BASE}/auth/csrf`, {
+      credentials: "include",
       cache: "no-store",
       headers: { Accept: "application/json" },
     }).catch(() => {
@@ -69,9 +70,9 @@ async function exchangeFirebaseToken(user) {
   const csrfToken = await getCsrfToken();
   let response;
   try {
-    response = await fetch("/auth/google", {
+    response = await fetch(`${AUTH_BASE}/auth/google`, {
       method: "POST",
-      credentials: "same-origin",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
