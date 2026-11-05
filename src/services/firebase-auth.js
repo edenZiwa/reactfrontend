@@ -18,11 +18,16 @@ let csrfPromise;
 async function getFirebaseAuth() {
   if (!authPromise) {
     authPromise = (async () => {
-      const response = await fetch("/auth/google-config", {
-        credentials: "same-origin",
-        cache: "no-store",
-        headers: { Accept: "application/json" },
-      });
+      let response;
+      try {
+        response = await fetch("/auth/google-config", {
+          credentials: "same-origin",
+          cache: "no-store",
+          headers: { Accept: "application/json" },
+        });
+      } catch {
+        throw new Error("We could not reach the Google sign-in service. Check your connection and try again.");
+      }
       const config = await response.json().catch(() => ({}));
       if (!response.ok) throw new Error(config.error || "Google sign-in is unavailable right now.");
       if (!config.apiKey || !config.authDomain || !config.projectId || !config.appId) {
@@ -45,6 +50,8 @@ async function getCsrfToken() {
       credentials: "same-origin",
       cache: "no-store",
       headers: { Accept: "application/json" },
+    }).catch(() => {
+      throw new Error("We could not start a secure sign-in session. Check your connection and try again.");
     }).then(async (response) => {
       const data = await response.json().catch(() => ({}));
       if (!response.ok || !data.csrfToken) throw new Error(data.error || "Could not start a secure sign-in session.");
@@ -60,18 +67,31 @@ async function getCsrfToken() {
 async function exchangeFirebaseToken(user) {
   const credential = await user.getIdToken(true);
   const csrfToken = await getCsrfToken();
-  const response = await fetch("/auth/google", {
-    method: "POST",
-    credentials: "same-origin",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-      "X-CSRF-Token": csrfToken,
-    },
-    body: JSON.stringify({ credential }),
-  });
+  let response;
+  try {
+    response = await fetch("/auth/google", {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "X-CSRF-Token": csrfToken,
+      },
+      body: JSON.stringify({ credential }),
+    });
+  } catch {
+    throw new Error("We could not complete Google sign-in because the foundation service could not be reached. Please try again.");
+  }
   const data = await response.json().catch(() => ({}));
-  if (!response.ok) throw new Error(data.error || "Google sign-in failed. Please try again.");
+  if (!response.ok) throw new Error(data.error || data.message || (response.status === 401
+    ? "Google could not verify this sign-in. Please try again."
+    : response.status === 403
+      ? "The sign-in request could not be authorised. Refresh the page and try again."
+      : response.status === 429
+        ? "Too many sign-in attempts. Please wait a moment and try again."
+        : response.status >= 500
+          ? "Google sign-in is temporarily unavailable. Please try again shortly."
+          : "Google sign-in failed. Please check your account and try again."));
   csrfPromise = null; // Session regeneration creates a new CSRF token.
   return data;
 }
