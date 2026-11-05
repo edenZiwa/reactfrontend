@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import "../css/donate.css";
 import { startDonation } from "../services/api.js";
 import { validateDonation } from "../services/donation-validation.js";
@@ -23,19 +23,40 @@ const formatAmount = (amount, currency) =>
   }).format(Number(amount) || 0);
 
 function Donate() {
-  const [form, setForm] = useState({
-    amount: "25000",
-    currency: "UGX",
-    purpose: "general",
-    frequency: "one-time",
+  const [form, setForm] = useState(() => {
+    const params = new URLSearchParams(window.location.search);
+    const currency = params.get("currency") === "USD" ? "USD" : "UGX";
+    const requestedAmount = Number(params.get("amount"));
+    const validAmount = Number.isFinite(requestedAmount) && requestedAmount > 0;
+    const purpose = ["general", "children", "community", "emergency"].includes(params.get("purpose"))
+      ? params.get("purpose")
+      : "general";
+    const frequency = ["one-time", "monthly"].includes(params.get("frequency"))
+      ? params.get("frequency")
+      : "one-time";
+
+    return {
+    amount: validAmount ? String(requestedAmount) : currency === "USD" ? "25" : "25000",
+    currency,
+    purpose,
+    frequency,
     firstName: "",
     lastName: "",
     email: "",
     phone: "",
+    };
   });
 
   const [status, setStatus] = useState({ type: "", message: "" });
   const [busy, setBusy] = useState(false);
+
+  useEffect(() => {
+    if (window.location.hash === "#donation-form") {
+      requestAnimationFrame(() => {
+        document.getElementById("donation-form")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    }
+  }, []);
 
   const donorName = [form.firstName.trim(), form.lastName.trim()]
     .filter(Boolean)
@@ -194,7 +215,7 @@ function Donate() {
                   future.
                 </p>
 
-                <a href="#donation-form" className="donate-hero-feature-link">
+                <a href="/donate?amount=30&currency=USD&purpose=children&frequency=one-time#donation-form" className="donate-hero-feature-link">
                   Make this gift
                   <i className="bi bi-arrow-right" aria-hidden="true" />
                 </a>
