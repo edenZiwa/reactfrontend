@@ -60,7 +60,7 @@ const TABS = [{
 function Account( {
     navigate
 }) {
-    const { login, logout, status: authStatus } = useAuth();
+    const { login, user, status: authStatus, authError } = useAuth();
     const [loading,
         setLoading] = useState(true);
     const [retryKey, setRetryKey] = useState(0);
@@ -107,8 +107,30 @@ function Account( {
     const [donations,
         setDonations] = useState([]);
 
+    const staffRoles = ["super_admin", "admin", "staff", "finance", "programs", "volunteers", "communications"];
+    const hasPublicRole = Array.isArray(user?.roles)
+        && user.roles.includes("public_user")
+        && !user.roles.some((role) => staffRoles.includes(role));
+
     useEffect(() => {
         if (authStatus === "loading") return undefined;
+
+        if (authStatus === "anonymous") {
+            setAccount(null);
+            setNeedsSignIn(!authError);
+            setError(authError || "");
+            setLoading(false);
+            return undefined;
+        }
+
+        if (!hasPublicRole) {
+            setAccount(null);
+            setNeedsSignIn(false);
+            setError("");
+            setLoading(false);
+            return undefined;
+        }
+
         let cancelled = false;
 
         async function loadAccount() {
@@ -148,12 +170,7 @@ function Account( {
 
                 if (cancelled) return;
 
-                setAccount(data?.user ?? {
-                    email: data?.email,
-                    fullName: data?.fullName,
-                    firstName: data?.firstName,
-                    lastName: data?.lastName,
-                } ?? data ?? null);
+                setAccount(data?.user ?? user ?? null);
                 setCsrfToken(data?.csrfToken || "");
                 const profile = data?.profile ?? data?.volunteerProfile ?? {};
 
@@ -186,7 +203,7 @@ function Account( {
             cancelled = true;
         };
     },
-        [retryKey, authStatus]);
+        [retryKey, authStatus, hasPublicRole, authError, user]);
 
     async function handleGoogleSignIn() {
         setSigningIn(true);
@@ -363,6 +380,27 @@ function Account( {
         );
     }
 
+    if (authStatus === "authenticated" && !hasPublicRole) {
+        return (
+            <main className="container wrap py-5">
+                <section className="panel p-4 p-md-5 mx-auto" style={{ maxWidth: 620 }}>
+                    <div className="eyebrow mb-2">Garden of Mercy Foundation</div>
+                    <h1 className="page-title h2 mb-3">Staff account detected</h1>
+                    <p className="text-secondary mb-4">
+                        This account is reserved for staff access and cannot open the community member portal.
+                        Continue to the secure staff workspace instead.
+                    </p>
+                    <button type="button" className="btn btn-success" onClick={() => goToPage("/admin", "/admin")}>
+                        <i className="bi bi-shield-lock me-2" />Open staff workspace
+                    </button>
+                    <button type="button" className="btn btn-link ms-2" onClick={() => goToPage("/", "/")}>
+                        Return to website
+                    </button>
+                </section>
+            </main>
+        );
+    }
+
     if (needsSignIn && !account) {
         return (
             <main className="container wrap py-5">
@@ -428,6 +466,10 @@ function Account( {
                     Manage your volunteer profile, register for programs, and follow
                     your activity with the foundation.
                 </p>
+            </div>
+
+            <div className="mb-4">
+                <AccountAuthPanel />
             </div>
 
             {error && (
@@ -925,10 +967,10 @@ No donation records were found for your account.
 {donations.map((donation) => (
 <tr key={donation.id}>
 <td>
-{donation.date
-? new Date(donation.date).toLocaleDateString(): "—"}
+{(donation.date || donation.created_at)
+? new Date(donation.date || donation.created_at).toLocaleDateString(): "—"}
 </td>
-<td>{donation.reference || "—"}</td>
+<td>{donation.reference || donation.merchant_reference || "—"}</td>
 <td>
 {donation.amount != null
 ? `${donation.currency || "UGX"} ${donation.amount}`: "—"}
