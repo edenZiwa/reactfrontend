@@ -447,80 +447,41 @@ function Home( {
               </h2>
 
               <p className="text-secondary">
-                As the foundation grows, verified organizational data
-                will be published here to show supporters how resources
-                are being used and what outcomes are being achieved.
+                We are committed to responsible stewardship and honest
+                reporting. We share verified programme updates and outcomes
+                so our supporters can understand how our work is making a difference.
               </p>
             </div>
 
             <div className="col-lg-7">
               <div className="row g-3">
-                {/* Children reached */}
                 <div className="col-sm-6">
-                  <div className="impact-card p-4 rounded-4 border h-100 shadow-sm">
-                    <i className="bi bi-people-fill text-success fs-2"></i>
-
-                    <div className="display-6 fw-bold mt-3">—</div>
-
-                    <p className="mb-0 text-secondary">
-                      Children reached
-                    </p>
-
-                    <small className="text-muted">
-                      Verified data pending
-                    </small>
-                  </div>
+                  <article className="impact-card p-4 rounded-4 border h-100 shadow-sm">
+                    <i className="bi bi-people-fill text-success fs-2" aria-hidden="true" />
+                    <h3 className="h5 fw-bold mt-3">Children first</h3>
+                    <p className="text-secondary mb-0">We champion children's dignity, wellbeing, education and opportunities to thrive.</p>
+                  </article>
                 </div>
-
-                {/* Families supported */}
                 <div className="col-sm-6">
-                  <div className="impact-card p-4 rounded-4 border h-100 shadow-sm">
-                    <i className="bi bi-heart-fill text-danger fs-2"></i>
-
-                    <div className="display-6 fw-bold mt-3">—</div>
-
-                    <p className="mb-0 text-secondary">
-                      Families supported
-                    </p>
-
-                    <small className="text-muted">
-                      Verified data pending
-                    </small>
-                  </div>
+                  <article className="impact-card p-4 rounded-4 border h-100 shadow-sm">
+                    <i className="bi bi-heart-fill text-danger fs-2" aria-hidden="true" />
+                    <h3 className="h5 fw-bold mt-3">Care for families</h3>
+                    <p className="text-secondary mb-0">We stand alongside vulnerable people and families with compassion and practical support.</p>
+                  </article>
                 </div>
-
-                {/* Opportunities created */}
                 <div className="col-sm-6">
-                  <div className="impact-card p-4 rounded-4 border h-100 shadow-sm">
-                    <i className="bi bi-mortarboard-fill text-primary fs-2"></i>
-
-                    <div className="display-6 fw-bold mt-3">—</div>
-
-                    <p className="mb-0 text-secondary">
-                      Opportunities created
-                    </p>
-
-                    <small className="text-muted">
-                      Verified data pending
-                    </small>
-                  </div>
+                  <article className="impact-card p-4 rounded-4 border h-100 shadow-sm">
+                    <i className="bi bi-mortarboard-fill text-primary fs-2" aria-hidden="true" />
+                    <h3 className="h5 fw-bold mt-3">Opportunity to grow</h3>
+                    <p className="text-secondary mb-0">We value education, encouragement and pathways that help people build hopeful futures.</p>
+                  </article>
                 </div>
-
-                {/* Community initiatives */}
                 <div className="col-sm-6">
-                  <div className="impact-card p-4 rounded-4 border h-100 shadow-sm">
-                    <i className="bi bi-globe text-success fs-2"></i>
-
-                    <div className="display-6 fw-bold mt-3">—</div>
-
-                    <p className="mb-0 text-secondary">
-                      Community initiatives
-                    </p>
-
-                    <small className="text-muted">
-                      Verified data pending
-                    </small>
-                  </div>
+                  <article className="impact-card p-4 rounded-4 border h-100 shadow-sm">
+                    <i className="bi bi-globe text-success fs-2" aria-hidden="true" />
+                    <h3 className="h5 fw-bold mt-3">Stronger communities</h3>
+                    <p className="text-secondary mb-0">We work with communities and partners to nurture dignity, resilience and shared responsibility.</p>
+                  </article>
                 </div>
               </div>
             </div>
