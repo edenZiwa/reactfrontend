@@ -13,10 +13,11 @@ import {
 } from "../services/firebase-auth.js";
 
 const AuthContext = createContext(null);
+const AUTH_BASE = (import.meta.env.VITE_API_BASE_URL || "").replace(/\\/$/, "").replace(/\\/api$/i, "");
 
 async function readBackendSession() {
-  const response = await fetch("/auth/me", {
-    credentials: "same-origin",
+  const response = await fetch(`${AUTH_BASE}/auth/me`, {
+    credentials: "include",
     cache: "no-store",
     headers: { Accept: "application/json" },
   });
@@ -79,17 +80,22 @@ export function AuthProvider({ children }) {
 
   const logout = useCallback(async () => {
     setAuthError("");
-    const response = await fetch("/auth/google/logout", {
+    const csrfResponse = await fetch(`${AUTH_BASE}/auth/csrf`, {
+      credentials: "include",
+      cache: "no-store",
+      headers: { Accept: "application/json" },
+    });
+    const csrfData = await csrfResponse.json().catch(() => ({}));
+    if (!csrfResponse.ok || !csrfData.csrfToken) {
+      throw new Error(csrfData.error || csrfData.message || "Could not start a secure logout.");
+    }
+
+    const response = await fetch(`${AUTH_BASE}/auth/logout`, {
       method: "POST",
-      credentials: "same-origin",
+      credentials: "include",
       headers: {
         Accept: "application/json",
-        "X-CSRF-Token": await (async () => {
-          const r = await fetch("/auth/csrf", { credentials: "same-origin", cache: "no-store" });
-          const d = await r.json().catch(() => ({}));
-          if (!r.ok || !d.csrfToken) throw new Error(d.error || "Could not start a secure logout.");
-          return d.csrfToken;
-        })(),
+        "X-CSRF-Token": csrfData.csrfToken,
       },
     });
     const data = await response.json().catch(() => ({}));
