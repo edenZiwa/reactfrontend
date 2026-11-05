@@ -70,9 +70,7 @@ export function ToastProvider({ children }) {
   return (
     <ToastContext.Provider value={toast}>
       {children}
-      <div
-        className="gom-toast-viewport"
-      >
+      <div className="gom-toast-viewport" aria-label="Notifications">
         {items.map((item) => (
           <ToastItem key={item.id} item={item} onDismiss={dismiss} />
         ))}
@@ -82,16 +80,42 @@ export function ToastProvider({ children }) {
 }
 
 function ToastItem({ item, onDismiss }) {
+  const [hovered, setHovered] = useState(false);
+  const [focused, setFocused] = useState(false);
+  const remainingRef = useRef(item.duration);
+  const startedAtRef = useRef(0);
+  const paused = hovered || focused;
+
   React.useEffect(() => {
-    if (!item.duration) return undefined;
-    const timer = window.setTimeout(() => onDismiss(item.id), item.duration);
-    return () => window.clearTimeout(timer);
-  }, [item.duration, item.id, onDismiss]);
+    if (!item.duration || paused) return undefined;
+
+    startedAtRef.current = Date.now();
+    const timer = window.setTimeout(
+      () => onDismiss(item.id),
+      Math.max(0, remainingRef.current),
+    );
+
+    return () => {
+      window.clearTimeout(timer);
+      const elapsed = Date.now() - startedAtRef.current;
+      remainingRef.current = Math.max(0, remainingRef.current - elapsed);
+    };
+  }, [item.duration, item.id, onDismiss, paused]);
+
+  const handleBlur = (event) => {
+    if (!event.currentTarget.contains(event.relatedTarget)) {
+      setFocused(false);
+    }
+  };
 
   return (
     <section
       className={`gom-toast gom-toast--${item.type}`}
       role={item.type === "error" ? "alert" : "status"}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      onFocus={() => setFocused(true)}
+      onBlur={handleBlur}
     >
       <i className={`bi ${ICONS[item.type] || ICONS.info}`} aria-hidden="true" />
       <div className="gom-toast-content">
