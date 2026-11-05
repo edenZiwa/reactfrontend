@@ -357,6 +357,20 @@ function Account( {
         }
     }
 
+    function handleTabKeyDown(event) {
+        const currentIndex = TABS.findIndex((tab) => tab.id === activeTab);
+        let nextIndex = currentIndex;
+        if (event.key === "ArrowRight") nextIndex = (currentIndex + 1) % TABS.length;
+        else if (event.key === "ArrowLeft") nextIndex = (currentIndex - 1 + TABS.length) % TABS.length;
+        else if (event.key === "Home") nextIndex = 0;
+        else if (event.key === "End") nextIndex = TABS.length - 1;
+        else return;
+        event.preventDefault();
+        const nextTab = TABS[nextIndex];
+        setActiveTab(nextTab.id);
+        requestAnimationFrame(() => document.getElementById(`tab-button-${nextTab.id}`)?.focus());
+    }
+
     function goToPage(page, fallback) {
         if (navigate) {
             navigate(page);
@@ -562,7 +576,7 @@ function Account( {
 
             {/* Dashboard tabs */}
             <section className="panel p-3 p-md-4 mb-4">
-                <div className="nav nav-pills flex-wrap gap-2" role="tablist">
+                <div className="nav nav-pills flex-wrap gap-2" role="tablist" aria-label="Account sections" onKeyDown={handleTabKeyDown}>
                     {TABS.map((tab) => (
                         <button
                             key={tab.id}
