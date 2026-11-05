@@ -93,7 +93,7 @@ function AppLink({
 // Main site header.
 function Header({ path = "/", navigate }) {
   const [open, setOpen] = useState(false);
-  const { mode, setMode } = useTheme();
+  const { mode, resolvedTheme, setMode } = useTheme();
   const currentPath = normalizePath(path);
 
   const closeMenu = () => setOpen(false);
@@ -110,7 +110,9 @@ function Header({ path = "/", navigate }) {
         >
           <img
             className="brand-logo"
-            src="https://gardenofmercy.org/images/logo.png"
+            src={resolvedTheme === "dark"
+              ? "https://gardenofmercy.org/images/garden_of_mercy_white_logo_logo.png"
+              : "https://gardenofmercy.org/images/logo.png"}
             alt="Garden of Mercy Foundation — Sowing seeds of mercy and compassion"
           />
         </AppLink>
@@ -203,7 +205,7 @@ function Footer({ navigate }) {
               <img
                 src="https://gardenofmercy.org/images/garden_of_mercy_horizontal.png"
                 alt="Garden of Mercy Foundation"
-                className="img-fluid footer-brand-logo"
+                className="img-fluid"
                 width="260"
                 height="auto"
                 loading="lazy"
