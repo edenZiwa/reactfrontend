@@ -672,16 +672,10 @@ const Terms = () => {
                                     <h2>25. Governing Law and Jurisdiction</h2>
 
                                     <p>
-                                        These terms should be interpreted and applied in
-                                        accordance with the laws applicable to Garden of
-                                        Mercy Foundation and its activities.
-                                    </p>
-
-                                    <p>
-                                        The final version of these terms should identify
-                                        the appropriate governing law and jurisdiction
-                                        after review by the Foundation's authorized legal
-                                        advisers.
+                                        These Terms are interpreted in accordance with
+                                        the applicable laws of Uganda. Any dispute will be
+                                        handled by a court with jurisdiction under those
+                                        laws, subject to applicable legal requirements.
                                     </p>
                                 </section>
 
