@@ -163,17 +163,27 @@ function Donate() {
     try {
       const result = await startDonation(donationData);
 
+      const checkoutUrl = typeof result?.checkoutUrl === "string"
+        ? new URL(result.checkoutUrl)
+        : null;
+      const allowedHosts = (import.meta.env.VITE_PAYMENT_CHECKOUT_HOSTS || "")
+        .split(",")
+        .map((host) => host.trim().toLowerCase())
+        .filter(Boolean);
+
       if (
-        !result?.checkoutUrl ||
-        typeof result.checkoutUrl !== "string" ||
-        !/^https:\/\//i.test(result.checkoutUrl)
+        !checkoutUrl ||
+        checkoutUrl.protocol !== "https:" ||
+        !allowedHosts.includes(checkoutUrl.hostname.toLowerCase()) ||
+        checkoutUrl.username ||
+        checkoutUrl.password
       ) {
         throw new Error(
-          "The payment provider did not return a valid secure checkout link. Please contact the foundation.",
+          "We could not verify the secure payment destination. Please contact the foundation before trying again.",
         );
       }
 
-      window.location.assign(result.checkoutUrl);
+      window.location.assign(checkoutUrl.href);
     } catch (error) {
       setStatus({
         type: "error",
