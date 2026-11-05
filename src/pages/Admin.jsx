@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useTheme } from "../components/ThemeProvider.jsx";
+import { useAuth } from "../auth/AuthProvider.jsx";
 import { API_ORIGIN } from "../services/api-config.js";
 import "../css/admin.css";
 import Donors from "./admin/Donors.jsx";
@@ -220,6 +221,7 @@ function RecordModal({ record, kind, onClose, onSave, busy, beneficiaryOptions =
 
 export default function Admin({ path = "/admin", navigate }) {
   const { mode, setMode } = useTheme();
+  const { logout: logoutSession } = useAuth();
   const [staff, setStaff] = useState(null);
   const [permissions, setPermissions] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -290,9 +292,18 @@ export default function Admin({ path = "/admin", navigate }) {
   }, [rows, search, key]);
 
   async function signOut() {
-    try { await api("/auth/logout", { method: "POST" }); }
-    catch (e) { setPageError(e.message); return; }
-    setStaff(null); setPermissions([]); setAuthError("You have been signed out.");
+    setPageError("");
+    try {
+      await logoutSession();
+      setStaff(null);
+      setPermissions([]);
+      setData({});
+      setDashboard(null);
+      setRecord(null);
+      setAuthError("You have been signed out.");
+    } catch (e) {
+      setPageError(e.message || "We could not sign you out. Please try again.");
+    }
   }
   async function saveRecord(form) {
     if (!record) return;
