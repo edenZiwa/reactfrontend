@@ -56,8 +56,8 @@ export async function startDonation(payload) {
     return apiRequest("/donations", { method: "POST", body: JSON.stringify(payload) });
 }
 
-export async function getDonationStatus(reference) {
-    return apiRequest(`/donations/${encodeURIComponent(reference)}`);
+export async function getDonationStatus(reference, options = {}) {
+    return apiRequest(`/donations/${encodeURIComponent(reference)}`, options);
 }
 
 export function describeDonationStatus(status) {
