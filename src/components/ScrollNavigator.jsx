@@ -1,138 +1,86 @@
-
 import React, { useEffect, useRef, useState } from "react";
 import "../css/scroll-navigator.css";
 
-const TOP_THRESHOLD = 10;
-const DIRECTION_THRESHOLD = 3;
-const BOTTOM_THRESHOLD = 60;
+const SHOW_THRESHOLD = 240;
+const DIRECTION_THRESHOLD = 5;
+const BOTTOM_THRESHOLD = 72;
 
 export default function ScrollNavigator() {
+  const [visible, setVisible] = useState(false);
   const [direction, setDirection] = useState("down");
   const [atBottom, setAtBottom] = useState(false);
-
   const previousY = useRef(0);
   const directionRef = useRef("down");
   const ticking = useRef(false);
 
   useEffect(() => {
     previousY.current = window.scrollY;
-
-    let frameId;
+    let frameId = 0;
 
     const updateScroll = () => {
       const currentY = window.scrollY;
-
-      const maxScroll = Math.max(
-        0,
-        document.documentElement.scrollHeight -
-          window.innerHeight
-      );
-
-      const bottom =
-        currentY >= maxScroll - BOTTOM_THRESHOLD;
-
+      const root = document.documentElement;
+      const maxScroll = Math.max(0, root.scrollHeight - window.innerHeight);
+      const bottom = maxScroll > SHOW_THRESHOLD && currentY >= maxScroll - BOTTOM_THRESHOLD;
       let nextDirection = directionRef.current;
 
-      if (currentY <= TOP_THRESHOLD) {
-        nextDirection = "down";
-      } else if (bottom) {
-        nextDirection = "up";
-      } else if (
-        currentY > previousY.current + DIRECTION_THRESHOLD
-      ) {
-        nextDirection = "down";
-      } else if (
-        currentY < previousY.current - DIRECTION_THRESHOLD
-      ) {
-        nextDirection = "up";
-      }
+      if (currentY <= SHOW_THRESHOLD) nextDirection = "down";
+      else if (bottom) nextDirection = "up";
+      else if (currentY > previousY.current + DIRECTION_THRESHOLD) nextDirection = "down";
+      else if (currentY < previousY.current - DIRECTION_THRESHOLD) nextDirection = "up";
 
       directionRef.current = nextDirection;
-
-      setDirection((previous) =>
-        previous === nextDirection ? previous : nextDirection
-      );
-
-      setAtBottom((previous) =>
-        previous === bottom ? previous : bottom
-      );
-
+      setVisible(currentY > SHOW_THRESHOLD);
+      setDirection(nextDirection);
+      setAtBottom(bottom);
       previousY.current = currentY;
       ticking.current = false;
     };
 
     const handleScroll = () => {
       if (ticking.current) return;
-
       ticking.current = true;
       frameId = window.requestAnimationFrame(updateScroll);
     };
 
-    window.addEventListener("scroll", handleScroll, {
-      passive: true,
-    });
-
-    window.addEventListener("resize", handleScroll);
-
-    // Initialize the chevron when the page loads.
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleScroll, { passive: true });
     updateScroll();
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", handleScroll);
-
-      if (frameId) {
-        window.cancelAnimationFrame(frameId);
-      }
+      if (frameId) window.cancelAnimationFrame(frameId);
     };
   }, []);
 
   const scrollToDestination = () => {
     const shouldScrollUp = direction === "up" || atBottom;
-
-    const target = shouldScrollUp
+    const footer = document.getElementById("site-footer");
+    const targetTop = shouldScrollUp
       ? 0
-      : document.getElementById("site-footer");
-
-    const targetPosition = shouldScrollUp
-      ? 0
-      : target
-        ? target.getBoundingClientRect().top + window.scrollY
+      : footer
+        ? footer.getBoundingClientRect().top + window.scrollY
         : document.documentElement.scrollHeight;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    const reducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-
-    window.scrollTo({
-      top: targetPosition,
-      behavior: reducedMotion ? "auto" : "smooth",
-    });
+    window.scrollTo({ top: targetTop, behavior: reducedMotion ? "auto" : "smooth" });
   };
 
-  const isPointingUp = direction === "up" || atBottom;
+  const pointsUp = direction === "up" || atBottom;
 
   return (
-    <div className="scroll-navigator">
+    <div className={`scroll-navigator${visible ? " is-visible" : ""}`}>
       <button
         type="button"
         className="scroll-navigator__button"
         onClick={scrollToDestination}
-        aria-label={
-          isPointingUp
-            ? "Scroll to the top of the page"
-            : "Scroll to the footer"
-        }
-        title={isPointingUp ? "Back to top" : "Go to footer"}
+        aria-label={pointsUp ? "Scroll to the top of the page" : "Scroll to the footer"}
+        title={pointsUp ? "Back to top" : "Go to footer"}
+        tabIndex={visible ? 0 : -1}
+        aria-hidden={!visible}
       >
-        <i
-          className={`bi ${
-            isPointingUp
-              ? "bi-chevron-up"
-              : "bi-chevron-down"
-          }`}
-          aria-hidden="true"
-        />
+        <i className={`bi ${pointsUp ? "bi-chevron-up" : "bi-chevron-down"}`} aria-hidden="true" />
       </button>
     </div>
   );
