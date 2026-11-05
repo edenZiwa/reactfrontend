@@ -69,25 +69,26 @@ export async function subscribeToNotifications() {
     });
   }
 
-  const response = await fetch(
-    `${API_BASE}/subscribe`,
-    {
+  let response;
+  try {
+    response = await fetch(`${API_BASE}/subscribe`, {
       method: "POST",
-
       credentials: "include",
-
-      headers: {
-        "Content-Type": "application/json"
-      },
-
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
       body: JSON.stringify(subscription)
-    }
-  );
-
+    });
+  } catch {
+    throw new Error("We could not connect to the notification service. Check your connection and try again.");
+  }
+  const result = await response.json().catch(() => ({}));
   if (!response.ok) {
-    throw new Error(
-      "Unable to save notification subscription."
-    );
+    throw new Error(result.message || result.error || (response.status === 401
+      ? "Please sign in again before enabling notifications."
+      : response.status === 403
+        ? "The notification service could not authorise this request."
+        : response.status >= 500
+          ? "The notification service is temporarily unavailable. Please try again shortly."
+          : "We could not save your notification settings. Please try again."));
   }
 
   return subscription;
@@ -102,25 +103,24 @@ export async function unsubscribeFromNotifications() {
 
   if (!subscription) return true;
 
-  const response = await fetch(
-    `${API_BASE}/unsubscribe`,
-    {
+  let response;
+  try {
+    response = await fetch(`${API_BASE}/unsubscribe`, {
       method: "POST",
-
       credentials: "include",
-
-      headers: {
-        "Content-Type": "application/json"
-      },
-
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
       body: JSON.stringify(subscription)
-    }
-  );
-
+    });
+  } catch {
+    throw new Error("We could not connect to the notification service. Your browser subscription has not been changed.");
+  }
+  const result = await response.json().catch(() => ({}));
   if (!response.ok) {
-    throw new Error(
-      "Unable to remove notification subscription."
-    );
+    throw new Error(result.message || result.error || (response.status === 401
+      ? "Please sign in again before changing notification settings."
+      : response.status >= 500
+        ? "The notification service is temporarily unavailable. Please try again shortly."
+        : "We could not remove your notification settings. Please try again."));
   }
 
   await subscription.unsubscribe();
