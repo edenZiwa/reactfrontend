@@ -1,7 +1,8 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import "../css/donate.css";
 import { startDonation } from "../services/api.js";
 import { validateDonation } from "../services/donation-validation.js";
+import InlineFeedback from "../components/ux/InlineFeedback.jsx";
 
 const AMOUNTS = {
   UGX: [10000, 25000, 50000, 100000],
@@ -25,9 +26,11 @@ const formatAmount = (amount, currency) =>
 function Donate() {
   const [form, setForm] = useState(() => {
     const params = new URLSearchParams(window.location.search);
-    const currency = params.get("currency") === "USD" ? "USD" : "UGX";
-    const requestedAmount = Number(params.get("amount"));
-    const validAmount = Number.isFinite(requestedAmount) && requestedAmount > 0;
+    const requestedCurrency = params.get("currency");
+    const currency = ["UGX", "USD"].includes(requestedCurrency) ? requestedCurrency : "UGX";
+    const rawAmount = params.get("amount");
+    const requestedAmount = rawAmount === null ? NaN : Number(rawAmount);
+    const validAmount = Number.isFinite(requestedAmount) && requestedAmount > 0 && requestedAmount <= 100000000;
     const purpose = ["general", "children", "community", "emergency"].includes(params.get("purpose"))
       ? params.get("purpose")
       : "general";
@@ -49,6 +52,8 @@ function Donate() {
 
   const [status, setStatus] = useState({ type: "", message: "" });
   const [busy, setBusy] = useState(false);
+  const submissionLock = useRef(false);
+  const formRef = useRef(null);
 
   useEffect(() => {
     if (window.location.hash === "#donation-form") {
@@ -103,6 +108,7 @@ function Donate() {
 
   async function submit(event) {
     event.preventDefault();
+    if (submissionLock.current) return;
     setStatus({ type: "", message: "" });
 
     const donationData = {
@@ -129,6 +135,7 @@ function Donate() {
       return;
     }
 
+    submissionLock.current = true;
     setBusy(true);
 
     try {
@@ -153,6 +160,7 @@ function Donate() {
           "We could not start your donation. Please try again later.",
       });
 
+      submissionLock.current = false;
       setBusy(false);
     }
   }
@@ -252,7 +260,7 @@ function Donate() {
                   </p>
                 </div>
 
-                <form onSubmit={submit} noValidate>
+                <form ref={formRef} onSubmit={submit} noValidate aria-busy={busy}>
                   {/* Currency */}
                   <fieldset className="mb-4">
                     <legend className="form-label fw-semibold">
