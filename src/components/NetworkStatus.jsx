@@ -8,7 +8,7 @@ export default function NetworkStatus() {
 
   return (
     <div
-      className="gom-offline-status"
+      className="gom-offline-status background"
       role="status"
       aria-live="polite"
     >
