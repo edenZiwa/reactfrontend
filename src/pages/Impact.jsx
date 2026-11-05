@@ -6,19 +6,19 @@ const impactAreas = [
     icon: "bi-people",
     title: "Children",
     description:
-      "Program beneficiaries will be reported using verified organizational records.",
+      "We focus on children's wellbeing, dignity, education and opportunities to thrive.",
   },
   {
     icon: "bi-heart",
     title: "Support",
     description:
-      "Support delivered through approved programs will be documented and reported transparently.",
+      "We work to connect vulnerable people and families with practical, compassionate support.",
   },
   {
     icon: "bi-bar-chart",
     title: "Transparency",
     description:
-      "Public impact reporting will be based on verified organizational data.",
+      "We value honest reporting, responsible stewardship and clear communication about our work.",
   },
 ];
 
@@ -85,10 +85,9 @@ export default function Impact({ navigate }) {
 
                 <h2>Progress should be meaningful, responsible and transparent.</h2>
                 <p>
-                  We are building an approach to impact that puts people first,
-                  uses resources responsibly and learns from every initiative.
-                  Verified results will be shared as reliable information becomes
-                  available.
+                  We put people first, use resources responsibly and learn
+                  from every initiative. We share programme updates and outcomes
+                  when they have been documented and verified.
                 </p>
 
                 <div className="impact-hero-card-divider" />
@@ -139,9 +138,10 @@ export default function Impact({ navigate }) {
             Building a culture of accountability
           </h2>
           <p className="lead text-secondary col-lg-8 mx-auto">
-            As the foundation grows, this section can publish approved
-            program results, beneficiary information, financial reporting
-            and stories of change.
+            We are committed to sharing clear, verified updates about
+            our programmes, the support delivered, and the difference our
+            work makes. We protect the privacy and dignity of the people
+            and families represented in every report.
           </p>
         </div>
       </section>
