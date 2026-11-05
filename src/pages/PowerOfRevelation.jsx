@@ -837,47 +837,67 @@ export default function PowerOfRevelation() {
                     <h3 className="h3 fw-bold mt-1 mb-0">Upcoming events</h3>
                   </div>
                 </div>
-                <div className="pr-upcoming-empty rounded-4 p-4 bg-light">
-                  <span className="pr-upcoming-empty-icon">
-                    <i className="bi bi-calendar-week" aria-hidden="true" />
-                  </span>
-                  <h4 className="h5 fw-bold mt-3">
-                    Stay tuned for announcements
-                  </h4>
-                  <p className="text-secondary">
-                    I could not verify a current upcoming-event schedule from
-                    the public sources checked. We have therefore not added
-                    unconfirmed dates or service times.
-                  </p>
-                  <p className="text-secondary">
-                    Follow the official ministry pages or contact the church to
-                    confirm upcoming services, conferences, prayer meetings, and
-                    special gatherings.
-                  </p>
-                  <div className="d-flex flex-wrap gap-2 mt-3">
-                    <a
-                      href={MINISTRY.churchFacebook}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="btn btn-dark"
-                    >
-                      <i className="bi bi-facebook me-2" aria-hidden="true" />
-                      Church updates
-                    </a>
-                    <a
-                      href={MINISTRY.facebook}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="btn btn-outline-dark"
-                    >
-                      Ministry updates
-                      <i
-                        className="bi bi-arrow-up-right ms-2"
-                        aria-hidden="true"
-                      />
-                    </a>
+                <article className="pr-upcoming-event-card overflow-hidden rounded-4 border bg-white">
+                  <a
+                    href="/images/Antioch-experience.jpg"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="d-block"
+                    aria-label="Open the full Antioch Experience conference poster"
+                  >
+                    <img
+                      src="/images/Antioch-experience.jpg"
+                      alt="Power of Revelation Ministries presents the Annual Church Conference: The Antioch Experience, 26th to 29th November 2026 at Scripture Union Campsite. Theme: Acts 13:1–3. Worship, Word, Prayer and Fasting."
+                      className="img-fluid w-100"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </a>
+                  <div className="p-4">
+                    <div className="d-flex flex-wrap gap-2 mb-3">
+                      <span className="badge text-bg-success">UPCOMING CONFERENCE</span>
+                      <span className="badge text-bg-light border text-dark">26–29 November 2026</span>
+                    </div>
+                    <h4 className="h3 fw-bold mb-2">The Antioch Experience</h4>
+                    <p className="text-secondary mb-4">
+                      Join us for our Annual Church Conference, four days of
+                      worship, the Word, prayer and fasting as we gather around
+                      the theme from Acts 13:1–3.
+                    </p>
+                    <div className="d-grid gap-3 mb-4">
+                      <div className="d-flex align-items-start gap-3">
+                        <i className="bi bi-calendar-event text-success fs-5" aria-hidden="true" />
+                        <div><strong>Dates</strong><br /><span className="text-secondary">Thursday 26 – Sunday 29 November 2026</span></div>
+                      </div>
+                      <div className="d-flex align-items-start gap-3">
+                        <i className="bi bi-geo-alt-fill text-success fs-5" aria-hidden="true" />
+                        <div><strong>Venue</strong><br /><span className="text-secondary">Scripture Union Campsite</span></div>
+                      </div>
+                      <div className="d-flex align-items-start gap-3">
+                        <i className="bi bi-bus-front-fill text-success fs-5" aria-hidden="true" />
+                        <div><strong>Transport & accommodation</strong><br /><span className="text-secondary">37K contribution, as stated on the event poster</span></div>
+                      </div>
+                      <div className="d-flex align-items-start gap-3">
+                        <i className="bi bi-book-half text-success fs-5" aria-hidden="true" />
+                        <div><strong>Conference theme</strong><br /><span className="text-secondary">The Antioch Experience — Acts 13:1–3</span></div>
+                      </div>
+                    </div>
+                    <div className="d-flex flex-wrap gap-2">
+                      <a href="tel:+256704158871" className="btn btn-success">
+                        <i className="bi bi-telephone-fill me-2" aria-hidden="true" />
+                        RSVP: 0704 158 871
+                      </a>
+                      <a href="tel:+256754077654" className="btn btn-outline-success">
+                        <i className="bi bi-telephone me-2" aria-hidden="true" />
+                        0754 077 654
+                      </a>
+                    </div>
+                    <p className="small text-secondary mt-3 mb-0">
+                      Please call either number for registration details and to
+                      confirm the contribution arrangements.
+                    </p>
                   </div>
-                </div>
+                </article>
               </div>
             </div>
           </div>
