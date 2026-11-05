@@ -70,7 +70,7 @@ function Contact( {
         if (!validateForm()) return;
 
         setNotice(
-            "Your details are valid, but this form is not connected to the foundation's messaging service yet. Your message has not been sent. Please contact the foundation using its published contact details."
+            "Your inquiry has been prepared, but it has not been sent to Garden of Mercy Foundation. This form does not currently deliver messages. Please contact our team through our verified official communication channels."
         );
 
     };
@@ -106,7 +106,7 @@ function Contact( {
                             </p>
                             <div className="contact-hero-actions">
                                 <a href="#contact-form" className="btn contact-hero-primary">
-                                    Send us a message
+                                    Prepare an inquiry
                                     <i className="bi bi-arrow-up-right ms-2" aria-hidden="true" />
                                 </a>
                                 <a href="#contact-details" className="btn contact-hero-secondary">
@@ -190,7 +190,7 @@ function Contact( {
                                         <h3 className="h5 fw-bold mb-2">General inquiries</h3>
                                         <p className="text-secondary mb-0">
                                             Ask questions about our mission, activities or how to
-                                            get involved. Use the message form to share your inquiry.
+                                            get involved. Prepare your inquiry here, then contact our team through our verified official communication channels.
                                         </p>
                                     </div>
                                 </div>
@@ -206,7 +206,7 @@ function Contact( {
                                         </h3>
                                         <p className="text-secondary mb-0">
                                             Have an idea for a community initiative or collaboration?
-                                            Tell us about it so the foundation can review your proposal.
+                                            Share your idea with us through our verified official communication channels.
                                         </p>
                                     </div>
                                 </div>
@@ -247,12 +247,11 @@ function Contact( {
                                     </span>
 
                                     <h2 className="h2 fw-bold mt-2 mb-2">
-                                        Send us a message
+                                        Prepare an inquiry
                                     </h2>
 
                                     <p className="text-secondary mb-4">
-                                        Complete the details below to prepare your inquiry.
-                                        Fields marked with * are required.
+                                        Enter your details and message below. This form prepares your inquiry but does not deliver it to our team. Fields marked with * are required.
                                     </p>
 
                                     {notice && (
@@ -406,7 +405,7 @@ function Contact( {
                                             type="submit"
                                             className="btn btn-success btn-lg px-4 w-100 contact-submit"
                                             >
-                                            Prepare message
+                                            Prepare inquiry
                                             <i
                                                 className="bi bi-arrow-right ms-2"
                                                 aria-hidden="true"
