@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import "../css/sponsor.css";
 import { AppLink } from "../components/SiteChrome.jsx";
+import { apiRequest } from "../services/api.js";
 
 const sponsorshipPaths = [
   {
@@ -152,29 +153,10 @@ function ChildProfiles() {
   const loadProfiles = useCallback(async (signal) => {
     setStatus("loading");
     try {
-      let response;
-      try {
-        response = await fetch("/api/sponsorship/children", {
-          headers: { Accept: "application/json" },
-          cache: "no-store",
-          signal,
-        });
-      } catch (networkError) {
-        if (networkError.name === "AbortError") throw networkError;
-        throw new Error("We could not connect to the sponsorship service. Check your internet connection and try again.");
-      }
-      const contentType = response.headers.get("content-type") || "";
-      if (!response.ok) {
-        const payload = contentType.includes("application/json") ? await response.json().catch(() => ({})) : {};
-        const fallback = response.status >= 500
-          ? "The sponsorship service is temporarily unavailable. Please try again shortly."
-          : "We could not load sponsorship profiles. Please refresh and try again.";
-        throw new Error(payload.message || payload.error || fallback);
-      }
-      if (!contentType.includes("application/json")) {
-        throw new Error("The sponsorship service returned an unexpected response. Please try again later.");
-      }
-      const data = await response.json();
+      const data = await apiRequest("/sponsorship/children", {
+        cache: "no-store",
+        signal,
+      });
       const children = Array.isArray(data.children) ? data.children : [];
       setProfiles(children.filter((child) =>
         child && typeof child === "object" && child.id !== null && child.id !== undefined
