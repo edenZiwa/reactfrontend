@@ -135,7 +135,6 @@ function Account( {
                     if (!cancelled) {
                         setNeedsSignIn(true);
                         setAccount(null);
-                        setError("");
                     }
                     return;
                 }
@@ -340,11 +339,9 @@ function Account( {
                 headers: { "X-CSRF-Token": token },
             });
 
-            if (!response.ok) {
+            if (!response.ok && response.status !== 401) {
                 const result = await response.json().catch(() => ({}));
-                throw new Error(result.message || result.error || (response.status === 401
-                    ? "Your session has already expired. Please sign in again."
-                    : "We could not sign you out. Please try again."));
+                throw new Error(result.message || result.error || "We could not sign you out. Please try again.");
             }
             await signOutGoogle();
 
@@ -576,6 +573,7 @@ function Account( {
                             aria-selected={activeTab === tab.id}
                             aria-controls={`tab-${tab.id}`}
                             tabIndex={activeTab === tab.id ? 0 : -1}
+                            tabIndex={activeTab === tab.id ? 0 : -1}
                             onClick={() => setActiveTab(tab.id)}
                             >
                             {tab.label}
@@ -590,6 +588,8 @@ function Account( {
                     id="tab-volunteer"
                     className="tab-panel panel p-4 p-md-5 mb-4"
                     role="tabpanel"
+aria-labelledby={`tab-button-${activeTab}`}
+tabIndex={0}
                     >
                     <div className="d-flex flex-wrap justify-content-between gap-2 mb-3">
                         <div>
@@ -878,8 +878,8 @@ Submit application
 
 {applicationMessage.text && (
 <div className="col-12">
-<p className="small-muted mb-0" role="status" aria-live="polite">
-{applicationMessage}
+<p className={`mb-0 text-${applicationMessage.tone}`} role={applicationMessage.tone === "danger" ? "alert" : "status"} aria-live="polite">
+{applicationMessage.text}
 </p>
 </div>
 )}
