@@ -173,27 +173,20 @@ function Cofounder({ navigate }) {
               </p>
 
               <p className="body-copy">
-                The Foundation exists to translate compassion into
-                practical action. Its work focuses on caring for
-                children, supporting vulnerable individuals and
-                families, and helping communities facing difficult
-                circumstances find renewed hope.
+                We translate compassion into practical action by caring
+                for children, supporting vulnerable individuals and
+                families, and working alongside communities facing
+                difficult circumstances.
               </p>
 
               <p className="body-copy">
-                As a co-founder, Pastor Albert Yiga is part of the
-                leadership identity associated with this shared
-                humanitarian vision. The Foundation seeks to bring
-                people together around a common purpose: recognizing
-                human dignity, responding to genuine needs and
-                building a culture of generosity and service.
+                As our Co-Founder, Pastor Albert Yiga is part of the
+                leadership behind this shared humanitarian vision.
+                Together, we invite people to recognize human dignity,
+                respond to genuine needs, and build a culture of
+                generosity and service.
               </p>
 
-              <p className="body-copy">
-                His personal biography, ministry journey and specific
-                responsibilities within the Foundation can be added
-                here once verified details are available.
-              </p>
 
               <div className="profile-principle shadow-lg">
                 <span className="principle-icon">
@@ -465,9 +458,8 @@ function Cofounder({ navigate }) {
 
               <p className="mission-copy">
                 Through community outreach, generosity, partnerships
-                and service, the Foundation seeks to address needs
-                with dignity and help create a future shaped by
-                hope, opportunity and care.
+                and service, we respond to needs with dignity and work
+                towards a future shaped by hope, opportunity and care.
               </p>
 
               <AppLink
