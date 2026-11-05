@@ -83,13 +83,6 @@ function Cofounder({ navigate }) {
                     height="900"
                     fetchPriority="high"
                   />
-
-                  <div className="portrait-placeholder" hidden>
-                    <i
-                      className="bi bi-person-bounding-box"
-                      aria-hidden="true"
-                    />
-                  </div>
                 </div>
 
                 <div className="hero-portrait-label" aria-label="Co-founder portrait identification">
@@ -140,14 +133,6 @@ function Cofounder({ navigate }) {
                     height="900"
                     loading="lazy"
                   />
-
-                  <div className="profile-placeholder" hidden>
-                    <i
-                      className="bi bi-person-circle"
-                      aria-hidden="true"
-                    />
-                    <span>Co-founder portrait placeholder</span>
-                  </div>
                 </div>
 
                 <div className="profile-stamp">
