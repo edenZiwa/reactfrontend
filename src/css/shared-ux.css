@@ -1,0 +1,147 @@
+/* Shared interaction patterns — use theme tokens so components work in both themes. */
+.gom-toast-viewport {
+  position: fixed;
+  z-index: 2000;
+  inset: auto 1rem 5.25rem auto;
+  display: grid;
+  gap: .65rem;
+  width: min(26rem, calc(100vw - 2rem));
+  pointer-events: none;
+}
+
+.gom-toast {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: start;
+  gap: .75rem;
+  padding: .95rem 1rem;
+  color: var(--gomf-text);
+  background: var(--gomf-surface-raised);
+  border: 1px solid var(--gomf-border);
+  border-left: 4px solid var(--gomf-green);
+  border-radius: var(--gomf-radius);
+  box-shadow: var(--gomf-shadow-lg);
+  pointer-events: auto;
+  animation: gom-toast-enter .18s ease-out both;
+}
+
+.gom-toast > .bi {
+  margin-top: .1rem;
+  font-size: 1.15rem;
+  color: var(--gomf-green);
+}
+
+.gom-toast--error { border-left-color: #c34242; }
+.gom-toast--error > .bi { color: #c34242; }
+.gom-toast--warning { border-left-color: #b88624; }
+.gom-toast--warning > .bi { color: #b88624; }
+.gom-toast--info { border-left-color: #3478a8; }
+.gom-toast--info > .bi { color: #3478a8; }
+
+.gom-toast-content { min-width: 0; }
+.gom-toast-title { display: block; margin-bottom: .15rem; }
+.gom-toast-message { margin: 0; color: var(--gomf-text); overflow-wrap: anywhere; }
+.gom-toast-close {
+  display: inline-grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  color: var(--gomf-text-muted);
+  background: transparent;
+  border: 0;
+  border-radius: .5rem;
+}
+.gom-toast-close:hover { color: var(--gomf-text); background: var(--gomf-surface-soft); }
+
+.gom-state {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem;
+  color: var(--gomf-text);
+  background: var(--gomf-surface);
+  border: 1px solid var(--gomf-border);
+  border-radius: var(--gomf-radius);
+}
+.gom-state--compact { padding: .75rem 1rem; }
+.gom-loading-state { justify-content: center; min-height: 7rem; }
+.gom-state .spinner-border { flex: 0 0 auto; }
+.gom-state-icon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 2.75rem;
+  width: 2.75rem;
+  height: 2.75rem;
+  color: var(--gomf-green);
+  background: var(--gomf-surface-soft);
+  border-radius: 50%;
+  font-size: 1.25rem;
+}
+.gom-error-state .gom-state-icon { color: #c34242; }
+.gom-state-copy { min-width: 0; }
+.gom-state-title { margin: 0 0 .35rem; font-size: 1.1rem; color: var(--gomf-deep); }
+.gom-state-message { margin: 0 0 .85rem; color: var(--gomf-text-muted); }
+.gom-state-message:last-child { margin-bottom: 0; }
+
+.gom-inline-feedback {
+  display: flex;
+  align-items: flex-start;
+  gap: .65rem;
+  padding: .8rem 1rem;
+  border: 1px solid transparent;
+  border-radius: .75rem;
+  font-size: .95rem;
+}
+.gom-inline-feedback > .bi { flex: 0 0 auto; margin-top: .1rem; }
+.gom-inline-feedback--success { color: #17613c; background: #eaf6ee; border-color: #c7e7d1; }
+.gom-inline-feedback--error { color: #842d2d; background: #fff0f0; border-color: #f0caca; }
+.gom-inline-feedback--warning { color: #74520e; background: #fff8e6; border-color: #efdfb4; }
+.gom-inline-feedback--info { color: #245779; background: #edf6fc; border-color: #c9e1f1; }
+html[data-bs-theme="dark"] .gom-inline-feedback--success { color: #bde8ca; background: #193326; border-color: #315b43; }
+html[data-bs-theme="dark"] .gom-inline-feedback--error { color: #ffc4c4; background: #3a2222; border-color: #694040; }
+html[data-bs-theme="dark"] .gom-inline-feedback--warning { color: #f1d89b; background: #382f1c; border-color: #66552e; }
+html[data-bs-theme="dark"] .gom-inline-feedback--info { color: #b9def5; background: #1d3040; border-color: #35556d; }
+
+.gom-confirm-dialog {
+  width: min(30rem, calc(100vw - 2rem));
+  max-width: none;
+  padding: 0;
+  color: var(--gomf-text);
+  background: var(--gomf-surface);
+  border: 1px solid var(--gomf-border);
+  border-radius: var(--gomf-radius-lg);
+  box-shadow: var(--gomf-shadow-lg);
+}
+.gom-confirm-dialog::backdrop { background: rgba(8, 20, 13, .58); backdrop-filter: blur(2px); }
+.gom-confirm-dialog-body { padding: clamp(1.25rem, 4vw, 2rem); }
+.gom-confirm-dialog-icon {
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  margin-bottom: 1rem;
+  color: var(--gomf-green);
+  background: var(--gomf-surface-soft);
+  border-radius: 50%;
+  font-size: 1.4rem;
+}
+.gom-confirm-dialog h2 { margin: 0 0 .5rem; font-size: 1.25rem; color: var(--gomf-deep); }
+.gom-confirm-dialog p { margin: 0; color: var(--gomf-text-muted); line-height: 1.6; }
+.gom-confirm-dialog-actions { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: .65rem; margin-top: 1.5rem; }
+
+@keyframes gom-toast-enter {
+  from { opacity: 0; transform: translateY(.5rem); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 575.98px) {
+  .gom-toast-viewport { inset: auto .75rem 5rem; width: auto; }
+  .gom-toast { padding: .8rem .85rem; }
+  .gom-confirm-dialog-actions { flex-direction: column-reverse; }
+  .gom-confirm-dialog-actions .btn { width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gom-toast { animation: none; }
+}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { PageIntro } from "../components/SiteChrome.jsx";
 import { getDonationStatus, describeDonationStatus } from "../services/api.js";
 
@@ -8,6 +8,7 @@ function DonationResult({ navigate }) {
   const [result, setResult] = useState(null);
   const [error, setError] = useState("");
   const [refreshing, setRefreshing] = useState(false);
+  const requestLock = useRef(false);
   async function refreshStatus() {
     if (!reference) {
       setError(
@@ -15,6 +16,8 @@ function DonationResult({ navigate }) {
       );
       return;
     }
+    if (requestLock.current) return;
+    requestLock.current = true;
     setRefreshing(true);
     setError("");
     try {
@@ -25,6 +28,7 @@ function DonationResult({ navigate }) {
           "We could not retrieve the donation status. Please try again.",
       );
     } finally {
+      requestLock.current = false;
       setRefreshing(false);
     }
   }
@@ -61,7 +65,7 @@ function DonationResult({ navigate }) {
                 : "…"}
           </span>
           <h2>{detail.title}</h2>
-          <p>{error || detail.message}</p>
+          <p role={error ? "alert" : "status"} aria-live={error ? "assertive" : "polite"}>{error || detail.message}</p>
           {reference && (
             <p className="result-reference">
               <strong>Donation reference</strong>
@@ -82,7 +86,8 @@ function DonationResult({ navigate }) {
               className="button button-primary"
               type="button"
               onClick={refreshStatus}
-              disabled={refreshing}
+              disabled={refreshing || !reference}
+              aria-live="polite"
             >
               {refreshing ? "Checking…" : "Check status again"}
             </button>

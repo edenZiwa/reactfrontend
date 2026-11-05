@@ -24,7 +24,6 @@ export default function usePath() {
     const nextPath = normalizePath(target.pathname);
     window.history.pushState({}, "", `${nextPath}${target.search}${target.hash}`);
     setPath(nextPath);
-    window.scrollTo({ top: 0, behavior: "auto" });
   }, []);
 
   return [path, navigate];

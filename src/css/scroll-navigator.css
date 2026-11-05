@@ -141,3 +141,24 @@
     transform: none;
   }
 }
+
+
+/* Visibility is tied to the scroll threshold in ScrollNavigator.jsx. */
+.scroll-navigator {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(0.5rem);
+  transition: opacity 180ms ease, transform 180ms ease, visibility 180ms ease;
+}
+
+.scroll-navigator.is-visible {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-navigator { transition: none; transform: none; }
+}
