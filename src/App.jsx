@@ -45,6 +45,7 @@ import Cofounder from "./pages/Cofounder.jsx";
 import PowerOfRevelation from "./pages/PowerOfRevelation.jsx";
 import Admin from "./pages/Admin.jsx";
 import ThemeProvider from "./components/ThemeProvider.jsx";
+import { AuthProvider } from "./auth/AuthProvider.jsx";
 import "./css/theme.css";
 
 function App() {
@@ -182,7 +183,9 @@ if (rootElement) {
         <PWAProvider>
           <NetworkStatus />
           <PWAUpdatePrompt />
-          <App />
+          <AuthProvider>
+            <App />
+          </AuthProvider>
           <PWAInstallPrompt />
         </PWAProvider>
       </ThemeProvider>
