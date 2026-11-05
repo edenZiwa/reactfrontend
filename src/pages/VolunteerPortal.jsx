@@ -1,14 +1,12 @@
 import React, { useCallback, useEffect, useState } from "react";
-const BASE=(import.meta.env.VITE_API_BASE_URL||"/api").replace(/\/$/,"");
-const API_BASE = BASE;
-const AUTH_BASE = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/$/, "");
+import { API_BASE, API_ORIGIN } from "../services/api-config.js";
 const date=v=>v?new Date(v).toLocaleDateString():"—";
 async function request(path, options = {}) {
   const method = (options.method || "GET").toUpperCase();
   const headers = { Accept: "application/json", ...(options.body ? { "Content-Type": "application/json" } : {}), ...(options.headers || {}) };
   if (!["GET", "HEAD", "OPTIONS"].includes(method) && !headers["X-CSRF-Token"]) {
     let csrfResponse;
-    try { csrfResponse = await fetch(AUTH_BASE + "/auth/csrf", { credentials: "include", cache: "no-store" }); }
+    try { csrfResponse = await fetch(API_ORIGIN + "/auth/csrf", { credentials: "include", cache: "no-store" }); }
     catch { throw new Error("Your secure session could not be reached. Check your connection and sign in again."); }
     const csrfData = await csrfResponse.json().catch(() => ({}));
     if (!csrfResponse.ok || !csrfData.csrfToken) throw new Error(csrfData.error || "Your secure session has expired. Please sign in again.");
