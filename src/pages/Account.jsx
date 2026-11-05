@@ -61,7 +61,7 @@ const TABS = [{
 function Account( {
     navigate
 }) {
-    const { login, logout } = useAuth();
+    const { login, logout, status: authStatus } = useAuth();
     const [loading,
         setLoading] = useState(true);
     const [retryKey, setRetryKey] = useState(0);
@@ -110,6 +110,7 @@ function Account( {
         setDonations] = useState([]);
 
     useEffect(() => {
+        if (authStatus === "loading") return undefined;
         let cancelled = false;
 
         async function loadAccount() {
@@ -187,13 +188,14 @@ function Account( {
             cancelled = true;
         };
     },
-        [retryKey]);
+        [retryKey, authStatus]);
 
     async function handleGoogleSignIn() {
         setSigningIn(true);
         setError("");
         try {
-            await login();
+            const signedInUser = await login();
+            if (!signedInUser) return; // Redirect sign-in is still in progress.
             setNeedsSignIn(false);
             setLoading(true);
             setRetryKey((value) => value + 1);
