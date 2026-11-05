@@ -392,7 +392,7 @@ export default function Admin({ path = "/admin", navigate }) {
     ],
   };
   const actionKinds = ["users","beneficiaries","sponsorship","volunteers","registrations","applications","reconciliation","recurring","inbox"];
-  const canManage = actionKinds.includes(key) && (key !== "sponsorship" || can("beneficiaries.update"));
+  const canManage = actionKinds.includes(key) && (key !== "beneficiaries" && key !== "sponsorship" || can("beneficiaries.update"));
   return <div className="gom-admin">
     <aside className="gom-admin-sidebar">
       <a href="/" className="gom-admin-brand"><img src="/images/garden_of_mercy_icon.png" alt="" /><span><strong>Garden of Mercy</strong><small>Administration</small></span></a>
