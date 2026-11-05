@@ -3331,12 +3331,3 @@ select:focus-visible {
     .about-value-card { transition: none; }
     .about-value-card:hover { transform: none; }
 }
-
-
-/* Foundation logo sizing — preserve the artwork's original colours. */
-.brand-logo,
-.footer-brand-logo {
-  display: block;
-  height: auto;
-  object-fit: contain;
-}
