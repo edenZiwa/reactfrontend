@@ -41,6 +41,10 @@ const TABS = [{
         id: "sponsorship",
         label: "Child sponsorship"
     },
+    {
+        id: "volunteerService",
+        label: "Volunteer service"
+    },
 ];
 
 function Account( {
@@ -48,6 +52,10 @@ function Account( {
 }) {
     const [loading,
         setLoading] = useState(true);
+    const [retryKey, setRetryKey] = useState(0);
+    const [submittingApplication, setSubmittingApplication] = useState(false);
+    const [signingOut, setSigningOut] = useState(false);
+    const [donationsLoadError, setDonationsLoadError] = useState(false);
     const [needsSignIn, setNeedsSignIn] = useState(false);
     const [signingIn, setSigningIn] = useState(false);
     const [csrfToken, setCsrfToken] = useState("");
@@ -60,9 +68,9 @@ function Account( {
     const [savingProfile,
         setSavingProfile] = useState(false);
     const [profileMessage,
-        setProfileMessage] = useState("");
+        setProfileMessage] = useState({ text: "", tone: "success" });
     const [applicationMessage,
-        setApplicationMessage] = useState("");
+        setApplicationMessage] = useState({ text: "", tone: "success" });
     const [selectedSkills,
         setSelectedSkills] = useState([]);
     const [volunteer,
@@ -159,6 +167,7 @@ function Account( {
                 setRegistrations(Array.isArray(data?.registrations) ? data.registrations : []);
                 setApplications(Array.isArray(data?.applications) ? data.applications : []);
                 setDonations(Array.isArray(data?.donations) ? data.donations : []);
+                setDonationsLoadError(!Array.isArray(data?.donations));
             } catch (err) {
                 if (!cancelled) {
                     setError(err.message || "Something went wrong.");
@@ -174,7 +183,7 @@ function Account( {
             cancelled = true;
         };
     },
-        []);
+        [retryKey]);
 
     async function handleGoogleSignIn() {
         setSigningIn(true);
@@ -241,9 +250,10 @@ function Account( {
                                 : "We could not save your profile. Please try again."));
             }
 
-            setProfileMessage("Your volunteer profile has been saved successfully.");
+            setProfileMessage({ text: "Your volunteer profile has been saved successfully.", tone: "success" });
         } catch (err) {
-            setProfileMessage(err.message);
+            if (/session has expired|sign in again/i.test(err.message)) setNeedsSignIn(true);
+            setProfileMessage({ text: err.message || "We could not save your profile. Please try again.", tone: "danger" });
         } finally {
             setSavingProfile(false);
         }
@@ -251,7 +261,9 @@ function Account( {
 
     async function handleApplicationSubmit(event) {
         event.preventDefault();
-        setApplicationMessage("");
+        if (submittingApplication) return;
+        setSubmittingApplication(true);
+        setApplicationMessage({ text: "", tone: "success" });
 
         try {
             const response = await fetch(`${API_BASE}/account/applications`, {
@@ -289,17 +301,23 @@ function Account( {
                 message: "",
             });
 
-            setApplicationMessage(result?.message || "Your application has been submitted successfully. The foundation team will review it and update your account.");
+            setApplicationMessage({ text: result?.message || "Your application has been submitted successfully. The foundation team will review it and update your account.", tone: "success" });
         } catch (err) {
-            setApplicationMessage(err.message);
+            if (/session has expired|sign in again/i.test(err.message)) setNeedsSignIn(true);
+            setApplicationMessage({ text: err.message || "We could not submit your application. Please try again.", tone: "danger" });
+        } finally {
+            setSubmittingApplication(false);
         }
     }
 
     async function handleLogout(event) {
         event.preventDefault();
+        if (signingOut) return;
+        setSigningOut(true);
+        setError("");
 
         try {
-            const response = await fetch("/auth/logout", {
+            const response = await fetch(`${API_ORIGIN}/auth/logout`, {
                 method: "POST",
                 credentials: "include",
                 headers: csrfToken ? { "X-CSRF-Token": csrfToken } : {},
@@ -319,7 +337,9 @@ function Account( {
                 window.location.href = "/";
             }
         } catch (err) {
-            setError(err.message);
+            setError(err.message || "We could not sign you out. Please try again.");
+        } finally {
+            setSigningOut(false);
         }
     }
 
@@ -391,7 +411,10 @@ function Account( {
         return (
             <main className="container wrap py-5">
                 <div className="alert alert-warning" role="alert">{error}</div>
-                <button className="btn btn-success" onClick={() => goToPage("/", "/")}>Return to home</button>
+                <div className="d-flex flex-wrap gap-2">
+                    <button className="btn btn-success" onClick={() => { setError(""); setLoading(true); setNeedsSignIn(false); setRetryKey((value) => value + 1); }}>Try again</button>
+                    <button className="btn btn-outline-secondary" onClick={() => goToPage("/", "/")}>Return to home</button>
+                </div>
             </main>
         );
     }
@@ -461,8 +484,8 @@ function Account( {
                             </div>
 
                             <form onSubmit={handleLogout} className="mt-4 pt-3 border-top">
-                                <button className="btn btn-outline-mercy" type="submit">
-                                    ↪ Sign out securely
+                                <button className="btn btn-outline-mercy" type="submit" disabled={signingOut}>
+                                    {signingOut ? "Signing out…" : "↪ Sign out securely"}
                                 </button>
                                 <p className="small-muted mt-2 mb-0">
                                     Remember to sign out on shared devices.
@@ -535,6 +558,7 @@ function Account( {
                             role="tab"
                             aria-selected={activeTab === tab.id}
                             aria-controls={`tab-${tab.id}`}
+                            tabIndex={activeTab === tab.id ? 0 : -1}
                             onClick={() => setActiveTab(tab.id)}
                             >
                             {tab.label}
@@ -677,8 +701,7 @@ function Account( {
                     {savingProfile ? "Saving…": "Save volunteer profile"}
                 </button>
                 <span className="small-muted" role="status" aria-live="polite">
-                    {profileMessage}
-                </span>
+                    {profileMessage.text && <span className={`text-${profileMessage.tone}`}>{profileMessage.text}</span>}
             </div>
         </div>
     </form>
