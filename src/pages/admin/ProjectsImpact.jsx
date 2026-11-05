@@ -1,6 +1,6 @@
 import React,{useCallback,useEffect,useState} from "react";
 const ROOT=(import.meta.env.VITE_API_BASE_URL||"").replace(/\/$/,"");
-const ROOT=(import.meta.env.VITE_API_BASE_URL||"").replace(/\/$/,"");
+
 const api=async(path,options={})=>{
  const method=(options.method||"GET").toUpperCase(),headers={Accept:"application/json",...(options.body?{"Content-Type":"application/json"}:{})};
  if(!["GET","HEAD","OPTIONS"].includes(method)){
