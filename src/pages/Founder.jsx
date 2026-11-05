@@ -4,7 +4,7 @@ import { AppLink } from "../components/SiteChrome.jsx";
 
 function Founder({ navigate }) {
   return (
-    <main id="main-content" className="leadership-page founder-page">
+    <main id="main-content" className="leadership-page founder-pagee">
       {/* HERO */}
       <section
         id="founder"
