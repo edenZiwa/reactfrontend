@@ -385,7 +385,7 @@ function Footer({ navigate }) {
         </div>
       </div>
 
-      {/* Development notice */}
+      {/* Website update notice */}
       <div
         className="bg-warning py-2 px-3"
         role="status"
@@ -398,11 +398,11 @@ function Footer({ navigate }) {
             aria-hidden="true"
           />
 
-          <i className="bi bi-tools" aria-hidden="true" />
+          <i className="bi bi-heart-fill" aria-hidden="true" />
 
           <span className="small">
-            <strong>Website in Development</strong>
-            <span> — We’re working to improve your experience.</span>
+            <strong>Growing with our community</strong>
+            <span> — We’re continually improving this website to serve you better. Thank you for being part of our mission.</span>
           </span>
         </div>
       </div>
