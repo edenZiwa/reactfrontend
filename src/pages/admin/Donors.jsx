@@ -119,7 +119,16 @@ export default function Donors({ canManage = false }) {
   }
 
   async function saveDonor(event) {
-    event.preventDefault(); setBusy(true); setError(""); setNotice("");
+    event.preventDefault();
+    if (busy || !editing) return;
+    if (!form.name.trim()) { setError("Enter the donor's name before saving."); return; }
+    if (form.preferred_contact_method === "email" && form.email_opt_in && !form.email.trim()) {
+      setError("An email address is required when email contact consent is enabled."); return;
+    }
+    if (form.preferred_contact_method === "sms" && form.sms_opt_in && !form.phone.trim()) {
+      setError("A phone number is required when SMS contact consent is enabled."); return;
+    }
+    setBusy(true); setError(""); setNotice("");
     try {
       const creating = editing.mode === "create";
       const result = await request(creating ? "/admin/api/donors" : "/admin/api/donors/" + editing.id, {
@@ -134,7 +143,15 @@ export default function Donors({ canManage = false }) {
   }
 
   async function saveCommunication(event) {
-    event.preventDefault(); if (!selectedId) return;
+    event.preventDefault();
+    if (!selectedId || busy) return;
+    if (!communication.summary.trim()) { setError("Add a short summary before recording this communication."); return; }
+    if (communication.direction === "outbound" && communication.channel === "email" && !profile?.donor?.email_opt_in) {
+      setError("This donor has not granted email contact consent. Record an inbound interaction or confirm consent before an outbound email."); return;
+    }
+    if (communication.direction === "outbound" && communication.channel === "sms" && !profile?.donor?.sms_opt_in) {
+      setError("This donor has not granted SMS contact consent. Confirm consent before recording an outbound SMS."); return;
+    }
     setBusy(true); setError(""); setNotice("");
     try {
       await request("/admin/api/donors/" + selectedId + "/communications", {
@@ -148,7 +165,10 @@ export default function Donors({ canManage = false }) {
   }
 
   async function downloadStatement() {
-    if (!selectedId) return;
+    if (!selectedId || statementBusy) return;
+    if (statementDates.from && statementDates.to && statementDates.from > statementDates.to) {
+      setError("The statement start date must be on or before the end date."); return;
+    }
     setStatementBusy(true); setError("");
     try {
       const query = new URLSearchParams();
@@ -161,7 +181,10 @@ export default function Donors({ canManage = false }) {
   }
 
   async function downloadCsv() {
-    if (!selectedId) return;
+    if (!selectedId || statementBusy) return;
+    if (statementDates.from && statementDates.to && statementDates.from > statementDates.to) {
+      setError("The statement start date must be on or before the end date."); return;
+    }
     setStatementBusy(true); setError("");
     try {
       const query = new URLSearchParams({ format: "csv" });
@@ -173,10 +196,12 @@ export default function Donors({ canManage = false }) {
         throw new Error(data.error || "Could not download the statement.");
       }
       const blob = await response.blob();
+      if (!blob.size) throw new Error("The statement export was empty. Please try again.");
       const url = URL.createObjectURL(blob);
       const anchor = document.createElement("a");
       anchor.href = url; anchor.download = "donor-statement-" + selectedId + ".csv";
-      document.body.appendChild(anchor); anchor.click(); anchor.remove(); URL.revokeObjectURL(url);
+      document.body.appendChild(anchor); anchor.click(); anchor.remove();
+      window.setTimeout(() => URL.revokeObjectURL(url), 1000);
     } catch (e) { setError(e.message); }
     finally { setStatementBusy(false); }
   }
@@ -210,7 +235,7 @@ export default function Donors({ canManage = false }) {
         <select className="form-select gom-filter" value={type} onChange={e => setType(e.target.value)} aria-label="Filter donor type">
           <option value="all">All donor types</option><option value="individual">Individual</option><option value="corporate">Corporate</option><option value="foundation">Foundation</option><option value="church">Church</option><option value="other">Other</option>
         </select>
-        <button className="btn btn-outline-success" onClick={() => { loadDonors(); loadRetention(); }}><i className="bi bi-arrow-clockwise me-1" />Refresh</button>
+        <button className="btn btn-outline-success" onClick={() => { loadDonors(); loadRetention(); }} disabled={loading || busy}><i className="bi bi-arrow-clockwise me-1" />Refresh</button>
       </div>
       {loading ? <div className="gom-empty"><span className="spinner-border spinner-border-sm text-success" />Loading donor records…</div> :
         donors.length === 0 ? <div className="gom-empty"><i className="bi bi-people" /><strong>No donors found</strong><span>Try changing your search or add a donor profile.</span></div> :
@@ -247,7 +272,7 @@ export default function Donors({ canManage = false }) {
 
       <div className="gom-donor-subsection"><div className="d-flex flex-wrap justify-content-between gap-2"><div><h4>Giving statement</h4><p className="small text-secondary">Only confirmed donations are included. Currency totals are never combined.</p></div>
         <div className="d-flex gap-2 align-items-end flex-wrap"><div><label className="form-label small">From</label><input type="date" className="form-control form-control-sm" value={statementDates.from} onChange={e => setStatementDates({ ...statementDates, from: e.target.value })} /></div><div><label className="form-label small">To</label><input type="date" className="form-control form-control-sm" value={statementDates.to} onChange={e => setStatementDates({ ...statementDates, to: e.target.value })} /></div>
-          <button className="btn btn-sm btn-outline-success" disabled={statementBusy} onClick={downloadStatement}>View statement</button><button className="btn btn-sm btn-success" disabled={statementBusy} onClick={downloadCsv}>CSV</button></div></div>
+          <button className="btn btn-sm btn-outline-success" disabled={statementBusy || (statementDates.from && statementDates.to && statementDates.from > statementDates.to)} onClick={downloadStatement}>View statement</button><button className="btn btn-sm btn-success" disabled={statementBusy || (statementDates.from && statementDates.to && statementDates.from > statementDates.to)} onClick={downloadCsv}>CSV</button></div></div>
         {statement && <div className="gom-donor-statement mt-3" id="donor-statement"><div className="d-flex justify-content-between align-items-start"><div><h5>Garden of Mercy Foundation</h5><strong>Giving statement · {statement.donor.name}</strong><div className="small text-secondary">{statement.period.from || "All time"} – {statement.period.to || "Present"}</div></div><button className="btn btn-sm btn-outline-secondary d-print-none" onClick={() => window.print()}><i className="bi bi-printer me-1" />Print</button></div>
           <div className="table-responsive mt-3"><table className="table table-sm"><thead><tr><th>Date</th><th>Reference</th><th>Purpose</th><th>Amount</th></tr></thead><tbody>{statement.donations.map(g => <tr key={g.id}><td>{date(g.donation_date)}</td><td>{g.merchant_reference || g.provider_reference || "—"}</td><td>{label(g.purpose)}</td><td>{money(g.amount,g.currency)}</td></tr>)}</tbody></table></div>
           <div className="d-flex flex-wrap gap-3">{Object.entries(statement.totals || {}).map(([currency, amount]) => <strong key={currency}>Total {currency}: {money(amount,currency)}</strong>)}</div>
@@ -257,14 +282,14 @@ export default function Donors({ canManage = false }) {
 
       <div className="gom-donor-subsection"><h4>Communication history</h4>
         {profile.communications?.length ? <div className="gom-communication-list">{profile.communications.map(item => <article key={item.id}><div className="d-flex justify-content-between flex-wrap gap-2"><strong>{label(item.channel)} · {label(item.direction)}</strong><small>{date(item.created_at)}</small></div>{item.subject && <div className="fw-semibold mt-1">{item.subject}</div>}<p className="mb-1 mt-1">{item.summary}</p>{item.outcome && <small className="text-secondary">Outcome: {item.outcome}</small>}{item.follow_up_at && <div className="small text-success mt-1">Follow-up: {date(item.follow_up_at)}</div>}</article>)}</div> : <p className="text-secondary mb-0">No communication history recorded.</p>}
-        {canManage && <form className="gom-communication-form mt-3" onSubmit={saveCommunication}><h5>Record a communication</h5><div className="row g-2">
+        {canManage && <form className="gom-communication-form mt-3" onSubmit={saveCommunication}><h5>Record a communication</h5><p className="small text-secondary">This records an interaction in the donor history; it does not send an email or SMS. Obtain and respect the donor's contact consent before outbound communication.</p><div className="row g-2">
           <div className="col-6 col-md-3"><label className="form-label small">Channel</label><select className="form-select" value={communication.channel} onChange={e => setCommunication({ ...communication, channel: e.target.value })}><option value="email">Email</option><option value="phone">Phone</option><option value="sms">SMS</option><option value="whatsapp">WhatsApp</option><option value="meeting">Meeting</option><option value="letter">Letter</option><option value="other">Other</option></select></div>
           <div className="col-6 col-md-3"><label className="form-label small">Direction</label><select className="form-select" value={communication.direction} onChange={e => setCommunication({ ...communication, direction: e.target.value })}><option value="outbound">Outbound</option><option value="inbound">Inbound</option></select></div>
           <div className="col-12 col-md-6"><label className="form-label small">Subject</label><input className="form-control" maxLength="180" value={communication.subject} onChange={e => setCommunication({ ...communication, subject: e.target.value })} /></div>
           <div className="col-12"><label className="form-label small">Summary</label><textarea className="form-control" rows="3" maxLength="4000" required value={communication.summary} onChange={e => setCommunication({ ...communication, summary: e.target.value })} /></div>
           <div className="col-12 col-md-6"><label className="form-label small">Outcome</label><input className="form-control" maxLength="1000" value={communication.outcome} onChange={e => setCommunication({ ...communication, outcome: e.target.value })} /></div>
           <div className="col-12 col-md-6"><label className="form-label small">Follow-up reminder</label><input type="datetime-local" className="form-control" value={communication.follow_up_at} onChange={e => setCommunication({ ...communication, follow_up_at: e.target.value })} /></div>
-          <div className="col-12"><button className="btn btn-success" disabled={busy}>{busy ? "Saving…" : "Save communication"}</button></div>
+          <div className="col-12"><button className="btn btn-success" disabled={busy || !communication.summary.trim()}>{busy ? "Saving…" : "Save communication record"}</button></div>
         </div></form>}
       </div>
     </section>}
