@@ -1,0 +1,71 @@
+.gom-auth-page {
+  min-height: 65vh;
+  display: grid;
+  place-items: center;
+}
+.gom-auth-card {
+  width: min(100%, 34rem);
+  padding: clamp(1.5rem, 5vw, 2.75rem);
+  color: var(--bs-body-color);
+  background: var(--bs-body-bg);
+  border: 1px solid var(--bs-border-color);
+  border-radius: 1.25rem;
+  box-shadow: 0 1rem 3rem rgba(20, 55, 35, .09);
+}
+.gom-auth-brand-mark {
+  display: grid;
+  place-items: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  margin-bottom: 1.25rem;
+  color: #fff;
+  background: #176b45;
+  border-radius: 1rem;
+  font-size: 1.6rem;
+}
+.gom-auth-eyebrow {
+  color: #176b45;
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .13em;
+}
+.gom-auth-divider {
+  display: flex;
+  align-items: center;
+  gap: .85rem;
+  margin: 1.5rem 0 .75rem;
+  color: var(--bs-secondary-color);
+  font-size: .8rem;
+}
+.gom-auth-divider::before,
+.gom-auth-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--bs-border-color);
+}
+.gom-auth-help {
+  display: flex;
+  align-items: flex-start;
+  gap: .65rem;
+  padding: .9rem 1rem;
+  color: var(--bs-secondary-color);
+  background: var(--bs-tertiary-bg);
+  border-radius: .75rem;
+  font-size: .85rem;
+  line-height: 1.5;
+}
+.gom-auth-help > i { flex: 0 0 auto; }
+.gom-auth-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .75rem;
+  padding: 1rem;
+  color: var(--bs-secondary-color);
+  border: 1px solid var(--bs-border-color);
+  border-radius: .75rem;
+}
+@media (prefers-reduced-motion: reduce) {
+  .gom-auth-card { scroll-behavior: auto; }
+}
