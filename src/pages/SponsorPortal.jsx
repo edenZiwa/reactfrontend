@@ -15,7 +15,7 @@ export default function SponsorPortal() {
   const [loadingError, setLoadingError] = useState("");
 
   async function load() {
-    setLoading(true); setError("");
+    setLoading(true); setError(""); setLoadingError("");
     try {
       let results;
       try {
