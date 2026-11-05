@@ -1,10 +1,10 @@
 import React,{useCallback,useEffect,useState} from "react";
-const ROOT=(import.meta.env.VITE_API_BASE_URL||"").replace(/\/$/,"");
+import { API_ORIGIN } from "../../services/api-config.js";
 
 const api=async(path,options={})=>{
  const method=(options.method||"GET").toUpperCase(),headers={Accept:"application/json",...(options.body?{"Content-Type":"application/json"}:{})};
  if(!["GET","HEAD","OPTIONS"].includes(method)){
-  let c;try{c=await fetch(ROOT+"/auth/csrf",{credentials:"include",cache:"no-store"});}catch{throw Error("Your staff session could not be reached. Check your connection and sign in again.");}
+  let c;try{c=await fetch(API_ORIGIN+"/auth/csrf",{credentials:"include",cache:"no-store"});}catch{throw Error("Your staff session could not be reached. Check your connection and sign in again.");}
   const d=await c.json().catch(()=>({}));if(!c.ok||!d.csrfToken)throw Error(d.error||"Your staff session has expired. Please sign in again.");headers["X-CSRF-Token"]=d.csrfToken;
  }
  let r;try{r=await fetch(ROOT+path,{...options,method,headers,credentials:"include",cache:"no-store"});}catch{throw Error("We could not reach the projects service. Check your connection and try again.");}
