@@ -4,7 +4,8 @@ import "../css/account.css";
 import SponsorPortal from "./SponsorPortal.jsx";
 import VolunteerPortal from "./VolunteerPortal.jsx";
 
-const API_BASE = (import.meta.env.VITE_API_BASE_URL || "/api").replace(/\/$/, "");
+const API_ORIGIN = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/$/, "");
+const API_BASE = API_ORIGIN ? `${API_ORIGIN}/api` : "/api";
 
 const SKILLS = [
     "Teaching",
@@ -209,7 +210,7 @@ function Account( {
     async function handleProfileSubmit(event) {
         event.preventDefault();
         setSavingProfile(true);
-        setProfileMessage("");
+        setProfileMessage({ text: "", tone: "success" });
 
         try {
             const response = await fetch(`${API_BASE}/account/volunteer-profile`,
