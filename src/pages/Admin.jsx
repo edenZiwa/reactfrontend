@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useTheme } from "../components/ThemeProvider.jsx";
+import { API_ORIGIN } from "../services/api-config.js";
 import "../css/admin.css";
 import Donors from "./admin/Donors.jsx";
 import SponsorshipManagement from "./admin/SponsorshipManagement.jsx";
@@ -9,7 +10,6 @@ import "../css/volunteer-operations.css";
 import "../css/projects-impact.css";
 import "../css/sponsorship-management.css";
 
-const API_ORIGIN = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/$/, "");
 const API = (path) => `${API_ORIGIN}${path}`;
 const NAV = [
   { group: "Overview", items: [{ id: "dashboard", label: "Dashboard", icon: "bi-grid-1x2", path: "/admin" }] },
@@ -100,7 +100,7 @@ function StatusPill({ value }) {
   return <span className={`badge rounded-pill text-bg-${tone} bg-opacity-10 text-${tone} border border-${tone} border-opacity-25`}>{titleCase(status)}</span>;
 }
 
-function Login({ onLogin }) {
+function Login({ onLogin, authError = "" }) {
   const [form, setForm] = useState({ email: "", password: "", mfaCode: "", recoveryCode: "" });
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
@@ -123,7 +123,7 @@ function Login({ onLogin }) {
       <div className="small text-success fw-bold text-uppercase mb-2">Garden of Mercy Foundation</div>
       <h1 className="h3 fw-bold mb-2">Staff administration</h1>
       <p className="text-secondary mb-4">Sign in with your authorised staff account to continue.</p>
-      {error && <div className="alert alert-danger" role="alert">{error}</div>}
+      {(error || authError) && <div className="alert alert-danger" role="alert">{error || authError}</div>}
       <form onSubmit={submit}>
         <label className="form-label" htmlFor="admin-email">Email address</label>
         <input id="admin-email" className="form-control form-control-lg mb-3" type="email" autoComplete="username" required value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} />
@@ -336,7 +336,7 @@ export default function Admin({ path = "/admin", navigate }) {
   }
 
   if (loading) return <main className="gom-admin-loading"><span className="spinner-border text-success" /><p>Checking staff access…</p></main>;
-  if (!staff) return <Login onLogin={async () => { setLoading(true); setAuthError(""); try { await loadIdentity(); } catch (e) { setAuthError(e.message); } finally { setLoading(false); } }} />;
+  if (!staff) return <Login authError={authError} onLogin={async () => { setLoading(true); setAuthError(""); try { await loadIdentity(); } catch (e) { setAuthError(e.message); throw e; } finally { setLoading(false); } }} />;
 
   const headerTitle = isDashboard ? "Good day" : current.label;
   const columnsByKey = {
