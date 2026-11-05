@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 const API_BASE = (import.meta.env.VITE_API_BASE_URL || "/api").replace(/\/$/, "");
+const AUTH_BASE = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/$/, "");
 const money = (amount, currency) => new Intl.NumberFormat("en-UG", { style: "currency", currency: currency || "UGX", maximumFractionDigits: currency === "UGX" ? 0 : 2 }).format(Number(amount || 0));
 
 export default function SponsorPortal() {
@@ -39,7 +40,7 @@ export default function SponsorPortal() {
     event.preventDefault(); setBusy(true); setError(""); setNotice("");
     try {
       let tokenResponse;
-      try { tokenResponse = await fetch(API_BASE + "/auth/csrf", { credentials: "include", cache: "no-store" }); }
+      try { tokenResponse = await fetch(AUTH_BASE + "/auth/csrf", { credentials: "include", cache: "no-store" }); }
       catch { throw new Error("We could not reach the secure session service. Check your connection and sign in again."); }
       const token = await tokenResponse.json().catch(() => ({}));
       if (!tokenResponse.ok || !token.csrfToken) throw new Error(token.error || "Your session has expired. Please sign in again.");
