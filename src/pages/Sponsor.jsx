@@ -323,7 +323,7 @@ function ChildProfiles() {
 
 export default function Sponsor({ navigate }) {
   return (
-    <main className="sponsor-page">
+    <div className="sponsor-page">
       <section className="sponsor-hero" aria-labelledby="sponsor-title">
         <div className="container sponsor-hero-container">
           <div className="row align-items-center g-5">
@@ -500,6 +500,6 @@ export default function Sponsor({ navigate }) {
           </div>
         </div>
       </section>
-    </main>
+    </div>
   );
 }
