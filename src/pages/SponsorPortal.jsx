@@ -11,19 +11,26 @@ export default function SponsorPortal() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
+  const [loadingError, setLoadingError] = useState("");
 
   async function load() {
     setLoading(true); setError("");
     try {
-      const results = await Promise.all([
-        fetch(API_BASE + "/account/sponsorships", { credentials: "include", cache: "no-store" }),
-        fetch(API_BASE + "/sponsorship/children", { credentials: "include", cache: "no-store" })
-      ]);
-      if (!results[0].ok || !results[1].ok) throw new Error("Unable to load sponsorship information.");
-      const own = await results[0].json();
-      const directory = await results[1].json();
+      let results;
+      try {
+        results = await Promise.all([
+          fetch(API_BASE + "/account/sponsorships", { credentials: "include", cache: "no-store", headers: { Accept: "application/json" } }),
+          fetch(API_BASE + "/sponsorship/children", { credentials: "include", cache: "no-store", headers: { Accept: "application/json" } })
+        ]);
+      } catch { throw new Error("We could not connect to sponsorship services. Check your internet connection and try again."); }
+      const own = await results[0].json().catch(() => ({}));
+      const directory = await results[1].json().catch(() => ({}));
+      if (!results[0].ok || !results[1].ok) {
+        const failed = !results[0].ok ? results[0] : results[1];
+        throw new Error(failed.status === 401 ? "Your session has expired. Please sign in again." : failed.status === 403 ? "You do not have permission to view this sponsorship information." : failed.status >= 500 ? "The sponsorship service is temporarily unavailable. Please try again shortly." : own.error || directory.error || "We could not load sponsorship information. Please refresh and try again.");
+      }
       setData(own); setChildren(directory.children || []);
-    } catch (e) { setError(e.message); }
+    } catch (e) { setError(e.message); setLoadingError(e.message); }
     finally { setLoading(false); }
   }
   useEffect(() => { load(); }, []);
@@ -31,26 +38,31 @@ export default function SponsorPortal() {
   async function submit(event) {
     event.preventDefault(); setBusy(true); setError(""); setNotice("");
     try {
-      const tokenResponse = await fetch("/auth/csrf", { credentials: "include", cache: "no-store" });
-      const token = await tokenResponse.json();
-      if (!tokenResponse.ok || !token.csrfToken) throw new Error("Could not start a secure session.");
+      let tokenResponse;
+      try { tokenResponse = await fetch(API_BASE + "/auth/csrf", { credentials: "include", cache: "no-store" }); }
+      catch { throw new Error("We could not reach the secure session service. Check your connection and sign in again."); }
+      const token = await tokenResponse.json().catch(() => ({}));
+      if (!tokenResponse.ok || !token.csrfToken) throw new Error(token.error || "Your session has expired. Please sign in again.");
       const response = await fetch(API_BASE + "/account/sponsorship-interests", {
         method: "POST", credentials: "include",
         headers: { "Content-Type": "application/json", "X-CSRF-Token": token.csrfToken },
         body: JSON.stringify({ ...form, proposedAmount: form.proposedAmount || null, childProfileId: form.childProfileId || null })
       });
       const result = await response.json().catch(() => ({}));
-      if (!response.ok) throw new Error(result.error || "Unable to submit sponsorship interest.");
+      if (!response.ok) {
+        const messages = { 400: "Please review the sponsorship details and try again.", 401: "Your session has expired. Please sign in again.", 403: "You are not authorised to submit this request.", 409: "A similar sponsorship request already exists. Please refresh your account.", 422: "Some sponsorship details are invalid. Please review the form.", 429: "Too many requests. Please wait and try again." };
+        throw new Error(result.message || result.error || messages[response.status] || (response.status >= 500 ? "The sponsorship service is temporarily unavailable. Please try again shortly." : "Unable to submit sponsorship interest. Please try again."));
+      }
       setNotice(result.message || "Your sponsorship interest has been submitted.");
       setForm({ childProfileId: "", sponsorshipModel: "individual", contributionFrequency: "monthly", proposedAmount: "", currency: "UGX", message: "" });
-    } catch (e) { setError(e.message); }
+    } catch (e) { setError(e.message || "We could not submit your sponsorship interest. Please try again."); }
     finally { setBusy(false); }
   }
 
-  if (loading) return <section className="panel p-4 text-center"><span className="spinner-border spinner-border-sm text-success me-2" />Loading sponsorship information…</section>;
+  if (loading) return <section className="panel p-4 text-center" role="status"><span className="spinner-border spinner-border-sm text-success me-2" />Loading sponsorship information…</section>;
   return <section className="panel p-4 p-md-5 mb-4">
-    <div className="d-flex justify-content-between flex-wrap gap-2 mb-3"><div><h2 className="panel-title mb-1">Child sponsorship</h2><p className="small-muted">Your sponsorships, approved quarterly updates and contributions.</p></div><button className="btn btn-sm btn-outline-success" onClick={load}>Refresh</button></div>
-    {error && <div className="alert alert-danger">{error}</div>}{notice && <div className="alert alert-success" role="status">{notice}</div>}
+    <div className="d-flex justify-content-between flex-wrap gap-2 mb-3"><div><h2 className="panel-title mb-1">Child sponsorship</h2><p className="small-muted">Your sponsorships, approved quarterly updates and contributions.</p></div><button className="btn btn-sm btn-outline-success" onClick={load} disabled={loading}>Refresh</button></div>
+    {error && <div className="alert alert-danger" role="alert">{error}</div>}{notice && <div className="alert alert-success" role="status">{notice}</div>}
     <h3 className="h5 fw-bold">Your sponsorships</h3>
     {!data.sponsorships?.length ? <p className="text-secondary">No sponsorship assignments are linked to your account yet.</p> : <div className="row g-3 mb-4">{data.sponsorships.map(item => <div className="col-12 col-lg-6" key={item.id}><article className="feature h-100"><div className="d-flex justify-content-between"><strong>{item.display_name}</strong><span className="badge text-bg-light border">{item.status}</span></div><p className="small-muted">{item.age_band} · {item.region_label}</p><strong>{money(item.expected_amount,item.currency)}</strong><div className="small text-secondary">{item.sponsorship_model} · {item.contribution_frequency}</div></article></div>)}</div>}
     <h3 className="h5 fw-bold mt-4">Approved quarterly progress reports</h3>
