@@ -306,11 +306,11 @@ function Gallery({navigate}) {
                 Our Stories
               </span>
 
-              <h1 className="display-2 fw-bold text-white mt-3">
+              <h1 className="display-2 fw-bold theme-on-dark mt-3">
                 Moments of <span className="text-warning">Mercy</span>
               </h1>
 
-              <p className="lead text-white col-lg-9 mt-3">
+              <p className="lead theme-on-dark col-lg-9 mt-3">
                 Explore the people, communities and moments behind Garden of
                 Mercy Foundation&apos;s mission to sow seeds of mercy and
                 compassion.
@@ -697,11 +697,11 @@ function Gallery({navigate}) {
                   JOIN THE MISSION
                 </span>
 
-                <h2 className="display-6 fw-bold text-white mt-2">
+                <h2 className="display-6 fw-bold theme-on-dark mt-2">
                   Help create the next story of hope.
                 </h2>
 
-                <p className="text-white-50 mb-0">
+                <p className="theme-on-dark-muted mb-0">
                   Your generosity can help turn compassion into food,
                   opportunity, dignity and hope.
                 </p>
