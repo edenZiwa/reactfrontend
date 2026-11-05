@@ -397,7 +397,7 @@ function Account( {
 
     if (loading) {
         return (
-            <main className="container wrap py-5">
+            <div className="container wrap py-5">
                 <div className="panel p-5 text-center">
                     <div
                         className="spinner-border text-success mb-3"
