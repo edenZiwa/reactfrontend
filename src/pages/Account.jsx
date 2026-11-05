@@ -484,10 +484,6 @@ function Account( {
                 </p>
             </div>
 
-            <div className="mb-4">
-                <AccountAuthPanel />
-            </div>
-
             {error && (
                 <div className="alert alert-warning" role="alert">
                     {error}
@@ -606,7 +602,6 @@ function Account( {
                             role="tab"
                             aria-selected={activeTab === tab.id}
                             aria-controls={`tab-${tab.id}`}
-                            tabIndex={activeTab === tab.id ? 0 : -1}
                             tabIndex={activeTab === tab.id ? 0 : -1}
                             onClick={() => setActiveTab(tab.id)}
                             >
@@ -766,6 +761,8 @@ tabIndex={0}
 id="tab-programs"
 className="tab-panel panel p-4 p-md-5 mb-4"
 role="tabpanel"
+aria-labelledby="tab-button-programs"
+tabIndex={0}
 >
 <h2 className="panel-title mb-1">Program registrations</h2>
 <p className="small-muted mb-3">
@@ -827,6 +824,8 @@ You have no program registrations yet.
 id="tab-applications"
 className="tab-panel panel p-4 p-md-5 mb-4"
 role="tabpanel"
+aria-labelledby="tab-button-applications"
+tabIndex={0}
 >
 <h2 className="panel-title mb-1">Applications and requests</h2>
 <p className="small-muted mb-3">
@@ -945,9 +944,17 @@ You have not submitted any applications yet.
 </section>
 )}
 
-{activeTab === "sponsorship" && <SponsorPortal />}
+{activeTab === "sponsorship" && (
+                <div id="tab-sponsorship" role="tabpanel" aria-labelledby="tab-button-sponsorship" tabIndex={0}>
+                    <SponsorPortal />
+                </div>
+            )}
 
-            {activeTab === "volunteerService" && <VolunteerPortal />}
+            {activeTab === "volunteerService" && (
+                <div id="tab-volunteerService" role="tabpanel" aria-labelledby="tab-button-volunteerService" tabIndex={0}>
+                    <VolunteerPortal />
+                </div>
+            )}
 
 {/* Donation history */}
 {activeTab === "donations" && (
@@ -955,6 +962,8 @@ You have not submitted any applications yet.
 id="tab-donations"
 className="tab-panel panel p-4 p-md-5 mb-4"
 role="tabpanel"
+aria-labelledby="tab-button-donations"
+tabIndex={0}
 >
 <h2 className="panel-title mb-1">Donation history</h2>
 <p className="small-muted mb-3">
