@@ -4,6 +4,7 @@ import { createRoot } from "react-dom/client";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import "./css/shared-ux.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "./css/styles.css";
 import "./css/app.css";
@@ -21,6 +22,7 @@ import PWAUpdatePrompt from "./components/PWAUpdatePrompt.jsx";
 import NetworkStatus from "./components/NetworkStatus.jsx";
 
 import ScrollNavigator from "./components/ScrollNavigator.jsx";
+import { ToastProvider } from "./components/ux/ToastProvider.jsx";
 import Home from "./pages/Home.jsx";
 import About from "./pages/About.jsx";
 import Programs from "./pages/Programs.jsx";
@@ -179,14 +181,16 @@ if (rootElement) {
   createRoot(rootElement).render(
     <React.StrictMode>
       <ThemeProvider>
-        <PWAProvider>
-          <NetworkStatus />
-          <PWAUpdatePrompt />
-          <AuthProvider>
-            <App />
-          </AuthProvider>
-          <PWAInstallPrompt />
-        </PWAProvider>
+        <ToastProvider>
+          <PWAProvider>
+            <NetworkStatus />
+            <PWAUpdatePrompt />
+            <AuthProvider>
+              <App />
+            </AuthProvider>
+            <PWAInstallPrompt />
+          </PWAProvider>
+        </ToastProvider>
       </ThemeProvider>
     </React.StrictMode>
   );
