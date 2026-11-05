@@ -267,3 +267,70 @@
     .panel.p-4 {
         padding: 1rem!important
     }}
+
+/* Account portal theme support */
+[data-bs-theme="dark"] .panel {
+    background: var(--bs-body-bg);
+    border-color: var(--bs-border-color);
+    color: var(--bs-body-color);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, .16);
+}
+[data-bs-theme="dark"] .page-title,
+[data-bs-theme="dark"] .panel-title,
+[data-bs-theme="dark"] .brand-name,
+[data-bs-theme="dark"] .nav-pills .nav-link {
+    color: var(--bs-emphasis-color);
+}
+[data-bs-theme="dark"] .detail,
+[data-bs-theme="dark"] .feature {
+    background: var(--bs-tertiary-bg);
+    border-color: var(--bs-border-color);
+    color: var(--bs-body-color);
+}
+[data-bs-theme="dark"] .detail-label,
+[data-bs-theme="dark"] .small-muted,
+[data-bs-theme="dark"] .brand-caption {
+    color: var(--bs-secondary-color);
+}
+[data-bs-theme="dark"] .avatar {
+    border-color: var(--bs-body-bg);
+    background: rgba(25, 135, 84, .18);
+    color: #9bd7b2;
+}
+[data-bs-theme="dark"] .pill {
+    background: rgba(25, 135, 84, .18);
+    color: #a9dfbd;
+}
+[data-bs-theme="dark"] .form-label {
+    color: var(--bs-body-color);
+}
+[data-bs-theme="dark"] .form-control,
+[data-bs-theme="dark"] .form-select {
+    background-color: var(--bs-body-bg);
+    border-color: var(--bs-border-color);
+    color: var(--bs-body-color);
+}
+[data-bs-theme="dark"] .form-control::placeholder {
+    color: var(--bs-secondary-color);
+}
+[data-bs-theme="dark"] .list-group-item,
+[data-bs-theme="dark"] .table {
+    --bs-table-bg: transparent;
+    --bs-table-color: var(--bs-body-color);
+    background-color: transparent;
+    color: var(--bs-body-color);
+    border-color: var(--bs-border-color);
+}
+[data-bs-theme="dark"] .border,
+[data-bs-theme="dark"] .border-top,
+[data-bs-theme="dark"] .border-bottom {
+    border-color: var(--bs-border-color) !important;
+}
+[data-bs-theme="dark"] .btn-outline-mercy {
+    border-color: #78c69a;
+    color: #a9dfbd;
+}
+[data-bs-theme="dark"] .btn-outline-mercy:hover {
+    background: #176b45;
+    color: #fff;
+}
