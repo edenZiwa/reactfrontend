@@ -147,9 +147,15 @@ function Account( {
                 }
 
                 if (response.status === 401) {
+                    const currentUser = await refreshSession();
                     if (!cancelled) {
-                        setNeedsSignIn(true);
-                        setAccount(null);
+                        if (!currentUser) {
+                            setNeedsSignIn(true);
+                            setAccount(null);
+                            setCsrfToken("");
+                        } else {
+                            throw new Error("Your account service rejected the current session. Please refresh and try again.");
+                        }
                     }
                     return;
                 }
@@ -204,6 +210,19 @@ function Account( {
         };
     },
         [retryKey, authStatus, hasPublicRole, authError, user]);
+
+    async function reconcileExpiredSession() {
+        try {
+            const currentUser = await refreshSession();
+            if (!currentUser) {
+                setNeedsSignIn(true);
+                setAccount(null);
+                setCsrfToken("");
+            }
+        } catch (sessionError) {
+            setError(sessionError.message || "We could not verify your session. Please sign in again.");
+        }
+    }
 
     async function handleGoogleSignIn() {
         setSigningIn(true);
@@ -277,7 +296,7 @@ function Account( {
 
             setProfileMessage({ text: "Your volunteer profile has been saved successfully.", tone: "success" });
         } catch (err) {
-            if (/session has expired|sign in again/i.test(err.message)) { setNeedsSignIn(true); setAccount(null); }
+            if (/session has expired|sign in again/i.test(err.message)) await reconcileExpiredSession();
             setProfileMessage({ text: err.message || "We could not save your profile. Please try again.", tone: "danger" });
         } finally {
             setSavingProfile(false);
@@ -330,7 +349,7 @@ function Account( {
 
             setApplicationMessage({ text: result?.message || "Your application has been submitted successfully. The foundation team will review it and update your account.", tone: "success" });
         } catch (err) {
-            if (/session has expired|sign in again/i.test(err.message)) { setNeedsSignIn(true); setAccount(null); }
+            if (/session has expired|sign in again/i.test(err.message)) await reconcileExpiredSession();
             setApplicationMessage({ text: err.message || "We could not submit your application. Please try again.", tone: "danger" });
         } finally {
             setSubmittingApplication(false);
