@@ -561,9 +561,9 @@ LEGAL & DATA PROTECTION
               </p>
 
               <p>
-                Access to such information should be restricted to
-                authorized personnel and used only for legitimate
-                organizational purposes.
+                We restrict access to this information to authorized
+                team members and use it only for legitimate organizational
+                purposes.
               </p>
             </section>
 
@@ -577,9 +577,8 @@ LEGAL & DATA PROTECTION
               </p>
 
               <p>
-                Where applicable, recipients should be provided with
-                an appropriate mechanism to opt out of non-essential
-                promotional communications.
+                Where required, our non-essential promotional communications
+                include a clear way to opt out.
               </p>
             </section>
 
@@ -614,8 +613,8 @@ LEGAL & DATA PROTECTION
               </p>
 
               <p>
-                The latest version should be published on this page
-                together with an updated effective or revision date.
+                We identify material updates by revising the effective or
+                revision date shown with this policy.
               </p>
             </section>
 
