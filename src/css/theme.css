@@ -681,3 +681,303 @@ html[data-bs-theme="dark"] .bg-success li {
 .theme-on-dark a:not(.btn):hover {
   color: var(--gomf-gold);
 }
+
+
+/* Final route-level theme pass: account, volunteer, sponsorship and staff tools. */
+html[data-bs-theme] {
+  --gomf-shadow-lg: var(--gomf-shadow-lg);
+}
+
+/* Account portal: replace legacy fixed-white panels and fixed ink colours. */
+.wrap .panel,
+.wrap .detail,
+.wrap .feature {
+  color: var(--gomf-text);
+  background-color: var(--gomf-surface);
+  border-color: var(--gomf-border);
+  box-shadow: var(--gomf-shadow-sm);
+}
+.wrap .page-title,
+.wrap .panel-title,
+.wrap .detail-value,
+.wrap .form-label,
+.wrap .brand-name {
+  color: var(--gomf-deep);
+}
+.wrap .detail {
+  background: var(--gomf-surface-soft);
+}
+.wrap .form-control,
+.wrap .form-select {
+  color: var(--gomf-text);
+  background-color: var(--gomf-surface);
+  border-color: var(--gomf-border);
+}
+.wrap .form-control::placeholder,
+.wrap textarea::placeholder {
+  color: var(--gomf-text-muted);
+  opacity: .85;
+}
+.wrap .empty {
+  color: var(--gomf-text-muted);
+  border-color: var(--gomf-border);
+}
+.wrap .border-top,
+.wrap .border-bottom {
+  border-color: var(--gomf-border) !important;
+}
+.wrap .btn-light {
+  color: var(--gomf-text);
+  background: var(--gomf-surface);
+  border-color: var(--gomf-border);
+}
+.wrap .btn-light:hover {
+  background: var(--gomf-surface-soft);
+  border-color: var(--gomf-green);
+}
+
+/* Volunteer application: all cards, notes and controls follow the active theme. */
+.volunteer-page {
+  color: var(--gomf-text);
+  background: var(--gomf-page);
+}
+.volunteer-page .volunteer-content {
+  color: var(--gomf-text);
+}
+.volunteer-page .volunteer-kicker,
+.volunteer-page .volunteer-eyebrow {
+  color: var(--gomf-green);
+}
+.volunteer-page .volunteer-lead,
+.volunteer-page .volunteer-benefit p,
+.volunteer-page .volunteer-content > .row p {
+  color: var(--gomf-text-muted);
+}
+.volunteer-page .volunteer-benefit,
+.volunteer-page .volunteer-form-card {
+  color: var(--gomf-text);
+  background: var(--gomf-surface);
+  border: 1px solid var(--gomf-border);
+  box-shadow: var(--gomf-shadow-sm);
+}
+.volunteer-page .volunteer-benefit h3,
+.volunteer-page .volunteer-form-card h2 {
+  color: var(--gomf-deep);
+}
+.volunteer-page .volunteer-note {
+  color: var(--gomf-text);
+  background: var(--gomf-surface-soft);
+  border-color: var(--gomf-green);
+}
+.volunteer-page .volunteer-note strong {
+  color: var(--gomf-deep);
+}
+.volunteer-page .volunteer-note p,
+.volunteer-page .volunteer-form-card > div p,
+.volunteer-page .volunteer-privacy {
+  color: var(--gomf-text-muted);
+}
+.volunteer-page .form-label,
+.volunteer-page .form-check-label {
+  color: var(--gomf-text);
+}
+.volunteer-page .form-control,
+.volunteer-page .form-select {
+  color: var(--gomf-text);
+  background-color: var(--gomf-surface);
+  border-color: var(--gomf-border);
+}
+.volunteer-page .form-control::placeholder {
+  color: var(--gomf-text-muted);
+  opacity: .85;
+}
+.volunteer-page .form-check-input {
+  background-color: var(--gomf-surface);
+  border-color: var(--gomf-border);
+}
+.volunteer-page .form-check-input:checked {
+  background-color: var(--gomf-green);
+  border-color: var(--gomf-green);
+}
+.volunteer-page .alert-success {
+  color: var(--gomf-text);
+  background: color-mix(in srgb, #239655 16%, var(--gomf-surface));
+  border-color: color-mix(in srgb, #239655 38%, var(--gomf-border));
+}
+.volunteer-page .alert-danger {
+  color: var(--gomf-text);
+  background: color-mix(in srgb, #bd5148 14%, var(--gomf-surface));
+  border-color: color-mix(in srgb, #bd5148 38%, var(--gomf-border));
+}
+
+/* Sponsorship page: theme-aware profile cards, filters, notes and headings. */
+.sponsor-page {
+  color: var(--gomf-text);
+  background: var(--gomf-page);
+  --sponsor-green: var(--gomf-green);
+  --sponsor-deep: var(--gomf-deep);
+  --sponsor-ink: var(--gomf-deep);
+  --sponsor-muted: var(--gomf-text-muted);
+}
+.sponsor-page .sponsor-profiles-section,
+.sponsor-page .sponsor-pathways-section,
+.sponsor-page .sponsor-principles-section,
+.sponsor-page .sponsor-process-section {
+  color: var(--gomf-text);
+  background: var(--gomf-page);
+}
+.sponsor-page .sponsor-hero-card,
+.sponsor-page .sponsor-filter-panel,
+.sponsor-page .sponsor-child-card,
+.sponsor-page .sponsor-result-count,
+.sponsor-page .sponsor-empty-state,
+.sponsor-page .sponsor-path-card,
+.sponsor-page .sponsor-principle-card,
+.sponsor-page .sponsor-process-card {
+  color: var(--gomf-text);
+  background: var(--gomf-surface);
+  border-color: var(--gomf-border);
+  box-shadow: var(--gomf-shadow-sm);
+}
+.sponsor-page .sponsor-hero-card h2,
+.sponsor-page .sponsor-section-heading h2,
+.sponsor-page .sponsor-child-name,
+.sponsor-page .sponsor-empty-state h3,
+.sponsor-page .sponsor-path-card h3,
+.sponsor-page .sponsor-principle-card h3,
+.sponsor-page .sponsor-process-card h3 {
+  color: var(--gomf-deep);
+}
+.sponsor-page .sponsor-hero-card p,
+.sponsor-page .sponsor-section-heading p,
+.sponsor-page .sponsor-child-story,
+.sponsor-page .sponsor-child-level,
+.sponsor-page .sponsor-path-card > p,
+.sponsor-page .sponsor-path-card li,
+.sponsor-page .sponsor-principle-card p,
+.sponsor-page .sponsor-process-card p,
+.sponsor-page .sponsor-empty-state p {
+  color: var(--gomf-text-muted);
+}
+.sponsor-page .sponsor-filter-panel .form-label {
+  color: var(--gomf-text);
+}
+.sponsor-page .sponsor-filter-panel .form-control,
+.sponsor-page .sponsor-filter-panel .form-select {
+  color: var(--gomf-text);
+  background: var(--gomf-surface);
+  border-color: var(--gomf-border);
+}
+.sponsor-page .sponsor-filter-panel .form-control::placeholder {
+  color: var(--gomf-text-muted);
+}
+.sponsor-page .sponsor-profile-tag {
+  color: var(--gomf-text);
+  background: var(--gomf-surface-soft);
+  border-color: var(--gomf-border);
+}
+.sponsor-page .sponsor-safeguarding-note {
+  color: var(--gomf-text);
+  background: color-mix(in srgb, var(--gomf-gold) 12%, var(--gomf-surface));
+  border-color: var(--gomf-gold);
+}
+.sponsor-page .sponsor-safeguarding-note strong {
+  color: var(--gomf-deep);
+}
+.sponsor-page .sponsor-child-footer {
+  border-color: var(--gomf-border);
+}
+.sponsor-page .sponsor-hero-card-foot {
+  color: var(--gomf-green);
+  border-color: var(--gomf-border);
+}
+.sponsor-page .sponsor-path-card li i,
+.sponsor-page .sponsor-child-amount {
+  color: var(--gomf-green);
+}
+
+/* Admin shell and all operational modules share the same theme surfaces. */
+.gom-admin .gom-admin-login,
+.gom-admin-login {
+  color: var(--gomf-text);
+}
+.gom-admin .gom-admin-sidebar,
+.gom-admin .gom-admin-topbar,
+.gom-admin .gom-stat-card,
+.gom-admin .gom-panel,
+.gom-admin .gom-login-card,
+.gom-admin .gom-modal,
+.gom-admin .gom-quick-links button,
+.gom-admin .gom-volops section,
+.gom-admin .gom-volops .border,
+.gom-admin .gom-volops .border.rounded-3 {
+  color: var(--gomf-text);
+  background-color: var(--gomf-surface);
+  border-color: var(--gomf-border) !important;
+}
+.gom-admin .gom-admin-topbar h1,
+.gom-admin .gom-panel-heading h2,
+.gom-admin .gom-volops h2,
+.gom-admin .gom-volops h3,
+.gom-admin .gom-volops h4,
+.gom-admin .gom-empty strong {
+  color: var(--gomf-deep);
+}
+.gom-admin .gom-volops .text-secondary,
+.gom-admin .gom-volops small,
+.gom-admin .gom-volops p {
+  color: var(--gomf-text-muted);
+}
+.gom-admin .gom-table,
+.gom-admin .gom-table td,
+.gom-admin .gom-table th,
+.gom-admin .table,
+.gom-admin .table td,
+.gom-admin .table th {
+  color: var(--gomf-text);
+  border-color: var(--gomf-border);
+}
+.gom-admin .gom-table thead th,
+.gom-admin .table thead th {
+  color: var(--gomf-text-muted);
+  background: var(--gomf-surface-soft);
+}
+.gom-admin .form-control,
+.gom-admin .form-select,
+.gom-admin textarea {
+  color: var(--gomf-text);
+  background-color: var(--gomf-surface);
+  border-color: var(--gomf-border);
+}
+.gom-admin .form-control::placeholder,
+.gom-admin textarea::placeholder {
+  color: var(--gomf-text-muted);
+}
+.gom-admin .gom-modal .form-label,
+.gom-admin .gom-modal label {
+  color: var(--gomf-text);
+}
+.gom-admin .gom-modal-backdrop {
+  background: rgba(0, 0, 0, .68);
+}
+.gom-admin .gom-modal-content {
+  color: var(--gomf-text);
+  background: var(--gomf-surface);
+}
+.gom-admin .gom-volops .bg-body {
+  color: var(--gomf-text);
+  background: var(--gomf-surface-soft) !important;
+}
+.gom-admin .gom-volops .badge.text-bg-light {
+  color: var(--gomf-text) !important;
+  background: var(--gomf-surface-soft) !important;
+  border-color: var(--gomf-border) !important;
+}
+.gom-admin .gom-volops .text-secondary {
+  color: var(--gomf-text-muted) !important;
+}
+
+/* Ensure Bootstrap shadow utilities use the actual theme shadow tokens. */
+.shadow,
+.shadow-sm { box-shadow: var(--gomf-shadow-sm) !important; }
+.shadow-lg { box-shadow: var(--gomf-shadow-lg) !important; }
