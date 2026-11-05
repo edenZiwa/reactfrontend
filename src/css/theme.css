@@ -665,3 +665,19 @@ html[data-bs-theme="dark"] .bg-success h4,
 html[data-bs-theme="dark"] .bg-success li {
   color: #fff !important;
 }
+
+
+/* Explicit contrast utilities for content placed on branded dark/photo surfaces.
+   Unlike Bootstrap text-white, these are only used where the background is dark. */
+.theme-on-dark {
+  color: #fff !important;
+}
+.theme-on-dark-muted {
+  color: rgba(255, 255, 255, .78) !important;
+}
+.theme-on-dark a:not(.btn) {
+  color: #fff;
+}
+.theme-on-dark a:not(.btn):hover {
+  color: var(--gomf-gold);
+}
