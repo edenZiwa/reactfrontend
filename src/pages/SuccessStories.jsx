@@ -1,4 +1,5 @@
 import React from "react";
+import ContentStatus from "../components/ContentStatus.jsx";
 
 const impactStats = [{
     number: "01",
@@ -98,6 +99,7 @@ const storySteps = [{
 const SuccessStories = () => {
     return (
         <main className="success-stories-page">
+    <ContentStatus tone="info">The following are illustrative themes, not verified beneficiary testimonials or completed project reports. Real stories will be published only after factual review, informed consent and safeguarding approval.</ContentStatus>
 
             {/* HERO SECTION */}
             <section className="mercy-hero">
