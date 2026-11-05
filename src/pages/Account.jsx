@@ -719,6 +719,7 @@ tabIndex={0}
                 </button>
                 <span className="small-muted" role="status" aria-live="polite">
                     {profileMessage.text && <span className={`text-${profileMessage.tone}`}>{profileMessage.text}</span>}
+                </span>
             </div>
         </div>
     </form>
