@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import "../../css/donors.css";
+import { API_ORIGIN } from "../../services/api-config.js";
 
-const API_ORIGIN = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/$/, "");
 const API = path => API_ORIGIN + path;
 
 async function csrfToken() {
