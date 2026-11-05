@@ -41,6 +41,8 @@ import Privacy from "./pages/Privacy.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import Sponsor from "./pages/Sponsor.jsx";
 import Account from "./pages/Account.jsx";
+import AccountAccess from "./pages/AccountAccess.jsx";
+import PasswordRecovery from "./pages/PasswordRecovery.jsx";
 
 import SuccessStories from "./pages/SuccessStories.jsx";
 import Cofounder from "./pages/Cofounder.jsx";
@@ -121,6 +123,18 @@ function App() {
 
     case "/account":
       page = <Account navigate={navigate} />;
+      break;
+
+    case "/login":
+      page = <AccountAccess navigate={navigate} />;
+      break;
+
+    case "/forgot-password":
+      page = <PasswordRecovery navigate={navigate} mode="forgot" />;
+      break;
+
+    case "/reset-password":
+      page = <PasswordRecovery navigate={navigate} mode="reset" />;
       break;
 
     case "/privacy":

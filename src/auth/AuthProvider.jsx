@@ -6,7 +6,7 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import { API_BASE, API_ORIGIN } from "../services/api-config.js";
+import { API_ORIGIN } from "../services/api-config.js";
 import {
   completeGoogleRedirect,
   signInWithGoogle,
@@ -15,24 +15,32 @@ import {
 
 const AuthContext = createContext(null);
 async function readBackendSession() {
-  const response = await fetch(`${API_BASE}/account/overview`, {
-    credentials: "include",
-    cache: "no-store",
-    headers: { Accept: "application/json" },
-  });
+  let response;
+  try {
+    response = await fetch(`${API_ORIGIN}/auth/me`, {
+      credentials: "include",
+      cache: "no-store",
+      headers: { Accept: "application/json" },
+    });
+  } catch {
+    throw new Error("We could not verify your sign-in session. Check your connection and try again.");
+  }
+
   const data = await response.json().catch(() => ({}));
   if (response.status === 401) return null;
   if (!response.ok) {
     throw new Error(data.message || data.error || "Could not check your account session.");
   }
-  return data.user || (data.email || data.fullName || data.firstName
-    ? {
-        email: data.email,
-        fullName: data.fullName,
-        firstName: data.firstName,
-        lastName: data.lastName,
-      }
-    : null);
+
+  const user = data.user || null;
+  if (!user?.id) {
+    throw new Error("The session service returned an incomplete account. Please sign in again.");
+  }
+
+  return {
+    ...user,
+    roles: Array.isArray(user.roles) ? user.roles : Array.isArray(data.roles) ? data.roles : [],
+  };
 }
 
 export function AuthProvider({ children }) {

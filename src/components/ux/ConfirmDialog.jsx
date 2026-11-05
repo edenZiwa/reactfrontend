@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useId, useRef } from "react";
 
 export default function ConfirmDialog({
   open = false,
@@ -12,8 +12,9 @@ export default function ConfirmDialog({
   onCancel,
 }) {
   const dialogRef = useRef(null);
-  const titleId = "gom-confirm-dialog-title";
-  const messageId = "gom-confirm-dialog-message";
+  const generatedId = useId();
+  const titleId = `gom-confirm-dialog-title-${generatedId}`;
+  const messageId = `gom-confirm-dialog-message-${generatedId}`;
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -49,7 +50,7 @@ export default function ConfirmDialog({
           <button
             type="button"
             className="btn btn-outline-secondary"
-            onClick={onCancel}
+            onClick={handleCancel}
             disabled={busy}
           >
             {cancelLabel}
