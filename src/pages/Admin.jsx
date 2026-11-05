@@ -68,19 +68,27 @@ const numberFormat = amount => amount == null ? "—" : new Intl.NumberFormat("e
 const titleCase = (value) => String(value || "—").replaceAll("_", " ").replace(/\b\w/g, c => c.toUpperCase());
 
 async function getCsrf() {
-  const response = await fetch(API("/auth/csrf"), { credentials: "include", cache: "no-store" });
+  let response;
+  try { response = await fetch(API("/auth/csrf"), { credentials: "include", cache: "no-store" }); }
+  catch { throw new Error("We could not reach the secure staff session service. Check your connection and try again."); }
   const data = await response.json().catch(() => ({}));
-  if (!response.ok || !data.csrfToken) throw new Error(data.error || "Could not start a secure session.");
+  if (!response.ok || !data.csrfToken) throw new Error(data.error || "Your staff session has expired. Please sign in again.");
   return data.csrfToken;
 }
 async function api(path, options = {}) {
   const method = (options.method || "GET").toUpperCase();
   const headers = { Accept: "application/json", ...(options.body ? { "Content-Type": "application/json" } : {}), ...(options.headers || {}) };
   if (!["GET", "HEAD", "OPTIONS"].includes(method)) headers["X-CSRF-Token"] = await getCsrf();
-  const response = await fetch(API(path), { ...options, method, headers, credentials: "include", cache: "no-store" });
+  let response;
+  try { response = await fetch(API(path), { ...options, method, headers, credentials: "include", cache: "no-store" }); }
+  catch { throw new Error("We could not reach the administration service. Check your connection and try again."); }
   const type = response.headers.get("content-type") || "";
-  const data = type.includes("application/json") ? await response.json().catch(() => ({})) : {};
-  if (!response.ok) throw new Error(data.error || data.message || `Request failed (${response.status}).`);
+  const data = type.toLowerCase().includes("application/json") ? await response.json().catch(() => ({})) : {};
+  if (!response.ok) {
+    const messages = { 400: "Some information is missing or invalid. Review the form and try again.", 401: "Your staff session has expired. Please sign in again.", 403: "Your staff account does not have permission to complete this action.", 404: "The requested record could not be found. Refresh and try again.", 409: "This record has changed. Refresh and review the latest information before retrying.", 422: "Please review the information entered and correct any invalid fields.", 429: "Too many requests. Please wait a moment and try again." };
+    throw new Error(data.error || data.message || messages[response.status] || (response.status >= 500 ? "The administration service is temporarily unavailable. Please try again shortly." : "The request could not be completed. Please try again."));
+  }
+  if (response.status !== 204 && !type.toLowerCase().includes("application/json")) throw new Error("The administration service returned an unexpected response. Please try again later.");
   return data;
 }
 
@@ -100,9 +108,12 @@ function Login({ onLogin }) {
     event.preventDefault(); setBusy(true); setError("");
     try {
       const csrf = await getCsrf();
-      const response = await fetch(API("/auth/login"), { method: "POST", credentials: "include", headers: { "Content-Type": "application/json", Accept: "application/json", "X-CSRF-Token": csrf }, body: JSON.stringify({ email: form.email, password: form.password, ...(form.mfaCode ? { mfaCode: form.mfaCode } : {}), ...(form.recoveryCode ? { recoveryCode: form.recoveryCode } : {}) }) });
+      let response;
+      try {
+        response = await fetch(API("/auth/login"), { method: "POST", credentials: "include", headers: { "Content-Type": "application/json", Accept: "application/json", "X-CSRF-Token": csrf }, body: JSON.stringify({ email: form.email, password: form.password, ...(form.mfaCode ? { mfaCode: form.mfaCode } : {}), ...(form.recoveryCode ? { recoveryCode: form.recoveryCode } : {}) }) });
+      } catch { throw new Error("We could not reach the staff sign-in service. Check your internet connection and try again."); }
       const data = await response.json().catch(() => ({}));
-      if (!response.ok) throw new Error(data.error || data.message || "Sign-in failed.");
+      if (!response.ok) throw new Error(data.error || data.message || (response.status === 401 ? "The email, password or verification code is incorrect." : response.status === 429 ? "Too many sign-in attempts. Please wait before trying again." : response.status >= 500 ? "Staff sign-in is temporarily unavailable. Please try again shortly." : "Sign-in could not be completed. Please check your details and try again."));
       await onLogin();
     } catch (e) { setError(e.message); } finally { setBusy(false); }
   }
@@ -318,7 +329,7 @@ export default function Admin({ path = "/admin", navigate }) {
       if (reportDates.from) query.set("from", reportDates.from);
       if (reportDates.to) query.set("to", reportDates.to);
       const response = await fetch(API(`/admin/api/reports/donations.csv?${query}`), { credentials: "include", cache: "no-store" });
-      if (!response.ok) { const d = await response.json().catch(() => ({})); throw new Error(d.error || "Could not export report."); }
+      if (!response.ok) { const d = await response.json().catch(() => ({})); throw new Error(d.error || (response.status === 401 ? "Your staff session has expired. Please sign in again." : response.status >= 500 ? "The report service is temporarily unavailable. Please try again shortly." : "Could not export the report. Please try again.")); }
       const blob = await response.blob(); const url = URL.createObjectURL(blob);
       const anchor = document.createElement("a"); anchor.href = url; anchor.download = "garden-of-mercy-donations.csv"; anchor.click(); URL.revokeObjectURL(url);
     } catch (e) { setPageError(e.message); }
