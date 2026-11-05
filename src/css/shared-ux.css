@@ -2,7 +2,7 @@
 .gom-toast-viewport {
   position: fixed;
   z-index: 2000;
-  inset: auto 1rem 1rem auto;
+  inset: auto 1rem 5.25rem auto;
   display: grid;
   gap: .65rem;
   width: min(26rem, calc(100vw - 2rem));
@@ -136,7 +136,7 @@ html[data-bs-theme="dark"] .gom-inline-feedback--info { color: #b9def5; backgrou
 }
 
 @media (max-width: 575.98px) {
-  .gom-toast-viewport { inset: auto .75rem .75rem; width: auto; }
+  .gom-toast-viewport { inset: auto .75rem 5rem; width: auto; }
   .gom-toast { padding: .8rem .85rem; }
   .gom-confirm-dialog-actions { flex-direction: column-reverse; }
   .gom-confirm-dialog-actions .btn { width: 100%; }
