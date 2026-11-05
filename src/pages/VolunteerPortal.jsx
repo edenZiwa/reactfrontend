@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { API_BASE, API_ORIGIN } from "../services/api-config.js";
+import { useAuth } from "../auth/AuthProvider.jsx";
 const date=v=>v?new Date(v).toLocaleDateString():"—";
 async function request(path, options = {}) {
   const method = (options.method || "GET").toUpperCase();
@@ -37,14 +38,27 @@ async function request(path, options = {}) {
   return data;
 }
 export default function VolunteerPortal(){
+ const { refreshSession } = useAuth();
  const [data,setData]=useState(null),[error,setError]=useState(""),[busy,setBusy]=useState(false),[notice,setNotice]=useState("");
  const [contact,setContact]=useState({contactName:"",relationship:"",phone:""}),[message,setMessage]=useState("");
- const load=useCallback(async()=>{try{setError("");const result=await request("/account/volunteer-operations");setData(result);if(result.emergencyContact)setContact({contactName:result.emergencyContact.contact_name||"",relationship:result.emergencyContact.relationship||"",phone:result.emergencyContact.phone||""});}catch(e){setError(e.message);}},[]);
+ const load=useCallback(async()=>{
+ try {
+  setError("");
+  const result=await request("/account/volunteer-operations");
+  setData(result);
+  if(result.emergencyContact)setContact({contactName:result.emergencyContact.contact_name||"",relationship:result.emergencyContact.relationship||"",phone:result.emergencyContact.phone||""});
+ } catch(e) {
+  setError(e.message);
+  if(/session has expired|sign in again/i.test(e.message)){
+   try { await refreshSession(); } catch { /* Keep the page-level recovery message visible. */ }
+  }
+ }
+},[refreshSession]);
  useEffect(()=>{load();},[load]);
- async function taskStatus(id,status){setBusy(true);setError("");setNotice("");try{await request("/account/volunteer-operations/tasks/"+id,{method:"PATCH",body:JSON.stringify({status})});setNotice("Task status updated.");await load();}catch(e){setError(e.message);}finally{setBusy(false);}}
- async function saveContact(e){e.preventDefault();setBusy(true);setError("");setMessage("");try{await request("/account/volunteer-operations/emergency-contact",{method:"PUT",body:JSON.stringify(contact)});setMessage("Your emergency contact has been saved.");}catch(e){setError(e.message);}finally{setBusy(false);}}
- if(!data&&!error)return <section className="panel p-4">Loading your volunteer service…</section>;
- return <section className="panel p-3 p-md-4 mb-4"><div className="d-flex justify-content-between align-items-center gap-2"><div><h2 className="panel-title mb-1">My volunteer service</h2><p className="small-muted">Your assignments, tasks, verified service hours and recognition.</p></div><button className="btn btn-outline-success btn-sm" onClick={load}>Refresh</button></div>
+ async function taskStatus(id,status){if(busy)return;setBusy(true);setError("");setNotice("");try{await request("/account/volunteer-operations/tasks/"+encodeURIComponent(id),{method:"PATCH",body:JSON.stringify({status})});setNotice("Task status updated.");await load();}catch(e){setError(e.message);if(/session has expired|sign in again/i.test(e.message)){try{await refreshSession();}catch{}}}finally{setBusy(false);}}
+ async function saveContact(e){e.preventDefault();if(busy)return;setBusy(true);setError("");setMessage("");try{await request("/account/volunteer-operations/emergency-contact",{method:"PUT",body:JSON.stringify(contact)});setMessage("Your emergency contact has been saved.");}catch(e){setError(e.message);if(/session has expired|sign in again/i.test(e.message)){try{await refreshSession();}catch{}}}finally{setBusy(false);}}
+ if(!data&&!error)return <section className="panel p-4" role="status"><span className="spinner-border spinner-border-sm text-success me-2" aria-hidden="true"/>Loading your volunteer service…</section>;
+ return <section className="panel p-3 p-md-4 mb-4"><div className="d-flex justify-content-between align-items-center gap-2"><div><h2 className="panel-title mb-1">My volunteer service</h2><p className="small-muted">Your assignments, tasks, verified service hours and recognition.</p></div><button className="btn btn-outline-success btn-sm" onClick={load} disabled={busy}>Refresh</button></div>
  {error&&<div className="alert alert-danger" role="alert">{error}</div>}{notice&&<div className="alert alert-success" role="status">{notice}</div>}
  {!data?.profile?<div className="alert alert-info">Complete your volunteer profile to begin the volunteer review and onboarding process.</div>:<>
  <div className="row g-3 mb-3"><div className="col-6 col-md-3"><div className="border rounded-3 p-3 h-100"><small className="text-secondary">Profile review</small><strong className="d-block">{data.profile.verification_status}</strong></div></div><div className="col-6 col-md-3"><div className="border rounded-3 p-3 h-100"><small className="text-secondary">Onboarding</small><strong className="d-block">{data.profile.onboarding_status?.replaceAll("_"," ")}</strong></div></div><div className="col-6 col-md-3"><div className="border rounded-3 p-3 h-100"><small className="text-secondary">Verified service hours</small><strong className="d-block">{Number(data.totalVerifiedHours||0).toFixed(1)}</strong></div></div><div className="col-6 col-md-3"><div className="border rounded-3 p-3 h-100"><small className="text-secondary">Assignments</small><strong className="d-block">{data.assignments?.length||0}</strong></div></div></div>
@@ -52,7 +66,7 @@ export default function VolunteerPortal(){
  <h3 className="h5 fw-bold mt-4">Attendance and service history</h3><div className="table-responsive"><table className="table table-sm align-middle"><thead><tr><th>Date</th><th>Hours</th><th>Status</th></tr></thead><tbody>{(data.attendance||[]).map((h,i)=><tr key={i}><td>{date(h.attendance_date)}</td><td>{h.hours}</td><td>{h.attendance_status}</td></tr>)}</tbody></table></div>
  <h3 className="h5 fw-bold mt-4">Supervisor feedback</h3>{!(data.reviews||[]).length?<p className="text-secondary">No feedback has been shared yet.</p>:data.reviews.map(r=><article className="border rounded-3 p-3 mb-2" key={r.assignment_id+r.created_at}><strong>{r.rating}/5</strong><p className="mb-1">{r.strengths}</p><p className="small text-secondary mb-0">{r.development_areas}</p></article>)}
  <h3 className="h5 fw-bold mt-4">Certificates</h3>{!(data.certificates||[]).length?<p className="text-secondary">Certificates will appear here when issued by the foundation.</p>:data.certificates.map(c=><div className="border rounded-3 p-3 mb-2" key={c.certificate_number}><strong>{c.title}</strong><span className="small d-block text-secondary">{c.certificate_number} · {c.hours_certified} hours · {date(c.issued_at)}</span></div>)}
- <form className="border rounded-3 p-3 mt-4" onSubmit={saveContact}><h3 className="h6 fw-bold">Emergency contact</h3><p className="small text-secondary">This information is private and accessible only to authorised foundation staff.</p><div className="row g-2"><div className="col-12 col-md-4"><input className="form-control" placeholder="Contact name" required value={contact.contactName} onChange={e=>setContact({...contact,contactName:e.target.value})}/></div><div className="col-6 col-md-4"><input className="form-control" placeholder="Relationship" value={contact.relationship} onChange={e=>setContact({...contact,relationship:e.target.value})}/></div><div className="col-6 col-md-4"><input className="form-control" placeholder="Phone number" required value={contact.phone} onChange={e=>setContact({...contact,phone:e.target.value})}/></div></div><button className="btn btn-success btn-sm mt-3" disabled={busy}>Save emergency contact</button>{message&&<div className="alert alert-success mt-3 mb-0" role="status">{message}</div>}</form>
+ <form className="border rounded-3 p-3 mt-4" onSubmit={saveContact}><h3 className="h6 fw-bold">Emergency contact</h3><p className="small text-secondary">This information is private and accessible only to authorised foundation staff.</p><div className="row g-2"><div className="col-12 col-md-4"><input className="form-control" placeholder="Contact name" required value={contact.contactName} onChange={e=>setContact({...contact,contactName:e.target.value})}/></div><div className="col-6 col-md-4"><input className="form-control" placeholder="Relationship" value={contact.relationship} onChange={e=>setContact({...contact,relationship:e.target.value})}/></div><div className="col-6 col-md-4"><input className="form-control" placeholder="Phone number" required value={contact.phone} onChange={e=>setContact({...contact,phone:e.target.value})}/></div></div><button className="btn btn-success btn-sm mt-3" disabled={busy}>{busy ? "Saving…" : "Save emergency contact"}</button>{message&&<div className="alert alert-success mt-3 mb-0" role="status">{message}</div>}</form>
  </>}
  </section>;
 }
