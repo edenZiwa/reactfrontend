@@ -6,6 +6,7 @@ import React, {
   useMemo,
   useState,
 } from "react";
+import { API_BASE, API_ORIGIN } from "../services/api-config.js";
 import {
   completeGoogleRedirect,
   signInWithGoogle,
@@ -13,10 +14,8 @@ import {
 } from "../services/firebase-auth.js";
 
 const AuthContext = createContext(null);
-const AUTH_BASE = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/$/, "").replace(/\/api$/i, "");
-
 async function readBackendSession() {
-  const response = await fetch(`${AUTH_BASE}/api/account/overview`, {
+  const response = await fetch(`${API_BASE}/account/overview`, {
     credentials: "include",
     cache: "no-store",
     headers: { Accept: "application/json" },
@@ -89,29 +88,46 @@ export function AuthProvider({ children }) {
 
   const logout = useCallback(async () => {
     setAuthError("");
-    const csrfResponse = await fetch(`${AUTH_BASE}/auth/csrf`, {
+    const clearLocalSession = async () => {
+      setUser(null);
+      setStatus("anonymous");
+      try { await signOutGoogle(); } catch { /* Backend session is already cleared or expired. */ }
+    };
+    let csrfResponse;
+    try {
+      csrfResponse = await fetch(`${API_ORIGIN}/auth/csrf`, {
       credentials: "include",
       cache: "no-store",
       headers: { Accept: "application/json" },
-    });
+      });
+    } catch {
+      throw new Error("We could not reach the secure sign-out service. Check your connection and try again.");
+    }
     const csrfData = await csrfResponse.json().catch(() => ({}));
     if (!csrfResponse.ok || !csrfData.csrfToken) {
+      if (csrfResponse.status === 401 || csrfResponse.status === 403) { await clearLocalSession(); return; }
       throw new Error(csrfData.error || csrfData.message || "Could not start a secure logout.");
     }
 
-    const response = await fetch(`${AUTH_BASE}/auth/logout`, {
+    let response;
+    try {
+      response = await fetch(`${API_ORIGIN}/auth/logout`, {
       method: "POST",
       credentials: "include",
       headers: {
         Accept: "application/json",
         "X-CSRF-Token": csrfData.csrfToken,
       },
-    });
+      });
+    } catch {
+      throw new Error("We could not reach the secure sign-out service. Check your connection and try again.");
+    }
     const data = await response.json().catch(() => ({}));
-    if (!response.ok) throw new Error(data.error || "Could not sign out. Please try again.");
-    await signOutGoogle();
-    setUser(null);
-    setStatus("anonymous");
+    if (!response.ok) {
+      if (response.status === 401 || response.status === 403) { await clearLocalSession(); return; }
+      throw new Error(data.error || data.message || "Could not sign out. Please try again.");
+    }
+    await clearLocalSession();
   }, []);
 
   const value = useMemo(() => ({
