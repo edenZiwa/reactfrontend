@@ -3,18 +3,24 @@ import React, { useCallback, useEffect, useState } from "react";
 const ROOT = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/$/, "");
 const API = path => ROOT + path;
 async function csrf() {
-  const r = await fetch(API("/auth/csrf"), { credentials: "include", cache: "no-store" });
+  let r; try { r = await fetch(API("/auth/csrf"), { credentials: "include", cache: "no-store" }); }
+  catch { throw new Error("Your staff session could not be reached. Check your connection and sign in again."); }
   const d = await r.json().catch(() => ({}));
-  if (!r.ok || !d.csrfToken) throw new Error(d.error || "Secure session unavailable.");
+  if (!r.ok || !d.csrfToken) throw new Error(d.error || "Your staff session has expired. Please sign in again.");
   return d.csrfToken;
 }
 async function call(path, options = {}) {
   const method = (options.method || "GET").toUpperCase();
   const headers = { Accept: "application/json", ...(options.body ? { "Content-Type": "application/json" } : {}) };
   if (!["GET", "HEAD", "OPTIONS"].includes(method)) headers["X-CSRF-Token"] = await csrf();
-  const r = await fetch(API(path), { ...options, method, headers, credentials: "include", cache: "no-store" });
-  const d = await r.json().catch(() => ({}));
-  if (!r.ok) throw new Error(d.error || "Request could not be completed.");
+  let r; try { r = await fetch(API(path), { ...options, method, headers, credentials: "include", cache: "no-store" }); }
+  catch { throw new Error("We could not reach the sponsorship service. Check your connection and try again."); }
+  const type = r.headers.get("content-type") || "", d = type.toLowerCase().includes("application/json") ? await r.json().catch(() => ({})) : {};
+  if (!r.ok) {
+    const messages = { 400: "Some sponsorship information is missing or invalid. Review the form and try again.", 401: "Your staff session has expired. Please sign in again.", 403: "You do not have permission to complete this sponsorship action.", 404: "The requested sponsorship record could not be found. Refresh and try again.", 409: "This sponsorship record has changed. Refresh before retrying.", 422: "Please review the information entered and correct invalid fields.", 429: "Too many requests. Please wait and try again." };
+    throw new Error(d.error || d.message || messages[r.status] || (r.status >= 500 ? "The sponsorship service is temporarily unavailable. Please try again shortly." : "The request could not be completed. Please try again."));
+  }
+  if (r.status !== 204 && !type.toLowerCase().includes("application/json")) throw new Error("The sponsorship service returned an unexpected response. Please try again later.");
   return d;
 }
 const date = v => v ? new Date(v).toLocaleDateString() : "—";
