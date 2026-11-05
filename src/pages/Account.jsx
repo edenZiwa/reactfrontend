@@ -7,6 +7,16 @@ import VolunteerPortal from "./VolunteerPortal.jsx";
 const API_BASE = (import.meta.env.VITE_API_BASE_URL || "/api").replace(/\/$/, "");
 const API_ORIGIN = API_BASE.replace(/\/api$/i, "");
 
+async function getAccountCsrfToken(currentToken = "") {
+    if (currentToken) return currentToken;
+    let response;
+    try { response = await fetch(`${API_ORIGIN}/auth/csrf`, { credentials: "include", cache: "no-store", headers: { Accept: "application/json" } }); }
+    catch { throw new Error("We could not reach the secure session service. Check your connection and try again."); }
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok || !data.csrfToken) throw new Error(data.message || data.error || "Your secure session could not be verified. Please sign in again.");
+    return data.csrfToken;
+}
+
 const SKILLS = [
     "Teaching",
     "Counselling",
@@ -219,17 +229,20 @@ function Account( {
 
     async function handleProfileSubmit(event) {
         event.preventDefault();
+        if (savingProfile) return;
         setSavingProfile(true);
         setProfileMessage({ text: "", tone: "success" });
 
         try {
+            const token = await getAccountCsrfToken(csrfToken);
+            if (!csrfToken) setCsrfToken(token);
             const response = await fetch(`${API_BASE}/account/volunteer-profile`,
                 {
                     method: "PUT",
                     credentials: "include",
                     headers: {
                         "Content-Type": "application/json",
-                        ...(csrfToken ? { "X-CSRF-Token": csrfToken } : {}),
+                        "X-CSRF-Token": token,
                     },
                     body: JSON.stringify({
                         ...volunteer,
@@ -267,12 +280,14 @@ function Account( {
         setApplicationMessage({ text: "", tone: "success" });
 
         try {
+            const token = await getAccountCsrfToken(csrfToken);
+            if (!csrfToken) setCsrfToken(token);
             const response = await fetch(`${API_BASE}/account/applications`, {
                 method: "POST",
                 credentials: "include",
                 headers: {
                     "Content-Type": "application/json",
-                    ...(csrfToken ? { "X-CSRF-Token": csrfToken } : {}),
+                    "X-CSRF-Token": token,
                 },
                 body: JSON.stringify(application),
             });
@@ -318,10 +333,11 @@ function Account( {
         setError("");
 
         try {
+            const token = await getAccountCsrfToken(csrfToken);
             const response = await fetch(`${API_ORIGIN}/auth/logout`, {
                 method: "POST",
                 credentials: "include",
-                headers: csrfToken ? { "X-CSRF-Token": csrfToken } : {},
+                headers: { "X-CSRF-Token": token },
             });
 
             if (!response.ok) {
