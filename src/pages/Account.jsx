@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { completeGoogleRedirect, signInWithGoogle, signOutGoogle } from "../services/firebase-auth.js";
+import { useAuth } from "../auth/AuthProvider.jsx";
+import AccountAuthPanel from "../components/AccountAuthPanel.jsx";
 import "../css/account.css";
 import SponsorPortal from "./SponsorPortal.jsx";
 import VolunteerPortal from "./VolunteerPortal.jsx";
@@ -60,6 +61,7 @@ const TABS = [{
 function Account( {
     navigate
 }) {
+    const { login, logout } = useAuth();
     const [loading,
         setLoading] = useState(true);
     const [retryKey, setRetryKey] = useState(0);
@@ -112,14 +114,6 @@ function Account( {
 
         async function loadAccount() {
             try {
-                // If Google returned from a mobile redirect, exchange the Firebase ID
-                // token for the backend's existing secure session before loading data.
-                try {
-                    await completeGoogleRedirect();
-                } catch (redirectError) {
-                    if (!cancelled) setError(redirectError.message || "Google sign-in could not be completed.");
-                }
-
                 let response;
                 try {
                     response = await fetch(`${API_BASE}/account/overview`, {
@@ -199,9 +193,10 @@ function Account( {
         setSigningIn(true);
         setError("");
         try {
-            const result = await signInWithGoogle();
-            // A null result means the browser is completing a redirect.
-            if (result) window.location.reload();
+            await login();
+            setNeedsSignIn(false);
+            setLoading(true);
+            setRetryKey((value) => value + 1);
         } catch (err) {
             setError(err.message || "Google sign-in failed. Please try again.");
         } finally {
@@ -332,18 +327,7 @@ function Account( {
         setError("");
 
         try {
-            const token = await getAccountCsrfToken(csrfToken);
-            const response = await fetch(`${API_ORIGIN}/auth/logout`, {
-                method: "POST",
-                credentials: "include",
-                headers: { "X-CSRF-Token": token },
-            });
-
-            if (!response.ok && response.status !== 401) {
-                const result = await response.json().catch(() => ({}));
-                throw new Error(result.message || result.error || "We could not sign you out. Please try again.");
-            }
-            await signOutGoogle();
+            await logout();
 
             if (navigate) {
                 navigate("/");
@@ -511,14 +495,12 @@ function Account( {
                                 </div>
                             </div>
 
-                            <form onSubmit={handleLogout} className="mt-4 pt-3 border-top">
-                                <button className="btn btn-outline-mercy" type="submit" disabled={signingOut}>
-                                    {signingOut ? "Signing out…" : "↪ Sign out securely"}
-                                </button>
+                            <div className="mt-4 pt-3 border-top">
+                                <AccountAuthPanel />
                                 <p className="small-muted mt-2 mb-0">
-                                    Remember to sign out on shared devices.
+                                    Remember to sign out when using a shared device.
                                 </p>
-                            </form>
+                            </div>
                         </div>
                     </section>
                 </div>
