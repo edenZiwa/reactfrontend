@@ -70,13 +70,6 @@ function Founder({ navigate }) {
                       event.currentTarget.src = "/images/founder/apostle_derrick_musinguzi.png";
                     }}
                   />
-
-                  <div className="portrait-placeholder" hidden>
-                    <i
-                      className="bi bi-person-bounding-box"
-                      aria-hidden="true"
-                    />
-                  </div>
                 </div>
 
                 <div className="hero-portrait-label" aria-label="Founder portrait identification">
@@ -131,14 +124,6 @@ function Founder({ navigate }) {
                       event.currentTarget.src = "/images/founder/derrick-musinguzi.png";
                     }}
                   />
-
-                  <div className="profile-placeholder" hidden>
-                    <i
-                      className="bi bi-person-circle"
-                      aria-hidden="true"
-                    />
-                    <span>Founder portrait placeholder</span>
-                  </div>
                 </div>
 
                 <div className="profile-stamp">
