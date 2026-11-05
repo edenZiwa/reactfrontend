@@ -283,6 +283,10 @@ function ChildProfiles() {
               <div className="sponsor-empty-state">
                 <span className="sponsor-empty-icon"><i className="bi bi-cloud-exclamation" aria-hidden="true" /></span>
                 <h3>We could not load the profiles</h3>
+                <p>{loadError || "Please check your connection and try again."}</p>
+                <button type="button" className="btn btn-outline-success" onClick={() => loadProfiles()}>
+                  <i className="bi bi-arrow-clockwise me-2" aria-hidden="true" />Try again
+                </button>
                 <p>Please try again, or contact our team for help exploring sponsorship opportunities.</p>
                 <div className="d-flex justify-content-center flex-wrap gap-2">
                   <button type="button" className="btn sponsor-button sponsor-button-green" onClick={loadProfiles}>
