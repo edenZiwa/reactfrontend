@@ -1,7 +1,5 @@
 :root {
-  color-scheme: light;
-  
-  --founder-green-950: #102f26;
+--founder-green-950: #102f26;
     --founder-green-900: #123c2f;
     --founder-green-800: #1b513e;
     --founder-green-700: #236b4b;
@@ -1406,4 +1404,204 @@ a:focus-visible, button:focus-visible {
   .leadership-page .ministry-card:hover,
   .leadership-page .source-link-card:hover { transform: none; }
   .leadership-page .gallery-placeholder:hover img { transform: none; }
+}
+
+
+/* ==========================================================================
+   Founder page — responsive theme surfaces and readable contrast
+   Scoped to this page so other routes retain their own design systems.
+   ========================================================================== */
+.leadership-page {
+  color: var(--bs-body-color);
+  background: var(--bs-body-bg);
+}
+
+.leadership-page > #founder-profile,
+.leadership-page > #ministry,
+.leadership-page > .gallery-preview {
+  background: var(--bs-body-bg);
+}
+
+.leadership-page > #values,
+.leadership-page > #founder-message {
+  background: var(--bs-tertiary-bg);
+}
+
+.leadership-page .section-title,
+.leadership-page .value-card h3,
+.leadership-page .ministry-card h3,
+.leadership-page .message-heading,
+.leadership-page .message-intro,
+.leadership-page .message-panel p,
+.leadership-page .message-signoff,
+.leadership-page .profile-principle strong {
+  color: var(--bs-emphasis-color);
+}
+
+.leadership-page .section-lead,
+.leadership-page .body-copy,
+.leadership-page .muted-note,
+.leadership-page .value-card p,
+.leadership-page .ministry-card p {
+  color: var(--bs-secondary-color);
+}
+
+.leadership-page .profile-principle {
+  color: var(--bs-body-color);
+  background: var(--bs-tertiary-bg);
+  border: 1px solid var(--bs-border-color);
+  border-left: 4px solid var(--founder-gold);
+  border-radius: 0 .75rem .75rem 0;
+  box-shadow: 0 .65rem 1.8rem rgba(18, 61, 43, .055);
+}
+
+.leadership-page .value-card,
+.leadership-page .ministry-card,
+.leadership-page .message-panel {
+  color: var(--bs-body-color);
+  background: var(--bs-body-bg);
+  border-color: var(--bs-border-color);
+  box-shadow: 0 .9rem 2.5rem rgba(18, 61, 43, .075);
+}
+
+.leadership-page .value-card:hover,
+.leadership-page .ministry-card:hover {
+  box-shadow: 0 1.25rem 2.8rem rgba(18, 61, 43, .13);
+}
+
+.leadership-page .value-icon,
+.leadership-page .ministry-icon {
+  color: var(--founder-green-700);
+  background: #eaf1e9;
+}
+
+.leadership-page .value-number,
+.leadership-page .card-index {
+  color: var(--bs-secondary-color);
+}
+
+.leadership-page .text-link {
+  color: var(--bs-link-color);
+}
+
+.leadership-page .text-link:hover {
+  color: var(--bs-link-hover-color);
+}
+
+.leadership-page .scripture-panel {
+  color: var(--bs-body-color);
+  background: var(--bs-body-bg);
+  border-color: var(--bs-border-color);
+  box-shadow: 0 1.5rem 3.5rem rgba(0, 0, 0, .13);
+}
+
+.leadership-page .scripture-panel blockquote {
+  color: var(--bs-emphasis-color);
+}
+
+.leadership-page .scripture-note {
+  color: var(--bs-secondary-color) !important;
+}
+
+.leadership-page .message-signoff .text-dark,
+.leadership-page .message-panel .text-dark {
+  color: var(--bs-emphasis-color) !important;
+}
+
+.leadership-page .gallery-placeholder {
+  box-shadow: 0 .8rem 2rem rgba(18, 61, 43, .12);
+}
+
+.leadership-page .gallery-placeholder:focus-visible {
+  outline: 3px solid var(--founder-gold);
+  outline-offset: 4px;
+}
+
+.leadership-page .cta-panel {
+  box-shadow: 0 1.5rem 3.5rem rgba(16, 41, 29, .2);
+}
+
+[data-bs-theme="dark"] .leadership-page {
+  --leadership-ink: #edf4ef;
+  --leadership-muted: #bdc9c1;
+  --leadership-green: #8bc5a0;
+  --leadership-deep: #0d1c15;
+}
+
+[data-bs-theme="dark"] .leadership-page > #founder-profile,
+[data-bs-theme="dark"] .leadership-page > #ministry,
+[data-bs-theme="dark"] .leadership-page > .gallery-preview {
+  background: var(--bs-body-bg);
+}
+
+[data-bs-theme="dark"] .leadership-page > #values,
+[data-bs-theme="dark"] .leadership-page > #founder-message {
+  background: var(--bs-tertiary-bg);
+}
+
+[data-bs-theme="dark"] .leadership-page .value-card,
+[data-bs-theme="dark"] .leadership-page .ministry-card,
+[data-bs-theme="dark"] .leadership-page .message-panel,
+[data-bs-theme="dark"] .leadership-page .scripture-panel {
+  background: var(--bs-secondary-bg);
+  border-color: var(--bs-border-color);
+  box-shadow: 0 1rem 2.8rem rgba(0, 0, 0, .24);
+}
+
+[data-bs-theme="dark"] .leadership-page .section-title,
+[data-bs-theme="dark"] .leadership-page .value-card h3,
+[data-bs-theme="dark"] .leadership-page .ministry-card h3,
+[data-bs-theme="dark"] .leadership-page .message-heading,
+[data-bs-theme="dark"] .leadership-page .message-intro,
+[data-bs-theme="dark"] .leadership-page .message-panel p,
+[data-bs-theme="dark"] .leadership-page .message-signoff,
+[data-bs-theme="dark"] .leadership-page .profile-principle,
+[data-bs-theme="dark"] .leadership-page .profile-principle strong,
+[data-bs-theme="dark"] .leadership-page .scripture-panel blockquote {
+  color: var(--bs-emphasis-color);
+}
+
+[data-bs-theme="dark"] .leadership-page .section-lead,
+[data-bs-theme="dark"] .leadership-page .body-copy,
+[data-bs-theme="dark"] .leadership-page .muted-note,
+[data-bs-theme="dark"] .leadership-page .value-card p,
+[data-bs-theme="dark"] .leadership-page .ministry-card p,
+[data-bs-theme="dark"] .leadership-page .scripture-note {
+  color: var(--bs-secondary-color) !important;
+}
+
+[data-bs-theme="dark"] .leadership-page .profile-principle {
+  background: var(--bs-secondary-bg);
+  border-color: var(--bs-border-color);
+  border-left-color: var(--founder-gold);
+}
+
+[data-bs-theme="dark"] .leadership-page .value-icon,
+[data-bs-theme="dark"] .leadership-page .ministry-icon {
+  color: #a6d8b7;
+  background: rgba(91, 157, 112, .17);
+}
+
+[data-bs-theme="dark"] .leadership-page .value-number,
+[data-bs-theme="dark"] .leadership-page .card-index {
+  color: #aebdb3;
+}
+
+[data-bs-theme="dark"] .leadership-page .text-link {
+  color: #a6d8b7;
+}
+
+[data-bs-theme="dark"] .leadership-page .text-link:hover {
+  color: #d4f0dc;
+}
+
+[data-bs-theme="dark"] .leadership-page .profile-image-shell {
+  border-color: rgba(255,255,255,.14);
+  box-shadow: 1rem 1rem 0 rgba(255,255,255,.055);
+}
+
+@media (max-width: 575.98px) {
+  .leadership-page .founder-hero > .container {
+    padding-inline: 1.25rem;
+  }
 }
