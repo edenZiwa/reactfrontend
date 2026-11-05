@@ -52,8 +52,16 @@ function Donate() {
 
   const [status, setStatus] = useState({ type: "", message: "" });
   const [busy, setBusy] = useState(false);
+  const [invalidField, setInvalidField] = useState("");
   const submissionLock = useRef(false);
   const formRef = useRef(null);
+
+  const focusInvalidField = (fieldName) => {
+    setInvalidField(fieldName);
+    requestAnimationFrame(() => {
+      formRef.current?.querySelector(`[name="${fieldName}"]`)?.focus();
+    });
+  };
 
   useEffect(() => {
     if (window.location.hash === "#donation-form") {
@@ -83,6 +91,7 @@ function Donate() {
     }));
 
     setStatus({ type: "", message: "" });
+    setInvalidField("");
   };
 
   const changeCurrency = (event) => {
@@ -95,6 +104,7 @@ function Donate() {
     }));
 
     setStatus({ type: "", message: "" });
+    setInvalidField("");
   };
 
   const chooseAmount = (amount) => {
@@ -104,6 +114,7 @@ function Donate() {
     }));
 
     setStatus({ type: "", message: "" });
+    setInvalidField("");
   };
 
   async function submit(event) {
@@ -124,6 +135,14 @@ function Donate() {
         type: "error",
         message: validationError,
       });
+      const fieldName = validationError.includes("amount")
+        ? "amount"
+        : validationError.includes("full name")
+          ? "firstName"
+          : validationError.includes("email")
+            ? "email"
+            : "email";
+      focusInvalidField(fieldName);
       return;
     }
 
@@ -132,8 +151,11 @@ function Donate() {
         type: "error",
         message: "Please provide an email address or phone number.",
       });
+      focusInvalidField("email");
       return;
     }
+
+    setInvalidField("");
 
     submissionLock.current = true;
     setBusy(true);
@@ -353,6 +375,7 @@ function Donate() {
                         placeholder="Enter amount"
                         value={form.amount}
                         onChange={update}
+                        aria-invalid={invalidField === "amount"}
                         required
                         aria-describedby="amount-help"
                       />
@@ -461,6 +484,7 @@ function Donate() {
                         maxLength={80}
                         value={form.firstName}
                         onChange={update}
+                        aria-invalid={invalidField === "firstName"}
                         required
                       />
                     </div>
@@ -496,6 +520,7 @@ function Donate() {
                         maxLength={254}
                         value={form.email}
                         onChange={update}
+                        aria-invalid={invalidField === "email"}
                         required={!form.phone.trim()}
                         aria-describedby="donor-contact-help"
                         autoCapitalize="none"
@@ -516,6 +541,7 @@ function Donate() {
                         inputMode="tel"
                         value={form.phone}
                         onChange={update}
+                        aria-invalid={invalidField === "phone"}
                         required={!form.email.trim()}
                       />
                       <div className="form-text" id="donor-contact-help">
