@@ -453,24 +453,21 @@ export default function PowerOfRevelation() {
                 title="A ministry founded on the Gospel of Jesus Christ"
               />
               <p className="mt-4">
-                Power of Revelation Ministries is a Christian ministry in
-                Uganda, the home of Revelation Church Kampala. Its ministry
-                statement emphasizes reconciliation with God, intimacy with His
-                presence, and sharing the Good News through the demonstration of
-                God's love.
+                We are a Christian ministry based in Uganda, with
+                Revelation Church Kampala as our home church. Our calling is
+                centred on reconciliation with God, intimacy with His presence,
+                and sharing the Good News through the demonstration of His love.
               </p>
               <p>
-                The ministry's history is traced to the late 1990s, when,
-                according to the ministry background provided for this page,
-                Bishop Merita Nabaasa founded the ministry. Over time, the
-                ministry has developed a church presence of 13 congregations
-                across Uganda.
+                Bishop Merita Nabaasa founded our ministry in the late
+                1990s. Since then, our church family has grown to include
+                13 congregations serving communities across Uganda.
               </p>
               <p>
-                Through preaching, worship, prayer, discipleship, fellowship,
-                and digital teaching, the ministry seeks to help people grow in
-                their understanding of Scripture and their relationship with
-                God.
+                Through preaching, worship, prayer, discipleship,
+                fellowship, and digital teaching, we help people grow in
+                their understanding of Scripture and deepen their relationship
+                with God.
               </p>
               <div className="pr-inline-scripture mt-4">
                 <i className="bi bi-bookmark-heart" aria-hidden="true" />
@@ -781,9 +778,8 @@ export default function PowerOfRevelation() {
                     </span>
                     <h4 className="h5 fw-bold mt-2">Sowing Seeds of Mercy</h4>
                     <p className="text-secondary mb-3">
-                      A message by Apostle Derrick Musinguzi on mercy,
-                      compassion, and demonstrating the love of Christ. The
-                      publication date is not listed here.
+                      Apostle Derrick Musinguzi shares a message on mercy,
+                      compassion, and putting the love of Christ into action.
                     </p>
                     <a
                       href={MINISTRY.youtubeSermon}
@@ -1138,9 +1134,18 @@ export default function PowerOfRevelation() {
                 </div>
               </div>
               <p className="text-secondary small mt-3">
-                Please contact the ministry to confirm service times,
-                directions, and arrangements before visiting.
+                We share service times and visiting updates through our
+                official channels. Connect with us on Facebook or YouTube
+                for the latest announcements before planning your visit.
               </p>
+              <div className="d-flex flex-wrap gap-3 mt-2">
+                <a href={MINISTRY.churchFacebook} target="_blank" rel="noopener noreferrer" className="small fw-semibold">
+                  Church updates on Facebook <i className="bi bi-arrow-up-right" aria-hidden="true" />
+                </a>
+                <a href="https://www.youtube.com/@RCKLIVEat10" target="_blank" rel="noopener noreferrer" className="small fw-semibold">
+                  Watch on YouTube <i className="bi bi-arrow-up-right" aria-hidden="true" />
+                </a>
+              </div>
               <a
                 href={MINISTRY.maps}
                 target="_blank"
