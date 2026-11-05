@@ -135,6 +135,10 @@ function Login({ onLogin, authError = "" }) {
         <input id="admin-recovery" className="form-control mb-4" autoComplete="off" value={form.recoveryCode} onChange={e => setForm({ ...form, recoveryCode: e.target.value.trim(), mfaCode: "" })} placeholder="One-time recovery code" />
         <button className="btn btn-success btn-lg w-100" disabled={busy}>{busy ? <><span className="spinner-border spinner-border-sm me-2" />Signing in…</> : "Sign in securely"}</button>
       </form>
+      <div className="d-flex justify-content-between flex-wrap gap-2 mt-3">
+        <a href="/forgot-password" className="small">Forgot your password?</a>
+        <a href="/account" className="small">Community member sign-in</a>
+      </div>
       <p className="small text-secondary mt-4 mb-0"><i className="bi bi-shield-lock me-1" /> Staff access is protected by role permissions and session security.</p>
     </section>
   </main>;
