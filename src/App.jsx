@@ -47,16 +47,15 @@ import Admin from "./pages/Admin.jsx";
 import ThemeProvider from "./components/ThemeProvider.jsx";
 import { AuthProvider } from "./auth/AuthProvider.jsx";
 import "./css/theme.css";
+import "./css/scroll-experience.css";
 
 function App() {
   const [path, navigate] = usePath();
 
-  // Return to the top when navigating between pages.
+  // Start each newly selected route at the top without forcing motion.
   useEffect(() => {
-    window.scrollTo({
-      top: 0,
-      behavior: "auto",
-    });
+    window.scrollTo({ top: 0, behavior: "auto" });
+    document.getElementById("main-content")?.focus({ preventScroll: true });
   }, [path]);
 
   if (path.startsWith("/admin")) {
