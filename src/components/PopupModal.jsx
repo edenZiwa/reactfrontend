@@ -16,7 +16,7 @@ export default function PopupModal({
 
     const dialog = dialogRef.current;
     const focusable = dialog?.querySelector(
-      'button:not([disabled]), a[href], input:not([disabled]), [tabindex="0"]'
+      'button:not([disabled]), a[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
     );
 
     focusable?.focus();
