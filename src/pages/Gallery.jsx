@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import "../css/gallary.css";
 import { AppLink } from "../components/SiteChrome.jsx";
+import ContentStatus from "../components/ContentStatus.jsx";
 
 const GALLERY_IMAGES = [
   {
@@ -294,7 +295,8 @@ function Gallery({navigate}) {
 
   return (
     <>
-      {/* HERO */}
+      <ContentStatus tone="info">Photographs and captions are being reviewed for source, date, activity accuracy and consent. Until that review is complete, gallery images are illustrative and should not be treated as evidence of a Foundation activity.</ContentStatus>
+            {/* HERO */}
       <section className="gallery-hero mt-4">
         <div className="gallery-hero-background" />
 
