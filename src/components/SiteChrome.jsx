@@ -421,7 +421,7 @@ function PageIntro({ eyebrow, title, text }) {
     <section className="page-intro">
       <Eyebrow>{eyebrow}</Eyebrow>
       <h1>{title}</h1>
-      <p className="text-white">{text}</p>
+      <p>{text}</p>
     </section>
   );
 }
