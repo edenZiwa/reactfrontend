@@ -845,7 +845,7 @@ function Home( {
                   <strong>Email</strong>
                   <p className="text-muted mb-0">
                     <a
-                      href="mailto:merc ygarden@gmail.com"
+                      href="mailto:mercygarden@gmail.com"
                       className="text-decoration-none text-muted"
                     >
                       mercygarden@gmail.com
