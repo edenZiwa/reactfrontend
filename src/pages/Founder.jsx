@@ -11,7 +11,7 @@ function Founder({ navigate }) {
         className="founder-hero founder-hero-founder"
         aria-labelledby="founder-hero-title"
       >
-        <div className="">
+        <div className="container">
           <div className="row align-items-center g-5">
             <div className="col-lg-7">
               <span className="eyebrow eyebrow-light">
