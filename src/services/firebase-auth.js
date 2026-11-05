@@ -12,7 +12,7 @@ import {
 } from "firebase/auth";
 
 const APP_NAME = "garden-of-mercy-web";
-const AUTH_BASE = (import.meta.env.VITE_API_BASE_URL || "").replace(/\\/$/, "").replace(/\\/api$/i, "");
+const AUTH_BASE = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/$/, "").replace(/\/api$/i, "");
 let authPromise;
 let csrfPromise;
 
