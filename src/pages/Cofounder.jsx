@@ -14,7 +14,7 @@ function Cofounder({ navigate }) {
       >
         <div className="container">
           <div className="row align-items-center g-5">
-            <div className="col-lg-7">
+            <div className="col-lg-7" data-scroll-reveal="left">
               <span className="eyebrow eyebrow-light">
                 <span className="eyebrow-dot" />
                 Co-Founder &amp; Servant Leader
