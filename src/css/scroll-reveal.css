@@ -92,6 +92,7 @@ html.has-scroll-reveal [data-scroll-reveal]:focus-within,
 html.has-scroll-reveal [data-scroll-image]:focus-within {
   opacity: 1;
   transform: none;
+  transition: none;
 }
 
 /* Avoid unnecessary compositing hints and expensive clipping on mobile. */
@@ -113,7 +114,7 @@ html.has-scroll-reveal [data-scroll-image] {
   transform: scale(1.035);
   transition:
     opacity 760ms cubic-bezier(.22, 1, .36, 1),
-    transform 900ms cubic-bezier(.22, 1, .36, 1),
+    transform 900ms cubic-bezier(.22, 1, .36, 1);
 }
 
 html.has-scroll-reveal [data-scroll-image].is-visible {
