@@ -4,7 +4,7 @@ import { AppLink } from "../components/SiteChrome.jsx";
 
 function Founder({ navigate }) {
   return (
-    <div id="main-content" className="leadership-page founder-pagee">
+    <div className="leadership-page founder-pagee">
       {/* HERO */}
       <section data-scroll-reveal="up"
         id="founder"
