@@ -159,7 +159,7 @@ function App() {
   return (
     <div className="app-shell">
       <SEO path={path} />
-      <ScrollReveal />
+      <ScrollReveal path={path} />
 
       <a className="skip-link" href="#main-content">
         Skip to content
