@@ -7,7 +7,7 @@ function Cofounder({ navigate }) {
   return (
     <main id="main-content" className="leadership-page cofounder-page">
       {/* HERO */}
-      <section
+      <section data-scroll-reveal="up"
         id="cofounder"
         className="founder-hero founder-hero-cofounder"
         aria-labelledby="cofounder-hero-title"
@@ -116,7 +116,7 @@ function Cofounder({ navigate }) {
       </section>
 
       {/* CO-FOUNDER PROFILE */}
-      <section
+      <section data-scroll-reveal="up"
         id="cofounder-profile"
         className="section-pad"
         aria-labelledby="profile-title"
@@ -202,7 +202,7 @@ function Cofounder({ navigate }) {
       </section>
 
       {/* LEADERSHIP VALUES */}
-      <section
+      <section data-scroll-reveal="up"
         id="leadership-values"
         className="section-pad values-section"
         aria-labelledby="values-title"
@@ -305,7 +305,7 @@ function Cofounder({ navigate }) {
       </section>
 
       {/* ROLE OF THE CO-FOUNDER */}
-      <section
+      <section data-scroll-reveal="up"
         id="leadership"
         className="section-pad"
         aria-labelledby="leadership-title"
@@ -413,7 +413,7 @@ function Cofounder({ navigate }) {
       </section>
 
       {/* FOUNDATION MISSION */}
-      <section
+      <section data-scroll-reveal="up"
         id="foundation-mission"
         className="mission-section section-pad"
         aria-labelledby="mission-title"
@@ -494,7 +494,7 @@ function Cofounder({ navigate }) {
       </section>
 
       {/* LEADERSHIP COMMITMENT */}
-      <section
+      <section data-scroll-reveal="up"
         id="cofounder-message"
         className="section-pad message-section"
         aria-labelledby="message-title"
@@ -564,7 +564,7 @@ function Cofounder({ navigate }) {
       </section>
 
       {/* COMMUNITY OUTREACH */}
-      <section
+      <section data-scroll-reveal="up"
         id="community-action"
         className="section-pad gallery-preview"
         aria-labelledby="gallery-title"
@@ -668,7 +668,7 @@ function Cofounder({ navigate }) {
       </section>
 
       {/* CALL TO ACTION */}
-      <section
+      <section data-scroll-reveal="up"
         className="section-pad cta-section"
         aria-labelledby="cta-title"
       >
