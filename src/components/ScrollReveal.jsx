@@ -3,8 +3,9 @@ import { useEffect } from "react";
 const REVEAL_SELECTOR = "[data-scroll-reveal], [data-scroll-image]";
 
 /**
- * Adds scroll-triggered entrances to explicitly opted-in content.
- * Rebinds to the active route and discovers content inserted after mount.
+ * Progressive scroll entrances for explicitly opted-in content.
+ * Content already in view is revealed before enhancement styles are enabled,
+ * preventing an initial blank frame. Keyboard focus always reveals its section.
  */
 export default function ScrollReveal({ path }) {
   useEffect(() => {
@@ -38,6 +39,14 @@ export default function ScrollReveal({ path }) {
         element.classList.add("is-visible");
         return;
       }
+
+      // Reveal above-the-fold content synchronously to avoid first-paint flicker.
+      const bounds = element.getBoundingClientRect();
+      if (bounds.top < window.innerHeight && bounds.bottom > 0) {
+        element.classList.add("is-visible");
+        return;
+      }
+
       observer.observe(element);
     };
 
@@ -47,8 +56,19 @@ export default function ScrollReveal({ path }) {
       node.querySelectorAll(REVEAL_SELECTOR).forEach(observeElement);
     };
 
-    root.classList.add("has-scroll-reveal");
     observeWithin(content);
+    root.classList.add("has-scroll-reveal");
+
+    // A keyboard user must never tab into visually concealed content.
+    const revealFocusedSection = (event) => {
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+      const revealTarget = target.closest(REVEAL_SELECTOR);
+      if (!revealTarget || !content.contains(revealTarget)) return;
+      revealTarget.classList.add("is-visible");
+      observer.unobserve(revealTarget);
+    };
+    content.addEventListener("focusin", revealFocusedSection);
 
     const mutations = new MutationObserver((records) => {
       records.forEach((record) => record.addedNodes.forEach(observeWithin));
@@ -69,6 +89,7 @@ export default function ScrollReveal({ path }) {
       active = false;
       mutations.disconnect();
       observer.disconnect();
+      content.removeEventListener("focusin", revealFocusedSection);
       motionPreference.removeEventListener?.("change", handleMotionChange);
       root.classList.remove("has-scroll-reveal");
     };
