@@ -19,7 +19,7 @@ function Home( {
 
                 <div className="container position-relative py-0">
                     <div className="row align-items-center min-vh-75 py-0">
-                        <div className="col-lg-8 col-xl-7">
+                        <div className="col-lg-8 col-xl-7" data-scroll-reveal="left">
                             <div className="d-inline-flex align-items-center gap-2 px-3 py-2 rounded-pill bg-success bg-opacity-90 theme-on-dark fw-semibold mb-2">
                                 <img
                                 className="logo"

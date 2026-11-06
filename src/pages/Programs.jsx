@@ -175,7 +175,7 @@ function Programs({ navigate }) {
         <div className="container programs-hero-inner">
           <div className="row align-items-center g-5">
             <div className="col-lg-7">
-              <div className="programs-hero-copy">
+              <div className="programs-hero-copy" data-scroll-reveal="left">
                 <span className="programs-hero-eyebrow">
                   <span className="programs-hero-eyebrow-dot" aria-hidden="true" />
                   OUR PROGRAMS · OUR COMMITMENT
@@ -207,7 +207,7 @@ function Programs({ navigate }) {
               </div>
             </div>
             <div className="col-lg-5">
-              <aside className="programs-hero-card" aria-label="Our commitment to responsible programs">
+              <aside className="programs-hero-card" data-scroll-reveal="right" aria-label="Our commitment to responsible programs">
                 <div className="programs-hero-card-heading">
                   <span className="programs-hero-card-icon" aria-hidden="true">
                     <i className="bi bi-heart-pulse" />

@@ -47,7 +47,7 @@ function About({ navigate }) {
         <div className="about-hero-inner container">
           <div className="row align-items-center g-5">
             <div className="col-lg-7">
-              <div className="about-hero-copy">
+              <div className="about-hero-copy" data-scroll-reveal="left">
                 <span className="about-hero-eyebrow">
                   <span className="about-hero-eyebrow-dot" aria-hidden="true" />
                   ABOUT GARDEN OF MERCY FOUNDATION
@@ -78,7 +78,7 @@ function About({ navigate }) {
               </div>
             </div>
             <div className="col-lg-5">
-              <aside className="about-hero-card" aria-label="Our founding belief">
+              <aside className="about-hero-card" data-scroll-reveal="right" aria-label="Our founding belief">
                 <span className="about-hero-card-mark" aria-hidden="true">
                   <i className="bi bi-flower1" />
                 </span>

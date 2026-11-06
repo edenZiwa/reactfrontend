@@ -13,7 +13,7 @@ function Founder({ navigate }) {
       >
         <div className="container">
           <div className="row align-items-center g-5">
-            <div className="col-lg-7">
+            <div className="col-lg-7" data-scroll-reveal="left">
               <span className="eyebrow eyebrow-light">
                 <span className="eyebrow-dot" />
                 Founder &amp; Visionary Leader
@@ -57,7 +57,7 @@ function Founder({ navigate }) {
             </div>
 
             <div className="col-lg-5">
-              <div className="founder-hero-visual">
+              <div className="founder-hero-visual" data-scroll-reveal="right"
                 <div className="portrait-frame">
                   <img
                     src="/images/founder/derrick-musinguzi.png"

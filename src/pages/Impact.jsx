@@ -32,7 +32,7 @@ export default function Impact({ navigate }) {
         <div className="impact-hero-inner container">
           <div className="row align-items-center g-5">
             <div className="col-lg-7">
-              <div className="impact-hero-copy">
+              <div className="impact-hero-copy" data-scroll-reveal="left">
                 <span className="impact-hero-eyebrow">
                   <span className="impact-hero-eyebrow-dot" aria-hidden="true" />
                   FROM COMPASSION TO MEASURABLE PROGRESS
@@ -77,7 +77,7 @@ export default function Impact({ navigate }) {
             </div>
 
             <div className="col-lg-5">
-              <aside className="impact-hero-card" aria-label="Our commitment to transparent impact">
+              <aside className="impact-hero-card" data-scroll-reveal="right" aria-label="Our commitment to transparent impact">
                 <div className="impact-hero-card-top">
                   <span className="impact-hero-card-icon" aria-hidden="true">
                     <i className="bi bi-graph-up-arrow" />
