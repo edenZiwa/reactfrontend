@@ -77,6 +77,7 @@ function Cofounder({ navigate }) {
               <div className="founder-hero-visual" data-scroll-reveal="right"
                 <div className="portrait-frame">
                   <img
+                    data-scroll-image
                     src="/images/founder/pastor_albert_yiga.png"
                     alt="Pastor Albert Yiga, co-founder of Garden of Mercy Foundation"
                     width="720"
