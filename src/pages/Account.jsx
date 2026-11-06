@@ -397,7 +397,7 @@ function Account( {
 
     if (loading) {
         return (
-            <main className="container wrap py-5">
+            <div className="container wrap py-5">
                 <div className="panel p-5 text-center">
                     <div
                         className="spinner-border text-success mb-3"
@@ -411,14 +411,14 @@ function Account( {
                         Securely retrieving your information…
                     </p>
                 </div>
-            </main>
+            </div>
         );
     }
 
     if (authStatus === "authenticated" && !hasPublicRole) {
         return (
-            <main className="container wrap py-5">
-                <section className="panel p-4 p-md-5 mx-auto" style={{ maxWidth: 620 }}>
+            <div className="container wrap py-5">
+                <section data-scroll-reveal="up" className="panel p-4 p-md-5 mx-auto" style={{ maxWidth: 620 }}>
                     <div className="eyebrow mb-2">Garden of Mercy Foundation</div>
                     <h1 className="page-title h2 mb-3">Staff account detected</h1>
                     <p className="text-secondary mb-4">
@@ -432,14 +432,14 @@ function Account( {
                         Return to website
                     </button>
                 </section>
-            </main>
+            </div>
         );
     }
 
     if (needsSignIn && !account) {
         return (
-            <main className="container wrap py-5">
-                <section className="panel p-4 p-md-5 mx-auto" style={{ maxWidth: 620 }}>
+            <div className="container wrap py-5">
+                <section data-scroll-reveal="up" className="panel p-4 p-md-5 mx-auto" style={{ maxWidth: 620 }}>
                     <div className="eyebrow mb-2">Garden of Mercy Foundation</div>
                     <h1 className="page-title h2 mb-3">Sign in to your account</h1>
                     <p className="text-secondary mb-4">
@@ -468,19 +468,19 @@ function Account( {
                         Continue browsing as a guest
                     </button>
                 </section>
-            </main>
+            </div>
         );
     }
 
     if (error && !account) {
         return (
-            <main className="container wrap py-5">
+            <div className="container wrap py-5">
                 <div className="alert alert-warning" role="alert">{error}</div>
                 <div className="d-flex flex-wrap gap-2">
                     <button className="btn btn-success" onClick={retryAccountAccess}>Try again</button>
                     <button className="btn btn-outline-secondary" onClick={() => goToPage("/", "/")}>Return to home</button>
                 </div>
-            </main>
+            </div>
         );
     }
 
@@ -491,7 +491,7 @@ function Account( {
     const initials = fullName.trim().charAt(0).toUpperCase() || "M";
 
     return (
-        <main className="container wrap py-4 py-md-5">
+        <div className="container wrap py-4 py-md-5">
             <div className="mb-4">
                 <div className="eyebrow mb-2">
                     Community member portal
@@ -511,7 +511,7 @@ function Account( {
 
             <div className="row g-4 mb-4">
                 <div className="col-12 col-lg-7">
-                    <section className="panel h-100">
+                    <section data-scroll-reveal="up" className="panel h-100">
                         <div className="banner" />
                         <div className="profile-body">
                             <div className="profile-head mb-4">
@@ -559,7 +559,7 @@ function Account( {
                 </div>
 
                 <div className="col-12 col-lg-5">
-                    <section className="panel p-4 h-100">
+                    <section data-scroll-reveal="up" className="panel p-4 h-100">
                         <h2 className="panel-title mb-1">Stay connected</h2>
                         <p className="small-muted mb-3">
                             Explore opportunities to make a difference.
@@ -610,7 +610,7 @@ function Account( {
             </div>
 
             {/* Dashboard tabs */}
-            <section className="panel p-3 p-md-4 mb-4">
+            <section data-scroll-reveal="up" className="panel p-3 p-md-4 mb-4">
                 <div className="nav nav-pills flex-wrap gap-2" role="tablist" aria-label="Account sections" onKeyDown={handleTabKeyDown}>
                     {TABS.map((tab) => (
                         <button
@@ -632,7 +632,7 @@ function Account( {
 
             {/* Volunteer profile */}
             {activeTab === "volunteer" && (
-                <section
+                <section data-scroll-reveal="up"
                     id="tab-volunteer"
                     className="tab-panel panel p-4 p-md-5 mb-4"
                     role="tabpanel"
@@ -776,7 +776,7 @@ tabIndex={0}
 
 {/* Program registrations */}
 {activeTab === "programs" && (
-<section
+<section data-scroll-reveal="up"
 id="tab-programs"
 className="tab-panel panel p-4 p-md-5 mb-4"
 role="tabpanel"
@@ -839,7 +839,7 @@ You have no program registrations yet.
 
 {/* Applications */}
 {activeTab === "applications" && (
-<section
+<section data-scroll-reveal="up"
 id="tab-applications"
 className="tab-panel panel p-4 p-md-5 mb-4"
 role="tabpanel"
@@ -977,7 +977,7 @@ You have not submitted any applications yet.
 
 {/* Donation history */}
 {activeTab === "donations" && (
-<section
+<section data-scroll-reveal="up"
 id="tab-donations"
 className="tab-panel panel p-4 p-md-5 mb-4"
 role="tabpanel"
@@ -1032,7 +1032,7 @@ No donation records were found for your account.
 )}
 </section>
 )}
-</main>
+</div>
 );
 }
 
