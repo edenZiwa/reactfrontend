@@ -341,7 +341,7 @@ function ScriptureQuote() {
 
 export default function PowerOfRevelation() {
   return (
-    <div className="power-revelation-page" id="main-content">
+    <div className="power-revelation-page">
       <section data-scroll-reveal="up" className="pr-hero" aria-labelledby="pr-title">
         <div className="pr-hero-overlay" />
         <div className="container position-relative py-5">
