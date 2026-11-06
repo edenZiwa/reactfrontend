@@ -108,9 +108,9 @@ const termsSections = [{
 
 const Terms = () => {
     return (
-        <main id="main-content">
+        <div id="main-content">
             {/* Page Header */}
-            <section className="page-header" aria-labelledby="terms-title">
+            <section data-scroll-reveal="up" className="page-header" aria-labelledby="terms-title">
                 <div className="container py-5">
                     <span className="section-label">LEGAL</span>
 
@@ -140,7 +140,7 @@ const Terms = () => {
             </section>
 
             {/* Terms Content */}
-            <section className="py-5">
+            <section data-scroll-reveal="up" className="py-5">
                 <div className="container">
                     <div className="row g-5">
                         {/* Table of Contents */}
@@ -174,7 +174,7 @@ const Terms = () => {
                         {/* Terms and Conditions */}
                         <div className="col-lg-9">
                             <article className="legal-content">
-                                <section id="acceptance" className="my-5">
+                                <section data-scroll-reveal="up" id="acceptance" className="my-5">
                                     <h2>1. Acceptance of These Terms</h2>
 
                                     <p>
@@ -195,7 +195,7 @@ const Terms = () => {
                                     </p>
                                 </section>
 
-                                <section id="about" className="mb-5">
+                                <section data-scroll-reveal="up" id="about" className="mb-5">
                                     <h2>2. About the Website</h2>
 
                                     <p>
@@ -213,7 +213,7 @@ const Terms = () => {
                                     </p>
                                 </section>
 
-                                <section id="eligibility" className="mb-5">
+                                <section data-scroll-reveal="up" id="eligibility" className="mb-5">
                                     <h2>3. Eligibility and Responsible Access</h2>
 
                                     <p>
@@ -229,7 +229,7 @@ const Terms = () => {
                                     </p>
                                 </section>
 
-                                <section id="responsible-use" className="mb-5">
+                                <section data-scroll-reveal="up" id="responsible-use" className="mb-5">
                                     <h2>4. Responsible Use</h2>
 
                                     <p>
@@ -264,7 +264,7 @@ const Terms = () => {
                                     </ul>
                                 </section>
 
-                                <section id="content" className="mb-5">
+                                <section data-scroll-reveal="up" id="content" className="mb-5">
                                     <h2>5. Website Content</h2>
 
                                     <p>
@@ -286,7 +286,7 @@ const Terms = () => {
                                     </p>
                                 </section>
 
-                                <section id="accuracy" className="mb-5">
+                                <section data-scroll-reveal="up" id="accuracy" className="mb-5">
                                     <h2>6. Accuracy of Information</h2>
 
                                     <p>
@@ -306,7 +306,7 @@ const Terms = () => {
                                     </p>
                                 </section>
 
-                                <section id="programs" className="mb-5">
+                                <section data-scroll-reveal="up" id="programs" className="mb-5">
                                     <h2>7. Programs and Beneficiary Information</h2>
 
                                     <p>
@@ -328,7 +328,7 @@ const Terms = () => {
                                     </p>
                                 </section>
 
-                                <section id="donations" className="mb-5">
+                                <section data-scroll-reveal="up" id="donations" className="mb-5">
                                     <h2>8. Donations</h2>
 
                                     <p>
@@ -353,7 +353,7 @@ const Terms = () => {
                                     </div>
                                 </section>
 
-                                <section id="payments" className="mb-5">
+                                <section data-scroll-reveal="up" id="payments" className="mb-5">
                                     <h2>9. Payment Processing</h2>
 
                                     <p>
@@ -374,7 +374,7 @@ const Terms = () => {
                                     </p>
                                 </section>
 
-                                <section id="refunds" className="mb-5">
+                                <section data-scroll-reveal="up" id="refunds" className="mb-5">
                                     <h2>10. Donations, Refunds and Corrections</h2>
 
                                     <p>
@@ -397,7 +397,7 @@ const Terms = () => {
                                     </p>
                                 </section>
 
-                                <section id="fundraising" className="mb-5">
+                                <section data-scroll-reveal="up" id="fundraising" className="mb-5">
                                     <h2>11. Fundraising and Public Appeals</h2>
 
                                     <p>
@@ -417,7 +417,7 @@ const Terms = () => {
                                     </p>
                                 </section>
 
-                                <section id="intellectual-property" className="mb-5">
+                                <section data-scroll-reveal="up" id="intellectual-property" className="mb-5">
                                     <h2>12. Intellectual Property</h2>
 
                                     <p>
@@ -440,7 +440,7 @@ const Terms = () => {
                                     </p>
                                 </section>
 
-                                <section id="user-content" className="mb-5">
+                                <section data-scroll-reveal="up" id="user-content" className="mb-5">
                                     <h2>13. User-Submitted Content</h2>
 
                                     <p>
@@ -463,7 +463,7 @@ const Terms = () => {
                                     </p>
                                 </section>
 
-                                <section id="communications" className="mb-5">
+                                <section data-scroll-reveal="up" id="communications" className="mb-5">
                                     <h2>14. Communications</h2>
 
                                     <p>
@@ -479,7 +479,7 @@ const Terms = () => {
                                     </p>
                                 </section>
 
-                                <section id="safeguarding" className="mb-5">
+                                <section data-scroll-reveal="up" id="safeguarding" className="mb-5">
                                     <h2>15. Child Protection and Safeguarding</h2>
 
                                     <p>
@@ -510,7 +510,7 @@ const Terms = () => {
                                     </div>
                                 </section>
 
-                                <section id="privacy" className="mb-5">
+                                <section data-scroll-reveal="up" id="privacy" className="mb-5">
                                     <h2>16. Privacy and Personal Information</h2>
 
                                     <p>
@@ -525,7 +525,7 @@ const Terms = () => {
                                     </p>
                                 </section>
 
-                                <section id="third-party" className="mb-5">
+                                <section data-scroll-reveal="up" id="third-party" className="mb-5">
                                     <h2>17. Third-Party Websites and Services</h2>
 
                                     <p>
@@ -546,7 +546,7 @@ const Terms = () => {
                                     </p>
                                 </section>
 
-                                <section id="security" className="mb-5">
+                                <section data-scroll-reveal="up" id="security" className="mb-5">
                                     <h2>18. Website Security</h2>
 
                                     <p>
@@ -562,7 +562,7 @@ const Terms = () => {
                                     </p>
                                 </section>
 
-                                <section id="availability" className="mb-5">
+                                <section data-scroll-reveal="up" id="availability" className="mb-5">
                                     <h2>19. Website Availability</h2>
 
                                     <p>
@@ -579,7 +579,7 @@ const Terms = () => {
                                     </p>
                                 </section>
 
-                                <section id="disclaimer" className="mb-5">
+                                <section data-scroll-reveal="up" id="disclaimer" className="mb-5">
                                     <h2>20. Disclaimers</h2>
 
                                     <p>
@@ -601,7 +601,7 @@ const Terms = () => {
                                     </p>
                                 </section>
 
-                                <section id="liability" className="mb-5">
+                                <section data-scroll-reveal="up" id="liability" className="mb-5">
                                     <h2>21. Limitation of Liability</h2>
 
                                     <p>
@@ -619,7 +619,7 @@ const Terms = () => {
                                     </p>
                                 </section>
 
-                                <section id="indemnity" className="mb-5">
+                                <section data-scroll-reveal="up" id="indemnity" className="mb-5">
                                     <h2>22. Indemnity</h2>
 
                                     <p>
@@ -630,7 +630,7 @@ const Terms = () => {
                                     </p>
                                 </section>
 
-                                <section id="termination" className="mb-5">
+                                <section data-scroll-reveal="up" id="termination" className="mb-5">
                                     <h2>23. Suspension and Termination</h2>
 
                                     <p>
@@ -647,7 +647,7 @@ const Terms = () => {
                                     </p>
                                 </section>
 
-                                <section id="changes" className="mb-5">
+                                <section data-scroll-reveal="up" id="changes" className="mb-5">
                                     <h2>24. Changes to These Terms</h2>
 
                                     <p>
@@ -668,7 +668,7 @@ const Terms = () => {
                                     </p>
                                 </section>
 
-                                <section id="law" className="mb-5">
+                                <section data-scroll-reveal="up" id="law" className="mb-5">
                                     <h2>25. Governing Law and Jurisdiction</h2>
 
                                     <p>
@@ -679,7 +679,7 @@ const Terms = () => {
                                     </p>
                                 </section>
 
-                                <section id="contact" className="mb-5">
+                                <section data-scroll-reveal="up" id="contact" className="mb-5">
                                     <h2>26. Contact</h2>
 
                                     <p>
@@ -697,7 +697,7 @@ const Terms = () => {
                     </div>
                 </div>
             </section>
-        </main>
+        </div>
 
     );
 };
