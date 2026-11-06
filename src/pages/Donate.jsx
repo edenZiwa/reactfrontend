@@ -198,9 +198,9 @@ function Donate() {
   }
 
   return (
-    <main id="main-content" className="donate-page">
+    <div id="main-content" className="donate-page">
       {/* Donation hero */}
-      <section className="donate-hero" aria-labelledby="donate-hero-title">
+      <section data-scroll-reveal="up" className="donate-hero" aria-labelledby="donate-hero-title">
         <div className="donate-overlay" aria-hidden="true" />
 
         <div className="container donate-hero-content">
@@ -274,7 +274,7 @@ function Donate() {
       </section>
 
       {/* Donation form and payment information */}
-      <section id="donation-form" className="py-5 donation-section" aria-labelledby="donation-form-title">
+      <section data-scroll-reveal="up" id="donation-form" className="py-5 donation-section" aria-labelledby="donation-form-title">
         <div className="container">
           <div className="row g-4 g-lg-5 align-items-start">
             <div className="col-lg-7">
@@ -717,7 +717,7 @@ function Donate() {
           </div>
         </div>
       </section>
-    </main>
+    </div>
   );
 }
 
