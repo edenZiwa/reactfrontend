@@ -22,6 +22,7 @@ import PWAUpdatePrompt from "./components/PWAUpdatePrompt.jsx";
 import NetworkStatus from "./components/NetworkStatus.jsx";
 
 import ScrollNavigator from "./components/ScrollNavigator.jsx";
+import ScrollReveal from "./components/ScrollReveal.jsx";
 import { ToastProvider } from "./components/ux/ToastProvider.jsx";
 import Home from "./pages/Home.jsx";
 import About from "./pages/About.jsx";
@@ -157,6 +158,7 @@ function App() {
   return (
     <div className="app-shell">
       <SEO path={path} />
+      <ScrollReveal path={path} />
 
       <a className="skip-link" href="#main-content">
         Skip to content
