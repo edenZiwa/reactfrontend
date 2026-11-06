@@ -1,0 +1,139 @@
+/*
+ * Scroll reveal motion system
+ * Opt-in only: without the observer enhancement, all content remains visible.
+ */
+
+html.has-scroll-reveal [data-scroll-reveal] {
+  opacity: 0;
+  transition:
+    opacity 620ms cubic-bezier(.22, 1, .36, 1),
+    transform 620ms cubic-bezier(.22, 1, .36, 1);
+  transition-delay: var(--scroll-reveal-delay, 0ms);
+}
+
+html.has-scroll-reveal [data-scroll-reveal="up"] {
+  transform: translate3d(0, 1.25rem, 0);
+}
+
+html.has-scroll-reveal [data-scroll-reveal="down"] {
+  transform: translate3d(0, -1rem, 0);
+}
+
+html.has-scroll-reveal [data-scroll-reveal="left"] {
+  transform: translate3d(1.25rem, 0, 0);
+}
+
+html.has-scroll-reveal [data-scroll-reveal="right"] {
+  transform: translate3d(-1.25rem, 0, 0);
+}
+
+html.has-scroll-reveal [data-scroll-reveal="scale"] {
+  transform: scale(.975);
+}
+
+html.has-scroll-reveal [data-scroll-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Subtle cascade for card grids inside a revealed section. */
+html.has-scroll-reveal [data-scroll-reveal].is-visible
+  .row > [class*="col-"] > :is(article, .card, [class*="-card"]) {
+  animation: scroll-card-enter 560ms cubic-bezier(.22, 1, .36, 1) both;
+}
+
+html.has-scroll-reveal [data-scroll-reveal].is-visible
+  .row > [class*="col-"]:nth-child(2) > :is(article, .card, [class*="-card"]) {
+  animation-delay: 70ms;
+}
+
+html.has-scroll-reveal [data-scroll-reveal].is-visible
+  .row > [class*="col-"]:nth-child(3) > :is(article, .card, [class*="-card"]) {
+  animation-delay: 140ms;
+}
+
+html.has-scroll-reveal [data-scroll-reveal].is-visible
+  .row > [class*="col-"]:nth-child(4) > :is(article, .card, [class*="-card"]) {
+  animation-delay: 210ms;
+}
+
+@keyframes scroll-card-enter {
+  from { opacity: 0; transform: translate3d(0, .85rem, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+.scroll-reveal-delay-1 { --scroll-reveal-delay: 70ms; }
+.scroll-reveal-delay-2 { --scroll-reveal-delay: 140ms; }
+.scroll-reveal-delay-3 { --scroll-reveal-delay: 210ms; }
+.scroll-reveal-delay-4 { --scroll-reveal-delay: 280ms; }
+
+@media (max-width: 575.98px) {
+  html.has-scroll-reveal [data-scroll-reveal] {
+    transition-duration: 480ms;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.has-scroll-reveal [data-scroll-reveal],
+  html.has-scroll-reveal [data-scroll-reveal].is-visible
+    .row > [class*="col-"] > :is(article, .card, [class*="-card"]) {
+    opacity: 1;
+    transform: none;
+    animation: none;
+    transition: none;
+  }
+}
+
+
+
+/* Keyboard focus always makes its containing reveal visible immediately. */
+html.has-scroll-reveal [data-scroll-reveal]:focus-within,
+html.has-scroll-reveal [data-scroll-image]:focus-within {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+
+/* Avoid unnecessary compositing hints and expensive clipping on mobile. */
+@media (max-width: 767.98px) {
+  html.has-scroll-reveal [data-scroll-image] {
+    transform: scale(1.015);
+    transition-duration: 520ms;
+  }
+
+  html.has-scroll-reveal [data-scroll-reveal].is-visible
+    .row > [class*="col-"] > :is(article, .card, [class*="-card"]) {
+    animation-duration: 420ms;
+  }
+}
+
+/* Image entrances: opt-in per image; layout dimensions remain unchanged. */
+html.has-scroll-reveal [data-scroll-image] {
+  opacity: 0;
+  transform: scale(1.035);
+  transition:
+    opacity 760ms cubic-bezier(.22, 1, .36, 1),
+    transform 900ms cubic-bezier(.22, 1, .36, 1);
+}
+
+html.has-scroll-reveal [data-scroll-image].is-visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Keep interactive controls responsive; do not animate their hit areas. */
+html.has-scroll-reveal [data-scroll-reveal] a,
+html.has-scroll-reveal [data-scroll-reveal] button,
+html.has-scroll-reveal [data-scroll-reveal] input,
+html.has-scroll-reveal [data-scroll-reveal] select,
+html.has-scroll-reveal [data-scroll-reveal] textarea {
+  transition-property: color, background-color, border-color, box-shadow;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.has-scroll-reveal [data-scroll-image] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
