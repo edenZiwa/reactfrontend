@@ -26,9 +26,9 @@ const policySections = [
 
 const Privacy = () => {
 return (
-<div id="main-content">
+<div>
 {/* Page Header */}
-<section data-scroll-reveal="up" className="page-header" aria-labelledby="privacy-title">
+<section className="page-header" aria-labelledby="privacy-title">
 <div className="container py-5">
 <span className="section-label">
 LEGAL & DATA PROTECTION
@@ -60,7 +60,7 @@ LEGAL & DATA PROTECTION
   </section>
 
   {/* Policy Content */}
-  <section data-scroll-reveal="up" className="py-5">
+  <section className="py-5">
     <div className="container">
       <div className="row g-5">
         {/* Table of Contents */}
@@ -94,7 +94,7 @@ LEGAL & DATA PROTECTION
         {/* Policy Content */}
         <div className="col-lg-9">
           <article className="legal-content">
-            <section data-scroll-reveal="up" id="introduction" className="my-5">
+            <section id="introduction" className="my-5">
               <h2>1. Introduction</h2>
 
               <p>
@@ -120,7 +120,7 @@ LEGAL & DATA PROTECTION
               </p>
             </section>
 
-            <section data-scroll-reveal="up" id="information" className="mb-5">
+            <section id="information" className="mb-5">
               <h2>2. Information We May Collect</h2>
 
               <p>
@@ -157,7 +157,7 @@ LEGAL & DATA PROTECTION
               </p>
             </section>
 
-            <section data-scroll-reveal="up" id="children" className="mb-5">
+            <section id="children" className="mb-5">
               <h2>
                 3. Children, Beneficiaries and Vulnerable Persons
               </h2>
@@ -199,7 +199,7 @@ LEGAL & DATA PROTECTION
               </p>
             </section>
 
-            <section data-scroll-reveal="up" id="purposes" className="mb-5">
+            <section id="purposes" className="mb-5">
               <h2>4. How We Use Information</h2>
 
               <p>
@@ -233,7 +233,7 @@ LEGAL & DATA PROTECTION
               </p>
             </section>
 
-            <section data-scroll-reveal="up" id="lawful-basis" className="mb-5">
+            <section id="lawful-basis" className="mb-5">
               <h2>5. Legal Basis for Processing</h2>
 
               <p>
@@ -265,7 +265,7 @@ LEGAL & DATA PROTECTION
               </p>
             </section>
 
-            <section data-scroll-reveal="up" id="sharing" className="mb-5">
+            <section id="sharing" className="mb-5">
               <h2>6. Information Sharing and Disclosure</h2>
 
               <p>
@@ -301,7 +301,7 @@ LEGAL & DATA PROTECTION
               </p>
             </section>
 
-            <section data-scroll-reveal="up" id="donations" className="mb-5">
+            <section id="donations" className="mb-5">
               <h2>7. Donations and Payment Information</h2>
 
               <p>
@@ -333,7 +333,7 @@ LEGAL & DATA PROTECTION
               </div>
             </section>
 
-            <section data-scroll-reveal="up" id="photography" className="mb-5">
+            <section id="photography" className="mb-5">
               <h2>8. Photography, Video and Communications</h2>
 
               <p>
@@ -366,7 +366,7 @@ LEGAL & DATA PROTECTION
               </p>
             </section>
 
-            <section data-scroll-reveal="up" id="safeguarding" className="mb-5">
+            <section id="safeguarding" className="mb-5">
               <h2>9. Safeguarding and Protection from Harm</h2>
 
               <p>
@@ -390,7 +390,7 @@ LEGAL & DATA PROTECTION
               </p>
             </section>
 
-            <section data-scroll-reveal="up" id="cookies" className="mb-5">
+            <section id="cookies" className="mb-5">
               <h2>10. Cookies and Similar Technologies</h2>
 
               <p>
@@ -413,7 +413,7 @@ LEGAL & DATA PROTECTION
               </p>
             </section>
 
-            <section data-scroll-reveal="up" id="security" className="mb-5">
+            <section id="security" className="mb-5">
               <h2>11. Information Security</h2>
 
               <p>
@@ -444,7 +444,7 @@ LEGAL & DATA PROTECTION
               </p>
             </section>
 
-            <section data-scroll-reveal="up" id="retention" className="mb-5">
+            <section id="retention" className="mb-5">
               <h2>12. Data Retention</h2>
 
               <p>
@@ -462,7 +462,7 @@ LEGAL & DATA PROTECTION
               </p>
             </section>
 
-            <section data-scroll-reveal="up" id="rights" className="mb-5">
+            <section id="rights" className="mb-5">
               <h2>13. Your Privacy Rights</h2>
 
               <p>
@@ -496,7 +496,7 @@ LEGAL & DATA PROTECTION
               </p>
             </section>
 
-            <section data-scroll-reveal="up" id="breach" className="mb-5">
+            <section id="breach" className="mb-5">
               <h2>14. Personal Data Incidents and Breaches</h2>
 
               <p>
@@ -515,7 +515,7 @@ LEGAL & DATA PROTECTION
               </p>
             </section>
 
-            <section data-scroll-reveal="up" id="international" className="mb-5">
+            <section id="international" className="mb-5">
               <h2>15. International Data Transfers</h2>
 
               <p>
@@ -533,7 +533,7 @@ LEGAL & DATA PROTECTION
               </p>
             </section>
 
-            <section data-scroll-reveal="up" id="third-party" className="mb-5">
+            <section id="third-party" className="mb-5">
               <h2>16. Third-Party Websites and Services</h2>
 
               <p>
@@ -550,7 +550,7 @@ LEGAL & DATA PROTECTION
               </p>
             </section>
 
-            <section data-scroll-reveal="up" id="volunteers" className="mb-5">
+            <section id="volunteers" className="mb-5">
               <h2>17. Volunteers, Staff and Partners</h2>
 
               <p>
@@ -567,7 +567,7 @@ LEGAL & DATA PROTECTION
               </p>
             </section>
 
-            <section data-scroll-reveal="up" id="communications" className="mb-5">
+            <section id="communications" className="mb-5">
               <h2>18. Donor and Supporter Communications</h2>
 
               <p>
@@ -582,7 +582,7 @@ LEGAL & DATA PROTECTION
               </p>
             </section>
 
-            <section data-scroll-reveal="up" id="transparency" className="mb-5">
+            <section id="transparency" className="mb-5">
               <h2>19. Transparency and Accountability</h2>
 
               <p>
@@ -603,7 +603,7 @@ LEGAL & DATA PROTECTION
               </p>
             </section>
 
-            <section data-scroll-reveal="up" id="changes" className="mb-5">
+            <section id="changes" className="mb-5">
               <h2>20. Changes to This Policy</h2>
 
               <p>
@@ -618,7 +618,7 @@ LEGAL & DATA PROTECTION
               </p>
             </section>
 
-            <section data-scroll-reveal="up" id="contact" className="mb-5">
+            <section id="contact" className="mb-5">
               <h2>21. Privacy Questions and Complaints</h2>
 
               <p>

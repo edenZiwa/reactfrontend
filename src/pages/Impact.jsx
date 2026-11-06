@@ -25,7 +25,7 @@ const impactAreas = [
 
 export default function Impact({ navigate }) {
   return (
-    <div id="main-content" className="impact-page">
+    <div className="impact-page">
       <ContentStatus tone="info">We will publish measured results only when they are supported by reviewed project and beneficiary records. The measures shown on this page describe our reporting approach, not achieved totals.</ContentStatus>
       {/* IMPACT HERO */}
       <section data-scroll-reveal="up" className="impact-hero" aria-labelledby="impact-title">

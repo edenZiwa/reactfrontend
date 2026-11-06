@@ -42,7 +42,7 @@ const commitments = [
 
 function About({ navigate }) {
   return (
-    <div id="main-content" className="about-page">
+    <div className="about-page">
       <section data-scroll-reveal="up" className="about-hero" aria-labelledby="about-title">
         <div className="about-hero-inner container">
           <div className="row align-items-center g-5">

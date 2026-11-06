@@ -168,7 +168,7 @@ function Contact( {
                 </div>
             </div>
         </section>
-            <div id="main-content">
+            <div>
                 {/* Contact introduction */}
                 <section data-scroll-reveal="up" id="contact-details" className="contact-section py-5">
                     <div className="container">
