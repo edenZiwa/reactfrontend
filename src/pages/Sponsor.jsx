@@ -346,7 +346,7 @@ export default function Sponsor({ navigate }) {
         <div className="container sponsor-hero-container">
           <div className="row align-items-center g-5">
             <div className="col-lg-7">
-              <div className="sponsor-hero-copy">
+              <div className="sponsor-hero-copy" data-scroll-reveal="left">
                 <span className="sponsor-hero-eyebrow">
                   <span className="sponsor-hero-dot" aria-hidden="true" />
                   CHILD SPONSORSHIP · SHARED SUPPORT
@@ -376,7 +376,7 @@ export default function Sponsor({ navigate }) {
               </div>
             </div>
             <div className="col-lg-5">
-              <aside className="sponsor-hero-card">
+              <aside className="sponsor-hero-card" data-scroll-reveal="right">
                 <span className="sponsor-hero-card-icon"><i className="bi bi-flower1" aria-hidden="true" /></span>
                 <span className="sponsor-kicker">A COMMITMENT THAT MATTERS</span>
                 <h2>Every child deserves the chance to learn, grow and thrive.</h2>
