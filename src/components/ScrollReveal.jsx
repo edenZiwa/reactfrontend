@@ -1,8 +1,10 @@
 import { useEffect } from "react";
 
+const REVEAL_SELECTOR = "[data-scroll-reveal], [data-scroll-image]";
+
 /**
- * Progressive scroll enhancement for explicitly marked content.
- * Reinitializes on route changes because the app-shell main landmark is keyed.
+ * Adds scroll-triggered entrances to explicitly opted-in content.
+ * Rebinds to the active route and discovers content inserted after mount.
  */
 export default function ScrollReveal({ path }) {
   useEffect(() => {
@@ -31,8 +33,8 @@ export default function ScrollReveal({ path }) {
     });
 
     const observeElement = (element) => {
-      // Never conceal a section containing a form or dialog workflow.
-      if (element.querySelector("form, [role='dialog']")) {
+      if (element.matches("[data-scroll-reveal]") &&
+          element.querySelector("form, [role='dialog']")) {
         element.classList.add("is-visible");
         return;
       }
@@ -41,8 +43,8 @@ export default function ScrollReveal({ path }) {
 
     const observeWithin = (node) => {
       if (!active || !(node instanceof Element)) return;
-      if (node.matches("[data-scroll-reveal]")) observeElement(node);
-      node.querySelectorAll("[data-scroll-reveal]").forEach(observeElement);
+      if (node.matches(REVEAL_SELECTOR)) observeElement(node);
+      node.querySelectorAll(REVEAL_SELECTOR).forEach(observeElement);
     };
 
     root.classList.add("has-scroll-reveal");
