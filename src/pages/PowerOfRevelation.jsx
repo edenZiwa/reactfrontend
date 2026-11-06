@@ -346,7 +346,7 @@ export default function PowerOfRevelation() {
         <div className="pr-hero-overlay" />
         <div className="container position-relative py-5">
           <div className="row align-items-center g-5 py-lg-5">
-            <div className="col-lg-8 col-xl-7">
+            <div className="col-lg-8 col-xl-7" data-scroll-reveal="left">
               <span className="pr-kicker">
                 <i className="bi bi-book-half me-2" aria-hidden="true" />
                 THE GROUND OF GOD'S GRACE
@@ -385,7 +385,7 @@ export default function PowerOfRevelation() {
               </div>
             </div>
             <div className="col-lg-4 col-xl-5">
-              <div className="pr-hero-feature">
+              <div className="pr-hero-feature" data-scroll-reveal="right">
                 <div className="pr-feature-symbol">
                   <i className="bi bi-sunrise" aria-hidden="true" />
                 </div>
@@ -495,7 +495,7 @@ export default function PowerOfRevelation() {
           />
           <div className="row g-4 mt-4">
             <div className="col-lg-6">
-              <article className="pr-purpose-card pr-purpose-vision h-100">
+              <article className="pr-purpose-card pr-purpose-vision h-100" data-scroll-reveal="up">
                 <span className="pr-purpose-icon">
                   <i className="bi bi-eye" aria-hidden="true" />
                 </span>
@@ -514,7 +514,7 @@ export default function PowerOfRevelation() {
               </article>
             </div>
             <div className="col-lg-6">
-              <article className="pr-purpose-card pr-purpose-mission h-100">
+              <article className="pr-purpose-card pr-purpose-mission h-100" data-scroll-reveal="up">
                 <span className="pr-purpose-icon">
                   <i className="bi bi-send" aria-hidden="true" />
                 </span>
@@ -600,8 +600,9 @@ export default function PowerOfRevelation() {
           <div className="pr-founder-panel mt-5">
             <div className="row g-4">
               <div className="col-md-6">
-                <article className="pr-leader-card h-100 border rounded-4 overflow-hidden shadow-sm bg-white">
+                <article className="pr-leader-card h-100 border rounded-4 overflow-hidden shadow-sm bg-white" data-scroll-reveal="up">
                   <img
+                    data-scroll-image
                     src={MINISTRY.leadershipPhotos.founder}
                     alt="Bishop Merita Nabaasa, founder of Power of Revelation Ministries"
                     className="pr-leader-photo img-fluid w-100 object-fit-cover"
@@ -629,8 +630,9 @@ export default function PowerOfRevelation() {
                 </article>
               </div>
               <div className="col-md-6">
-                <article className="pr-leader-card h-100 border rounded-4 overflow-hidden shadow-sm bg-white">
+                <article className="pr-leader-card h-100 border rounded-4 overflow-hidden shadow-sm bg-white" data-scroll-reveal="up">
                   <img
+                    data-scroll-image
                     src={MINISTRY.leadershipPhotos.leader}
                     alt="Apostle Derrick Musinguzi, ministry leader and teacher at Revelation Church Kampala"
                     className="pr-leader-photo img-fluid w-100 object-fit-cover"
@@ -679,7 +681,7 @@ export default function PowerOfRevelation() {
           <div className="row g-4 mt-4">
             {values.map((value) => (
               <div className="col-sm-6 col-lg-4" key={value.title}>
-                <article className="pr-value-card h-100">
+                <article className="pr-value-card h-100" data-scroll-reveal="up">
                   <span className="pr-value-icon">
                     <i className={`bi ${value.icon}`} aria-hidden="true" />
                   </span>
@@ -968,7 +970,7 @@ export default function PowerOfRevelation() {
           <div className="row g-4 mt-3">
             {sermons.map((sermon) => (
               <div className="col-md-6 col-xl-4" key={sermon.id}>
-                <article className="pr-sermon-card h-100">
+                <article className="pr-sermon-card h-100" data-scroll-reveal="up">
                   <div className="pr-sermon-art">
                     <span className="pr-sermon-art-icon">
                       <i className={`bi ${sermon.icon}`} aria-hidden="true" />

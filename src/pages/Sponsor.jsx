@@ -346,7 +346,7 @@ export default function Sponsor({ navigate }) {
         <div className="container sponsor-hero-container">
           <div className="row align-items-center g-5">
             <div className="col-lg-7">
-              <div className="sponsor-hero-copy">
+              <div className="sponsor-hero-copy" data-scroll-reveal="left">
                 <span className="sponsor-hero-eyebrow">
                   <span className="sponsor-hero-dot" aria-hidden="true" />
                   CHILD SPONSORSHIP · SHARED SUPPORT
@@ -376,7 +376,7 @@ export default function Sponsor({ navigate }) {
               </div>
             </div>
             <div className="col-lg-5">
-              <aside className="sponsor-hero-card">
+              <aside className="sponsor-hero-card" data-scroll-reveal="right">
                 <span className="sponsor-hero-card-icon"><i className="bi bi-flower1" aria-hidden="true" /></span>
                 <span className="sponsor-kicker">A COMMITMENT THAT MATTERS</span>
                 <h2>Every child deserves the chance to learn, grow and thrive.</h2>
@@ -418,7 +418,7 @@ export default function Sponsor({ navigate }) {
           <div className="row g-4 mt-2">
             {sponsorshipPaths.map((path) => (
               <div className="col-lg-6" key={path.title}>
-                <article className="sponsor-path-card h-100">
+                <article className="sponsor-path-card h-100" data-scroll-reveal="up">
                   <div className="sponsor-path-icon"><i className={`bi ${path.icon}`} aria-hidden="true" /></div>
                   <span className="sponsor-path-label">{path.label}</span>
                   <h3>{path.title}</h3>
@@ -463,7 +463,7 @@ export default function Sponsor({ navigate }) {
           <div className="row g-4 mt-2">
             {sponsorshipPrinciples.map((item) => (
               <div className="col-md-4" key={item.title}>
-                <article className="sponsor-principle-card h-100">
+                <article className="sponsor-principle-card h-100" data-scroll-reveal="up">
                   <span className="sponsor-principle-icon"><i className={`bi ${item.icon}`} aria-hidden="true" /></span>
                   <h3>{item.title}</h3>
                   <p className="mb-0">{item.text}</p>
@@ -484,7 +484,7 @@ export default function Sponsor({ navigate }) {
           <div className="row g-4 mt-2">
             {sponsorshipSteps.map((step) => (
               <div className="col-md-4" key={step.number}>
-                <article className="sponsor-process-card h-100">
+                <article className="sponsor-process-card h-100" data-scroll-reveal="up">
                   <span className="sponsor-process-number">{step.number}</span>
                   <h3>{step.title}</h3>
                   <p className="mb-0">{step.text}</p>

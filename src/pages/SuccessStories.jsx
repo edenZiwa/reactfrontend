@@ -196,8 +196,9 @@ const SuccessStories = () => {
                     <div className="row g-4">
                         {stories.map((story) => (
                             <div className="col-md-6 col-xl-3" key={story.category}>
-                                <article className="mercy-story-card">
+                                <article className="mercy-story-card" data-scroll-reveal="up">
                                     <img
+                                    data-scroll-image
                                     src={story.image}
                                     alt={story.alt}
                                     className="mercy-story-image"
@@ -320,7 +321,7 @@ const SuccessStories = () => {
             <div className="row g-4">
                 {storySteps.map((step) => (
                     <div className="col-md-4" key={step.number}>
-                        <article className="mercy-journey-card">
+                        <article className="mercy-journey-card" data-scroll-reveal="up">
                             <div className="mercy-journey-number">
                                 {step.number}
                             </div>
