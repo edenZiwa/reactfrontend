@@ -55,7 +55,7 @@ function DonationResult({ navigate }) {
         }
         text="Your payment status is retrieved from the foundation’s backend, which verifies payment information with the provider."
       />
-      <section className="result-layout">
+      <section data-scroll-reveal="up" className="result-layout">
         <div className={`result-card result-${detail.tone}`}>
           <span className="result-symbol" aria-hidden="true">
             {detail.tone === "success"
