@@ -418,7 +418,7 @@ export default function Sponsor({ navigate }) {
           <div className="row g-4 mt-2">
             {sponsorshipPaths.map((path) => (
               <div className="col-lg-6" key={path.title}>
-                <article className="sponsor-path-card h-100">
+                <article className="sponsor-path-card h-100" data-scroll-reveal="up">
                   <div className="sponsor-path-icon"><i className={`bi ${path.icon}`} aria-hidden="true" /></div>
                   <span className="sponsor-path-label">{path.label}</span>
                   <h3>{path.title}</h3>
@@ -463,7 +463,7 @@ export default function Sponsor({ navigate }) {
           <div className="row g-4 mt-2">
             {sponsorshipPrinciples.map((item) => (
               <div className="col-md-4" key={item.title}>
-                <article className="sponsor-principle-card h-100">
+                <article className="sponsor-principle-card h-100" data-scroll-reveal="up">
                   <span className="sponsor-principle-icon"><i className={`bi ${item.icon}`} aria-hidden="true" /></span>
                   <h3>{item.title}</h3>
                   <p className="mb-0">{item.text}</p>
@@ -484,7 +484,7 @@ export default function Sponsor({ navigate }) {
           <div className="row g-4 mt-2">
             {sponsorshipSteps.map((step) => (
               <div className="col-md-4" key={step.number}>
-                <article className="sponsor-process-card h-100">
+                <article className="sponsor-process-card h-100" data-scroll-reveal="up">
                   <span className="sponsor-process-number">{step.number}</span>
                   <h3>{step.title}</h3>
                   <p className="mb-0">{step.text}</p>
