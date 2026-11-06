@@ -74,9 +74,10 @@ function Cofounder({ navigate }) {
             </div>
 
             <div className="col-lg-5">
-              <div className="founder-hero-visual" data-scroll-reveal="right"
+              <div className="founder-hero-visual" data-scroll-reveal="right">
                 <div className="portrait-frame">
                   <img
+                    data-scroll-image
                     src="/images/founder/pastor_albert_yiga.png"
                     alt="Pastor Albert Yiga, co-founder of Garden of Mercy Foundation"
                     width="720"

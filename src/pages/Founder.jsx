@@ -57,9 +57,10 @@ function Founder({ navigate }) {
             </div>
 
             <div className="col-lg-5">
-              <div className="founder-hero-visual" data-scroll-reveal="right"
+              <div className="founder-hero-visual" data-scroll-reveal="right">
                 <div className="portrait-frame">
                   <img
+                    data-scroll-image
                     src="/images/founder/derrick-musinguzi.png"
                     alt="Official portrait of Apostle Derrick Musinguzi"
                     width="720"

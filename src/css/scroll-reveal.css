@@ -86,3 +86,39 @@ html.has-scroll-reveal [data-scroll-reveal].is-visible
     will-change: auto;
   }
 }
+
+
+/* Image entrances: opt-in per image; layout dimensions remain unchanged. */
+html.has-scroll-reveal [data-scroll-image] {
+  opacity: 0;
+  transform: scale(1.035);
+  clip-path: inset(2.5%);
+  transition:
+    opacity 760ms cubic-bezier(.22, 1, .36, 1),
+    transform 900ms cubic-bezier(.22, 1, .36, 1),
+    clip-path 900ms cubic-bezier(.22, 1, .36, 1);
+}
+
+html.has-scroll-reveal [data-scroll-image].is-visible {
+  opacity: 1;
+  transform: scale(1);
+  clip-path: inset(0);
+}
+
+/* Keep interactive controls responsive; do not animate their hit areas. */
+html.has-scroll-reveal [data-scroll-reveal] a,
+html.has-scroll-reveal [data-scroll-reveal] button,
+html.has-scroll-reveal [data-scroll-reveal] input,
+html.has-scroll-reveal [data-scroll-reveal] select,
+html.has-scroll-reveal [data-scroll-reveal] textarea {
+  transition-property: color, background-color, border-color, box-shadow;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.has-scroll-reveal [data-scroll-image] {
+    opacity: 1;
+    transform: none;
+    clip-path: none;
+    transition: none;
+  }
+}
