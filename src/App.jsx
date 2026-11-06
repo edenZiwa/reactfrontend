@@ -8,6 +8,7 @@ import "./css/shared-ux.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "./css/styles.css";
 import "./css/app.css";
+import "./css/scroll-reveal.css";
 import usePath from "./components/usePath.js";
 import SEO from "./components/SEO.jsx";
 import {
