@@ -108,7 +108,7 @@ const termsSections = [{
 
 const Terms = () => {
     return (
-        <div id="main-content">
+        <div>
             {/* Page Header */}
             <section data-scroll-reveal="up" className="page-header" aria-labelledby="terms-title">
                 <div className="container py-5">
