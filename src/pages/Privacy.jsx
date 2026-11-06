@@ -26,7 +26,7 @@ const policySections = [
 
 const Privacy = () => {
 return (
-<div id="main-content">
+<div>
 {/* Page Header */}
 <section data-scroll-reveal="up" className="page-header" aria-labelledby="privacy-title">
 <div className="container py-5">
