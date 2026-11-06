@@ -42,8 +42,8 @@ const commitments = [
 
 function About({ navigate }) {
   return (
-    <main id="main-content" className="about-page">
-      <section className="about-hero" aria-labelledby="about-title">
+    <div id="main-content" className="about-page">
+      <section data-scroll-reveal="up" className="about-hero" aria-labelledby="about-title">
         <div className="about-hero-inner container">
           <div className="row align-items-center g-5">
             <div className="col-lg-7">
@@ -103,7 +103,7 @@ function About({ navigate }) {
         </div>
       </section>
 
-      <section className="about-overview-section" aria-labelledby="overview-title">
+      <section data-scroll-reveal="up" className="about-overview-section" aria-labelledby="overview-title">
         <div className="container">
           <div className="about-overview-grid">
             <div className="about-overview-heading">
@@ -138,7 +138,7 @@ function About({ navigate }) {
         </div>
       </section>
 
-      <section className="about-approach-section" aria-labelledby="approach-title">
+      <section data-scroll-reveal="up" className="about-approach-section" aria-labelledby="approach-title">
         <div className="container">
           <div className="about-section-heading">
             <span className="about-section-kicker">HOW WE APPROACH OUR WORK</span>
@@ -171,7 +171,7 @@ function About({ navigate }) {
         </div>
       </section>
 
-      <section className="about-values-section" aria-labelledby="values-heading">
+      <section data-scroll-reveal="up" className="about-values-section" aria-labelledby="values-heading">
         <div className="container">
           <div className="about-values-intro">
             <div>
@@ -204,7 +204,7 @@ function About({ navigate }) {
         </div>
       </section>
 
-      <section className="about-faith-section" aria-labelledby="faith-title">
+      <section data-scroll-reveal="up" className="about-faith-section" aria-labelledby="faith-title">
         <div className="container">
           <div className="about-faith-panel">
             <div className="about-faith-mark" aria-hidden="true">
@@ -226,7 +226,7 @@ function About({ navigate }) {
         </div>
       </section>
 
-      <section className="about-cta-section" aria-labelledby="support-heading">
+      <section data-scroll-reveal="up" className="about-cta-section" aria-labelledby="support-heading">
         <div className="container">
           <div className="about-cta-panel">
             <div className="about-cta-copy">
@@ -249,7 +249,7 @@ function About({ navigate }) {
           </div>
         </div>
       </section>
-    </main>
+    </div>
   );
 }
 
