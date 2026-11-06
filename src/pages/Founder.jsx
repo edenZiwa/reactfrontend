@@ -57,7 +57,7 @@ function Founder({ navigate }) {
             </div>
 
             <div className="col-lg-5">
-              <div className="founder-hero-visual">
+              <div className="founder-hero-visual" data-scroll-reveal="right"
                 <div className="portrait-frame">
                   <img
                     src="/images/founder/derrick-musinguzi.png"
