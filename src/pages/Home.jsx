@@ -510,6 +510,7 @@ function Home( {
                 <div className="text-center p-4">
                   <img
                     className="img-fluid rounded-4"
+                    data-scroll-image
                     src="https://gardenofmercy.org/images/founder/apostle_derrick_musinguzi.png"
                     alt="Apostle Derrick Musinguzi with his wife Silvia Musinguzi"
                     loading="lazy"
