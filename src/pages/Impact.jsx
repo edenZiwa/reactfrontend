@@ -28,7 +28,7 @@ export default function Impact({ navigate }) {
     <main id="main-content" className="impact-page">
       <ContentStatus tone="info">We will publish measured results only when they are supported by reviewed project and beneficiary records. The measures shown on this page describe our reporting approach, not achieved totals.</ContentStatus>
       {/* IMPACT HERO */}
-      <section className="impact-hero" aria-labelledby="impact-title">
+      <section data-scroll-reveal="up" className="impact-hero" aria-labelledby="impact-title">
         <div className="impact-hero-inner container">
           <div className="row align-items-center g-5">
             <div className="col-lg-7">
@@ -114,7 +114,7 @@ export default function Impact({ navigate }) {
       </section>
 
       {/* IMPACT AREAS */}
-      <section className="py-5" aria-label="Our impact areas">
+      <section data-scroll-reveal="up" className="py-5" aria-label="Our impact areas">
         <div className="container">
           <div className="row g-4">
             {impactAreas.map((area) => (
@@ -134,7 +134,7 @@ export default function Impact({ navigate }) {
       </section>
 
       {/* ACCOUNTABILITY */}
-      <section className="py-5" aria-labelledby="accountability-title">
+      <section data-scroll-reveal="up" className="py-5" aria-labelledby="accountability-title">
         <div className="container text-center">
           <h2 id="accountability-title" className="fw-bold">
             Building a culture of accountability
@@ -149,7 +149,7 @@ export default function Impact({ navigate }) {
       </section>
 
       {/* CALL TO ACTION */}
-      <section className="py-5" aria-labelledby="impact-cta-title">
+      <section data-scroll-reveal="up" className="py-5" aria-labelledby="impact-cta-title">
         <div className="container">
           <div className="cta-section rounded-4 p-4 p-md-5 text-center">
             <h2 id="impact-cta-title" className="fw-bold">
