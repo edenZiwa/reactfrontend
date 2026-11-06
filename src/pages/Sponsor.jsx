@@ -217,7 +217,7 @@ function ChildProfiles() {
   };
 
   return (
-    <section className="sponsor-profiles-section" id="children" aria-labelledby="children-heading">
+    <section data-scroll-reveal="up" className="sponsor-profiles-section" id="children" aria-labelledby="children-heading">
       <div className="container">
         <div className="sponsor-section-heading sponsor-profile-heading">
           <div>
@@ -341,8 +341,8 @@ function ChildProfiles() {
 
 export default function Sponsor({ navigate }) {
   return (
-    <main className="sponsor-page">
-      <section className="sponsor-hero" aria-labelledby="sponsor-title">
+    <div className="sponsor-page">
+      <section data-scroll-reveal="up" className="sponsor-hero" aria-labelledby="sponsor-title">
         <div className="container sponsor-hero-container">
           <div className="row align-items-center g-5">
             <div className="col-lg-7">
@@ -395,7 +395,7 @@ export default function Sponsor({ navigate }) {
         </div>
       </section>
 
-      <section className="sponsor-trust-strip" aria-label="Our sponsorship commitments">
+      <section data-scroll-reveal="up" className="sponsor-trust-strip" aria-label="Our sponsorship commitments">
         <div className="container">
           <div className="row g-3">
             <div className="col-md-4"><div><i className="bi bi-shield-check" /><span>Child dignity and safeguarding</span></div></div>
@@ -405,7 +405,7 @@ export default function Sponsor({ navigate }) {
         </div>
       </section>
 
-      <section className="sponsor-pathways-section" aria-labelledby="pathways-heading">
+      <section data-scroll-reveal="up" className="sponsor-pathways-section" aria-labelledby="pathways-heading">
         <div className="container">
           <div className="sponsor-section-heading text-center mx-auto">
             <span className="sponsor-kicker">WAYS TO MAKE A DIFFERENCE</span>
@@ -453,7 +453,7 @@ export default function Sponsor({ navigate }) {
 
       <ChildProfiles />
 
-      <section className="sponsor-principles-section" aria-labelledby="principles-heading">
+      <section data-scroll-reveal="up" className="sponsor-principles-section" aria-labelledby="principles-heading">
         <div className="container">
           <div className="sponsor-section-heading">
             <span className="sponsor-kicker">OUR RESPONSIBILITY TO YOU AND THE CHILDREN</span>
@@ -474,7 +474,7 @@ export default function Sponsor({ navigate }) {
         </div>
       </section>
 
-      <section className="sponsor-process-section" aria-labelledby="process-heading">
+      <section data-scroll-reveal="up" className="sponsor-process-section" aria-labelledby="process-heading">
         <div className="container">
           <div className="sponsor-section-heading text-center mx-auto">
             <span className="sponsor-kicker">A CLEAR, SUPPORTED PROCESS</span>
@@ -495,7 +495,7 @@ export default function Sponsor({ navigate }) {
         </div>
       </section>
 
-      <section className="sponsor-final-cta" aria-labelledby="sponsor-cta-heading">
+      <section data-scroll-reveal="up" className="sponsor-final-cta" aria-labelledby="sponsor-cta-heading">
         <div className="container">
           <div className="sponsor-final-cta-panel">
             <div className="sponsor-final-cta-copy">
@@ -518,6 +518,6 @@ export default function Sponsor({ navigate }) {
           </div>
         </div>
       </section>
-    </main>
+    </div>
   );
 }

@@ -91,8 +91,8 @@ function PasswordRecovery({ navigate, mode = "forgot" }) {
   }
 
   return (
-    <main className="gom-auth-page container py-5" id="main-content">
-      <section className="gom-auth-card mx-auto">
+    <div className="gom-auth-page container py-5" id="main-content">
+      <section data-scroll-reveal="up" className="gom-auth-card mx-auto">
         <div className="gom-auth-brand-mark" aria-hidden="true">
           <i className={isReset ? "bi bi-shield-lock" : "bi bi-envelope-check"} />
         </div>
@@ -169,7 +169,7 @@ function PasswordRecovery({ navigate, mode = "forgot" }) {
           {!isReset && <a href="/contact" onClick={(event) => { event.preventDefault(); navigate?.("/contact"); }} className="small">Need help?</a>}
         </div>
       </section>
-    </main>
+    </div>
   );
 }
 

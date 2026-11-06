@@ -52,6 +52,8 @@ import ThemeProvider from "./components/ThemeProvider.jsx";
 import { AuthProvider } from "./auth/AuthProvider.jsx";
 import "./css/theme.css";
 import "./css/scroll-experience.css";
+import "./css/scroll-reveal.css";
+import ScrollReveal from "./components/ScrollReveal.jsx";
 
 function App() {
   const [path, navigate] = usePath();
@@ -157,6 +159,7 @@ function App() {
   return (
     <div className="app-shell">
       <SEO path={path} />
+      <ScrollReveal />
 
       <a className="skip-link" href="#main-content">
         Skip to content

@@ -82,7 +82,7 @@ export default function Volunteer({ navigate }) {
 
   return (
     <div className="volunteer-page">
-      <section className="volunteer-hero" style={{ background: "linear-gradient(120deg, rgba(16,37,27,.96), rgba(25,135,84,.86)), url('/images/gallery/volunteers-01.jpg') center/cover" }}>
+      <section data-scroll-reveal="up" className="volunteer-hero" style={{ background: "linear-gradient(120deg, rgba(16,37,27,.96), rgba(25,135,84,.86)), url('/images/gallery/volunteers-01.jpg') center/cover" }}>
         <div className="container py-5 py-lg-6">
           <span className="volunteer-eyebrow">GARDEN OF MERCY FOUNDATION</span>
           <h1>Give Your Time. <span>Grow Hope.</span></h1>
@@ -91,7 +91,7 @@ export default function Volunteer({ navigate }) {
         </div>
       </section>
 
-      <section className="container volunteer-content py-5 py-lg-6">
+      <section data-scroll-reveal="up" className="container volunteer-content py-5 py-lg-6">
         <div className="row g-5 align-items-start">
           <div className="col-lg-5">
             <span className="volunteer-kicker">MAKE A DIFFERENCE</span>

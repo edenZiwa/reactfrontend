@@ -1,0 +1,46 @@
+/* Opt-in scroll reveals. Without the JS enhancement, content stays visible. */
+html.has-scroll-reveal [data-scroll-reveal] {
+  opacity: 0;
+  transition:
+    opacity 560ms cubic-bezier(.2, .7, .2, 1),
+    transform 560ms cubic-bezier(.2, .7, .2, 1);
+  transition-delay: var(--scroll-reveal-delay, 0ms);
+}
+
+html.has-scroll-reveal [data-scroll-reveal="up"] {
+  transform: translate3d(0, 1.5rem, 0);
+}
+
+html.has-scroll-reveal [data-scroll-reveal="down"] {
+  transform: translate3d(0, -1.25rem, 0);
+}
+
+html.has-scroll-reveal [data-scroll-reveal="left"] {
+  transform: translate3d(1.5rem, 0, 0);
+}
+
+html.has-scroll-reveal [data-scroll-reveal="right"] {
+  transform: translate3d(-1.5rem, 0, 0);
+}
+
+html.has-scroll-reveal [data-scroll-reveal="scale"] {
+  transform: scale(.97);
+}
+
+html.has-scroll-reveal [data-scroll-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+.scroll-reveal-delay-1 { --scroll-reveal-delay: 80ms; }
+.scroll-reveal-delay-2 { --scroll-reveal-delay: 160ms; }
+.scroll-reveal-delay-3 { --scroll-reveal-delay: 240ms; }
+.scroll-reveal-delay-4 { --scroll-reveal-delay: 320ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  html.has-scroll-reveal [data-scroll-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

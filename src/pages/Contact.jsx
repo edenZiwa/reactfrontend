@@ -91,7 +91,7 @@ function Contact( {
 
     return (
         <>
-        <section className="contact-hero" aria-labelledby="contact-hero-title">
+        <section data-scroll-reveal="up" className="contact-hero" aria-labelledby="contact-hero-title">
             <div className="contact-hero-overlay" aria-hidden="true" />
             <div className="container contact-hero-inner">
                 <div className="row align-items-center g-5">
@@ -168,9 +168,9 @@ function Contact( {
                 </div>
             </div>
         </section>
-            <main id="main-content">
+            <div id="main-content">
                 {/* Contact introduction */}
-                <section id="contact-details" className="contact-section py-5">
+                <section data-scroll-reveal="up" id="contact-details" className="contact-section py-5">
                     <div className="container">
                         <div className="row g-5 align-items-start">
                             <div className="col-lg-5">
@@ -431,7 +431,7 @@ function Contact( {
         </section>
 
         {/* Final call to action */}
-        <section className="contact-cta-section py-5">
+        <section data-scroll-reveal="up" className="contact-cta-section py-5">
             <div className="container">
                 <div className="contact-cta rounded-4 p-4 p-md-5 text-center">
                     <div className="contact-cta-icon mb-3" aria-hidden="true">
@@ -471,7 +471,7 @@ function Contact( {
                 </div>
             </div>
         </section>
-    </main>
+    </div>
 </>
 
 );

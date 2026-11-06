@@ -24,7 +24,7 @@ function AccountAccess({ navigate }) {
   }
 
   return (
-    <main className="gom-auth-page container py-5" id="main-content">
+    <div className="gom-auth-page container py-5" id="main-content">
       <div className="gom-auth-card mx-auto">
         <div className="gom-auth-brand-mark" aria-hidden="true">
           <i className="bi bi-flower1" />
@@ -84,7 +84,7 @@ function AccountAccess({ navigate }) {
           <a href="/admin" className="small">Staff and administrator sign-in</a>
         </div>
       </div>
-    </main>
+    </div>
   );
 }
 
