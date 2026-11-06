@@ -91,7 +91,7 @@ function PasswordRecovery({ navigate, mode = "forgot" }) {
   }
 
   return (
-    <div className="gom-auth-page container py-5" id="main-content">
+    <div className="gom-auth-page container py-5">
       <section data-scroll-reveal="up" className="gom-auth-card mx-auto">
         <div className="gom-auth-brand-mark" aria-hidden="true">
           <i className={isReset ? "bi bi-shield-lock" : "bi bi-envelope-check"} />
