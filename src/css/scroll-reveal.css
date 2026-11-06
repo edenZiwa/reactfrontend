@@ -81,7 +81,6 @@ html.has-scroll-reveal [data-scroll-reveal].is-visible
     transform: none;
     animation: none;
     transition: none;
-    will-change: auto;
   }
 }
 
