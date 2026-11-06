@@ -102,7 +102,7 @@ const SuccessStories = () => {
     <ContentStatus tone="info">The following are illustrative themes, not verified beneficiary testimonials or completed project reports. Real stories will be published only after factual review, informed consent and safeguarding approval.</ContentStatus>
 
             {/* HERO SECTION */}
-            <section className="mercy-hero">
+            <section data-scroll-reveal="up" className="mercy-hero">
                 <div className="container">
                     <div className="mercy-hero-content">
                         <span className="mercy-eyebrow text-uppercase">
@@ -134,7 +134,7 @@ const SuccessStories = () => {
             </section>
 
             {/* INTRODUCTION AND IMPACT PILLARS */}
-            <section className="mercy-intro">
+            <section data-scroll-reveal="up" className="mercy-intro">
                 <div className="container">
                     <div className="row align-items-center g-4 mb-5">
                         <div className="col-lg-7">
@@ -175,7 +175,7 @@ const SuccessStories = () => {
             </section>
 
             {/* SUCCESS STORIES GRID */}
-            <section className="mercy-stories" id="our-stories">
+            <section data-scroll-reveal="up" className="mercy-stories" id="our-stories">
                 <div className="container">
                     <div className="text-center mx-auto mb-5" style={ { maxWidth: 760 }}>
                         <span className="mercy-eyebrow text-success">
@@ -230,7 +230,7 @@ const SuccessStories = () => {
         </section>
 
         {/* FEATURED IMPACT SECTION */}
-        <section className="mercy-feature">
+        <section data-scroll-reveal="up" className="mercy-feature">
             <div className="container">
                 <div className="row align-items-center g-5">
                     <div className="col-lg-6">
@@ -300,7 +300,7 @@ const SuccessStories = () => {
     </section>
 
     {/* HOW CHANGE HAPPENS */}
-    <section className="mercy-journey">
+    <section data-scroll-reveal="up" className="mercy-journey">
         <div className="container">
             <div className="text-center mx-auto mb-5" style={ { maxWidth: 720 }}>
                 <span className="mercy-eyebrow text-success">
@@ -341,7 +341,7 @@ const SuccessStories = () => {
     </section>
 
     {/* VALUES AND TESTIMONIAL-STYLE QUOTE */}
-    <section className="mercy-quote">
+    <section data-scroll-reveal="up" className="mercy-quote">
         <div className="container">
             <div className="mercy-quote-inner">
                 <div className="mercy-quote-mark" aria-hidden="true">
@@ -377,7 +377,7 @@ const SuccessStories = () => {
     </section>
 
     {/* CALL TO ACTION */}
-    <section className="mercy-cta">
+    <section data-scroll-reveal="up" className="mercy-cta">
         <div className="container text-center">
             <span className="mercy-eyebrow mercy-gold-text">
                 YOUR KINDNESS MATTERS
