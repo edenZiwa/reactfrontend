@@ -198,7 +198,7 @@ function Donate() {
   }
 
   return (
-    <div id="main-content" className="donate-page">
+    <div className="donate-page">
       {/* Donation hero */}
       <section data-scroll-reveal="up" className="donate-hero" aria-labelledby="donate-hero-title">
         <div className="donate-overlay" aria-hidden="true" />
