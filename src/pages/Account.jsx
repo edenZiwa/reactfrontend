@@ -418,7 +418,7 @@ function Account( {
     if (authStatus === "authenticated" && !hasPublicRole) {
         return (
             <div className="container wrap py-5">
-                <section data-scroll-reveal="up" className="panel p-4 p-md-5 mx-auto" style={{ maxWidth: 620 }}>
+                <section className="panel p-4 p-md-5 mx-auto" style={{ maxWidth: 620 }}>
                     <div className="eyebrow mb-2">Garden of Mercy Foundation</div>
                     <h1 className="page-title h2 mb-3">Staff account detected</h1>
                     <p className="text-secondary mb-4">
@@ -439,7 +439,7 @@ function Account( {
     if (needsSignIn && !account) {
         return (
             <div className="container wrap py-5">
-                <section data-scroll-reveal="up" className="panel p-4 p-md-5 mx-auto" style={{ maxWidth: 620 }}>
+                <section className="panel p-4 p-md-5 mx-auto" style={{ maxWidth: 620 }}>
                     <div className="eyebrow mb-2">Garden of Mercy Foundation</div>
                     <h1 className="page-title h2 mb-3">Sign in to your account</h1>
                     <p className="text-secondary mb-4">
@@ -511,7 +511,7 @@ function Account( {
 
             <div className="row g-4 mb-4">
                 <div className="col-12 col-lg-7">
-                    <section data-scroll-reveal="up" className="panel h-100">
+                    <section className="panel h-100">
                         <div className="banner" />
                         <div className="profile-body">
                             <div className="profile-head mb-4">
@@ -559,7 +559,7 @@ function Account( {
                 </div>
 
                 <div className="col-12 col-lg-5">
-                    <section data-scroll-reveal="up" className="panel p-4 h-100">
+                    <section className="panel p-4 h-100">
                         <h2 className="panel-title mb-1">Stay connected</h2>
                         <p className="small-muted mb-3">
                             Explore opportunities to make a difference.
@@ -610,7 +610,7 @@ function Account( {
             </div>
 
             {/* Dashboard tabs */}
-            <section data-scroll-reveal="up" className="panel p-3 p-md-4 mb-4">
+            <section className="panel p-3 p-md-4 mb-4">
                 <div className="nav nav-pills flex-wrap gap-2" role="tablist" aria-label="Account sections" onKeyDown={handleTabKeyDown}>
                     {TABS.map((tab) => (
                         <button
@@ -632,7 +632,7 @@ function Account( {
 
             {/* Volunteer profile */}
             {activeTab === "volunteer" && (
-                <section data-scroll-reveal="up"
+                <section
                     id="tab-volunteer"
                     className="tab-panel panel p-4 p-md-5 mb-4"
                     role="tabpanel"
@@ -776,7 +776,7 @@ tabIndex={0}
 
 {/* Program registrations */}
 {activeTab === "programs" && (
-<section data-scroll-reveal="up"
+<section
 id="tab-programs"
 className="tab-panel panel p-4 p-md-5 mb-4"
 role="tabpanel"
@@ -839,7 +839,7 @@ You have no program registrations yet.
 
 {/* Applications */}
 {activeTab === "applications" && (
-<section data-scroll-reveal="up"
+<section
 id="tab-applications"
 className="tab-panel panel p-4 p-md-5 mb-4"
 role="tabpanel"
@@ -977,7 +977,7 @@ You have not submitted any applications yet.
 
 {/* Donation history */}
 {activeTab === "donations" && (
-<section data-scroll-reveal="up"
+<section
 id="tab-donations"
 className="tab-panel panel p-4 p-md-5 mb-4"
 role="tabpanel"
