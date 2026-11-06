@@ -31,12 +31,19 @@ export default function ScrollReveal({ path }) {
       threshold: 0.08,
     });
 
+    const observeElement = (element) => {
+      // Never conceal a section that contains a form or dialog workflow.
+      if (element.querySelector("form, [role='dialog']")) {
+        element.classList.add("is-visible");
+        return;
+      }
+      observer.observe(element);
+    };
+
     const observeWithin = (node) => {
       if (!active || !(node instanceof Element)) return;
-      if (node.matches("[data-scroll-reveal]")) observer.observe(node);
-      node.querySelectorAll("[data-scroll-reveal]").forEach((element) => {
-        observer.observe(element);
-      });
+      if (node.matches("[data-scroll-reveal]")) observeElement(node);
+      node.querySelectorAll("[data-scroll-reveal]").forEach(observeElement);
     };
 
     root.classList.add("has-scroll-reveal");
