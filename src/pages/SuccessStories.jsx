@@ -198,6 +198,7 @@ const SuccessStories = () => {
                             <div className="col-md-6 col-xl-3" key={story.category}>
                                 <article className="mercy-story-card">
                                     <img
+                                    data-scroll-image
                                     src={story.image}
                                     alt={story.alt}
                                     className="mercy-story-image"
