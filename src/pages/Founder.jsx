@@ -4,9 +4,9 @@ import { AppLink } from "../components/SiteChrome.jsx";
 
 function Founder({ navigate }) {
   return (
-    <main id="main-content" className="leadership-page founder-pagee">
+    <div id="main-content" className="leadership-page founder-pagee">
       {/* HERO */}
-      <section
+      <section data-scroll-reveal="up"
         id="founder"
         className="founder-hero founder-hero-founder"
         aria-labelledby="founder-hero-title"
@@ -103,7 +103,7 @@ function Founder({ navigate }) {
       </section>
 
       {/* FOUNDER PROFILE */}
-      <section
+      <section data-scroll-reveal="up"
         id="founder-profile"
         className="section-pad"
         aria-labelledby="profile-title"
@@ -178,7 +178,7 @@ function Founder({ navigate }) {
       </section>
 
       {/* VALUES */}
-      <section
+      <section data-scroll-reveal="up"
         id="values"
         className="section-pad values-section"
         aria-labelledby="values-title"
@@ -260,7 +260,7 @@ function Founder({ navigate }) {
       </section>
 
       {/* MINISTRY BACKGROUND */}
-      <section
+      <section data-scroll-reveal="up"
         id="ministry"
         className="section-pad"
         aria-labelledby="ministry-title"
@@ -390,7 +390,7 @@ function Founder({ navigate }) {
       </section>
 
       {/* APOSTLE DERRICK MUSINGUZI — VIDEO PLAYLISTS */}
-      <section id="founder-teachings" className="section-pad bg-light" aria-labelledby="founder-teachings-title">
+      <section data-scroll-reveal="up" id="founder-teachings" className="section-pad bg-light" aria-labelledby="founder-teachings-title">
         <div className="container">
           <div className="section-heading text-center">
             <span className="eyebrow"><span className="eyebrow-dot" /> VIDEO TEACHINGS</span>
@@ -454,7 +454,7 @@ function Founder({ navigate }) {
       </section>
 
       {/* FOUNDATION MISSION */}
-      <section
+      <section data-scroll-reveal="up"
         id="foundation-vision"
         className="mission-section section-pad"
         aria-labelledby="mission-title"
@@ -524,7 +524,7 @@ function Founder({ navigate }) {
       </section>
 
       {/* MESSAGE */}
-      <section
+      <section data-scroll-reveal="up"
         id="founder-message"
         className="section-pad message-section"
         aria-labelledby="message-title"
@@ -589,7 +589,7 @@ function Founder({ navigate }) {
       </section>
 
       {/* GALLERY PREVIEW */}
-      <section
+      <section data-scroll-reveal="up"
         id="action"
         className="section-pad gallery-preview"
         aria-labelledby="gallery-title"
@@ -698,7 +698,7 @@ function Founder({ navigate }) {
       </section>
 
       {/* CALL TO ACTION */}
-      <section
+      <section data-scroll-reveal="up"
         className="section-pad cta-section"
         aria-labelledby="cta-title"
       >
@@ -759,7 +759,7 @@ function Founder({ navigate }) {
           </div>
         </div>
       </section>
-    </main>
+    </div>
   );
 }
 
