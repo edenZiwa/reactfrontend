@@ -167,10 +167,10 @@ const processSteps = [
 
 function Programs({ navigate }) {
   return (
-    <main id="main-content" className="programs-page">
+    <div id="main-content" className="programs-page">
       <ContentStatus tone="info">These are areas of focus and planning examples. We will publish confirmed activities, locations and schedules as our programme records are approved.</ContentStatus>
       {/* PROGRAMS HERO */}
-      <section className="programs-hero" aria-labelledby="programs-title">
+      <section data-scroll-reveal="up" className="programs-hero" aria-labelledby="programs-title">
         <div className="programs-hero-overlay" aria-hidden="true" />
         <div className="container programs-hero-inner">
           <div className="row align-items-center g-5">
@@ -239,7 +239,7 @@ function Programs({ navigate }) {
       </section>
 
       {/* PROGRAM PHILOSOPHY */}
-      <section className="programs-approach py-5" aria-labelledby="approach-title">
+      <section data-scroll-reveal="up" className="programs-approach py-5" aria-labelledby="approach-title">
         <div className="container">
           <div className="row g-5 align-items-center">
             <div className="col-lg-6">
@@ -288,7 +288,7 @@ function Programs({ navigate }) {
       </section>
 
       {/* PROGRAM AREAS */}
-      <section id="program-areas" className="programs-areas py-5" aria-labelledby="program-areas-title">
+      <section data-scroll-reveal="up" id="program-areas" className="programs-areas py-5" aria-labelledby="program-areas-title">
         <div className="container">
           <div className="text-center mb-5">
             <span className="section-label">PROGRAM AREAS</span>
@@ -343,7 +343,7 @@ function Programs({ navigate }) {
       </section>
 
       {/* PROGRAM PRINCIPLES */}
-      <section className="programs-principles py-5" aria-labelledby="principles-title">
+      <section data-scroll-reveal="up" className="programs-principles py-5" aria-labelledby="principles-title">
         <div className="container">
           <div className="text-center mb-5">
             <span className="section-label">OUR PRINCIPLES</span>
@@ -383,7 +383,7 @@ function Programs({ navigate }) {
       </section>
 
       {/* HOW WE WORK */}
-      <section className="programs-process py-5" aria-labelledby="process-title">
+      <section data-scroll-reveal="up" className="programs-process py-5" aria-labelledby="process-title">
         <div className="container">
           <div className="row justify-content-center">
             <div className="col-lg-9 text-center">
@@ -426,7 +426,7 @@ function Programs({ navigate }) {
       </section>
 
       {/* CALL TO ACTION */}
-      <section
+      <section data-scroll-reveal="up"
         className="py-5"
         aria-labelledby="program-cta-title"
       >
@@ -464,7 +464,7 @@ function Programs({ navigate }) {
           </div>
         </div>
       </section>
-    </main>
+    </div>
   );
 }
 
