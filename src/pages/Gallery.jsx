@@ -519,7 +519,7 @@ function Gallery({navigate}) {
                     onClick={() => openImage(image)}
                     aria-label={`View ${image.title}`}
                   >
-                    <img
+                    <img data-scroll-image
                       src={image.src}
                       alt={image.alt}
                       loading="lazy"
