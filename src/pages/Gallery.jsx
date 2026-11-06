@@ -302,7 +302,7 @@ function Gallery({navigate}) {
 
         <div className="container position-relative">
           <div className="row align-items-center min-vh-60">
-            <div className="col-lg-8">
+            <div className="col-lg-8" data-scroll-reveal="left">
               <span className="gallery-eyebrow">
                 <i className="bi bi-camera-fill me-2" />
                 Our Stories
