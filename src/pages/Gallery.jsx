@@ -297,7 +297,7 @@ function Gallery({navigate}) {
     <>
       <ContentStatus tone="info">Photographs and captions are being reviewed for source, date, activity accuracy and consent. Until that review is complete, gallery images are illustrative and should not be treated as evidence of a Foundation activity.</ContentStatus>
             {/* HERO */}
-      <section className="gallery-hero mt-4">
+      <section data-scroll-reveal="up" className="gallery-hero mt-4">
         <div className="gallery-hero-background" />
 
         <div className="container position-relative">
@@ -342,7 +342,7 @@ function Gallery({navigate}) {
       </section>
 
       {/* INTRODUCTION */}
-      <section className="py-5">
+      <section data-scroll-reveal="up" className="py-5">
         <div className="container">
           <div className="row justify-content-center text-center">
             <div className="col-lg-8">
@@ -362,7 +362,7 @@ function Gallery({navigate}) {
       </section>
 
       {/* FEATURED STORY */}
-      <section className="pb-5">
+      <section data-scroll-reveal="up" className="pb-5">
         <div className="container">
           <div className="featured-story rounded-5 overflow-hidden">
             <div className="row g-0 align-items-stretch">
@@ -426,7 +426,7 @@ function Gallery({navigate}) {
       </section>
 
       {/* FILTERABLE GALLERY */}
-      <section
+      <section data-scroll-reveal="up"
         id="gallery"
         className="gallery-section py-5"
       >
@@ -602,7 +602,7 @@ function Gallery({navigate}) {
       </section>
 
       {/* VIDEO STORIES */}
-      <section className="py-5">
+      <section data-scroll-reveal="up" className="py-5">
         <div className="container">
           <div className="row align-items-end mb-5">
             <div className="col-lg-8">
@@ -670,7 +670,7 @@ function Gallery({navigate}) {
       </section>
 
       {/* SCRIPTURE */}
-      <section className="py-5 gallery-scripture">
+      <section data-scroll-reveal="up" className="py-5 gallery-scripture">
         <div className="container">
           <div className="row justify-content-center text-center">
             <div className="col-lg-8">
@@ -690,7 +690,7 @@ function Gallery({navigate}) {
       </section>
 
       {/* DONATION CTA */}
-      <section className="py-5">
+      <section data-scroll-reveal="up" className="py-5">
         <div className="container">
           <div className="gallery-cta rounded-5 p-4 p-lg-5">
             <div className="row align-items-center g-4">
