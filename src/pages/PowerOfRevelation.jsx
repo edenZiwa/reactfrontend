@@ -342,7 +342,7 @@ function ScriptureQuote() {
 export default function PowerOfRevelation() {
   return (
     <main className="power-revelation-page" id="main-content">
-      <section className="pr-hero" aria-labelledby="pr-title">
+      <section data-scroll-reveal="up" className="pr-hero" aria-labelledby="pr-title">
         <div className="pr-hero-overlay" />
         <div className="container position-relative py-5">
           <div className="row align-items-center g-5 py-lg-5">
@@ -405,7 +405,7 @@ export default function PowerOfRevelation() {
         </div>
       </section>
 
-      <section className="pr-stats-section" aria-label="Ministry overview">
+      <section data-scroll-reveal="up" className="pr-stats-section" aria-label="Ministry overview">
         <div className="container">
           <div className="row g-0">
             {[
@@ -428,7 +428,7 @@ export default function PowerOfRevelation() {
         </div>
       </section>
 
-      <section className="py-5 py-lg-6" id="pr-about">
+      <section data-scroll-reveal="up" className="py-5 py-lg-6" id="pr-about">
         <div className="container py-lg-4">
           <div className="row align-items-center g-5">
             <div className="col-lg-6">
@@ -485,7 +485,7 @@ export default function PowerOfRevelation() {
         </div>
       </section>
 
-      <section className="pr-vision-section py-5 py-lg-6" id="pr-vision">
+      <section data-scroll-reveal="up" className="pr-vision-section py-5 py-lg-6" id="pr-vision">
         <div className="container py-lg-4">
           <SectionHeading
             eyebrow="OUR SPIRITUAL DIRECTION"
@@ -542,7 +542,7 @@ export default function PowerOfRevelation() {
         </div>
       </section>
 
-      <section className="py-5 py-lg-6" id="pr-history">
+      <section data-scroll-reveal="up" className="py-5 py-lg-6" id="pr-history">
         <div className="container py-lg-4">
           <SectionHeading
             eyebrow="OUR HERITAGE"
@@ -668,7 +668,7 @@ export default function PowerOfRevelation() {
         </div>
       </section>
 
-      <section className="pr-values-section py-5 py-lg-6" id="pr-values">
+      <section data-scroll-reveal="up" className="pr-values-section py-5 py-lg-6" id="pr-values">
         <div className="container py-lg-4">
           <SectionHeading
             eyebrow="WHAT GUIDES US"
@@ -692,7 +692,7 @@ export default function PowerOfRevelation() {
         </div>
       </section>
 
-      <section className="py-5 py-lg-6" id="pr-network">
+      <section data-scroll-reveal="up" className="py-5 py-lg-6" id="pr-network">
         <div className="container py-lg-4">
           <div className="row align-items-center g-5">
             <div className="col-lg-6">
@@ -746,7 +746,7 @@ export default function PowerOfRevelation() {
         </div>
       </section>
 
-      <section className="pr-events-section py-5 py-lg-6" id="pr-events">
+      <section data-scroll-reveal="up" className="pr-events-section py-5 py-lg-6" id="pr-events">
         <div className="container py-lg-4">
           <SectionHeading
             eyebrow="GATHER · GROW · SERVE"
@@ -905,7 +905,7 @@ export default function PowerOfRevelation() {
       </section>
 
       {/* OFFICIAL YOUTUBE VIDEO & LIVE HUB */}
-      <section className="py-5 py-lg-6 bg-light" id="pr-youtube">
+      <section data-scroll-reveal="up" className="py-5 py-lg-6 bg-light" id="pr-youtube">
         <div className="container py-lg-4">
           <SectionHeading eyebrow="OFFICIAL VIDEO CHANNEL" title="Latest videos & live services" description="Watch Revelation Church Kampala's newest uploads and access its live broadcast directly through the official YouTube channel." centered />
           <div className="row g-4 mt-4">
@@ -943,7 +943,7 @@ export default function PowerOfRevelation() {
         </div>
       </section>
 
-      <section className="pr-sermons-section py-5 py-lg-6" id="pr-sermons">
+      <section data-scroll-reveal="up" className="pr-sermons-section py-5 py-lg-6" id="pr-sermons">
         <div className="container py-lg-4">
           <div className="row align-items-end g-3">
             <div className="col-lg-8">
@@ -1047,7 +1047,7 @@ export default function PowerOfRevelation() {
         </div>
       </section>
 
-      <section className="py-5 py-lg-6" id="pr-media">
+      <section data-scroll-reveal="up" className="py-5 py-lg-6" id="pr-media">
         <div className="container py-lg-4">
           <SectionHeading
             eyebrow="STAY CONNECTED"
@@ -1129,7 +1129,7 @@ export default function PowerOfRevelation() {
         </div>
       </section>
 
-      <section className="pr-location-section py-5 py-lg-6" id="pr-location">
+      <section data-scroll-reveal="up" className="pr-location-section py-5 py-lg-6" id="pr-location">
         <div className="container py-lg-4">
           <div className="row align-items-center g-5">
             <div className="col-lg-6">
@@ -1224,7 +1224,7 @@ export default function PowerOfRevelation() {
         </div>
       </section>
 
-      <section className="pr-cta-section py-5 py-lg-6">
+      <section data-scroll-reveal="up" className="pr-cta-section py-5 py-lg-6">
         <div className="container py-lg-4 text-center">
           <span className="pr-cta-icon">
             <i className="bi bi-heart-fill" aria-hidden="true" />
