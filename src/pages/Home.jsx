@@ -11,7 +11,7 @@ function Home( {
     return (
         <>
             {/* HERO */}
-            <section
+            <section data-scroll-reveal="up"
                 id="home"
                 className="hero-section position-relative overflow-hidden"
                 >
@@ -64,7 +64,7 @@ function Home( {
         </section>
 
         {/* MISSION STRIP */}
-        <section className="py-4 bg-success theme-on-dark">
+        <section data-scroll-reveal="up" className="py-4 bg-success theme-on-dark">
             <div className="container">
                 <div className="row align-items-center g-3">
                     <div className="col-lg-8">
@@ -98,7 +98,7 @@ function Home( {
         </section>
 
         {/* FOUNDATION VALUES STRIP */}
-        <section className="other-section pt-3 pb-3 overflow-hidden">
+        <section data-scroll-reveal="up" className="other-section pt-3 pb-3 overflow-hidden">
             <div className="container">
                 <div className="row g-3 mt-2 text-center">
                     <div className="col-sm-4">
@@ -132,7 +132,7 @@ function Home( {
         </section>
 
         {/* ABOUT */}
-        <section
+        <section data-scroll-reveal="up"
             id="about"
             className="py-4 py-lg-5 shadow-lg"
             >
@@ -231,7 +231,7 @@ function Home( {
         
         
       {/* PROGRAMS */}
-      <section id="programs" className="py-4 shadow-lg">
+      <section data-scroll-reveal="up" id="programs" className="py-4 shadow-lg">
         <div className="container py-4 px-3">
           <div
             className="text-center mx-auto mb-5"
@@ -434,7 +434,7 @@ function Home( {
       </section>
 
       {/* IMPACT */}
-      <section id="impact" className="py-4 shadow-lg">
+      <section data-scroll-reveal="up" id="impact" className="py-4 shadow-lg">
         <div className="container py-4 px-4">
           <div className="row align-items-center g-5">
             <div className="col-lg-5">
@@ -501,7 +501,7 @@ function Home( {
       
       
       {/* FOUNDER */}
-      <section id="founder" className="py-4 shadow-lg">
+      <section data-scroll-reveal="up" id="founder" className="py-4 shadow-lg">
         <div className="container py-4 px-4">
           <div className="row align-items-center g-5">
             {/* Founder image */}
@@ -566,7 +566,7 @@ function Home( {
       </section>
 
       {/* GALLERY */}
-      <section
+      <section data-scroll-reveal="up"
         id="gallery"
         className="py-5"
         aria-labelledby="gallery-title"
@@ -752,7 +752,7 @@ function Home( {
       
       
       {/* DONATION */}
-      <section id="donate" className="py-4 shadow-lg">
+      <section data-scroll-reveal="up" id="donate" className="py-4 shadow-lg">
         <div className="container py-4 px-3">
           <div className="donation-card rounded-4 shadow-lg overflow-hidden">
             <div className="row g-0 align-items-center">
@@ -817,7 +817,7 @@ function Home( {
       </section>
 
       {/* CONTACT */}
-      <section id="contact" className="py-4 shadow-lg">
+      <section data-scroll-reveal="up" id="contact" className="py-4 shadow-lg">
         <div className="container py-4 px-3">
           <div className="row g-5">
             {/* Contact information */}
