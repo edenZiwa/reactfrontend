@@ -167,7 +167,7 @@ const processSteps = [
 
 function Programs({ navigate }) {
   return (
-    <div id="main-content" className="programs-page">
+    <div className="programs-page">
       <ContentStatus tone="info">These are areas of focus and planning examples. We will publish confirmed activities, locations and schedules as our programme records are approved.</ContentStatus>
       {/* PROGRAMS HERO */}
       <section data-scroll-reveal="up" className="programs-hero" aria-labelledby="programs-title">
