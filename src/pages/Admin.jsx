@@ -7,6 +7,7 @@ import Donors from "./admin/Donors.jsx";
 import SponsorshipManagement from "./admin/SponsorshipManagement.jsx";
 import ProjectsImpact from "./admin/ProjectsImpact.jsx";
 import VolunteerOperations from "./admin/VolunteerOperations.jsx";
+import SecurityMonitoring from "./admin/SecurityMonitoring.jsx";
 import "../css/volunteer-operations.css";
 import "../css/projects-impact.css";
 import "../css/sponsorship-management.css";
@@ -35,6 +36,7 @@ const NAV = [
   ]},
   { group: "Communications & security", items: [
     { id: "security", label: "Account security", icon: "bi-shield-lock", path: "/admin/security" },
+    { id: "securityEvents", label: "Security monitoring", icon: "bi-shield-exclamation", path: "/admin/security-monitoring", permission: "security.events.view" },
     { id: "inbox", label: "Contact inbox", icon: "bi-envelope", path: "/admin/contact-inbox", permission: "content.manage" },
     { id: "audit", label: "Audit log", icon: "bi-shield-check", path: "/admin/audit-log", permission: "reports.view" },
   ]},
@@ -49,7 +51,7 @@ const ENDPOINTS = {
 const TITLES = {
   volunteerOps: "Volunteer operations", projects: "Projects & impact", users: "Staff & users", beneficiaries: "Beneficiaries", sponsorship: "Public child profiles", sponsorshipOps: "Sponsorship operations",
   volunteers: "Volunteer profiles", registrations: "Program registrations", applications: "Applications",
-  reconciliation: "Payment reconciliation", recurring: "Recurring giving", inbox: "Contact inbox", audit: "Audit log", security: "Account security",
+  reconciliation: "Payment reconciliation", recurring: "Recurring giving", inbox: "Contact inbox", audit: "Audit log", security: "Account security", securityEvents: "Security monitoring",
 };
 const pickRows = (key, data) => {
   if (key === "users") return data.users || [];
@@ -408,7 +410,7 @@ export default function Admin({ path = "/admin", navigate }) {
         {pageError && <div className="alert alert-danger d-flex justify-content-between align-items-start"><span>{pageError}</span><button className="btn-close" aria-label="Dismiss" onClick={() => setPageError("")} /></div>}
         {notice && <div className="alert alert-success alert-dismissible">{notice}<button className="btn-close" onClick={() => setNotice("")} /></div>}
         {isDashboard ? <Dashboard data={dashboard} navigate={navigate} can={can} reload={() => loadPage("dashboard").catch(e => setPageError(e.message))} /> :
-          key === "security" ? <SecurityPanel /> : key === "donors" ? <Donors canManage={can("donors.manage")} /> : key === "sponsorshipOps" ? <SponsorshipManagement canViewPrivate={can("sponsorship.view_private")} /> : key === "projects" ? <ProjectsImpact canApproveExpenses={can("projects.expenses.approve")} canViewReports={can("projects.reports.view")} /> : key === "volunteerOps" ? <VolunteerOperations canReview={can("volunteers.operations.review")} canReport={can("volunteers.operations.reports")} /> : key === "reports" ? <section className="gom-panel"><div className="gom-panel-heading"><div><h2>Donation report export</h2><p>Download a date-bounded CSV report for finance review.</p></div><i className="bi bi-file-earmark-arrow-down" /></div><div className="row g-3 align-items-end"><div className="col-sm-4"><label className="form-label">From date</label><input type="date" className="form-control" value={reportDates.from} onChange={e => setReportDates({ ...reportDates, from: e.target.value })} /></div><div className="col-sm-4"><label className="form-label">To date</label><input type="date" className="form-control" value={reportDates.to} onChange={e => setReportDates({ ...reportDates, to: e.target.value })} /></div><div className="col-sm-4"><button className="btn btn-success w-100" onClick={downloadCsv}><i className="bi bi-download me-2" />Export donations CSV</button></div></div><p className="small text-secondary mt-3 mb-0">Exports are limited by the backend and include donor contact details. Store downloaded files securely.</p></section> :
+          key === "security" ? <SecurityPanel /> : key === "securityEvents" ? <SecurityMonitoring /> : key === "donors" ? <Donors canManage={can("donors.manage")} /> : key === "sponsorshipOps" ? <SponsorshipManagement canViewPrivate={can("sponsorship.view_private")} /> : key === "projects" ? <ProjectsImpact canApproveExpenses={can("projects.expenses.approve")} canViewReports={can("projects.reports.view")} /> : key === "volunteerOps" ? <VolunteerOperations canReview={can("volunteers.operations.review")} canReport={can("volunteers.operations.reports")} /> : key === "reports" ? <section className="gom-panel"><div className="gom-panel-heading"><div><h2>Donation report export</h2><p>Download a date-bounded CSV report for finance review.</p></div><i className="bi bi-file-earmark-arrow-down" /></div><div className="row g-3 align-items-end"><div className="col-sm-4"><label className="form-label">From date</label><input type="date" className="form-control" value={reportDates.from} onChange={e => setReportDates({ ...reportDates, from: e.target.value })} /></div><div className="col-sm-4"><label className="form-label">To date</label><input type="date" className="form-control" value={reportDates.to} onChange={e => setReportDates({ ...reportDates, to: e.target.value })} /></div><div className="col-sm-4"><button className="btn btn-success w-100" onClick={downloadCsv}><i className="bi bi-download me-2" />Export donations CSV</button></div></div><p className="small text-secondary mt-3 mb-0">Exports are limited by the backend and include donor contact details. Store downloaded files securely.</p></section> :
           <section className="gom-panel">
             <div className="gom-panel-heading"><div><h2>{TITLES[key] || current.label}</h2><p>{key === "projects" ? "Manage project delivery, budgets, milestones and verified impact outcomes." : key === "reconciliation" ? "Review unsettled payments and request a fresh provider verification." : key === "audit" ? "A traceable record of staff and system actions." : key === "sponsorship" ? "Manage public-facing child profiles. Publication is guarded by current consent." : "Review, search and manage records within your assigned permissions."}</p></div><span className="gom-record-count">{filteredRows.length} records</span></div>
             <div className="gom-toolbar"><div className="input-group gom-search"><span className="input-group-text"><i className="bi bi-search" /></span><input className="form-control" placeholder={key === "audit" ? "Search action…" : "Search this list…"} value={search} onChange={e => { setSearch(e.target.value); setPageNumber(0); }} /></div>
