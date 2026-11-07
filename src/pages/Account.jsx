@@ -115,6 +115,13 @@ function Account( {
     useEffect(() => {
         if (authStatus === "loading") return undefined;
 
+        if (authStatus === "unavailable") {
+            setNeedsSignIn(false);
+            setError(authError || "The sign-in service is temporarily unavailable. Your account has not been signed out. Please try again.");
+            setLoading(false);
+            return undefined;
+        }
+
         if (authStatus === "anonymous") {
             setAccount(null);
             setNeedsSignIn(!authError);
@@ -431,6 +438,30 @@ function Account( {
                     <button type="button" className="btn btn-link ms-2" onClick={() => goToPage("/", "/")}>
                         Return to website
                     </button>
+                </section>
+            </div>
+        );
+    }
+
+    if (authStatus === "unavailable" && !account) {
+        return (
+            <div className="container wrap py-5">
+                <section className="panel p-4 p-md-5 mx-auto" style={{ maxWidth: 620 }}>
+                    <div className="eyebrow mb-2">Garden of Mercy Foundation</div>
+                    <h1 className="page-title h2 mb-3">Account service temporarily unavailable</h1>
+                    <p className="text-secondary mb-3">
+                        We could not verify your sign-in session because the account service is not responding.
+                        This does not mean you have been signed out. Please try again when the service is reachable.
+                    </p>
+                    {error && <div className="alert alert-warning" role="alert">{error}</div>}
+                    <div className="d-flex flex-wrap gap-2">
+                        <button type="button" className="btn btn-success" onClick={retryAccountAccess}>
+                            Try again
+                        </button>
+                        <button type="button" className="btn btn-outline-secondary" onClick={() => goToPage("/", "/")}>
+                            Return to website
+                        </button>
+                    </div>
                 </section>
             </div>
         );

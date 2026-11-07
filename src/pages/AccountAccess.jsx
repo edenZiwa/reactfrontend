@@ -3,9 +3,23 @@ import { useAuth } from "../auth/AuthProvider.jsx";
 import "../css/auth-experience.css";
 
 function AccountAccess({ navigate }) {
-  const { login, status, authError, clearAuthError } = useAuth();
+  const { login, status, authError, clearAuthError, refreshSession } = useAuth();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+
+  async function retrySessionCheck() {
+    if (busy) return;
+    setBusy(true);
+    setError("");
+    clearAuthError();
+    try {
+      await refreshSession();
+    } catch (err) {
+      setError(err?.message || "The account service is still unavailable. Please try again.");
+    } finally {
+      setBusy(false);
+    }
+  }
 
   async function continueWithGoogle() {
     if (busy) return;
@@ -37,10 +51,19 @@ function AccountAccess({ navigate }) {
         </p>
 
         {(error || authError) && (
-          <div className="alert alert-danger" role="alert">{error || authError}</div>
+          <div className={status === "unavailable" ? "alert alert-warning" : "alert alert-danger"} role="alert">{error || authError}</div>
         )}
 
-        {status === "loading" ? (
+        {status === "unavailable" ? (
+          <div className="d-grid gap-2">
+            <p className="small text-secondary mb-1">
+              We could not verify your account session. This does not mean you have been signed out.
+            </p>
+            <button type="button" className="btn btn-outline-success btn-lg" onClick={retrySessionCheck} disabled={busy}>
+              {busy ? "Checking session…" : "Retry session check"}
+            </button>
+          </div>
+        ) : status === "loading" ? (
           <div className="gom-auth-status" role="status">
             <span className="spinner-border spinner-border-sm text-success" aria-hidden="true" />
             <span>Checking your secure session…</span>

@@ -49,10 +49,17 @@ export function AuthProvider({ children }) {
   const [authError, setAuthError] = useState("");
 
   const refreshSession = useCallback(async () => {
-    const currentUser = await readBackendSession();
-    setUser(currentUser);
-    setStatus(currentUser ? "authenticated" : "anonymous");
-    return currentUser;
+    try {
+      const currentUser = await readBackendSession();
+      setUser(currentUser);
+      setAuthError("");
+      setStatus(currentUser ? "authenticated" : "anonymous");
+      return currentUser;
+    } catch (error) {
+      setAuthError(error?.message || "We could not verify your sign-in session. Please try again.");
+      setStatus("unavailable");
+      throw error;
+    }
   }, []);
 
   useEffect(() => {
@@ -60,21 +67,20 @@ export function AuthProvider({ children }) {
     (async () => {
       try {
         await completeGoogleRedirect();
+      } catch (error) {
+        if (active) setAuthError(error?.message || "Could not complete Google sign-in.");
+      }
+
+      try {
         const currentUser = await readBackendSession();
         if (!active) return;
         setUser(currentUser);
+        setAuthError("");
         setStatus(currentUser ? "authenticated" : "anonymous");
       } catch (error) {
         if (!active) return;
-        setAuthError(error?.message || "Could not restore your sign-in session.");
-        try {
-          const currentUser = await readBackendSession();
-          if (!active) return;
-          setUser(currentUser);
-          setStatus(currentUser ? "authenticated" : "anonymous");
-        } catch {
-          if (active) setStatus("anonymous");
-        }
+        setAuthError(error?.message || "We could not restore your sign-in session.");
+        setStatus("unavailable");
       }
     })();
     return () => { active = false; };
