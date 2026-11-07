@@ -1,39 +1,26 @@
-
 import { useState } from "react";
 import { usePWA } from "./PWAProvider.jsx";
 
 export default function PWAInstallPrompt() {
   const { canInstall, installApp } = usePWA();
-
   const [dismissed, setDismissed] = useState(false);
 
   if (!canInstall || dismissed) return null;
 
   return (
-    <aside className="gom-install-prompt">
-      <div className="gom-install-icon">
-        🌱
-      </div>
-
-      <div className="gom-install-content">
-        <strong>Garden of Mercy Foundation</strong>
-
-        <p>
-          Install our app for easier access to
-          our programs, updates and community work.
-        </p>
-
-        <button onClick={installApp}>
-          Install App
-        </button>
-      </div>
-
+    <aside className="gom-install-prompt" aria-label="Install Garden of Mercy Foundation">
+      <span className="gom-install-icon" aria-hidden="true">🌱</span>
+      <strong className="gom-install-title">Install our app</strong>
+      <button type="button" className="gom-install-action" onClick={installApp}>
+        Install
+      </button>
       <button
+        type="button"
         className="gom-dismiss"
         onClick={() => setDismissed(true)}
         aria-label="Dismiss installation prompt"
       >
-        ×
+        <span aria-hidden="true">×</span>
       </button>
     </aside>
   );
