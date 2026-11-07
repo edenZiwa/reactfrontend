@@ -1807,3 +1807,79 @@ h2 em {
     align-items: stretch;
   }
 }
+
+
+/* Persistent PWA notices: network status below the fixed site header,
+   installation action anchored above the mobile safe-area. */
+:root {
+  --gom-site-header-height: 82px;
+}
+.gom-offline-status {
+  position: fixed;
+  top: var(--gom-site-header-height);
+  left: 0;
+  right: 0;
+  z-index: 1045;
+  min-height: 34px;
+  padding: 7px 12px;
+  text-align: center;
+  font-size: .82rem;
+  line-height: 1.25;
+  font-weight: 600;
+  background: #fff0e8;
+  color: #813719;
+  border-bottom: 1px solid rgba(129, 55, 25, .14);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .06);
+}
+.gom-install-prompt {
+  position: fixed;
+  left: 50%;
+  bottom: max(12px, env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  z-index: 1060;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: min(94vw, 430px);
+  padding: 10px 14px;
+  border: 1px solid var(--gomf-border, #dfe5df);
+  border-radius: 14px;
+  background: var(--gomf-surface, #fff);
+  color: var(--gomf-text, #24352b);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, .18);
+}
+.gom-install-icon { font-size: 1.25rem; }
+.gom-install-title { flex: 1; font-size: .9rem; }
+.gom-install-action {
+  border: 0;
+  border-radius: 8px;
+  padding: 8px 14px;
+  background: #176b45;
+  color: #fff;
+  font-size: .85rem;
+  font-weight: 700;
+}
+.gom-install-action:focus-visible,
+.gom-dismiss:focus-visible {
+  outline: 3px solid var(--gomf-gold, #d9b56d);
+  outline-offset: 3px;
+}
+.gom-dismiss {
+  border: 0;
+  padding: 2px 5px;
+  background: transparent;
+  color: inherit;
+  font-size: 1.35rem;
+  line-height: 1;
+}
+@media (max-width: 767.98px) {
+  :root { --gom-site-header-height: 72px; }
+  .gom-offline-status { font-size: .76rem; }
+  .gom-install-prompt { width: calc(100vw - 24px); }
+}
+html[data-bs-theme="dark"] .gom-offline-status {
+  background: #3b2925;
+  color: #ffe0d2;
+  border-color: #65443a;
+}
