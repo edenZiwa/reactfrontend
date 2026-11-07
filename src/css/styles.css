@@ -1815,7 +1815,7 @@ h2 em {
   --gom-site-header-height: 82px;
 }
 .gom-offline-status {
-  position: fixed;
+  position: sticky;
   top: var(--gom-site-header-height);
   left: 0;
   right: 0;
