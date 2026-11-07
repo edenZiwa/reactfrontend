@@ -12,3 +12,6 @@
 @media (prefers-reduced-motion: reduce) {
   .gom-security-monitoring .gom-spin { animation: none; }
 }
+
+.gom-security-monitoring .gom-security-filter-field { min-width: 190px; }
+@media (max-width: 575.98px) { .gom-security-monitoring .gom-security-filter-field { min-width: 100%; } }
