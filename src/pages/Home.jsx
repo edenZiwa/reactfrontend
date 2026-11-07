@@ -26,7 +26,7 @@ function Home( {
                                 src="https://gardenofmercy.org/images/garden_of_mercy_logo.png"
                                 alt="Garden of Mercy Foundation logo"
                                 />
-                            <span>Sowing Seeds of Mercy and Compassion</span>
+                            <span>Sowing Seeds of Mercy</span>
                         </div>
 
                         <h1 className="display-3 fw-bold lh-sm theme-on-dark">
