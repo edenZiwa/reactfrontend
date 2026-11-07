@@ -9,7 +9,7 @@ export default function NetworkStatus() {
 
   useEffect(() => {
     if (online && !previousOnline.current) {
-      toast.success("Your internet connection is back.");
+      toast.success("Connection restored.");
     }
     previousOnline.current = online;
   }, [online, toast]);
@@ -17,13 +17,9 @@ export default function NetworkStatus() {
   if (online) return null;
 
   return (
-    <div
-      className="gom-offline-status background"
-      role="status"
-      aria-live="polite"
-    >
-      <span aria-hidden="true">●</span>
-      You're offline. Some features may be unavailable. Your connection will be checked automatically.
+    <div className="gom-offline-status" role="status" aria-live="polite">
+      <i className="bi bi-wifi-off me-2" aria-hidden="true" />
+      Offline · Some features unavailable
     </div>
   );
 }
