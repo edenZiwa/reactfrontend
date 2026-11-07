@@ -169,6 +169,7 @@ function App() {
         path={path}
         navigate={navigate}
       />
+      <NetworkStatus />
 
       <PopupManager
         path={path}
@@ -200,7 +201,6 @@ if (rootElement) {
       <ThemeProvider>
         <ToastProvider>
           <PWAProvider>
-            <NetworkStatus />
             <PWAUpdatePrompt />
             <AuthProvider>
               <App />
