@@ -351,7 +351,7 @@ export default function PowerOfRevelation() {
                 <i className="bi bi-book-half me-2" aria-hidden="true" />
                 THE GROUND OF GOD'S GRACE
               </span>
-              <h1 id="pr-title" className="display-3 fw-bold mt-4">
+              <h1 id="pr-title" className="display-3 fw-bold mt-4 text-white">
                 Power of
                 <br />
                 Revelation <span>Ministries</span>
