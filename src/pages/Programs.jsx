@@ -1,6 +1,5 @@
 import React from "react";
 import { AppLink } from "../components/SiteChrome.jsx";
-import ContentStatus from "../components/ContentStatus.jsx";
 
 const programAreas = [
   {
@@ -168,8 +167,7 @@ const processSteps = [
 function Programs({ navigate }) {
   return (
     <main id="main-content" className="programs-page">
-      <ContentStatus tone="info">These are areas of focus and planning examples. We will publish confirmed activities, locations and schedules as our programme records are approved.</ContentStatus>
-      {/* PROGRAMS HERO */}
+{/* PROGRAMS HERO */}
       <section data-scroll-reveal="up" className="programs-hero" aria-labelledby="programs-title">
         <div className="programs-hero-overlay" aria-hidden="true" />
         <div className="container programs-hero-inner">
@@ -305,13 +303,7 @@ function Programs({ navigate }) {
               These are the key areas that guide our work. Specific activities
               are shaped by assessed needs, available resources, safeguarding
               requirements and responsible partnerships.
-            </p>
-            <p className="programs-framework-note mx-auto mt-3 mb-0">
-              <i className="bi bi-info-circle me-2" aria-hidden="true" />
-              This is our program framework; activities may vary according to
-              community priorities and organizational capacity.
-            </p>
-          </div>
+            </p></div>
 
           <div className="row g-4">
             {programAreas.map((program) => (
