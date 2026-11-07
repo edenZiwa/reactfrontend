@@ -228,6 +228,7 @@ export default function Admin({ path = "/admin", navigate }) {
   const [permissions, setPermissions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [authError, setAuthError] = useState("");
+  const [authUnavailable, setAuthUnavailable] = useState(false);
   const [pageError, setPageError] = useState("");
   const [notice, setNotice] = useState("");
   const [data, setData] = useState({});
@@ -272,7 +273,12 @@ export default function Admin({ path = "/admin", navigate }) {
     let active = true;
     (async () => {
       try { await loadIdentity(); }
-      catch (e) { if (active) setAuthError(e.message); }
+      catch (e) {
+        if (active) {
+          setAuthError(e.message);
+          setAuthUnavailable(/could not reach|temporarily unavailable|unexpected response/i.test(e.message || ""));
+        }
+      }
       finally { if (active) setLoading(false); }
     })();
     return () => { active = false; };
@@ -353,7 +359,25 @@ export default function Admin({ path = "/admin", navigate }) {
   }
 
   if (loading) return <main className="gom-admin-loading"><span className="spinner-border text-success" /><p>Checking staff access…</p></main>;
-  if (!staff) return <Login authError={authError} onLogin={async () => { setLoading(true); setAuthError(""); try { await loadIdentity(); } catch (e) { setAuthError(e.message); throw e; } finally { setLoading(false); } }} />;
+  if (!staff && authUnavailable) return (
+    <main className="gom-admin-loading container py-5">
+      <section className="gom-login-card mx-auto">
+        <div className="small text-success fw-bold text-uppercase mb-2">Garden of Mercy Foundation</div>
+        <h1 className="h3 fw-bold mb-2">Staff access temporarily unavailable</h1>
+        <p className="text-secondary">We could not verify your staff session because the administration service is not responding. This does not mean your account has been signed out.</p>
+        {authError && <div className="alert alert-warning" role="alert">{authError}</div>}
+        <button type="button" className="btn btn-success w-100" onClick={async () => {
+          setLoading(true); setAuthError(""); setAuthUnavailable(false);
+          try { await loadIdentity(); }
+          catch (e) {
+            setAuthError(e.message);
+            setAuthUnavailable(/could not reach|temporarily unavailable|unexpected response/i.test(e.message || ""));
+          } finally { setLoading(false); }
+        }}>Try again</button>
+      </section>
+    </main>
+  );
+  if (!staff) return <Login authError={authError} onLogin={async () => { setLoading(true); setAuthError(""); setAuthUnavailable(false); try { await loadIdentity(); } catch (e) { setAuthError(e.message); throw e; } finally { setLoading(false); } }} />;
 
   const headerTitle = isDashboard ? "Good day" : current.label;
   const columnsByKey = {
