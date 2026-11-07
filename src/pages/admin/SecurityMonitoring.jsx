@@ -149,7 +149,7 @@ export default function SecurityMonitoring() {
     </div>
 
     <div className="d-flex flex-wrap align-items-end gap-2 mb-3">
-      <div className="flex-grow-1" style={{ minWidth: "190px" }}>
+      <div className="flex-grow-1 gom-security-filter-field">
         <label className="form-label small fw-semibold" htmlFor="security-event-type">Event type</label>
         <input id="security-event-type" className="form-control" value={eventType} maxLength={120} placeholder="e.g. auth.login_failed" onChange={e => { setEventType(e.target.value); setOffset(0); }} />
       </div>
