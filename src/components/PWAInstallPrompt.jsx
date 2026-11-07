@@ -9,7 +9,7 @@ export default function PWAInstallPrompt() {
 
   return (
     <aside className="gom-install-prompt" aria-label="Install Garden of Mercy Foundation">
-      <span className="gom-install-icon" aria-hidden="true">🌱</span>
+      <span className="gom-install-icon" aria-hidden="true"><img src="images/logo.png"></span>
       <strong className="gom-install-title">Install our app</strong>
       <button type="button" className="gom-install-action" onClick={installApp}>
         Install
