@@ -68,7 +68,7 @@ export default function Volunteer({ navigate }) {
             <span className="volunteer-hero-eyebrow-dot hero-eyebrow-dot" aria-hidden="true" />
             VOLUNTEER WITH US
           </span>
-          <h1>Give Your Time. <span>Grow Hope.</span></h1>
+          <h1 className="text-white">Give Your Time. <span>Grow Hope.</span></h1>
           <p>Small acts of service can make a lasting difference. Join us in supporting children, strengthening families, and serving communities with dignity and compassion.</p>
           <a className="button button-gold" href="#volunteer-form">Become a Volunteer <span aria-hidden="true">→</span></a>
         </div>
