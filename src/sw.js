@@ -117,8 +117,8 @@ self.addEventListener("push", (event) => {
 
   const options = {
     body: data.body || "You have a new update.",
-    icon: "/icons/icon-192.png",
-    badge: "/icons/icon-192.png",
+    icon: "/images/garden_of_mercy_icon.png",
+    badge: "/images/garden_of_mercy_icon.png",
 
     tag: data.tag || "gom-announcement",
 
