@@ -4,6 +4,7 @@ import {
     Eyebrow,
     FocusCard
 } from "../components/SiteChrome.jsx";
+import PesapalGivingLink from "../components/PesapalGivingLink.jsx";
 
 function Home( {
     navigate
@@ -787,6 +788,7 @@ function Home( {
                     Ask About Giving
                   </a>
                 </div>
+                <PesapalGivingLink />
               </div>
 
               {/* Get involved */}
