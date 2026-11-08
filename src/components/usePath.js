@@ -16,7 +16,13 @@ export default function usePath() {
 
   const navigate = useCallback((next) => {
     if (typeof next !== "string" || !next.trim() || next.startsWith("#")) return;
-    const target = new URL(next, window.location.origin);
+    let target;
+    try {
+      target = new URL(next, window.location.origin);
+    } catch {
+      return;
+    }
+    if (!["http:", "https:"].includes(target.protocol)) return;
     if (target.origin !== window.location.origin) {
       window.location.assign(target.href);
       return;
