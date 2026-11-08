@@ -15,7 +15,7 @@ function Cofounder({ navigate }) {
         <div className="container">
           <div className="row align-items-center g-5">
             <div className="col-lg-7">
-              <span className="eyebrow eyebrow-light">
+              <span className="eyebrow eyebrow-light cofounder-hero-eyebrow hero-eyebrow">
                 <span className="eyebrow-dot" />
                 Co-Founder &amp; Servant Leader
               </span>
