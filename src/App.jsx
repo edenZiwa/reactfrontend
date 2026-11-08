@@ -24,6 +24,7 @@ import PWAUpdatePrompt from "./components/PWAUpdatePrompt.jsx";
 import NetworkStatus from "./components/NetworkStatus.jsx";
 
 import ScrollNavigator from "./components/ScrollNavigator.jsx";
+import PageBreadcrumb from "./components/PageBreadcrumb.jsx";
 import ScrollReveal from "./components/ScrollReveal.jsx";
 import { ToastProvider } from "./components/ux/ToastProvider.jsx";
 import Home from "./pages/Home.jsx";
@@ -171,6 +172,7 @@ function App() {
         navigate={navigate}
       />
       <NetworkStatus />
+      <PageBreadcrumb path={path} navigate={navigate} />
 
       <PopupManager
         path={path}
