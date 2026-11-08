@@ -52,8 +52,15 @@ export async function apiRequest(path, options = {}) {
     }
     return data;
 }
-export async function startDonation(payload) {
-    return apiRequest("/donations", { method: "POST", body: JSON.stringify(payload) });
+export async function startDonation(payload, idempotencyKey) {
+    const headers = idempotencyKey
+        ? { "Idempotency-Key": idempotencyKey }
+        : {};
+    return apiRequest("/donations", {
+        method: "POST",
+        body: JSON.stringify(payload),
+        headers,
+    });
 }
 
 export async function getDonationStatus(reference, options = {}) {
