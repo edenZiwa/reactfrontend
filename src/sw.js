@@ -34,7 +34,10 @@ registerRoute(
       /^\/auth(?:\/|$)/,
       /^\/admin(?:\/|$)/,
       /^\/account(?:\/|$)/,
-      /^\/donation-result(?:\/|$)/
+      /^\/donation-result(?:\/|$)/,
+      /^\/login(?:\/|$)/,
+      /^\/forgot-password(?:\/|$)/,
+      /^\/reset-password(?:\/|$)/
     ]
   })
 );
@@ -81,7 +84,7 @@ registerRoute(
   ({ request, url }) =>
     request.destination === "document" &&
     url.origin === self.location.origin &&
-    !/^\/(?:api|auth|admin|account|donation-result)(?:\/|$)/.test(url.pathname),
+    !/^\/(?:api|auth|admin|account|donation-result|login|forgot-password|reset-password)(?:\/|$)/.test(url.pathname),
 
   new NetworkFirst({
     cacheName: "gom-public-documents-v1",
