@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import "../css/sponsor.css";
 import { AppLink } from "../components/SiteChrome.jsx";
+import PesapalGivingLink from "../components/PesapalGivingLink.jsx";
 import { apiRequest } from "../services/api.js";
 
 const sponsorshipPaths = [
@@ -496,6 +497,7 @@ export default function Sponsor({ navigate }) {
               <AppLink to="/donate" navigate={navigate} className="sponsor-final-donate-link">
                 Make a general donation
               </AppLink>
+              <PesapalGivingLink />
             </div>
           </div>
         </div>
