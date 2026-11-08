@@ -213,7 +213,6 @@ function RecordModal({ record, kind, onClose, onSave, busy, beneficiaryOptions =
         <div className="small text-secondary mb-3">{record.email || record.donor_email || record.merchant_reference || record.beneficiary_code || record.id || ""}</div>
         {kind === "inbox" && <div className="border rounded-3 p-3 mb-3"><strong>{record.subject || "Message"}</strong><p className="mb-0 mt-2 text-secondary" style={{ whiteSpace: "pre-wrap" }}>{record.message}</p></div>}
         {kind === "reconciliation" && <p className="text-secondary">Reference: <strong>{record.merchant_reference}</strong><br />Amount: {money(record.amount, record.currency)}<br />Current status: <StatusPill value={record.status} /></p>}
-        {kind === "users" && !record.id && field("Temporary password (minimum 12 characters)", "password", "password")}
         {fields}
       </div>
       <div className="d-flex justify-content-end gap-2 mt-4"><button className="btn btn-light border" onClick={onClose}>Cancel</button><button className="btn btn-success" disabled={busy} onClick={() => onSave(form)}>{busy ? "Saving…" : kind === "reconciliation" ? "Verify with provider" : "Save changes"}</button></div>
