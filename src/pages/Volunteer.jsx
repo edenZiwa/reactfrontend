@@ -80,9 +80,9 @@ export default function Volunteer({ navigate }) {
             <span className="volunteer-kicker">MAKE A DIFFERENCE</span>
             <h2>There is a place for your gifts.</h2>
             <p className="volunteer-lead">Whether you can offer a few hours, professional skills, or a helping hand at community activities, your contribution can help turn compassion into practical action.</p>
-            <div className="volunteer-benefit"><span className="volunteer-icon"><i className="bi bi-people-fill" /></span><div><h3>Serve your community</h3><p>Support community activities and initiatives that respond to local needs.</p></div></div>
-            <div className="volunteer-benefit"><span className="volunteer-icon"><i className="bi bi-book-half" /></span><div><h3>Share your skills</h3><p>Contribute your experience in education, mentorship, administration, communications, or other areas.</p></div></div>
-            <div className="volunteer-benefit"><span className="volunteer-icon"><i className="bi bi-heart-fill" /></span><div><h3>Lead with compassion</h3><p>Help promote dignity, safeguarding, and respectful support for children and families.</p></div></div>
+            <div className="volunteer-benefit p-2"><span className="volunteer-icon"><i className="bi bi-people-fill" /></span><div><h3>Serve your community</h3><p>Support community activities and initiatives that respond to local needs.</p></div></div>
+            <div className="volunteer-benefit p-2"><span className="volunteer-icon"><i className="bi bi-book-half" /></span><div><h3>Share your skills</h3><p>Contribute your experience in education, mentorship, administration, communications, or other areas.</p></div></div>
+            <div className="volunteer-benefit p-2"><span className="volunteer-icon"><i className="bi bi-heart-fill" /></span><div><h3>Lead with compassion</h3><p>Help promote dignity, safeguarding, and respectful support for children and families.</p></div></div>
             <div className="volunteer-note"><strong>Our commitment</strong><p>We aim to treat every volunteer and every community member with respect. Volunteer opportunities depend on current needs, suitability, and any required safeguarding checks.</p></div>
             <p className="mt-4 mb-0">Have a question first? <AppLink to="/contact" navigate={navigate}>Contact our team</AppLink>.</p>
           </div>
