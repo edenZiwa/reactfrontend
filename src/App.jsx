@@ -24,7 +24,6 @@ import PWAUpdatePrompt from "./components/PWAUpdatePrompt.jsx";
 import NetworkStatus from "./components/NetworkStatus.jsx";
 
 import ScrollNavigator from "./components/ScrollNavigator.jsx";
-import PageBreadcrumb from "./components/PageBreadcrumb.jsx";
 import ScrollReveal from "./components/ScrollReveal.jsx";
 import { ToastProvider } from "./components/ux/ToastProvider.jsx";
 import Home from "./pages/Home.jsx";
@@ -59,6 +58,41 @@ import "./css/scroll-experience.css";
 
 function App() {
   const [path, navigate] = usePath();
+
+
+  // The hero eyebrow itself becomes the sticky breadcrumb; it is never cloned.
+  useEffect(() => {
+    const stickyPaths = new Set([
+      "/about", "/programs", "/donate", "/volunteer",
+      "/success-stories", "/contact", "/impact", "/gallery",
+      "/sponsor", "/founder", "/cofounder",
+    ]);
+    if (!stickyPaths.has(path)) return undefined;
+
+    const eyebrow = document.querySelector("#main-content .hero-eyebrow");
+    if (!eyebrow) return undefined;
+
+    let frameId = 0;
+    const updateStickyState = () => {
+      frameId = 0;
+      eyebrow.classList.toggle("is-sticky", window.scrollY > 150);
+    };
+    const onScroll = () => {
+      if (frameId) return;
+      frameId = window.requestAnimationFrame(updateStickyState);
+    };
+
+    updateStickyState();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (frameId) window.cancelAnimationFrame(frameId);
+      eyebrow.classList.remove("is-sticky");
+    };
+  }, [path]);
 
   // Start each newly selected route at the top without forcing motion.
   useEffect(() => {
@@ -172,7 +206,6 @@ function App() {
         navigate={navigate}
       />
       <NetworkStatus />
-      <PageBreadcrumb path={path} navigate={navigate} />
 
       <PopupManager
         path={path}
