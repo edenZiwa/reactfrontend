@@ -663,8 +663,8 @@ function Donate() {
                     </p>
                   </div>
                 </div>
-<section className="donate-pesapal-option mt-4 p-3 p-md-4 rounded-4" aria-labelledby="pesapal-hosted-title">
-                <div className="d-flex align-items-center gap-3">
+
+                <div className="d-flex align-items-center gap-3 mb-4">
                   <span className="donate-pesapal-icon" aria-hidden="true">
                     <i className="bi bi-wallet2" />
                   </span>
@@ -689,7 +689,6 @@ function Donate() {
                 <p className="small text-secondary mt-3 mb-0">
                   This is a separate payment. Keep your Pesapal reference for follow-up.
                 </p>
-              </section>
 
                 <div className="d-flex align-items-start gap-3 mb-2">
                   <i
