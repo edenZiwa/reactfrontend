@@ -218,9 +218,9 @@ function Donate() {
           <div className="row align-items-center g-5">
             <div className="col-lg-7">
               <div className="donate-hero-copy">
-                <span className="donate-hero-eyebrow about-hero-eyebrow">
-                  <span className="donate-hero-eyebrow-dot about-hero-eyebrow-dot" aria-hidden="true" />
-                  ABOUT GARDEN OF MERCY FOUNDATION
+                <span className="donate-hero-eyebrow hero-eyebrow">
+                  <span className="donate-hero-eyebrow-dot hero-eyebrow-dot" aria-hidden="true" />
+                  SUPPORT THE MISSION
                 </span>
 
                 <h1 id="donate-hero-title" className="donate-hero-title">
