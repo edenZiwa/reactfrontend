@@ -3440,3 +3440,32 @@ select:focus-visible {
 .hero-eyebrow.is-sticky .hero-eyebrow-dot {
   background: var(--gomf-gold, #edca7c);
 }
+
+
+/* Layering contract: site header > system overlays > sticky hero eyebrow > page content. */
+.hero-eyebrow.is-sticky {
+  z-index: 1049;
+  top: var(--gom-site-header-height, 82px);
+}
+
+/* NetworkStatus is mounted before main; keep the eyebrow below its offline strip. */
+.gom-offline-status ~ main .hero-eyebrow.is-sticky {
+  top: calc(var(--gom-site-header-height, 82px) + 34px);
+}
+
+/* Keep the header above the sticky eyebrow at every breakpoint. */
+#site-header {
+  z-index: 1050;
+}
+
+@media (max-width: 700px) {
+  :root {
+    --gom-site-header-height: 72px;
+  }
+}
+
+/* Bootstrap dialogs and critical system prompts must remain above page chrome. */
+.modal,
+.offcanvas {
+  z-index: 1055;
+}
