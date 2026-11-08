@@ -14,7 +14,7 @@ function Founder({ navigate }) {
         <div className="container">
           <div className="row align-items-center g-5">
             <div className="col-lg-7">
-              <span className="eyebrow eyebrow-light">
+              <span className="eyebrow eyebrow-light founder-hero-eyebrow hero-eyebrow">
                 <span className="eyebrow-dot" />
                 Founder &amp; Visionary Leader
               </span>
