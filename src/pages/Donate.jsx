@@ -686,11 +686,14 @@ function Donate() {
                     <i className="bi bi-arrow-up-right ms-1" aria-hidden="true" />
                   </a>
                 </div>
-                <p className="small text-secondary mt-3 mb-0">
+<div className="d-flex align-items-center mb-2">
+<p className="small text-secondary mt-3 mb-0">
                   This is a separate payment. Keep your Pesapal reference for follow-up.
                 </p>
+</div>
+                
 
-                <div className="d-flex align-items-start gap-3 mb-2">
+                <div className="d-flex align-items-start gap-3 mb-4">
                   <i
                     className="bi bi-shield-lock text-success fs-3"
                     aria-hidden="true"
