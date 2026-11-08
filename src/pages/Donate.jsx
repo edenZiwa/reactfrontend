@@ -663,22 +663,33 @@ function Donate() {
                     </p>
                   </div>
                 </div>
-
-                <div className="d-flex align-items-start gap-3 mb-4">
-                  <i
-                    className="bi bi-bank text-success fs-3"
-                    aria-hidden="true"
-                  />
-                  <div>
-                    <h3 className="h6 fw-bold">Bank transfer</h3>
-                    <p className="small text-secondary mb-1">
-                      Stanbic Bank account: <strong>XXXXXXXXXXXX</strong>
-                    </p>
+<section className="donate-pesapal-option mt-4 p-3 p-md-4 rounded-4" aria-labelledby="pesapal-hosted-title">
+                <div className="d-flex align-items-center gap-3">
+                  <span className="donate-pesapal-icon" aria-hidden="true">
+                    <i className="bi bi-wallet2" />
+                  </span>
+                  <div className="flex-grow-1">
+                    <h3 id="pesapal-hosted-title" className="h6 fw-bold mb-1">
+                      Prefer Pesapal?
+                    </h3>
                     <p className="small text-secondary mb-0">
-                      Account name: Garden of Mercy Foundation
+                      Use our hosted checkout instead.
                     </p>
                   </div>
+                  <a
+                    href="https://store.pesapal.com/gardenofmercy"
+                    className="btn btn-outline-success btn-sm flex-shrink-0"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Continue
+                    <i className="bi bi-arrow-up-right ms-1" aria-hidden="true" />
+                  </a>
                 </div>
+                <p className="small text-secondary mt-3 mb-0">
+                  This is a separate payment. Keep your Pesapal reference for follow-up.
+                </p>
+              </section>
 
                 <div className="d-flex align-items-start gap-3">
                   <i
@@ -724,34 +735,6 @@ function Donate() {
                   been received.
                 </p>
               </div>
-              
-              <section className="donate-pesapal-option mt-4 p-3 p-md-4 rounded-4" aria-labelledby="pesapal-hosted-title">
-                <div className="d-flex align-items-center gap-3">
-                  <span className="donate-pesapal-icon" aria-hidden="true">
-                    <i className="bi bi-wallet2" />
-                  </span>
-                  <div className="flex-grow-1">
-                    <h3 id="pesapal-hosted-title" className="h6 fw-bold mb-1">
-                      Prefer Pesapal?
-                    </h3>
-                    <p className="small text-secondary mb-0">
-                      Use our hosted checkout instead.
-                    </p>
-                  </div>
-                  <a
-                    href="https://store.pesapal.com/gardenofmercy"
-                    className="btn btn-outline-success btn-sm flex-shrink-0"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Continue
-                    <i className="bi bi-arrow-up-right ms-1" aria-hidden="true" />
-                  </a>
-                </div>
-                <p className="small text-secondary mt-3 mb-0">
-                  This is a separate payment. Keep your Pesapal reference for follow-up.
-                </p>
-              </section>
             </aside>
           </div>
         </div>
