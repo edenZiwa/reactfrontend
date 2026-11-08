@@ -59,6 +59,41 @@ import "./css/scroll-experience.css";
 function App() {
   const [path, navigate] = usePath();
 
+
+  // The hero eyebrow itself becomes the sticky breadcrumb; it is never cloned.
+  useEffect(() => {
+    const stickyPaths = new Set([
+      "/about", "/programs", "/donate", "/volunteer",
+      "/success-stories", "/contact", "/impact", "/gallery",
+      "/sponsor", "/founder", "/cofounder",
+    ]);
+    if (!stickyPaths.has(path)) return undefined;
+
+    const eyebrow = document.querySelector("#main-content .hero-eyebrow");
+    if (!eyebrow) return undefined;
+
+    let frameId = 0;
+    const updateStickyState = () => {
+      frameId = 0;
+      eyebrow.classList.toggle("is-sticky", window.scrollY > 150);
+    };
+    const onScroll = () => {
+      if (frameId) return;
+      frameId = window.requestAnimationFrame(updateStickyState);
+    };
+
+    updateStickyState();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (frameId) window.cancelAnimationFrame(frameId);
+      eyebrow.classList.remove("is-sticky");
+    };
+  }, [path]);
+
   // Start each newly selected route at the top without forcing motion.
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "auto" });

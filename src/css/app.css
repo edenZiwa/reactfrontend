@@ -3393,3 +3393,50 @@ select:focus-visible {
     letter-spacing: .11em;
   }
 }
+
+
+
+/* The original hero eyebrow becomes the sticky breadcrumb after scrolling. */
+.hero-eyebrow.is-sticky {
+  position: fixed;
+  top: var(--gom-site-header-height, 82px);
+  left: 0;
+  z-index: 1040;
+  max-width: min(calc(100vw - 2rem), 1240px);
+  margin: 0;
+  transform: translateY(0);
+  box-shadow: 0 3px 12px rgba(0, 0, 0, .08);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  transition: top .18s ease, box-shadow .18s ease;
+}
+
+.gom-offline-status ~ .hero-eyebrow.is-sticky {
+  top: calc(var(--gom-site-header-height, 82px) + 34px);
+}
+
+.hero-eyebrow.is-sticky {
+  left: max(1rem, calc((100vw - 1240px) / 2));
+}
+
+@media (max-width: 700px) {
+  :root { --gom-site-header-height: 72px; }
+  .hero-eyebrow.is-sticky {
+    left: 1rem;
+    max-width: calc(100vw - 2rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-eyebrow.is-sticky { transition: none; }
+}
+
+/* Keep the original eyebrow readable while it is fixed over page content. */
+.hero-eyebrow.is-sticky {
+  color: var(--gomf-gold, #edca7c) !important;
+  background: var(--gomf-surface-raised, var(--bs-body-bg));
+  border: 1px solid var(--gomf-border, var(--bs-border-color));
+}
+.hero-eyebrow.is-sticky .hero-eyebrow-dot {
+  background: var(--gomf-gold, #edca7c);
+}
