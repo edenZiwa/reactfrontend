@@ -1,6 +1,7 @@
 import React from "react";
 import "../css/founder.css";
 import { AppLink } from "../components/SiteChrome.jsx";
+import PesapalGivingLink from "../components/PesapalGivingLink.jsx";
 
 function Founder({ navigate }) {
   return (
@@ -753,6 +754,7 @@ function Founder({ navigate }) {
                       aria-hidden="true"
                     />
                   </AppLink>
+                  <PesapalGivingLink className="text-start" />
                 </div>
               </div>
             </div>
