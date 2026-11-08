@@ -724,6 +724,45 @@ function Donate() {
                   been received.
                 </p>
               </div>
+              
+              <section className="donation-trust-note mt-4 p-4 rounded-4" aria-labelledby="pesapal-hosted-title">
+                <div className="d-flex align-items-center gap-2 mb-2">
+                  <i className="bi bi-wallet2 text-success fs-4" aria-hidden="true" />
+                  <h3 id="pesapal-hosted-title" className="h6 fw-bold mb-0">
+                    Pesapal hosted payment page
+                  </h3>
+                </div>
+                <p className="small text-secondary">
+                  You can also open our separate Pesapal payment page. It is
+                  hosted by Pesapal and is independent of the donation form above.
+                </p>
+                <div className="d-flex flex-column align-items-start gap-2">
+                  <iframe
+                    title="Open Garden of Mercy Foundation's Pesapal payment page"
+                    src="https://store.pesapal.com/embed-code?pageUrl=https://store.pesapal.com/gardenofmercy"
+                    width="200"
+                    height="40"
+                    loading="lazy"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    className="border-0"
+                  />
+                  <a
+                    href="https://store.pesapal.com/gardenofmercy"
+                    className="btn btn-outline-success btn-sm"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Open Pesapal payment page
+                    <i className="bi bi-box-arrow-up-right ms-2" aria-hidden="true" />
+                  </a>
+                </div>
+                <p className="small text-secondary mt-3 mb-0">
+                  If you pay through this separate page, keep your Pesapal
+                  confirmation and transaction reference. Automatic matching
+                  with your website donation record has not yet been verified;
+                  contact the Foundation with your reference for assistance.
+                </p>
+              </section>
             </aside>
           </div>
         </div>
