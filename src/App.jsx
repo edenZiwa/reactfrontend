@@ -66,7 +66,7 @@ function App() {
   }, [path]);
 
   if (path.startsWith("/admin")) {
-    return <Admin path={path} navigate={navigate} />;
+    return <><SEO path={path} /><Admin path={path} navigate={navigate} /></>;
   }
 
   let page;
