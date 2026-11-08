@@ -691,7 +691,7 @@ function Donate() {
                 </p>
               </section>
 
-                <div className="d-flex align-items-start gap-3">
+                <div className="d-flex align-items-start gap-3 mb-2">
                   <i
                     className="bi bi-shield-lock text-success fs-3"
                     aria-hidden="true"
