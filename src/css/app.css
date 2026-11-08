@@ -3430,3 +3430,13 @@ select:focus-visible {
 @media (prefers-reduced-motion: reduce) {
   .hero-eyebrow.is-sticky { transition: none; }
 }
+
+/* Keep the original eyebrow readable while it is fixed over page content. */
+.hero-eyebrow.is-sticky {
+  color: var(--gomf-gold, #edca7c) !important;
+  background: var(--gomf-surface-raised, var(--bs-body-bg));
+  border: 1px solid var(--gomf-border, var(--bs-border-color));
+}
+.hero-eyebrow.is-sticky .hero-eyebrow-dot {
+  background: var(--gomf-gold, #edca7c);
+}
