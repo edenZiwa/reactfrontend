@@ -16,7 +16,7 @@ function statusMessage(status, fallback) {
 }
 
 export async function apiRequest(path, options = {}) {
-    const { headers: requestHeaders = {}, credentials = "same-origin", ...fetchOptions } = options;
+    const { headers: requestHeaders = {}, credentials = "include", ...fetchOptions } = options;
     const endpoint = `${API_BASE}${path.startsWith("/") ? path : `/${path}`}`;
     let response;
     try {
