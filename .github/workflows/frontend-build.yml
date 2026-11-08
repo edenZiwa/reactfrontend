@@ -19,6 +19,4 @@ jobs:
       - name: Build Vite application
         run: npm run build
       - name: Audit dependency vulnerabilities
-        if: always()
-        continue-on-error: true
         run: npm audit --audit-level=high
