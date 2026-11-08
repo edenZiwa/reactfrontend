@@ -18,5 +18,22 @@ jobs:
         run: npm install
       - name: Build Vite application
         run: npm run build
+      - name: Smoke test built SPA routes and PWA assets
+        run: |
+          npm run preview -- --host 127.0.0.1 --port 4173 --strictPort > /tmp/gom-preview.log 2>&1 &
+          preview_pid=$!
+          trap 'kill "$preview_pid" 2>/dev/null || true' EXIT
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent http://127.0.0.1:4173/ >/dev/null; then
+              break
+            fi
+            sleep 1
+          done
+          for route in / /admin /donate /account /login /donation-result; do
+            curl --fail --silent "http://127.0.0.1:4173$route" | grep -q '<div id="root"></div>'
+          done
+          for asset in /manifest.webmanifest /icons/icon-192.svg /icons/icon-512.svg /sw.js; do
+            curl --fail --silent --output /dev/null "http://127.0.0.1:4173$asset"
+          done
       - name: Audit dependency vulnerabilities
         run: npm audit --audit-level=high
