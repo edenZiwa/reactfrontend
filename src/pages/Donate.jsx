@@ -16,6 +16,13 @@ const PURPOSES = {
   emergency: "Emergency assistance",
 };
 
+function createIdempotencyKey() {
+  if (typeof window !== "undefined" && window.crypto?.randomUUID) {
+    return window.crypto.randomUUID();
+  }
+  return `gom-${Date.now()}-${Math.random().toString(36).slice(2, 14)}`;
+}
+
 const formatAmount = (amount, currency) =>
   new Intl.NumberFormat(currency === "UGX" ? "en-UG" : "en-US", {
     style: "currency",
@@ -54,6 +61,7 @@ function Donate() {
   const [busy, setBusy] = useState(false);
   const [invalidField, setInvalidField] = useState("");
   const submissionLock = useRef(false);
+  const idempotencyKey = useRef(createIdempotencyKey());
   const formRef = useRef(null);
 
   const focusInvalidField = (fieldName) => {
@@ -84,6 +92,7 @@ function Donate() {
 
   const update = (event) => {
     const { name, value } = event.target;
+    idempotencyKey.current = createIdempotencyKey();
 
     setForm((previous) => ({
       ...previous,
@@ -96,6 +105,7 @@ function Donate() {
 
   const changeCurrency = (event) => {
     const currency = event.target.value;
+    idempotencyKey.current = createIdempotencyKey();
 
     setForm((previous) => ({
       ...previous,
@@ -108,6 +118,7 @@ function Donate() {
   };
 
   const chooseAmount = (amount) => {
+    idempotencyKey.current = createIdempotencyKey();
     setForm((previous) => ({
       ...previous,
       amount: String(amount),
@@ -161,7 +172,7 @@ function Donate() {
     setBusy(true);
 
     try {
-      const result = await startDonation(donationData);
+      const result = await startDonation(donationData, idempotencyKey.current);
 
       const checkoutUrl = typeof result?.checkoutUrl === "string"
         ? new URL(result.checkoutUrl)
