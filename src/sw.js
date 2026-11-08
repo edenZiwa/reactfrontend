@@ -62,7 +62,7 @@ registerRoute(
 
 // Public CSS and JavaScript not already precached
 registerRoute(
-  ({ request }) =>
+  ({ request, url }) =>
     url.origin === self.location.origin &&
     ["style", "script", "font"].includes(
       request.destination

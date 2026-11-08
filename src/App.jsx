@@ -59,6 +59,17 @@ import "./css/scroll-experience.css";
 function App() {
   const [path, navigate] = usePath();
 
+  // Dismiss the static launch screen only after React has mounted.
+  useEffect(() => {
+    const launchScreen = document.getElementById("gom-launch-screen");
+    if (!launchScreen) return undefined;
+    const frame = window.requestAnimationFrame(() => {
+      launchScreen.classList.add("is-leaving");
+      window.setTimeout(() => launchScreen.remove(), 500);
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
+
 
   // The hero eyebrow itself becomes the sticky breadcrumb; it is never cloned.
   useEffect(() => {
