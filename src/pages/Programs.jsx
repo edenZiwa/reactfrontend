@@ -175,9 +175,9 @@ function Programs({ navigate }) {
           <div className="row align-items-center g-5">
             <div className="col-lg-7">
               <div className="programs-hero-copy">
-                <span className="programs-hero-eyebrow">
-                  <span className="programs-hero-eyebrow-dot" aria-hidden="true" />
-                  OUR PROGRAMS · OUR COMMITMENT
+                <span className="programs-hero-eyebrow about-hero-eyebrow">
+                  <span className="programs-hero-eyebrow-dot about-hero-eyebrow-dot" aria-hidden="true" />
+                  ABOUT GARDEN OF MERCY FOUNDATION
                 </span>
                 <h1 id="programs-title" className="programs-hero-title">
                   Practical expressions of <em>compassion.</em>
