@@ -45,9 +45,50 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Garden of Mercy">
+    <style>
+      #gom-launch-screen {
+        position: fixed; inset: 0; z-index: 2147483000;
+        display: grid; place-items: center; padding: 2rem;
+        background:
+          linear-gradient(145deg, rgba(255,255,255,.94), rgba(244,250,245,.88)),
+          url("/images/garden-of-mercy-social.jpg") center / cover no-repeat;
+        opacity: 1; visibility: visible;
+        transition: opacity .45s ease, visibility .45s ease;
+      }
+      #gom-launch-screen.is-leaving { opacity: 0; visibility: hidden; pointer-events: none; }
+      #gom-launch-screen .gom-launch-card {
+        width: min(100%, 28rem); text-align: center; padding: 2.5rem 1.5rem;
+        border-radius: 2rem; background: rgba(255,255,255,.82);
+        box-shadow: 0 1rem 3rem rgba(23,107,69,.12);
+        backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      }
+      #gom-launch-screen img { width: clamp(6rem, 28vw, 9rem); height: auto; object-fit: contain; }
+      #gom-launch-screen h1 { margin: 1rem 0 .35rem; color: #176b45; font: 800 clamp(1.5rem, 5vw, 2rem)/1.15 Lato, sans-serif; }
+      #gom-launch-screen p { margin: 0; color: #466653; font: 600 1rem/1.5 Lato, sans-serif; }
+      #gom-launch-screen .gom-launch-loader { width: 2rem; height: 2rem; margin: 1.75rem auto 0; border: 3px solid #dcebe1; border-top-color: #176b45; border-radius: 50%; animation: gom-spin .8s linear infinite; }
+      @keyframes gom-spin { to { transform: rotate(360deg); } }
+      @media (prefers-reduced-motion: reduce) {
+        #gom-launch-screen, #gom-launch-screen .gom-launch-loader { transition: none; animation: none; }
+      }
+      @media (display-mode: standalone) { body { background: #fff; } }
+    </style>
 </head>
 <body>
     <div id="root"></div>
+    <div id="gom-launch-screen" role="status" aria-live="polite" aria-label="Opening Garden of Mercy Foundation">
+      <div class="gom-launch-card">
+        <img src="/images/garden_of_mercy_icon.png" alt="" width="144" height="144" fetchpriority="high">
+        <h1>Garden of Mercy Foundation</h1>
+        <p>Sowing Seeds of Mercy and Compassion</p>
+        <div class="gom-launch-loader" aria-hidden="true"></div>
+      </div>
+    </div>
+    <script>
+      // Safety fallback: never leave the launch overlay covering a failed app.
+      window.setTimeout(function () {
+        document.getElementById("gom-launch-screen")?.classList.add("is-leaving");
+      }, 10000);
+    </script>
     <script type="module" src="/src/App.jsx"></script>
 </body>
 </html>
