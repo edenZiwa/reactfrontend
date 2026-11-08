@@ -62,9 +62,9 @@ export default function PageBreadcrumb({ path = "/", navigate }) {
       <div className="gom-page-breadcrumb__inner container">
         <ol className="gom-page-breadcrumb__trail">
           <li>
-            <a href="/" aria-label="Home">
+            <AppLink to="/" navigate={navigate} aria-label="Home">
               <i className="bi bi-house-door" aria-hidden="true" />
-            </a>
+            </AppLink>
           </li>
           <li className="gom-page-breadcrumb__current" aria-current="page">
             <span className="gom-page-breadcrumb__dot" aria-hidden="true" />
