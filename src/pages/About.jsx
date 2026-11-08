@@ -48,9 +48,9 @@ function About({ navigate }) {
           <div className="row align-items-center g-5">
             <div className="col-lg-7">
               <div className="about-hero-copy">
-                <span className="about-hero-eyebrow">
-                  <span className="about-hero-eyebrow-dot" aria-hidden="true" />
-                  ABOUT GARDEN OF MERCY FOUNDATION
+                <span className="about-hero-eyebrow hero-eyebrow">
+                  <span className="about-hero-eyebrow-dot hero-eyebrow-dot" aria-hidden="true" />
+                  ABOUT THE FOUNDATION
                 </span>
                 <h1 id="about-title" className="about-hero-title">
                   A foundation built on <em>mercy.</em>

@@ -3331,3 +3331,65 @@ select:focus-visible {
     .about-value-card { transition: none; }
     .about-value-card:hover { transform: none; }
 }
+
+
+/* Shared dotted hero eyebrow: consistent gold treatment across page heroes. */
+.programs-page .hero-eyebrow,
+.donate-page .hero-eyebrow,
+.volunteer-page .hero-eyebrow,
+.success-stories-page .hero-eyebrow,
+.contact-hero .hero-eyebrow,
+.impact-page .hero-eyebrow,
+.gallery-hero .hero-eyebrow,
+.sponsor-page .hero-eyebrow,
+.leadership-page .hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: .85rem;
+  padding: .65rem .9rem;
+  color: #edca7c;
+  background: rgba(255, 255, 255, .055);
+  border: 1px solid rgba(237, 202, 124, .25);
+  border-radius: 999px;
+  font-size: .66rem;
+  font-weight: 800;
+  letter-spacing: .14em;
+  line-height: 1.35;
+  text-transform: uppercase;
+  backdrop-filter: blur(8px);
+}
+
+.programs-page .hero-eyebrow-dot,
+.donate-page .hero-eyebrow-dot,
+.volunteer-page .hero-eyebrow-dot,
+.success-stories-page .hero-eyebrow-dot,
+.contact-hero .hero-eyebrow-dot,
+.impact-page .hero-eyebrow-dot,
+.gallery-hero .hero-eyebrow-dot,
+.sponsor-page .hero-eyebrow-dot,
+.leadership-page .hero-eyebrow-dot {
+  display: inline-block;
+  flex: 0 0 .5rem;
+  width: .5rem;
+  height: .5rem;
+  border-radius: 50%;
+  background: #edca7c;
+  box-shadow: 0 0 0 .3rem rgba(237, 202, 124, .13);
+}
+
+@media (max-width: 575.98px) {
+  .programs-page .hero-eyebrow,
+  .donate-page .hero-eyebrow,
+  .volunteer-page .hero-eyebrow,
+  .success-stories-page .hero-eyebrow,
+  .contact-hero .hero-eyebrow,
+  .impact-page .hero-eyebrow,
+  .gallery-hero .hero-eyebrow,
+  .sponsor-page .hero-eyebrow,
+  .leadership-page .hero-eyebrow {
+    gap: .7rem;
+    padding: .58rem .78rem;
+    font-size: .6rem;
+    letter-spacing: .11em;
+  }
+}

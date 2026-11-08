@@ -64,7 +64,10 @@ export default function Volunteer({ navigate }) {
     <div className="volunteer-page">
       <section className="volunteer-hero" style={{ background: "linear-gradient(120deg, rgba(16,37,27,.96), rgba(25,135,84,.86)), url('/images/gallery/volunteers-01.jpg') center/cover" }}>
         <div className="container py-5 py-lg-6">
-          <span className="volunteer-eyebrow about-hero-eyebrow">\n            <span className="about-hero-eyebrow-dot" aria-hidden="true" />\n            ABOUT GARDEN OF MERCY FOUNDATION\n          </span>
+          <span className="volunteer-eyebrow hero-eyebrow">
+            <span className="volunteer-hero-eyebrow-dot hero-eyebrow-dot" aria-hidden="true" />
+            VOLUNTEER WITH US
+          </span>
           <h1>Give Your Time. <span>Grow Hope.</span></h1>
           <p>Small acts of service can make a lasting difference. Join us in supporting children, strengthening families, and serving communities with dignity and compassion.</p>
           <a className="button button-gold" href="#volunteer-form">Become a Volunteer <span aria-hidden="true">→</span></a>

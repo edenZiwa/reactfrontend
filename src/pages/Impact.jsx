@@ -31,9 +31,9 @@ export default function Impact({ navigate }) {
           <div className="row align-items-center g-5">
             <div className="col-lg-7">
               <div className="impact-hero-copy">
-                <span className="impact-hero-eyebrow">
-                  <span className="impact-hero-eyebrow-dot" aria-hidden="true" />
-                  FROM COMPASSION TO MEASURABLE PROGRESS
+                <span className="impact-hero-eyebrow hero-eyebrow">
+                  <span className="impact-hero-eyebrow-dot hero-eyebrow-dot" aria-hidden="true" />
+                  OUR IMPACT
                 </span>
 
                 <h1 id="impact-title" className="impact-hero-title">

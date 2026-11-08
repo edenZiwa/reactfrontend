@@ -301,9 +301,9 @@ function Gallery({navigate}) {
         <div className="container position-relative">
           <div className="row align-items-center min-vh-60">
             <div className="col-lg-8">
-              <span className="gallery-eyebrow">
-                <i className="bi bi-camera-fill me-2" />
-                Our Stories
+              <span className="gallery-eyebrow hero-eyebrow">
+                <span className="gallery-hero-eyebrow-dot hero-eyebrow-dot" aria-hidden="true" />
+                OUR STORIES
               </span>
 
               <h1 className="display-2 fw-bold theme-on-dark mt-3">

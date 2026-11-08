@@ -102,9 +102,9 @@ const SuccessStories = () => {
             <section data-scroll-reveal="up" className="mercy-hero">
                 <div className="container">
                     <div className="mercy-hero-content">
-                        <span className="mercy-eyebrow text-uppercase about-hero-eyebrow">
-                            <span className="about-hero-eyebrow-dot" aria-hidden="true" />
-                            ABOUT GARDEN OF MERCY FOUNDATION
+                        <span className="mercy-eyebrow text-uppercase hero-eyebrow">
+                            <span className="stories-hero-eyebrow-dot hero-eyebrow-dot" aria-hidden="true" />
+                            STORIES OF HOPE
                         </span>
 
                         <h1>

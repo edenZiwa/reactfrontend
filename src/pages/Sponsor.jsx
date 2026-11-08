@@ -329,9 +329,9 @@ export default function Sponsor({ navigate }) {
           <div className="row align-items-center g-5">
             <div className="col-lg-7">
               <div className="sponsor-hero-copy">
-                <span className="sponsor-hero-eyebrow">
-                  <span className="sponsor-hero-dot" aria-hidden="true" />
-                  CHILD SPONSORSHIP · SHARED SUPPORT
+                <span className="sponsor-hero-eyebrow hero-eyebrow">
+                  <span className="sponsor-hero-dot hero-eyebrow-dot" aria-hidden="true" />
+                  CHILD SPONSORSHIP
                 </span>
                 <h1 id="sponsor-title">
                   Help a child take the next step towards a <em>brighter future.</em>
