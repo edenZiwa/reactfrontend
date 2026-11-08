@@ -1,6 +1,5 @@
 import React from "react";
 import { AppLink } from "../components/SiteChrome.jsx";
-import PesapalGivingLink from "../components/PesapalGivingLink.jsx";
 
 const programAreas = [
   {
@@ -454,7 +453,6 @@ function Programs({ navigate }) {
                 Get Involved
               </AppLink>
             </div>
-            <PesapalGivingLink className="text-center" />
           </div>
         </div>
       </section>
