@@ -12,7 +12,7 @@ const PWAContext = createContext(null);
 
 export function PWAProvider({ children }) {
   const [online, setOnline] = useState(
-    navigator.onLine
+    () => typeof navigator === "undefined" ? true : navigator.onLine
   );
 
   const [installEvent, setInstallEvent] = useState(null);
