@@ -97,9 +97,9 @@ function Contact( {
                 <div className="row align-items-center g-5">
                     <div className="col-lg-7">
                         <div className="contact-hero-copy">
-                            <span className="contact-hero-eyebrow about-hero-eyebrow">
-                                <span className="contact-hero-eyebrow-dot about-hero-eyebrow-dot" aria-hidden="true" />
-                                ABOUT GARDEN OF MERCY FOUNDATION
+                            <span className="contact-hero-eyebrow hero-eyebrow">
+                                <span className="contact-hero-eyebrow-dot hero-eyebrow-dot" aria-hidden="true" />
+                                GET IN TOUCH
                             </span>
                             <h1 id="contact-hero-title" className="contact-hero-title">
                                 Let’s start a <em>conversation.</em>
