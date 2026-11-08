@@ -32,4 +32,4 @@ export const API_BASE = rawApiBase && (!isProduction || !API_CONFIG_ERROR)
   ? rawApiBase
   : "/api";
 
-export const API_ORIGIN = API_BASE.replace(/\\/api$/i, "");
+export const API_ORIGIN = API_BASE.replace(/\/api$/i, "");
