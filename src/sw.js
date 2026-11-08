@@ -30,7 +30,7 @@ const navigationHandler =
 registerRoute(
   new NavigationRoute(navigationHandler, {
     denylist: [
-      /^\/api\//,
+      /^\/api(?:\/|$)/,
       /^\/auth(?:\/|$)/,
       /^\/admin(?:\/|$)/,
       /^\/account(?:\/|$)/,
@@ -81,7 +81,7 @@ registerRoute(
   ({ request, url }) =>
     request.destination === "document" &&
     url.origin === self.location.origin &&
-    !/^\/(?:admin|account|donation-result)(?:\/|$)/.test(url.pathname),
+    !/^\/(?:api|auth|admin|account|donation-result)(?:\/|$)/.test(url.pathname),
 
   new NetworkFirst({
     cacheName: "gom-public-documents-v1",
