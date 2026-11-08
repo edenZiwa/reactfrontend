@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { AppLink } from "../components/SiteChrome.jsx";
+import PesapalGivingLink from "../components/PesapalGivingLink.jsx";
 import { apiRequest } from "../services/api.js";
 
 const interests = [
@@ -82,6 +83,7 @@ export default function Volunteer({ navigate }) {
             <div className="volunteer-benefit"><span className="volunteer-icon"><i className="bi bi-heart-fill" /></span><div><h3>Lead with compassion</h3><p>Help promote dignity, safeguarding, and respectful support for children and families.</p></div></div>
             <div className="volunteer-note"><strong>Our commitment</strong><p>We aim to treat every volunteer and every community member with respect. Volunteer opportunities depend on current needs, suitability, and any required safeguarding checks.</p></div>
             <p className="mt-4 mb-0">Have a question first? <AppLink to="/contact" navigate={navigate}>Contact our team</AppLink>.</p>
+            <PesapalGivingLink />
           </div>
 
           <div className="col-lg-7" id="volunteer-form">
