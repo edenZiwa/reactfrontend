@@ -80,7 +80,8 @@ registerRoute(
 registerRoute(
   ({ request, url }) =>
     request.destination === "document" &&
-    url.origin === self.location.origin,
+    url.origin === self.location.origin &&
+    !/^\/(?:admin|account|donation-result)(?:\/|$)/.test(url.pathname),
 
   new NetworkFirst({
     cacheName: "gom-public-documents-v1",
