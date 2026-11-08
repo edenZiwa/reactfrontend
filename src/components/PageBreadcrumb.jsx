@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { usePWA } from "./PWAProvider.jsx";
+import { AppLink } from "./SiteChrome.jsx";
 
 const PAGE_LABELS = {
   "/about": "ABOUT THE FOUNDATION",
@@ -22,7 +23,7 @@ function normalizePath(path = "/") {
   return path.replace(/\/+$/, "") || "/";
 }
 
-export default function PageBreadcrumb({ path = "/" }) {
+export default function PageBreadcrumb({ path = "/", navigate }) {
   const [visible, setVisible] = useState(false);
   const { online } = usePWA();
   const label = PAGE_LABELS[normalizePath(path)];
