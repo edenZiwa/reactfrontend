@@ -16,6 +16,7 @@ import {
   Footer,
 } from "./components/SiteChrome.jsx";
 import PopupManager from "./components/PopupManager.jsx";
+import AppErrorBoundary from "./components/AppErrorBoundary.jsx";
 
 import { PWAProvider } from "./components/PWAProvider.jsx";
 import PWAInstallPrompt from "./components/PWAInstallPrompt.jsx";
@@ -65,7 +66,7 @@ function App() {
   }, [path]);
 
   if (path.startsWith("/admin")) {
-    return <Admin path={path} navigate={navigate} />;
+    return <><SEO path={path} /><Admin path={path} navigate={navigate} /></>;
   }
 
   let page;
@@ -198,6 +199,7 @@ const rootElement = document.getElementById("root");
 if (rootElement) {
   createRoot(rootElement).render(
     <React.StrictMode>
+      <AppErrorBoundary>
       <ThemeProvider>
         <ToastProvider>
           <PWAProvider>
@@ -209,6 +211,7 @@ if (rootElement) {
           </PWAProvider>
         </ToastProvider>
       </ThemeProvider>
+      </AppErrorBoundary>
     </React.StrictMode>
   );
 }

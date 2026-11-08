@@ -133,7 +133,7 @@ function Login({ onLogin, authError = "" }) {
         <label className="form-label" htmlFor="admin-password">Password</label>
         <input id="admin-password" className="form-control form-control-lg mb-3" type="password" autoComplete="current-password" required value={form.password} onChange={e => setForm({ ...form, password: e.target.value })} />
         <label className="form-label" htmlFor="admin-mfa">Authenticator code <span className="text-secondary fw-normal">(if enabled)</span></label>
-        <input id="admin-mfa" className="form-control mb-3" inputMode="numeric" autoComplete="one-time-code" maxLength="6" value={form.mfaCode} onChange={e => setForm({ ...form, mfaCode: e.target.value.replace(/\\D/g, "").slice(0, 6), recoveryCode: "" })} placeholder="6-digit code" />
+        <input id="admin-mfa" className="form-control mb-3" inputMode="numeric" autoComplete="one-time-code" maxLength="6" value={form.mfaCode} onChange={e => setForm({ ...form, mfaCode: e.target.value.replace(/\D/g, "").slice(0, 6), recoveryCode: "" })} placeholder="6-digit code" />
         <label className="form-label" htmlFor="admin-recovery">Recovery code <span className="text-secondary fw-normal">(instead of authenticator)</span></label>
         <input id="admin-recovery" className="form-control mb-4" autoComplete="off" value={form.recoveryCode} onChange={e => setForm({ ...form, recoveryCode: e.target.value.trim(), mfaCode: "" })} placeholder="One-time recovery code" />
         <button className="btn btn-success btn-lg w-100" disabled={busy}>{busy ? <><span className="spinner-border spinner-border-sm me-2" />Signing in…</> : "Sign in securely"}</button>
@@ -213,7 +213,6 @@ function RecordModal({ record, kind, onClose, onSave, busy, beneficiaryOptions =
         <div className="small text-secondary mb-3">{record.email || record.donor_email || record.merchant_reference || record.beneficiary_code || record.id || ""}</div>
         {kind === "inbox" && <div className="border rounded-3 p-3 mb-3"><strong>{record.subject || "Message"}</strong><p className="mb-0 mt-2 text-secondary" style={{ whiteSpace: "pre-wrap" }}>{record.message}</p></div>}
         {kind === "reconciliation" && <p className="text-secondary">Reference: <strong>{record.merchant_reference}</strong><br />Amount: {money(record.amount, record.currency)}<br />Current status: <StatusPill value={record.status} /></p>}
-        {kind === "users" && !record.id && field("Temporary password (minimum 12 characters)", "password", "password")}
         {fields}
       </div>
       <div className="d-flex justify-content-end gap-2 mt-4"><button className="btn btn-light border" onClick={onClose}>Cancel</button><button className="btn btn-success" disabled={busy} onClick={() => onSave(form)}>{busy ? "Saving…" : kind === "reconciliation" ? "Verify with provider" : "Save changes"}</button></div>

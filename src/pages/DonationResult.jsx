@@ -100,7 +100,7 @@ function DonationResult({ navigate }) {
             <button
               className="button button-primary"
               type="button"
-              onClick={refreshStatus}
+              onClick={() => refreshStatus()}
               disabled={refreshing || !reference}
               aria-live="polite"
             >

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="Garden of Mercy Foundation">
+  <rect width="512" height="512" rx="112" fill="#176b45"/>
+  <circle cx="256" cy="256" r="174" fill="#fffdf4"/>
+  <path d="M256 365c-5-80 13-147 72-210" fill="none" stroke="#176b45" stroke-width="22" stroke-linecap="round"/>
+  <path d="M260 268c-74 2-117-37-118-107 71-1 112 38 118 107Z" fill="#2b9860"/>
+  <path d="M274 220c2-67 39-109 106-115 1 68-37 108-106 115Z" fill="#74b85a"/>
+  <path d="M256 365c-25-49-65-72-118-68 15 57 54 85 118 68Z" fill="#74b85a"/>
+  <circle cx="256" cy="256" r="18" fill="#e0ae45"/>
+</svg>

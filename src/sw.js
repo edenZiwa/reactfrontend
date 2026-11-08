@@ -30,11 +30,14 @@ const navigationHandler =
 registerRoute(
   new NavigationRoute(navigationHandler, {
     denylist: [
-      /^\/api\//,
+      /^\/api(?:\/|$)/,
       /^\/auth(?:\/|$)/,
       /^\/admin(?:\/|$)/,
       /^\/account(?:\/|$)/,
-      /^\/donation-result(?:\/|$)/
+      /^\/donation-result(?:\/|$)/,
+      /^\/login(?:\/|$)/,
+      /^\/forgot-password(?:\/|$)/,
+      /^\/reset-password(?:\/|$)/
     ]
   })
 );
@@ -60,6 +63,7 @@ registerRoute(
 // Public CSS and JavaScript not already precached
 registerRoute(
   ({ request }) =>
+    url.origin === self.location.origin &&
     ["style", "script", "font"].includes(
       request.destination
     ),
@@ -80,7 +84,8 @@ registerRoute(
 registerRoute(
   ({ request, url }) =>
     request.destination === "document" &&
-    url.origin === self.location.origin,
+    url.origin === self.location.origin &&
+    !/^\/(?:api|auth|admin|account|donation-result|login|forgot-password|reset-password)(?:\/|$)/.test(url.pathname),
 
   new NetworkFirst({
     cacheName: "gom-public-documents-v1",
@@ -112,8 +117,8 @@ self.addEventListener("push", (event) => {
 
   const options = {
     body: data.body || "You have a new update.",
-    icon: "/icons/icon-192.png",
-    badge: "/icons/icon-192.png",
+    icon: "/images/garden_of_mercy_icon.png",
+    badge: "/images/garden_of_mercy_icon.png",
 
     tag: data.tag || "gom-announcement",
 
