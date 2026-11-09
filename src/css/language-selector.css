@@ -1,0 +1,183 @@
+/* Multilingual header control — inherits the Foundation's active theme. */
+.gom-language-selector {
+  position: relative;
+  flex: 0 0 auto;
+  z-index: 1060;
+}
+
+.gom-language-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  min-height: 2.5rem;
+  padding: .45rem .7rem;
+  color: var(--bs-body-color);
+  background: var(--bs-body-bg);
+  border: 1px solid var(--bs-border-color);
+  border-radius: 999px;
+  font-size: .82rem;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: var(--gomf-transition);
+}
+
+.gom-language-trigger:hover,
+.gom-language-trigger[aria-expanded="true"] {
+  color: var(--bs-success);
+  border-color: var(--bs-success);
+  background: var(--bs-tertiary-bg);
+}
+
+.gom-language-trigger > .bi-globe2 {
+  color: var(--bs-success);
+  font-size: 1rem;
+}
+
+.gom-language-chevron {
+  font-size: .65rem;
+  transition: transform .18s ease;
+}
+
+.gom-language-chevron.is-open { transform: rotate(180deg); }
+
+.gom-language-menu {
+  position: absolute;
+  top: calc(100% + .65rem);
+  right: 0;
+  z-index: 1070;
+  display: flex;
+  flex-direction: column;
+  width: min(22rem, calc(100vw - 2rem));
+  max-height: min(70vh, 34rem);
+  padding: .85rem;
+  color: var(--bs-body-color);
+  background: var(--bs-body-bg);
+  border: 1px solid var(--bs-border-color);
+  border-radius: 1rem;
+  box-shadow: var(--gomf-shadow);
+}
+
+.gom-language-menu-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+  padding: .15rem .15rem .7rem;
+}
+
+.gom-language-menu-heading strong { font-size: .95rem; }
+
+.gom-language-close {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  color: var(--bs-secondary-color);
+  background: transparent;
+  border: 0;
+  border-radius: .5rem;
+}
+
+.gom-language-close:hover { background: var(--bs-tertiary-bg); }
+
+.gom-language-search {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  min-height: 2.7rem;
+  padding: 0 .75rem;
+  color: var(--bs-secondary-color);
+  background: var(--bs-tertiary-bg);
+  border: 1px solid var(--bs-border-color);
+  border-radius: .7rem;
+}
+
+.gom-language-search input {
+  width: 100%;
+  min-width: 0;
+  color: var(--bs-body-color);
+  background: transparent;
+  border: 0;
+  outline: 0;
+  font-size: .88rem;
+}
+
+.gom-language-search input:focus-visible { outline: 0; }
+
+.gom-language-list {
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  margin: .55rem -.25rem 0;
+  padding: 0 .25rem;
+}
+
+.gom-language-group { padding: .35rem 0 .55rem; }
+.gom-language-group + .gom-language-group { border-top: 1px solid var(--bs-border-color); }
+
+.gom-language-group h3 {
+  margin: .2rem .55rem .4rem;
+  color: var(--bs-secondary-color);
+  font-size: .69rem;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.gom-language-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .7rem;
+  width: 100%;
+  padding: .48rem .55rem;
+  color: var(--bs-body-color);
+  text-align: start;
+  background: transparent;
+  border: 0;
+  border-radius: .55rem;
+  font-size: .85rem;
+}
+
+.gom-language-option:not(:disabled) { cursor: pointer; }
+.gom-language-option:not(:disabled):hover,
+.gom-language-option.is-active { background: var(--bs-tertiary-bg); }
+.gom-language-option.is-active { color: var(--bs-success); font-weight: 700; }
+.gom-language-option:disabled { opacity: .58; cursor: not-allowed; }
+
+.gom-language-option-copy {
+  display: grid;
+  gap: .05rem;
+  min-width: 0;
+}
+
+.gom-language-native { overflow-wrap: anywhere; }
+.gom-language-name { color: var(--bs-secondary-color); font-size: .72rem; font-weight: 400; }
+.gom-language-pending { flex: 0 0 auto; color: var(--bs-secondary-color); font-size: .75rem; }
+.gom-language-empty { margin: .8rem .55rem; color: var(--bs-secondary-color); font-size: .85rem; }
+.gom-language-footnote {
+  margin: .55rem 0 0;
+  padding: .6rem .3rem 0;
+  color: var(--bs-secondary-color);
+  border-top: 1px solid var(--bs-border-color);
+  font-size: .7rem;
+  line-height: 1.4;
+}
+
+@media (max-width: 1000px) {
+  .gom-language-selector { width: 100%; }
+  .gom-language-trigger { width: 100%; justify-content: flex-start; border-radius: .6rem; }
+  .gom-language-menu {
+    position: static;
+    width: 100%;
+    max-height: 55vh;
+    margin-top: .5rem;
+    box-shadow: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gom-language-trigger,
+  .gom-language-chevron { transition: none; }
+}
