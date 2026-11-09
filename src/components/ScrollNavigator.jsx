@@ -57,11 +57,13 @@ export default function ScrollNavigator() {
   const scrollToDestination = () => {
     const shouldScrollUp = direction === "up" || atBottom;
     const footer = document.getElementById("site-footer");
+    const headerHeight = document.getElementById("site-header")?.getBoundingClientRect().height || 0;
+    const offlineHeight = document.querySelector(".gom-offline-status")?.getBoundingClientRect().height || 0;
     const targetTop = shouldScrollUp
       ? 0
       : footer
-        ? footer.getBoundingClientRect().top + window.scrollY
-        : document.documentElement.scrollHeight;
+        ? Math.max(0, footer.getBoundingClientRect().top + window.scrollY - headerHeight - offlineHeight - 12)
+        : Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     window.scrollTo({ top: targetTop, behavior: reducedMotion ? "auto" : "smooth" });

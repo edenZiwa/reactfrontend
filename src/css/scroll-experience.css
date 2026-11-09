@@ -1,7 +1,13 @@
 /* Site-wide scrolling and reading experience */
+:root {
+  --gom-scroll-offset: calc(var(--gom-site-header-height, 82px) + 12px);
+}
+:root:has(.gom-offline-status) {
+  --gom-scroll-offset: calc(var(--gom-site-header-height, 82px) + 46px);
+}
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 6rem;
+  scroll-padding-top: var(--gom-scroll-offset);
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
 }
