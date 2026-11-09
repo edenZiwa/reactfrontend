@@ -44,9 +44,8 @@ const requireResponse = async (response, provider) => {
 
 const getAzureLanguages = async () => {
   if (!azureKey) return new Set();
-  const headers = { "Ocp-Apim-Subscription-Key": azureKey };
-  if (azureRegion) headers["Ocp-Apim-Subscription-Region"] = azureRegion;
-  const response = await fetch(`${azureEndpoint}/languages?api-version=3.0&scope=translation`, { headers });
+  // Azure documents the languages discovery endpoint as public; no key is required.
+  const response = await fetch(`${azureEndpoint}/languages?api-version=3.0&scope=translation`);
   const data = await requireResponse(response, "Azure language discovery");
   return new Set(Object.keys(data.translation || {}));
 };
