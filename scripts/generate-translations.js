@@ -160,7 +160,7 @@ for (const language of LANGUAGES.filter((item) => item.code !== DEFAULT_LANGUAGE
     let providerUsed = useAzure ? "Azure Translator" : "DeepL";
     for (const [name, source] of sources) {
       const entries = flatten(source);
-      const translated = {};
+      const translated = structuredClone(source);
       for (const batch of chunks(entries)) {
         let values;
         if (useAzure) {
