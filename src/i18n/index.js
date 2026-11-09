@@ -5,15 +5,18 @@ import enCommon from "./locales/en/common.json";
 import {
   DEFAULT_LANGUAGE,
   LANGUAGE_STORAGE_KEY,
-  LANGUAGES
+  LANGUAGES,
+  getAvailableLanguages
 } from "./languageConfig.js";
 
+const availableLanguages = getAvailableLanguages();
 const supportedLngs = LANGUAGES.map(({ code }) => code);
+const availableLanguageCodes = new Set(availableLanguages.map(({ code }) => code));
 let initialLanguage = DEFAULT_LANGUAGE;
 
 try {
   const savedLanguage = window.localStorage.getItem(LANGUAGE_STORAGE_KEY);
-  if (supportedLngs.includes(savedLanguage)) initialLanguage = savedLanguage;
+  if (availableLanguageCodes.has(savedLanguage)) initialLanguage = savedLanguage;
 } catch {
   // Storage may be unavailable in private browsing or restricted contexts.
 }
