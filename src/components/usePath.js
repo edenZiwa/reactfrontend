@@ -1,12 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
 
 function normalizePath(pathname) {
-  const path = String(pathname || "/").replace(/\\/+$/, "");
+  const path = String(pathname || "/").replace(/\/+$/, "");
   return path || "/";
-}
-
-function nextNavigation(id, type, hash = "") {
-  return { id, type, hash, scrollY: window.history.state?.scrollY };
 }
 
 export default function usePath() {
@@ -15,7 +11,7 @@ export default function usePath() {
     id: 0,
     type: "INITIAL",
     hash: window.location.hash,
-    scrollY: window.history.state?.scrollY,
+    scrollY: window.history.state?.scrollY ?? 0,
   }));
 
   useEffect(() => {
@@ -24,9 +20,12 @@ export default function usePath() {
 
     const update = () => {
       setPath(normalizePath(window.location.pathname));
-      setNavigation((current) =>
-        nextNavigation(current.id + 1, "POP", window.location.hash)
-      );
+      setNavigation((current) => ({
+        id: current.id + 1,
+        type: "POP",
+        hash: window.location.hash,
+        scrollY: window.history.state?.scrollY ?? 0,
+      }));
     };
 
     window.addEventListener("popstate", update);
@@ -62,7 +61,7 @@ export default function usePath() {
     );
 
     const nextPath = normalizePath(target.pathname);
-    window.history.pushState({ scrollY: 0 }, "", `${nextPath}${target.search}${target.hash}`);
+    window.history.pushState({ scrollY: 0 }, "", \`\${nextPath}\${target.search}\${target.hash}\`);
     setPath(nextPath);
     setNavigation((current) => ({
       id: current.id + 1,
