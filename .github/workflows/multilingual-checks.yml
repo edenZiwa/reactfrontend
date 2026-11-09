@@ -11,7 +11,8 @@ on:
       - "package.json"
       - "src/App.jsx"
       - "src/components/SiteChrome.jsx"
-      - "src/pages/Admin.jsx"
+      - "src/pages/**"
+      - "src/i18n/locales/**"
       - ".github/workflows/multilingual-checks.yml"
   push:
     branches: [feature/multilingual-language-selector]
