@@ -57,7 +57,7 @@ import "./css/theme.css";
 import "./css/scroll-experience.css";
 
 function App() {
-  const [path, navigate] = usePath();
+  const [path, navigate, navigation] = usePath();
 
   // Dismiss the static launch screen only after React has mounted.
   useEffect(() => {
@@ -114,11 +114,59 @@ function App() {
     };
   }, [path]);
 
-  // Start each newly selected route at the top without forcing motion.
+  // Route transitions, fragment navigation and browser history restoration.
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "auto" });
-    document.getElementById("main-content")?.focus({ preventScroll: true });
-  }, [path]);
+    let frame = 0;
+    let secondFrame = 0;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const behavior = reducedMotion ? "auto" : "smooth";
+
+    const scrollToHash = () => {
+      if (!navigation.hash) return false;
+      let id;
+      try {
+        id = decodeURIComponent(navigation.hash.slice(1));
+      } catch {
+        id = navigation.hash.slice(1);
+      }
+      const target = document.getElementById(id) ||
+        document.querySelector(\`[name="\${CSS.escape(id)}"]\`);
+      if (!target) return false;
+
+      const header = document.getElementById("site-header");
+      const offline = document.querySelector(".gom-offline-status");
+      const headerHeight = header?.getBoundingClientRect().height || 0;
+      const offlineHeight = offline?.getBoundingClientRect().height || 0;
+      const top = Math.max(0, target.getBoundingClientRect().top + window.scrollY - headerHeight - offlineHeight - 12);
+      window.scrollTo({ top, behavior });
+      return true;
+    };
+
+    frame = window.requestAnimationFrame(() => {
+      if (navigation.type === "POP") {
+        if (navigation.hash) {
+          if (!scrollToHash()) {
+            secondFrame = window.requestAnimationFrame(scrollToHash);
+          }
+        } else {
+          window.scrollTo({ top: navigation.scrollY || 0, behavior: "auto" });
+        }
+        return;
+      }
+
+      if (navigation.hash) {
+        if (!scrollToHash()) secondFrame = window.requestAnimationFrame(scrollToHash);
+      } else {
+        window.scrollTo({ top: 0, behavior: "auto" });
+        document.getElementById("main-content")?.focus({ preventScroll: true });
+      }
+    });
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+      if (secondFrame) window.cancelAnimationFrame(secondFrame);
+    };
+  }, [path, navigation.id]);
 
   if (path.startsWith("/admin")) {
     return <><SEO path={path} /><Admin path={path} navigate={navigate} /></>;
