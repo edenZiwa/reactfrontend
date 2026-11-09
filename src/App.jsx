@@ -2,9 +2,11 @@
 import React, { useEffect } from "react";
 import { createRoot } from "react-dom/client";
 
+import "./i18n/index.js";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "./css/shared-ux.css";
+import "./css/language-selector.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "./css/styles.css";
 import "./css/app.css";
