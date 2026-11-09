@@ -181,3 +181,8 @@
   .gom-language-trigger,
   .gom-language-chevron { transition: none; }
 }
+
+@media (max-width: 1000px) {
+  .gom-admin-topbar .gom-language-selector { width: auto; }
+  .gom-admin-topbar .gom-language-trigger { width: auto; }
+}
