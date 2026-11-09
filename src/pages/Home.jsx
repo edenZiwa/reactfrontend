@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import {
     AppLink,
     Eyebrow,
@@ -8,6 +9,7 @@ import {
 function Home( {
     navigate
 }) {
+    const { t } = useTranslation("common");
     return (
         <>
             {/* HERO */}
@@ -26,19 +28,15 @@ function Home( {
                                 src="https://gardenofmercy.org/images/garden_of_mercy_logo.png"
                                 alt="Garden of Mercy Foundation logo"
                                 />
-                            <span>Sowing Seeds of Mercy</span>
+                            <span>{t("home.heroEyebrow")}</span>
                         </div>
 
                         <h1 className="display-3 fw-bold lh-sm theme-on-dark">
-                            Serving children with{" "}
-                            <span className="text-warning">mercy, dignity</span>{" "}
-                            and compassion.
+                            {t("home.heroTitle")}
                         </h1>
 
                         <p className="lead mt-4 mb-4 theme-on-dark">
-                            Garden of Mercy Foundation exists to turn compassion into
-                            practical action — creating opportunities for children and
-                            communities to experience dignity, hope and a better future.
+                            {t("home.heroDescription")}
                         </p>
 
                         <div className="d-flex flex-column flex-sm-row gap-3">
@@ -47,14 +45,14 @@ function Home( {
                                 className="btn btn-warning btn-lg px-4 fw-semibold"
                                 >
                                 <i className="bi bi-heart-fill me-2"></i>
-                                Support the Mission
+                                {t("home.supportMission")}
                             </a>
 
                             <a
                                 href="#about"
                                 className="btn btn-outline-light btn-lg px-4"
                                 >
-                                Discover Our Story
+                                {t("home.discoverStory")}
                                 <i className="bi bi-arrow-down ms-2"></i>
                             </a>
                         </div>
