@@ -1,8 +1,10 @@
+import generatedLanguages from "./generatedLanguages.json";
+
 // Central catalogue for Garden of Mercy Foundation multilingual support.
 // A language becomes selectable only after its machine-translated resources
 // have been generated, reviewed for coverage, and included in the build.
 export const LANGUAGES = [
-  { code: "en", name: "English", nativeName: "English", group: "Default", direction: "ltr", ready: true },
+  { code: "en", name: "English", nativeName: "English", group: "Default", direction: "ltr" },
   { code: "lg", name: "Luganda", nativeName: "Luganda", group: "Uganda", direction: "ltr" },
   { code: "xog", name: "Lusoga", nativeName: "Lusoga", group: "Uganda", direction: "ltr" },
   { code: "nyn", name: "Runyankole", nativeName: "Orunyankore", group: "Uganda", direction: "ltr" },
@@ -96,6 +98,11 @@ export const LANGUAGES = [
   { code: "ca", name: "Catalan", nativeName: "Català", group: "Worldwide", direction: "ltr" },
   { code: "fil", name: "Filipino", nativeName: "Filipino", group: "Worldwide", direction: "ltr" }
 ];
+
+const generatedLanguageCodes = new Set(generatedLanguages);
+LANGUAGES.forEach((language) => {
+  language.ready = generatedLanguageCodes.has(language.code);
+});
 
 export const LANGUAGE_GROUPS = ["Default", "Uganda", "Africa", "Worldwide"];
 export const DEFAULT_LANGUAGE = "en";
