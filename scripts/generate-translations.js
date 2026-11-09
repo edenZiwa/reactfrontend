@@ -49,7 +49,7 @@ const sources = await Promise.all(
     ])))
 );
 
-const report = { generated: [], unsupportedOrFailed: [] };
+const report = { generated: [DEFAULT_LANGUAGE], unsupportedOrFailed: [] };
 for (const language of LANGUAGES.filter(item => item.code !== DEFAULT_LANGUAGE)) {
   try {
     const translatedFiles = await Promise.all(sources.map(async ([name, content]) => [
@@ -67,5 +67,10 @@ for (const language of LANGUAGES.filter(item => item.code !== DEFAULT_LANGUAGE))
     console.warn(`Skipped ${language.code} (${language.name}): ${error.message}`);
   }
 }
+await writeFile(
+  path.join(root, "src/i18n/generatedLanguages.json"),
+  JSON.stringify([...new Set(report.generated)], null, 2) + "\\n",
+  "utf8"
+);
 console.log(JSON.stringify(report, null, 2));
 if (report.generated.length === 0) process.exitCode = 1;
