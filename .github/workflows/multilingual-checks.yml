@@ -7,7 +7,7 @@ on:
       - "src/i18n/**"
       - "src/components/LanguageSelector.jsx"
       - "src/css/language-selector.css"
-      - "scripts/generate-translations.js"
+      - "scripts/**"
       - "package.json"
       - "src/App.jsx"
       - "src/components/SiteChrome.jsx"
