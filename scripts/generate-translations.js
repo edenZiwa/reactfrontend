@@ -68,8 +68,8 @@ for (const language of LANGUAGES.filter(item => item.code !== DEFAULT_LANGUAGE))
   }
 }
 await writeFile(
-  path.join(root, "src/i18n/generatedLanguages.json"),
-  JSON.stringify([...new Set(report.generated)], null, 2) + "\\n",
+  path.join(root, "src/i18n/generatedLanguages.js"),
+  `export const GENERATED_LANGUAGES = ${JSON.stringify([...new Set(report.generated)])};\n`,
   "utf8"
 );
 console.log(JSON.stringify(report, null, 2));
