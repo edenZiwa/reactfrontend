@@ -65,9 +65,11 @@
   },
   "home": {
     "heroEyebrow": "Sowing Seeds of Mercy",
-    "heroTitle": "Serving children with mercy, dignity and compassion.",
     "heroDescription": "Garden of Mercy Foundation exists to turn compassion into practical action — creating opportunities for children and communities to experience dignity, hope and a better future.",
     "supportMission": "Support the Mission",
-    "discoverStory": "Discover Our Story"
+    "discoverStory": "Discover Our Story",
+    "heroTitleBefore": "Serving children with",
+    "heroTitleEmphasis": "mercy, dignity",
+    "heroTitleAfter": "and compassion."
   }
 }
