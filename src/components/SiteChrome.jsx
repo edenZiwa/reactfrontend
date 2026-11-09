@@ -194,222 +194,81 @@ function Header({ path = "/", navigate }) {
 function Footer({ navigate }) {
   const currentYear = new Date().getFullYear();
   const { t } = useTranslation("common");
-
+  const exploreLinks = [
+    ["about", "/about"], ["programs", "/programs"], ["impact", "/impact"],
+    ["stories", "/success-stories"], ["gallery", "/gallery"],
+    ["founder", "/founder"], ["cofounder", "/cofounder"],
+    ["ministries", "/power-of-revelation-ministries"]
+  ];
   return (
-    <footer id="site-footer" className="shadow-lg" aria-label="Website footer">
-      {/* Main footer */}
+    <footer id="site-footer" className="shadow-lg" aria-label={t("footer.label")}>
       <div className="container py-5">
         <div className="row g-4 g-lg-5">
-          {/* Brand and mission */}
           <div className="col-12 col-md-6 col-lg-4">
-            <AppLink
-              to="/"
-              navigate={navigate}
-              className="d-inline-block mb-3"
-              aria-label="Garden of Mercy Foundation home"
-            >
-              <img
-                src="https://gardenofmercy.org/images/garden_of_mercy_horizontal.png"
-                alt="Garden of Mercy Foundation"
-                className="img-fluid"
-                width="260"
-                height="auto"
-                loading="lazy"
-                style={{ maxWidth: "260px" }}
-              />
+            <AppLink to="/" navigate={navigate} className="d-inline-block mb-3" aria-label={t("brand.home")}>
+              <img src="https://gardenofmercy.org/images/garden_of_mercy_horizontal.png" alt="Garden of Mercy Foundation" className="img-fluid" width="260" height="auto" loading="lazy" style={{ maxWidth: "260px" }} />
             </AppLink>
-
-            <h2 className="h5 fw-bold  mb-3">
-              {t("brand.tagline")}
-            </h2>
-
-            <p className=" lh-lg mb-3">
-              We are committed to restoring dignity, nurturing children,
-              supporting vulnerable people, and building compassionate
-              communities where everyone has an opportunity to thrive.
-            </p>
-
-            <AppLink
-              to="/about"
-              navigate={navigate}
-              className="link-underline-opacity-0 link-underline-opacity-75-hover fw-semibold"
-            >
-              {t("footer.discoverMission")}
-              <i className="bi bi-arrow-right ms-2" aria-hidden="true" />
+            <h2 className="h5 fw-bold mb-3">{t("brand.tagline")}</h2>
+            <p className="lh-lg mb-3">{t("footer.mission")}</p>
+            <AppLink to="/about" navigate={navigate} className="link-underline-opacity-0 link-underline-opacity-75-hover fw-semibold">
+              {t("footer.discoverMission")} <i className="bi bi-arrow-right ms-2" aria-hidden="true" />
             </AppLink>
           </div>
-
-          {/* {t("footer.explore")} the foundation */}
           <div className="col-6 col-md-6 col-lg-2">
-            <h2 className="h6 text-uppercase fw-bold mb-4">
-              {t("footer.explore")}
-            </h2>
-
-            <nav aria-label="{t("footer.explore")} the foundation">
+            <h2 className="h6 text-uppercase fw-bold mb-4">{t("footer.explore")}</h2>
+            <nav aria-label={t("footer.explore")}>
               <ul className="list-unstyled d-grid gap-3 mb-0">
-                {[
-                  ["{t("footer.about")}", "/about"],
-                  ["{t("footer.programs")}", "/programs"],
-                  ["{t("footer.impact")}", "/impact"],
-                  ["{t("footer.stories")}", "/success-stories"],
-                  ["{t("footer.gallery")}", "/gallery"],
-                  ["{t("footer.founder")}", "/founder"],
-                  ["Co-{t("footer.founder")}", "/cofounder"],
-                  ["{t("footer.ministries")}", "/power-of-revelation-ministries"],
-                ].map(([label, href]) => (
-                  <li key={href}>
-                    <AppLink
-                      to={href}
-                      navigate={navigate}
-                      className="link-underline-opacity-0 link-underline-opacity-75-hover"
-                    >
-                      {label}
-                    </AppLink>
-                  </li>
+                {exploreLinks.map(([key, href]) => (
+                  <li key={href}><AppLink to={href} navigate={navigate} className="link-underline-opacity-0 link-underline-opacity-75-hover">{t(`footer.links.${key}`)}</AppLink></li>
                 ))}
               </ul>
             </nav>
           </div>
-
-          {/* Ways to participate */}
           <div className="col-6 col-md-6 col-lg-2">
-            <h2 className="h6 text-uppercase fw-bold mb-4">
-              {t("footer.getInvolved")}
-            </h2>
-
-            <nav aria-label="Ways to get involved">
+            <h2 className="h6 text-uppercase fw-bold mb-4">{t("footer.getInvolved")}</h2>
+            <nav aria-label={t("footer.getInvolved")}>
               <ul className="list-unstyled d-grid gap-3 mb-0">
-                <li>
-                  <AppLink
-                    to="/sponsor"
-                    navigate={navigate}
-                    className="link-underline-opacity-0 link-underline-opacity-75-hover"
-                  >
-                    {t("footer.sponsor")}
-                  </AppLink>
-                </li>
-                <li>
-                  <AppLink
-                    to="/volunteer"
-                    navigate={navigate}
-                    className="link-underline-opacity-0 link-underline-opacity-75-hover"
-                  >
-                    {t("footer.volunteer")}
-                  </AppLink>
-                </li>
-                <li>
-                  <AppLink
-                    to="/donate"
-                    navigate={navigate}
-                    className="link-underline-opacity-0 link-underline-opacity-75-hover"
-                  >
-                    {t("footer.donate")}
-                  </AppLink>
-                </li>
-                <li>
-                  <AppLink
-                    to="/contact"
-                    navigate={navigate}
-                    className="link-underline-opacity-0 link-underline-opacity-75-hover"
-                  >
-                    {t("footer.contact")}
-                  </AppLink>
-                </li>
+                {[["sponsor", "/sponsor"], ["volunteer", "/volunteer"], ["donate", "/donate"], ["contact", "/contact"]].map(([key, href]) => (
+                  <li key={href}><AppLink to={href} navigate={navigate} className="link-underline-opacity-0 link-underline-opacity-75-hover">{t(`footer.links.${key}`)}</AppLink></li>
+                ))}
               </ul>
             </nav>
           </div>
-
-          {/* Commitment and donation */}
           <div className="col-12 col-md-6 col-lg-4">
-            <h2 className="h6 text-uppercase fw-bold mb-4">
-              {t("footer.commitment")}
-            </h2>
-
-            <p className="lh-lg mb-4">
-              Every act of kindness matters. We believe in compassion,
-              accountability, and making a meaningful difference in the lives of
-              the people and communities we serve.
-            </p>
-
+            <h2 className="h6 text-uppercase fw-bold mb-4">{t("footer.commitment")}</h2>
+            <p className="lh-lg mb-4">{t("footer.commitmentText")}</p>
             <div className="d-flex flex-wrap gap-3 mb-4">
-              <AppLink
-                to="/privacy"
-                navigate={navigate}
-                className="link-underline-opacity-0 link-underline-opacity-75-hover small"
-              >
-                {t("footer.privacy")}
-              </AppLink>
-
-              <AppLink
-                to="/terms"
-                navigate={navigate}
-                className="link-underline-opacity-0 link-underline-opacity-75-hover small"
-              >
-                {t("footer.terms")}
-              </AppLink>
+              <AppLink to="/privacy" navigate={navigate} className="link-underline-opacity-0 link-underline-opacity-75-hover small">{t("footer.privacy")}</AppLink>
+              <AppLink to="/terms" navigate={navigate} className="link-underline-opacity-0 link-underline-opacity-75-hover small">{t("footer.terms")}</AppLink>
             </div>
-
-            <AppLink
-              to="/donate"
-              navigate={navigate}
-              className="btn btn-warning fw-bold px-4 py-3 rounded-pill"
-            >
-              {t("footer.seed")}
-              <i className="bi bi-heart-fill ms-2" aria-hidden="true" />
+            <AppLink to="/donate" navigate={navigate} className="btn btn-warning fw-bold px-4 py-3 rounded-pill">
+              {t("footer.seed")} <i className="bi bi-heart-fill ms-2" aria-hidden="true" />
             </AppLink>
           </div>
         </div>
       </div>
-
-      {/* Scripture */}
       <div className="border-top border-secondary">
         <div className="container py-4">
           <div className="d-flex flex-column flex-md-row align-items-md-center justify-content-center gap-2 gap-md-3 text-center">
             <i className="bi bi-heart-fill text-warning" aria-hidden="true" />
-
-            <p className="mb-0 fst-italic">
-              {t("footer.scripture")}
-            </p>
-
+            <p className="mb-0 fst-italic">{t("footer.scripture")}</p>
             <span className="small fw-bold text-warning">{t("footer.scriptureReference")}</span>
           </div>
         </div>
       </div>
-
-      {/* Copyright */}
       <div className="border-top border-secondary">
         <div className="container py-4">
           <div className="d-flex flex-column flex-md-row align-items-center justify-content-between gap-2 text-center text-md-start">
-            <p className="small mb-0">
-              {t("footer.copyright", { year: currentYear })}
-            </p>
-
-            <p className="small mb-0">
-              {t("footer.closing")}
-            </p>
+            <p className="small mb-0">{t("footer.copyright", { year: currentYear })}</p>
+            <p className="small mb-0">{t("footer.closing")}</p>
           </div>
         </div>
       </div>
-
-      {/* Website update notice */}
-      <div
-        className="bg-warning py-2 px-3"
-        role="status"
-        aria-live="polite"
-      >
+      <div className="bg-warning py-2 px-3" role="status" aria-live="polite">
         <div className="container d-flex flex-wrap align-items-center justify-content-center gap-2 text-center">
-          <span
-            className="rounded-circle bg-success border border-dark"
-            style={{ width: "8px", height: "8px" }}
-            aria-hidden="true"
-          />
-
+          <span className="rounded-circle bg-success border border-dark" style={{ width: "8px", height: "8px" }} aria-hidden="true" />
           <i className="bi bi-heart-fill" aria-hidden="true" />
-
-          <span className="small">
-            <strong>{t("footer.noticeTitle")}</strong>
-            <span>{t("footer.noticeText")}</span>
-          </span>
+          <span className="small"><strong>{t("footer.noticeTitle")}</strong><span> {t("footer.noticeText")}</span></span>
         </div>
       </div>
     </footer>
