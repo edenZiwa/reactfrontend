@@ -36,7 +36,7 @@ export default function usePath() {
   }, []);
 
   const navigate = useCallback((next) => {
-    if (typeof next !== "string" || !next.trim() || next.startsWith("#")) return;
+    if (typeof next !== "string" || !next.trim()) return;
 
     let target;
     try {
