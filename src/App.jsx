@@ -130,7 +130,7 @@ function App() {
         id = navigation.hash.slice(1);
       }
       const target = document.getElementById(id) ||
-        document.querySelector(\`[name="\${CSS.escape(id)}"]\`);
+        document.querySelector(`[name="${CSS.escape(id)}"]`);
       if (!target) return false;
 
       const header = document.getElementById("site-header");
