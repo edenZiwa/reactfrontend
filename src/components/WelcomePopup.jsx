@@ -13,10 +13,7 @@ export default function WelcomePopup({ onClose, navigate }) {
   return (
     <PopupModal titleId="welcome-popup-title" onClose={onClose}>
       <div className="modal-header border-0 pb-0">
-        <span className="badge text-bg-success rounded-pill">
-          Welcome
-        </span>
-
+        <span className="badge text-bg-success rounded-pill">Welcome</span>
         <button
           type="button"
           className="btn-close ms-auto"
@@ -31,55 +28,25 @@ export default function WelcomePopup({ onClose, navigate }) {
           style={{ width: 64, height: 64 }}
           aria-hidden="true"
         >
-          <img src="/images/garden_of_mercy_logo.png" alt="Garden of Mercy Foundation" width="48" height="48" className="img-fluid" />
+          <img src="/images/garden_of_mercy_logo.png" alt="" width="48" height="48" className="img-fluid" />
         </div>
 
-        <p className="small text-success fw-bold text-uppercase mb-2">
-          Garden of Mercy Foundation
-        </p>
-
-        <h2
-          id="welcome-popup-title"
-          className="h2 fw-bold lh-sm mb-3"
-        >
-          Welcome to Garden of Mercy.
+        <h2 id="welcome-popup-title" className="h2 fw-bold lh-sm mb-3">
+          Every seed of mercy makes a difference.
         </h2>
 
-        <p className="text-secondary mb-3">
-          We believe every child deserves an opportunity to learn,
-          every person deserves dignity, and every community deserves hope.
-        </p>
-
         <p className="text-secondary mb-4">
-          Together, we can support vulnerable children, uphold dignity, and strengthen communities.
+          Together, we bring hope and opportunity to vulnerable children and communities.
         </p>
 
-        <div className="d-grid gap-2">
-          <button
-            type="button"
-            className="btn btn-success btn-lg rounded-pill"
-            onClick={() => handleNavigate("/donate")}
-          >
-            <i className="bi bi-heart-fill me-2" aria-hidden="true" />
-            Support Our Mission
-          </button>
-
-          <button
-            type="button"
-            className="btn btn-outline-success rounded-pill"
-            onClick={() => handleNavigate("/about")}
-          >
-            Explore Our Mission
-          </button>
-
-          <button
-            type="button"
-            className="btn btn-link text-secondary text-decoration-none"
-            onClick={onClose}
-          >
-            Continue exploring
-          </button>
-        </div>
+        <button
+          type="button"
+          className="btn btn-success btn-lg w-100 rounded-pill"
+          onClick={() => handleNavigate("/about")}
+        >
+          Discover Our Mission
+          <i className="bi bi-arrow-right ms-2" aria-hidden="true" />
+        </button>
       </div>
 
       <div className="modal-footer border-0 pt-0 justify-content-center">

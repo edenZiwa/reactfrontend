@@ -9,12 +9,17 @@ import EducationGiftPopup from "./EducationGiftPopup";
 
 const WELCOME_KEY = "gom_welcome_shown";
 const EDUCATION_KEY = "gom_education_popup_shown";
-const WELCOME_DELAY = 7000;
+const WELCOME_DELAY = 30000;
 const memoryShown = new Set();
 
 function wasShown(key) {
   try {
-    return window.sessionStorage.getItem(key) === "true" || memoryShown.has(key);
+    if (window.localStorage.getItem(key) === "true") return true;
+    // Respect the previous session-only flag during this tab's migration.
+    if (key === WELCOME_KEY && window.sessionStorage.getItem(key) === "true") {
+      return true;
+    }
+    return memoryShown.has(key);
   } catch {
     return memoryShown.has(key);
   }
@@ -23,7 +28,11 @@ function wasShown(key) {
 function markShown(key) {
   memoryShown.add(key);
   try {
-    window.sessionStorage.setItem(key, "true");
+    if (key === WELCOME_KEY) {
+      window.localStorage.setItem(key, "true");
+    } else {
+      window.sessionStorage.setItem(key, "true");
+    }
   } catch {
     // Popups still work if browser storage is unavailable.
   }
@@ -66,7 +75,7 @@ export default function PopupManager({ path, navigate }) {
     setEducationOpen(false);
   }, [path]);
 
-  // Welcome visitors who remain on the homepage with the tab visible.
+  // Welcome first-time browser visitors after 30 seconds on the visible homepage.
   // The delay restarts if they switch away before the prompt appears.
   useEffect(() => {
     if (path !== "/" || isDonationFlow || wasShown(WELCOME_KEY)) return;
