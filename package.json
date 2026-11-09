@@ -8,7 +8,9 @@
     "build": "vite build",
     "preview": "vite preview --host 0.0.0.0",
     "audit": "npm audit --audit-level=high",
-    "audit:fix": "npm audit fix"
+    "audit:fix": "npm audit fix",
+    "test": "node --test",
+    "i18n:generate": "node scripts/generate-translations.js"
   },
   "dependencies": {
     "bootstrap": "^5.3.8",
