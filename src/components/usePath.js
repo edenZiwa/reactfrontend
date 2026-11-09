@@ -61,7 +61,7 @@ export default function usePath() {
     );
 
     const nextPath = normalizePath(target.pathname);
-    window.history.pushState({ scrollY: 0 }, "", \`\${nextPath}\${target.search}\${target.hash}\`);
+    window.history.pushState({ scrollY: 0 }, "", `${nextPath}${target.search}${target.hash}`);
     setPath(nextPath);
     setNavigation((current) => ({
       id: current.id + 1,
