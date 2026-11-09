@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import GoogleSignIn from "./GoogleSignIn.jsx";
 import { useTheme } from "./ThemeProvider.jsx";
+import LanguageSelector from "./LanguageSelector.jsx";
 
 const NAV = [
   ["Home", "/"],
@@ -162,6 +163,8 @@ function Header({ path = "/", navigate }) {
           >
             Donate <span aria-hidden="true">↗</span>
           </AppLink>
+
+          <LanguageSelector />
 
           <label className="theme-control">
             <i className="bi bi-circle-half" aria-hidden="true" />
