@@ -32,7 +32,9 @@ function Home( {
                         </div>
 
                         <h1 className="display-3 fw-bold lh-sm theme-on-dark">
-                            {t("home.heroTitle")}
+                            {t("home.heroTitleBefore")}{" "}
+                            <span className="text-warning">{t("home.heroTitleEmphasis")}</span>{" "}
+                            {t("home.heroTitleAfter")}
                         </h1>
 
                         <p className="lead mt-4 mb-4 theme-on-dark">
