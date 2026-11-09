@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   DEFAULT_LANGUAGE,
@@ -10,6 +10,23 @@ export default function LanguageSelector() {
   const { i18n, t } = useTranslation("common");
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
+  const selectorRef = useRef(null);
+
+  useEffect(() => {
+    if (!open) return undefined;
+    const closeOnOutsideClick = (event) => {
+      if (!selectorRef.current?.contains(event.target)) setOpen(false);
+    };
+    const closeOnEscape = (event) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("pointerdown", closeOnOutsideClick);
+    document.addEventListener("keydown", closeOnEscape);
+    return () => {
+      document.removeEventListener("pointerdown", closeOnOutsideClick);
+      document.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [open]);
   const activeLanguage =
     LANGUAGES.find((language) => language.code === i18n.resolvedLanguage) ||
     LANGUAGES.find((language) => language.code === DEFAULT_LANGUAGE);
@@ -35,7 +52,7 @@ export default function LanguageSelector() {
   };
 
   return (
-    <div className="gom-language-selector dropdown">
+    <div className="gom-language-selector dropdown" ref={selectorRef}>
       <button
         className="gom-language-trigger"
         type="button"
