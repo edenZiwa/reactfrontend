@@ -5,7 +5,7 @@ import { LANGUAGES, DEFAULT_LANGUAGE } from "../src/i18n/languageConfig.js";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const sourceDir = path.join(root, "src/i18n/locales", DEFAULT_LANGUAGE);
-const outputDir = path.join(root, "src/i18n/locales");
+const outputDir = path.join(root, "public/locales");
 const apiKey = process.env.GOOGLE_TRANSLATE_API_KEY;
 
 if (!apiKey) {
