@@ -1,4 +1,4 @@
-import generatedLanguages from "./generatedLanguages.json";
+import { GENERATED_LANGUAGES } from "./generatedLanguages.js";
 
 // Central catalogue for Garden of Mercy Foundation multilingual support.
 // A language becomes selectable only after its machine-translated resources
@@ -99,7 +99,7 @@ export const LANGUAGES = [
   { code: "fil", name: "Filipino", nativeName: "Filipino", group: "Worldwide", direction: "ltr" }
 ];
 
-const generatedLanguageCodes = new Set(generatedLanguages);
+const generatedLanguageCodes = new Set(GENERATED_LANGUAGES);
 LANGUAGES.forEach((language) => {
   language.ready = generatedLanguageCodes.has(language.code);
 });
