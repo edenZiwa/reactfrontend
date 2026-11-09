@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import GoogleSignIn from "./GoogleSignIn.jsx";
 import { useTheme } from "./ThemeProvider.jsx";
 import LanguageSelector from "./LanguageSelector.jsx";
@@ -11,8 +12,8 @@ const NAV = [
   ["Gallery", "/gallery"],
   ["Sponsor", "/sponsor"],
   ["Contact", "/contact"],
-  ["Founder", "/founder"],
-  ["Co-Founder", "/cofounder"],
+  ["{t("footer.founder")}", "/founder"],
+  ["Co-{t("footer.founder")}", "/cofounder"],
   ["Stories", "/success-stories"],
 ];
 
@@ -94,6 +95,7 @@ function AppLink({
 // Main site header.
 function Header({ path = "/", navigate }) {
   const [open, setOpen] = useState(false);
+  const { t } = useTranslation("common");
   const { mode, resolvedTheme, setMode } = useTheme();
   const currentPath = normalizePath(path);
 
@@ -106,7 +108,7 @@ function Header({ path = "/", navigate }) {
           to="/"
           navigate={navigate}
           className="brand"
-          aria-label="Garden of Mercy Foundation home"
+          aria-label={t("brand.home")}
           onClick={closeMenu}
         >
           <img
@@ -123,17 +125,17 @@ function Header({ path = "/", navigate }) {
           type="button"
           aria-expanded={open}
           aria-controls="main-navigation"
-          aria-label={open ? "Close navigation menu" : "Open navigation menu"}
+          aria-label={open ? t("navigation.close") : t("navigation.open")}
           onClick={() => setOpen((previous) => !previous)}
         >
-          {open ? "Close" : "Menu"}
+          {open ? t("navigation.close") : t("navigation.menu")}
           <span aria-hidden="true">{open ? "✕" : "☰"}</span>
         </button>
 
         <nav
           id="main-navigation"
           className={open ? "main-nav is-open" : "main-nav"}
-          aria-label="Main navigation"
+          aria-label={t("navigation.main")}
         >
           {NAV.slice(0, 7).map(([label, href]) => {
             const isActive = currentPath === normalizePath(href);
@@ -147,7 +149,7 @@ function Header({ path = "/", navigate }) {
                 aria-current={isActive ? "page" : undefined}
                 onClick={closeMenu}
               >
-                {label}
+                {t(`navigation.${href.slice(1) || "home"}`, label)}
               </AppLink>
             );
           })}
@@ -161,24 +163,24 @@ function Header({ path = "/", navigate }) {
             aria-current={currentPath === "/donate" ? "page" : undefined}
             onClick={closeMenu}
           >
-            Donate <span aria-hidden="true">↗</span>
+            {t("navigation.donate")} <span aria-hidden="true">↗</span>
           </AppLink>
 
           <LanguageSelector />
 
           <label className="theme-control">
             <i className="bi bi-circle-half" aria-hidden="true" />
-            <span className="visually-hidden">Color theme</span>
+            <span className="visually-hidden">{t("theme.label")}</span>
             <select
               className="theme-select"
               value={mode}
               onChange={(event) => setMode(event.target.value)}
-              aria-label="Choose color theme"
-              title="Choose color theme"
+              aria-label={t("theme.choose")}
+              title={t("theme.choose")}
             >
-              <option value="system">System</option>
-              <option value="light">Light</option>
-              <option value="dark">Dark</option>
+              <option value="system">{t("theme.system")}</option>
+              <option value="light">{t("theme.light")}</option>
+              <option value="dark">{t("theme.dark")}</option>
             </select>
           </label>
           <GoogleSignIn />
@@ -191,6 +193,7 @@ function Header({ path = "/", navigate }) {
 // Main site footer.
 function Footer({ navigate }) {
   const currentYear = new Date().getFullYear();
+  const { t } = useTranslation("common");
 
   return (
     <footer id="site-footer" className="shadow-lg" aria-label="Website footer">
@@ -217,7 +220,7 @@ function Footer({ navigate }) {
             </AppLink>
 
             <h2 className="h5 fw-bold  mb-3">
-              Sowing Seeds of Mercy
+              {t("brand.tagline")}
             </h2>
 
             <p className=" lh-lg mb-3">
@@ -231,28 +234,28 @@ function Footer({ navigate }) {
               navigate={navigate}
               className="link-underline-opacity-0 link-underline-opacity-75-hover fw-semibold"
             >
-              Discover our mission
+              {t("footer.discoverMission")}
               <i className="bi bi-arrow-right ms-2" aria-hidden="true" />
             </AppLink>
           </div>
 
-          {/* Explore the foundation */}
+          {/* {t("footer.explore")} the foundation */}
           <div className="col-6 col-md-6 col-lg-2">
             <h2 className="h6 text-uppercase fw-bold mb-4">
-              Explore
+              {t("footer.explore")}
             </h2>
 
-            <nav aria-label="Explore the foundation">
+            <nav aria-label="{t("footer.explore")} the foundation">
               <ul className="list-unstyled d-grid gap-3 mb-0">
                 {[
-                  ["About us", "/about"],
-                  ["Our programs", "/programs"],
-                  ["Our impact", "/impact"],
-                  ["Success stories", "/success-stories"],
-                  ["Photo gallery", "/gallery"],
-                  ["Founder", "/founder"],
-                  ["Co-Founder", "/cofounder"],
-                  ["Power of Revelation Ministries", "/power-of-revelation-ministries"],
+                  ["{t("footer.about")}", "/about"],
+                  ["{t("footer.programs")}", "/programs"],
+                  ["{t("footer.impact")}", "/impact"],
+                  ["{t("footer.stories")}", "/success-stories"],
+                  ["{t("footer.gallery")}", "/gallery"],
+                  ["{t("footer.founder")}", "/founder"],
+                  ["Co-{t("footer.founder")}", "/cofounder"],
+                  ["{t("footer.ministries")}", "/power-of-revelation-ministries"],
                 ].map(([label, href]) => (
                   <li key={href}>
                     <AppLink
@@ -271,7 +274,7 @@ function Footer({ navigate }) {
           {/* Ways to participate */}
           <div className="col-6 col-md-6 col-lg-2">
             <h2 className="h6 text-uppercase fw-bold mb-4">
-              Get involved
+              {t("footer.getInvolved")}
             </h2>
 
             <nav aria-label="Ways to get involved">
@@ -282,7 +285,7 @@ function Footer({ navigate }) {
                     navigate={navigate}
                     className="link-underline-opacity-0 link-underline-opacity-75-hover"
                   >
-                    Sponsor a child
+                    {t("footer.sponsor")}
                   </AppLink>
                 </li>
                 <li>
@@ -291,7 +294,7 @@ function Footer({ navigate }) {
                     navigate={navigate}
                     className="link-underline-opacity-0 link-underline-opacity-75-hover"
                   >
-                    Volunteer with us
+                    {t("footer.volunteer")}
                   </AppLink>
                 </li>
                 <li>
@@ -300,7 +303,7 @@ function Footer({ navigate }) {
                     navigate={navigate}
                     className="link-underline-opacity-0 link-underline-opacity-75-hover"
                   >
-                    Make a donation
+                    {t("footer.donate")}
                   </AppLink>
                 </li>
                 <li>
@@ -309,7 +312,7 @@ function Footer({ navigate }) {
                     navigate={navigate}
                     className="link-underline-opacity-0 link-underline-opacity-75-hover"
                   >
-                    Contact us
+                    {t("footer.contact")}
                   </AppLink>
                 </li>
               </ul>
@@ -319,7 +322,7 @@ function Footer({ navigate }) {
           {/* Commitment and donation */}
           <div className="col-12 col-md-6 col-lg-4">
             <h2 className="h6 text-uppercase fw-bold mb-4">
-              Our commitment
+              {t("footer.commitment")}
             </h2>
 
             <p className="lh-lg mb-4">
@@ -334,7 +337,7 @@ function Footer({ navigate }) {
                 navigate={navigate}
                 className="link-underline-opacity-0 link-underline-opacity-75-hover small"
               >
-                Privacy policy
+                {t("footer.privacy")}
               </AppLink>
 
               <AppLink
@@ -342,7 +345,7 @@ function Footer({ navigate }) {
                 navigate={navigate}
                 className="link-underline-opacity-0 link-underline-opacity-75-hover small"
               >
-                Terms of use
+                {t("footer.terms")}
               </AppLink>
             </div>
 
@@ -351,7 +354,7 @@ function Footer({ navigate }) {
               navigate={navigate}
               className="btn btn-warning fw-bold px-4 py-3 rounded-pill"
             >
-              Sow a seed of mercy
+              {t("footer.seed")}
               <i className="bi bi-heart-fill ms-2" aria-hidden="true" />
             </AppLink>
           </div>
@@ -365,10 +368,10 @@ function Footer({ navigate }) {
             <i className="bi bi-heart-fill text-warning" aria-hidden="true" />
 
             <p className="mb-0 fst-italic">
-              “I was hungry and you gave me something to eat.”
+              {t("footer.scripture")}
             </p>
 
-            <span className="small fw-bold text-warning">Matthew 25:35–45</span>
+            <span className="small fw-bold text-warning">{t("footer.scriptureReference")}</span>
           </div>
         </div>
       </div>
@@ -378,11 +381,11 @@ function Footer({ navigate }) {
         <div className="container py-4">
           <div className="d-flex flex-column flex-md-row align-items-center justify-content-between gap-2 text-center text-md-start">
             <p className="small mb-0">
-              © {currentYear} Garden of Mercy Foundation. All rights reserved.
+              {t("footer.copyright", { year: currentYear })}
             </p>
 
             <p className="small mb-0">
-              Sowing hope. Restoring dignity. Transforming lives.
+              {t("footer.closing")}
             </p>
           </div>
         </div>
@@ -404,8 +407,8 @@ function Footer({ navigate }) {
           <i className="bi bi-heart-fill" aria-hidden="true" />
 
           <span className="small">
-            <strong>Growing with our community</strong>
-            <span> — We’re continually improving this website to serve you better. Thank you for being part of our mission.</span>
+            <strong>{t("footer.noticeTitle")}</strong>
+            <span>{t("footer.noticeText")}</span>
           </span>
         </div>
       </div>
