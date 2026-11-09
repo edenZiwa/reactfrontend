@@ -3469,3 +3469,14 @@ select:focus-visible {
 .offcanvas {
   z-index: 1055;
 }
+
+
+/*
+ * A fixed child cannot escape an ancestor stacking context. Raise only the
+ * section containing the sticky eyebrow above page content and secondary
+ * navigation, while keeping it below the offline strip and site header.
+ */
+section.has-sticky-eyebrow {
+  position: relative;
+  z-index: 1044;
+}
