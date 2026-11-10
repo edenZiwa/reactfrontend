@@ -3480,3 +3480,91 @@ section.has-sticky-eyebrow {
   position: relative;
   z-index: 1044;
 }
+
+/* About page theme integration: keep all light surfaces and body copy in sync with ThemeProvider. */
+.about-page {
+  --about-green: var(--gomf-green);
+  --about-ink: var(--gomf-text);
+  --about-muted: var(--gomf-text-muted);
+}
+
+/* The hero and closing call-to-action intentionally remain dark image/green surfaces. */
+.about-page .about-hero-card {
+  color: var(--gomf-text) !important;
+  background: var(--gomf-surface-raised);
+  border-color: var(--gomf-border);
+}
+.about-page .about-hero-card h2,
+.about-page .about-hero-card p {
+  color: var(--gomf-text);
+}
+.about-page .about-hero-card-kicker,
+.about-page .about-section-kicker {
+  color: var(--gomf-green);
+}
+.about-page .about-hero-card-mark,
+.about-page .about-approach-icon,
+.about-page .about-value-icon,
+.about-page .about-faith-mark {
+  color: var(--gomf-green);
+  background: var(--gomf-surface-soft);
+}
+
+/* Alternating page bands use theme surfaces rather than fixed white/grey fills. */
+.about-page .about-overview-section,
+.about-page .about-values-section,
+.about-page .about-cta-section {
+  color: var(--gomf-text);
+  background: var(--gomf-page);
+}
+.about-page .about-approach-section,
+.about-page .about-faith-section {
+  color: var(--gomf-text);
+  background: var(--gomf-surface-soft);
+}
+.about-page .about-approach-card,
+.about-page .about-value-card,
+.about-page .about-faith-panel {
+  color: var(--gomf-text);
+  background: var(--gomf-surface);
+  border-color: var(--gomf-border);
+  box-shadow: var(--gomf-shadow-sm);
+}
+.about-page .about-overview-heading h2,
+.about-page .about-section-title,
+.about-page .about-approach-card h3,
+.about-page .about-value-card h3,
+.about-page .about-faith-copy h2 {
+  color: var(--gomf-text);
+}
+.about-page .about-overview-copy p,
+.about-page .about-section-heading > p,
+.about-page .about-values-intro > p,
+.about-page .about-approach-card p,
+.about-page .about-value-card p,
+.about-page .about-faith-copy p {
+  color: var(--gomf-text-muted);
+}
+.about-page .about-overview-note {
+  color: var(--gomf-text);
+  background: var(--gomf-surface);
+  border-left-color: var(--gomf-gold);
+}
+.about-page .about-overview-note p {
+  color: var(--gomf-text);
+}
+.about-page .about-overview-note > i,
+.about-page .about-faith-reference {
+  color: var(--gomf-green);
+}
+.about-page .about-approach-number,
+.about-page .about-value-number {
+  color: var(--gomf-text-muted);
+}
+.about-page .about-faith-reference {
+  border-top-color: var(--gomf-border);
+}
+.about-page .about-value-card:hover {
+  border-color: var(--gomf-green);
+  box-shadow: var(--gomf-shadow-md);
+}
