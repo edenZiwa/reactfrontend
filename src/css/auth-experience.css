@@ -1,71 +1,290 @@
-.gom-auth-page {
-  min-height: 65vh;
-  display: grid;
-  place-items: center;
+/* Garden of Mercy Foundation — public member sign-in experience */
+.gom-login-page {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(2.5rem, 6vw, 5.25rem) 0 4rem;
+  color: var(--gomf-text, var(--bs-body-color));
+  background:
+    radial-gradient(ellipse at 8% 18%, rgba(217, 181, 109, .13), transparent 34rem),
+    radial-gradient(ellipse at 94% 82%, rgba(23, 107, 69, .10), transparent 32rem),
+    var(--gomf-page, var(--bs-body-bg));
 }
-.gom-auth-card {
-  width: min(100%, 34rem);
-  padding: clamp(1.5rem, 5vw, 2.75rem);
-  color: var(--bs-body-color);
-  background: var(--bs-body-bg);
-  border: 1px solid var(--bs-border-color);
-  border-radius: 1.25rem;
-  box-shadow: 0 1rem 3rem rgba(20, 55, 35, .09);
-}
-.gom-auth-brand-mark {
-  display: grid;
-  place-items: center;
-  width: 3.5rem;
-  height: 3.5rem;
-  margin-bottom: 1.25rem;
-  color: #fff;
-  background: #176b45;
-  border-radius: 1rem;
-  font-size: 1.6rem;
-}
-.gom-auth-eyebrow {
-  color: #176b45;
-  font-size: .72rem;
+.gom-login-container { position: relative; z-index: 1; }
+.gom-login-heading { max-width: 48rem; margin: 0 auto clamp(2rem, 4vw, 3.25rem); }
+.gom-login-heading h1 {
+  margin: .75rem 0 .65rem;
+  color: var(--bs-emphasis-color);
+  font-size: clamp(2.35rem, 5vw, 3.65rem);
   font-weight: 800;
-  letter-spacing: .13em;
+  letter-spacing: -.055em;
 }
-.gom-auth-divider {
+.gom-login-heading p {
+  margin: 0;
+  color: var(--bs-secondary-color);
+  font-size: clamp(1rem, 1.5vw, 1.15rem);
+}
+.gom-login-page .gom-auth-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: .65rem;
+  color: var(--gomf-green, var(--bs-success));
+}
+.gom-login-eyebrow-dot {
+  width: .48rem;
+  height: .48rem;
+  border-radius: 50%;
+  background: var(--gomf-gold, #d9b56d);
+  box-shadow: 0 0 0 .28rem rgba(217, 181, 109, .16);
+}
+.gom-login-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(21rem, .85fr);
+  align-items: stretch;
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  max-width: 67rem;
+  margin: 0 auto;
+}
+.gom-login-story {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(1rem, 3vw, 2.25rem) 0;
+}
+.gom-login-story-mark {
+  display: grid;
+  place-items: center;
+  width: 3.6rem;
+  height: 3.6rem;
+  margin-bottom: 1.6rem;
+  color: #fff;
+  background: linear-gradient(145deg, #1b8052, #10452f);
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 1.15rem;
+  box-shadow: 0 .8rem 1.8rem rgba(16, 69, 47, .2);
+  font-size: 1.7rem;
+}
+.gom-login-kicker, .gom-login-panel-kicker {
+  color: var(--gomf-green, var(--bs-success));
+  font-size: .7rem;
+  font-weight: 800;
+  letter-spacing: .14em;
+}
+.gom-login-story h2 {
+  max-width: 34rem;
+  margin: .75rem 0 1rem;
+  color: var(--bs-emphasis-color);
+  font-size: clamp(2rem, 4vw, 3.1rem);
+  font-weight: 800;
+  letter-spacing: -.05em;
+  line-height: 1.1;
+  text-wrap: balance;
+}
+.gom-login-story-copy {
+  max-width: 35rem;
+  margin: 0;
+  color: var(--bs-secondary-color);
+  font-size: 1.02rem;
+  line-height: 1.8;
+}
+.gom-login-benefits {
+  display: grid;
+  gap: 1.1rem;
+  margin: 2rem 0;
+}
+.gom-login-benefit { display: flex; align-items: flex-start; gap: .9rem; }
+.gom-login-benefit-icon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 2.65rem;
+  width: 2.65rem;
+  height: 2.65rem;
+  color: var(--gomf-green, var(--bs-success));
+  background: var(--gomf-surface-soft, var(--bs-tertiary-bg));
+  border: 1px solid var(--gomf-border, var(--bs-border-color));
+  border-radius: .85rem;
+  font-size: 1.15rem;
+}
+.gom-login-benefit strong {
+  display: block;
+  margin: .05rem 0 .2rem;
+  color: var(--bs-emphasis-color);
+  font-size: .96rem;
+}
+.gom-login-benefit small {
+  display: block;
+  color: var(--bs-secondary-color);
+  font-size: .86rem;
+  line-height: 1.55;
+}
+.gom-login-scripture {
+  max-width: 33rem;
+  margin: .5rem 0 0;
+  padding: 1rem 1.1rem;
+  color: var(--bs-secondary-color);
+  background: color-mix(in srgb, var(--gomf-surface-soft, var(--bs-tertiary-bg)) 72%, transparent);
+  border-left: 3px solid var(--gomf-gold, #d9b56d);
+  border-radius: 0 .75rem .75rem 0;
+  font-size: .88rem;
+  font-style: italic;
+  line-height: 1.7;
+}
+.gom-login-scripture span {
+  display: inline-block;
+  margin-left: .35rem;
+  color: var(--gomf-green, var(--bs-success));
+  font-size: .78rem;
+  font-style: normal;
+  font-weight: 800;
+}
+.gom-login-panel {
+  align-self: center;
+  padding: clamp(1.5rem, 3vw, 2.25rem);
+  color: var(--bs-body-color);
+  background: var(--gomf-surface, var(--bs-body-bg));
+  border: 1px solid var(--gomf-border, var(--bs-border-color));
+  border-radius: 1.4rem;
+  box-shadow: 0 1.4rem 4rem rgba(16, 49, 31, .11);
+}
+.gom-login-panel-heading { display: flex; align-items: center; gap: .9rem; }
+.gom-login-panel-icon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 3rem;
+  width: 3rem;
+  height: 3rem;
+  color: var(--gomf-green, var(--bs-success));
+  background: var(--gomf-surface-soft, var(--bs-tertiary-bg));
+  border-radius: 1rem;
+  font-size: 1.35rem;
+}
+.gom-login-panel-heading h2 {
+  margin: .18rem 0 0;
+  color: var(--bs-emphasis-color);
+  font-size: 1.32rem;
+  font-weight: 800;
+  letter-spacing: -.035em;
+}
+.gom-login-panel-intro {
+  margin: 1.1rem 0 1.4rem;
+  color: var(--bs-secondary-color);
+  font-size: .92rem;
+  line-height: 1.65;
+}
+.gom-login-google-button {
   display: flex;
   align-items: center;
+  justify-content: flex-start;
   gap: .85rem;
-  margin: 1.5rem 0 .75rem;
+  width: 100%;
+  min-height: 3.65rem;
+  padding: .8rem 1rem;
+  color: #26332b;
+  background: #fff;
+  border: 1px solid #cbd5ce;
+  border-radius: .8rem;
+  box-shadow: 0 2px 5px rgba(0,0,0,.04);
+  font: inherit;
+  font-weight: 750;
+  transition: border-color .18s ease, box-shadow .18s ease, transform .18s ease;
+}
+.gom-login-google-button:hover:not(:disabled) {
+  border-color: #8ca997;
+  box-shadow: 0 .45rem 1.2rem rgba(23, 80, 48, .1);
+  transform: translateY(-1px);
+}
+.gom-login-google-button:disabled { cursor: wait; opacity: .72; }
+.gom-login-google-button:focus-visible {
+  outline: 3px solid var(--gomf-focus, rgba(23,107,69,.24));
+  outline-offset: 3px;
+}
+.gom-login-account-note {
+  display: flex;
+  align-items: flex-start;
+  gap: .7rem;
+  margin-top: 1.1rem;
+  padding: .9rem;
   color: var(--bs-secondary-color);
-  font-size: .8rem;
+  background: var(--gomf-surface-soft, var(--bs-tertiary-bg));
+  border: 1px solid var(--gomf-border, var(--bs-border-color));
+  border-radius: .8rem;
+  font-size: .84rem;
+  line-height: 1.6;
 }
-.gom-auth-divider::before,
-.gom-auth-divider::after {
-  content: "";
-  flex: 1;
-  height: 1px;
-  background: var(--bs-border-color);
-}
-.gom-auth-help {
+.gom-login-account-note > i { margin-top: .12rem; color: var(--gomf-green, var(--bs-success)); }
+.gom-login-account-note p { margin: 0; }
+.gom-login-account-note strong { color: var(--bs-emphasis-color); }
+.gom-login-security {
   display: flex;
   align-items: flex-start;
   gap: .65rem;
-  padding: .9rem 1rem;
+  margin-top: 1.1rem;
   color: var(--bs-secondary-color);
-  background: var(--bs-tertiary-bg);
-  border-radius: .75rem;
-  font-size: .85rem;
-  line-height: 1.5;
+  font-size: .8rem;
+  line-height: 1.55;
 }
-.gom-auth-help > i { flex: 0 0 auto; }
-.gom-auth-status {
+.gom-login-security i { color: var(--gomf-green, var(--bs-success)); }
+.gom-login-divider {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: .75rem;
-  padding: 1rem;
+  gap: .8rem;
+  margin: 1.35rem 0 .6rem;
   color: var(--bs-secondary-color);
-  border: 1px solid var(--bs-border-color);
-  border-radius: .75rem;
+  font-size: .77rem;
+}
+.gom-login-divider::before, .gom-login-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--gomf-border, var(--bs-border-color));
+}
+.gom-login-help { margin: 0; color: var(--bs-secondary-color); font-size: .84rem; }
+.gom-login-help a { color: var(--gomf-green, var(--bs-link-color)); font-weight: 750; }
+.gom-login-staff {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--gomf-border, var(--bs-border-color));
+}
+.gom-login-staff strong, .gom-login-staff span { display: block; }
+.gom-login-staff strong { color: var(--bs-emphasis-color); font-size: .84rem; }
+.gom-login-staff span { margin-top: .2rem; color: var(--bs-secondary-color); font-size: .74rem; line-height: 1.5; }
+.gom-login-staff > a {
+  flex: 0 0 auto;
+  color: var(--gomf-green, var(--bs-link-color));
+  font-size: .82rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+.gom-login-back {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  max-width: 67rem;
+  margin: 2rem auto 0;
+  color: var(--bs-secondary-color);
+  font-size: .78rem;
+}
+.gom-login-back a { color: var(--gomf-green, var(--bs-link-color)); font-weight: 700; }
+.gom-login-back a i { margin-right: .35rem; }
+.gom-login-unavailable { text-align: center; }
+.gom-login-unavailable > i { display: block; margin-bottom: .65rem; color: var(--gomf-green, var(--bs-success)); font-size: 1.8rem; }
+.gom-login-unavailable strong { color: var(--bs-emphasis-color); }
+.gom-login-unavailable p { margin: .35rem 0 1rem; color: var(--bs-secondary-color); font-size: .86rem; }
+@media (max-width: 767.98px) {
+  .gom-login-page { padding-top: 2.25rem; }
+  .gom-login-layout { grid-template-columns: 1fr; gap: 1rem; max-width: 34rem; }
+  .gom-login-story { padding: .5rem 0 1rem; }
+  .gom-login-story-mark { width: 3rem; height: 3rem; margin-bottom: 1rem; }
+  .gom-login-story h2 { font-size: clamp(1.8rem, 8vw, 2.5rem); }
+  .gom-login-benefits { gap: .85rem; margin: 1.4rem 0; }
+  .gom-login-scripture { display: none; }
+  .gom-login-panel { padding: 1.35rem; }
+  .gom-login-back { flex-direction: column; align-items: center; text-align: center; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .gom-auth-card { scroll-behavior: auto; }
+  .gom-login-google-button { transition: none; }
 }
