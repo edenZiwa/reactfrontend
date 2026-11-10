@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth } from "../auth/AuthProvider.jsx";
 import "../css/auth-experience.css";
 
 function AccountAccess({ navigate }) {
   const { login, status, authError, clearAuthError, refreshSession } = useAuth();
+
+  useEffect(() => {
+    if (status === "authenticated") navigate?.("/account", { replace: true });
+  }, [status, navigate]);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
 
