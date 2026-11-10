@@ -6,7 +6,7 @@ function AccountAccess({ navigate }) {
   const { login, status, authError, clearAuthError, refreshSession } = useAuth();
 
   useEffect(() => {
-    if (status === "authenticated") navigate?.("/account", { replace: true });
+    if (status === "authenticated") navigate?.("/account");
   }, [status, navigate]);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
