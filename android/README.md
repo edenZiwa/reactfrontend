@@ -50,9 +50,9 @@ release. Once published, an Android application ID cannot be changed for updates
 
 ## Google Play target API
 
-At the time this preparation was written (10 November 2026), new apps and updates
-submitted from 31 August 2026 must target Android 16 (API 36) or higher. Re-check
-the current Play Console requirement immediately before uploading.
+Google's current requirement for a new app submitted on 10 November 2026 is Android 16
+(API level 36) or higher. This requirement took effect on 31 August 2026. Confirm the
+current rule immediately before upload: https://support.google.com/googleplay/android-developer/answer/11926878.
 
 ## Secrets and ownership
 
