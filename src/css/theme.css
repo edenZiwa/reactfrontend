@@ -981,3 +981,159 @@ html[data-bs-theme] {
 .shadow,
 .shadow-sm { box-shadow: var(--gomf-shadow-sm) !important; }
 .shadow-lg { box-shadow: var(--gomf-shadow-lg) !important; }
+
+
+/* Repository-wide hard-coded white-surface cleanup.
+   White remains the light-theme surface; dark mode maps these legacy components
+   to the shared surface tokens instead of leaving bright white panels behind. */
+.visual-caption,
+.donation-form,
+.gom-install-prompt,
+.leadership-page .ministry-card,
+.leadership-page .message-panel,
+.leadership-page .gallery-preview,
+.leadership-page .source-link-card,
+.leadership-page .cta-section,
+.pr-purpose-card,
+.pr-value-card,
+.pr-sermon-card,
+.pr-featured-video,
+.ministry-media-link,
+.pr-location-section,
+.pr-map-card,
+.sponsor-pathways-section,
+.sponsor-principles-section,
+.sponsor-final-cta,
+.sponsor-hero-card,
+.sponsor-filter-panel,
+.sponsor-result-count,
+.sponsor-child-card,
+.sponsor-empty-state,
+.sponsor-process-card {
+  color: var(--gomf-text);
+  background-color: var(--gomf-surface);
+  border-color: var(--gomf-border);
+}
+.visual-caption b,
+.visual-caption strong,
+.leadership-page .message-panel,
+.leadership-page .message-panel p,
+.leadership-page .source-content strong,
+.pr-purpose-card h3,
+.pr-value-card h3,
+.pr-sermon-card h3,
+.pr-featured-video h3,
+.sponsor-page h2,
+.sponsor-page h3 {
+  color: var(--gomf-deep);
+}
+.visual-caption small,
+.leadership-page .message-panel p,
+.leadership-page .source-content small,
+.donation-form label,
+.donation-note p,
+.donation-note small {
+  color: var(--gomf-text-muted);
+}
+.donation-form input,
+.donation-form select,
+.donation-form textarea {
+  color: var(--gomf-text);
+  background-color: var(--gomf-surface);
+  border-color: var(--gomf-border);
+}
+.donation-form input::placeholder,
+.donation-form textarea::placeholder {
+  color: var(--gomf-text-muted);
+}
+.button-light,
+.sponsor-button-outline {
+  color: var(--gomf-green);
+  background-color: var(--gomf-surface);
+  border-color: var(--gomf-border);
+}
+.button-light:hover,
+.sponsor-button-outline:hover {
+  color: var(--gomf-deep);
+  background-color: var(--gomf-surface-soft);
+  border-color: var(--gomf-green);
+}
+.gom-install-prompt {
+  color: var(--gomf-text);
+  border-color: var(--gomf-border);
+  box-shadow: var(--gomf-shadow-md);
+}
+.gom-install-content p,
+.gom-install-content small {
+  color: var(--gomf-text-muted);
+}
+
+/* Dark-theme corrections for legacy components whose original CSS uses #fff. */
+html[data-bs-theme="dark"] .skip-link,
+html[data-bs-theme="dark"] .button-light,
+html[data-bs-theme="dark"] .visual-caption,
+html[data-bs-theme="dark"] .donation-form,
+html[data-bs-theme="dark"] .donation-form input,
+html[data-bs-theme="dark"] .donation-form select,
+html[data-bs-theme="dark"] .donation-form textarea,
+html[data-bs-theme="dark"] .gom-install-prompt,
+html[data-bs-theme="dark"] .leadership-page .ministry-card,
+html[data-bs-theme="dark"] .leadership-page .message-panel,
+html[data-bs-theme="dark"] .leadership-page .gallery-preview,
+html[data-bs-theme="dark"] .leadership-page .source-link-card,
+html[data-bs-theme="dark"] .leadership-page .cta-section,
+html[data-bs-theme="dark"] .power-revelation-page .pr-purpose-card,
+html[data-bs-theme="dark"] .power-revelation-page .pr-value-card,
+html[data-bs-theme="dark"] .power-revelation-page .pr-sermon-card,
+html[data-bs-theme="dark"] .power-revelation-page .pr-featured-video,
+html[data-bs-theme="dark"] .power-revelation-page .ministry-media-link,
+html[data-bs-theme="dark"] .power-revelation-page .pr-location-section,
+html[data-bs-theme="dark"] .power-revelation-page .pr-map-card,
+html[data-bs-theme="dark"] .sponsor-page .sponsor-pathways-section,
+html[data-bs-theme="dark"] .sponsor-page .sponsor-principles-section,
+html[data-bs-theme="dark"] .sponsor-page .sponsor-final-cta,
+html[data-bs-theme="dark"] .sponsor-page .sponsor-hero-card,
+html[data-bs-theme="dark"] .sponsor-page .sponsor-filter-panel,
+html[data-bs-theme="dark"] .sponsor-page .sponsor-result-count,
+html[data-bs-theme="dark"] .sponsor-page .sponsor-child-card,
+html[data-bs-theme="dark"] .sponsor-page .sponsor-empty-state,
+html[data-bs-theme="dark"] .sponsor-page .sponsor-process-card {
+  color: var(--gomf-text);
+  background-color: var(--gomf-surface);
+  border-color: var(--gomf-border);
+}
+html[data-bs-theme="dark"] .leadership-page .cta-section {
+  background-color: var(--gomf-page);
+}
+html[data-bs-theme="dark"] .leadership-page .source-content strong,
+html[data-bs-theme="dark"] .leadership-page .message-panel h2,
+html[data-bs-theme="dark"] .leadership-page .message-panel h3,
+html[data-bs-theme="dark"] .leadership-page .ministry-card h3,
+html[data-bs-theme="dark"] .power-revelation-page .pr-purpose-card h3,
+html[data-bs-theme="dark"] .power-revelation-page .pr-value-card h3,
+html[data-bs-theme="dark"] .power-revelation-page .pr-sermon-card h3,
+html[data-bs-theme="dark"] .power-revelation-page .pr-featured-video h3,
+html[data-bs-theme="dark"] .sponsor-page h2,
+html[data-bs-theme="dark"] .sponsor-page h3 {
+  color: var(--gomf-deep);
+}
+html[data-bs-theme="dark"] .donation-form label,
+html[data-bs-theme="dark"] .leadership-page .source-content small,
+html[data-bs-theme="dark"] .leadership-page .message-panel p {
+  color: var(--gomf-text-muted);
+}
+html[data-bs-theme="dark"] .sponsor-page .sponsor-filter-panel .form-control,
+html[data-bs-theme="dark"] .sponsor-page .sponsor-filter-panel .form-select {
+  color: var(--gomf-text);
+  background-color: var(--gomf-surface-raised);
+  border-color: var(--gomf-border);
+}
+
+/* Preserve high-contrast white text only on deliberately dark branded surfaces. */
+html[data-bs-theme="dark"] .theme-on-dark,
+html[data-bs-theme="dark"] .theme-on-dark-muted,
+html[data-bs-theme="dark"] .gom-admin .gom-welcome-banner,
+html[data-bs-theme="dark"] .gom-admin .gom-welcome-banner h2,
+html[data-bs-theme="dark"] .gom-admin .gom-welcome-banner p {
+  color: #fff;
+}
