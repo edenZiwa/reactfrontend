@@ -1,9 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth } from "../auth/AuthProvider.jsx";
 import "../css/auth-experience.css";
 
 function AccountAccess({ navigate }) {
-  const { login, status, authError, clearAuthError, refreshSession } = useAuth();
+  const { login, user, status, authError, clearAuthError, refreshSession } = useAuth();
+
+  useEffect(() => {
+    if (status === "authenticated") {
+      const staffRoles = ["super_admin", "admin", "staff", "finance", "programs", "volunteers", "communications"];
+      navigate?.(user?.roles?.some((role) => staffRoles.includes(role)) ? "/admin" : "/account");
+    }
+  }, [status, user, navigate]);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
 
