@@ -12,58 +12,28 @@ const NAV = [
   ["Gallery", "/gallery"],
   ["Sponsor", "/sponsor"],
   ["Contact", "/contact"],
-  ["{t("footer.founder")}", "/founder"],
-  ["Co-{t("footer.founder")}", "/cofounder"],
+  ["Founder", "/founder"],
+  ["Co-Founder", "/cofounder"],
   ["Stories", "/success-stories"],
 ];
 
 const IMAGES = [
-  {
-    src: "https://gardenofmercy.org/images/gallery/community-01.png",
-    alt: "Community members working together",
-  },
-  {
-    src: "https://gardenofmercy.org/images/gallery/children-01.png",
-    alt: "Children in the community",
-  },
-  {
-    src: "https://gardenofmercy.org/images/gallery/volunteers-01.jpg",
-    alt: "Foundation volunteers serving together",
-  },
-  {
-    src: "https://gardenofmercy.org/images/gallery/outreach-01.jpg",
-    alt: "Community outreach activity",
-  },
-  {
-    src: "https://gardenofmercy.org/images/gallery/community-03.png",
-    alt: "Community members building hope together",
-  },
-  {
-    src: "https://gardenofmercy.org/images/gallery/event-01.jpg",
-    alt: "Foundation community event",
-  },
+  { src: "https://gardenofmercy.org/images/gallery/community-01.png", alt: "Community members working together" },
+  { src: "https://gardenofmercy.org/images/gallery/children-01.png", alt: "Children in the community" },
+  { src: "https://gardenofmercy.org/images/gallery/volunteers-01.jpg", alt: "Foundation volunteers serving together" },
+  { src: "https://gardenofmercy.org/images/gallery/outreach-01.jpg", alt: "Community outreach activity" },
+  { src: "https://gardenofmercy.org/images/gallery/community-03.png", alt: "Community members building hope together" },
+  { src: "https://gardenofmercy.org/images/gallery/event-01.jpg", alt: "Foundation community event" },
 ];
 
-// Normalize paths to support trailing slashes.
 function normalizePath(path = "/") {
   if (!path || path === "/") return "/";
   return path.replace(/\/+$/, "") || "/";
 }
 
-// Reusable navigation link with client-side navigation support.
-function AppLink({
-  to,
-  navigate,
-  className = "",
-  children,
-  onClick,
-  ...props
-}) {
+function AppLink({ to, navigate, className = "", children, onClick, ...props }) {
   const handleClick = (event) => {
     onClick?.(event);
-
-    // Preserve browser behavior for prevented, modified,
-    // non-primary, external, and non-local link clicks.
     if (
       event.defaultPrevented ||
       event.button !== 0 ||
@@ -77,40 +47,24 @@ function AppLink({
       typeof to !== "string" ||
       !to.startsWith("/") ||
       to.startsWith("//")
-    ) {
-      return;
-    }
-
+    ) return;
     event.preventDefault();
     navigate(to);
   };
-
-  return (
-    <a href={to} className={className} onClick={handleClick} {...props}>
-      {children}
-    </a>
-  );
+  return <a href={to} className={className} onClick={handleClick} {...props}>{children}</a>;
 }
 
-// Main site header.
 function Header({ path = "/", navigate }) {
   const [open, setOpen] = useState(false);
   const { t } = useTranslation("common");
   const { mode, resolvedTheme, setMode } = useTheme();
   const currentPath = normalizePath(path);
-
   const closeMenu = () => setOpen(false);
 
   return (
     <header id="site-header" className="shadow-lg">
       <div className="header-inner">
-        <AppLink
-          to="/"
-          navigate={navigate}
-          className="brand"
-          aria-label={t("brand.home")}
-          onClick={closeMenu}
-        >
+        <AppLink to="/" navigate={navigate} className="brand" aria-label={t("brand.home")} onClick={closeMenu}>
           <img
             className="brand-logo"
             src={resolvedTheme === "dark"
@@ -119,65 +73,35 @@ function Header({ path = "/", navigate }) {
             alt="Garden of Mercy Foundation — Sowing seeds of mercy and compassion"
           />
         </AppLink>
-
-        <button
-          className="menu-toggle"
-          type="button"
-          aria-expanded={open}
-          aria-controls="main-navigation"
+        <button className="menu-toggle" type="button" aria-expanded={open} aria-controls="main-navigation"
           aria-label={open ? t("navigation.close") : t("navigation.open")}
-          onClick={() => setOpen((previous) => !previous)}
-        >
+          onClick={() => setOpen((previous) => !previous)}>
           {open ? t("navigation.close") : t("navigation.menu")}
           <span aria-hidden="true">{open ? "✕" : "☰"}</span>
         </button>
-
-        <nav
-          id="main-navigation"
-          className={open ? "main-nav is-open" : "main-nav"}
-          aria-label={t("navigation.main")}
-        >
+        <nav id="main-navigation" className={open ? "main-nav is-open" : "main-nav"} aria-label={t("navigation.main")}>
           {NAV.slice(0, 7).map(([label, href]) => {
             const isActive = currentPath === normalizePath(href);
-
+            const key = href === "/" ? "home" : href.slice(1);
             return (
-              <AppLink
-                key={href}
-                to={href}
-                navigate={navigate}
+              <AppLink key={href} to={href} navigate={navigate}
                 className={isActive ? "nav-link active" : "nav-link"}
-                aria-current={isActive ? "page" : undefined}
-                onClick={closeMenu}
-              >
-                {t(`navigation.${href.slice(1) || "home"}`, label)}
+                aria-current={isActive ? "page" : undefined} onClick={closeMenu}>
+                {t(`navigation.${key}`, label)}
               </AppLink>
             );
           })}
-
-          <AppLink
-            to="/donate"
-            navigate={navigate}
-            className={
-              currentPath === "/donate" ? "nav-donate active" : "nav-donate"
-            }
-            aria-current={currentPath === "/donate" ? "page" : undefined}
-            onClick={closeMenu}
-          >
+          <AppLink to="/donate" navigate={navigate}
+            className={currentPath === "/donate" ? "nav-donate active" : "nav-donate"}
+            aria-current={currentPath === "/donate" ? "page" : undefined} onClick={closeMenu}>
             {t("navigation.donate")} <span aria-hidden="true">↗</span>
           </AppLink>
-
           <LanguageSelector />
-
           <label className="theme-control">
             <i className="bi bi-circle-half" aria-hidden="true" />
             <span className="visually-hidden">{t("theme.label")}</span>
-            <select
-              className="theme-select"
-              value={mode}
-              onChange={(event) => setMode(event.target.value)}
-              aria-label={t("theme.choose")}
-              title={t("theme.choose")}
-            >
+            <select className="theme-select" value={mode} onChange={(event) => setMode(event.target.value)}
+              aria-label={t("theme.choose")} title={t("theme.choose")}>
               <option value="system">{t("theme.system")}</option>
               <option value="light">{t("theme.light")}</option>
               <option value="dark">{t("theme.dark")}</option>
@@ -190,7 +114,6 @@ function Header({ path = "/", navigate }) {
   );
 }
 
-// Main site footer.
 function Footer({ navigate }) {
   const currentYear = new Date().getFullYear();
   const { t } = useTranslation("common");
@@ -200,17 +123,25 @@ function Footer({ navigate }) {
     ["founder", "/founder"], ["cofounder", "/cofounder"],
     ["ministries", "/power-of-revelation-ministries"]
   ];
+  const involvedLinks = [
+    ["sponsor", "/sponsor"], ["volunteer", "/volunteer"],
+    ["donate", "/donate"], ["contact", "/contact"]
+  ];
+
   return (
     <footer id="site-footer" className="shadow-lg" aria-label={t("footer.label")}>
       <div className="container py-5">
         <div className="row g-4 g-lg-5">
           <div className="col-12 col-md-6 col-lg-4">
             <AppLink to="/" navigate={navigate} className="d-inline-block mb-3" aria-label={t("brand.home")}>
-              <img src="https://gardenofmercy.org/images/garden_of_mercy_horizontal.png" alt="Garden of Mercy Foundation" className="img-fluid" width="260" height="auto" loading="lazy" style={{ maxWidth: "260px" }} />
+              <img src="https://gardenofmercy.org/images/garden_of_mercy_horizontal.png"
+                alt="Garden of Mercy Foundation" className="img-fluid" width="260" height="auto"
+                loading="lazy" style={{ maxWidth: "260px" }} />
             </AppLink>
             <h2 className="h5 fw-bold mb-3">{t("brand.tagline")}</h2>
             <p className="lh-lg mb-3">{t("footer.mission")}</p>
-            <AppLink to="/about" navigate={navigate} className="link-underline-opacity-0 link-underline-opacity-75-hover fw-semibold">
+            <AppLink to="/about" navigate={navigate}
+              className="link-underline-opacity-0 link-underline-opacity-75-hover fw-semibold">
               {t("footer.discoverMission")} <i className="bi bi-arrow-right ms-2" aria-hidden="true" />
             </AppLink>
           </div>
@@ -219,7 +150,12 @@ function Footer({ navigate }) {
             <nav aria-label={t("footer.explore")}>
               <ul className="list-unstyled d-grid gap-3 mb-0">
                 {exploreLinks.map(([key, href]) => (
-                  <li key={href}><AppLink to={href} navigate={navigate} className="link-underline-opacity-0 link-underline-opacity-75-hover">{t(`footer.links.${key}`)}</AppLink></li>
+                  <li key={href}>
+                    <AppLink to={href} navigate={navigate}
+                      className="link-underline-opacity-0 link-underline-opacity-75-hover">
+                      {t(`footer.links.${key}`)}
+                    </AppLink>
+                  </li>
                 ))}
               </ul>
             </nav>
@@ -228,8 +164,13 @@ function Footer({ navigate }) {
             <h2 className="h6 text-uppercase fw-bold mb-4">{t("footer.getInvolved")}</h2>
             <nav aria-label={t("footer.getInvolved")}>
               <ul className="list-unstyled d-grid gap-3 mb-0">
-                {[["sponsor", "/sponsor"], ["volunteer", "/volunteer"], ["donate", "/donate"], ["contact", "/contact"]].map(([key, href]) => (
-                  <li key={href}><AppLink to={href} navigate={navigate} className="link-underline-opacity-0 link-underline-opacity-75-hover">{t(`footer.links.${key}`)}</AppLink></li>
+                {involvedLinks.map(([key, href]) => (
+                  <li key={href}>
+                    <AppLink to={href} navigate={navigate}
+                      className="link-underline-opacity-0 link-underline-opacity-75-hover">
+                      {t(`footer.links.${key}`)}
+                    </AppLink>
+                  </li>
                 ))}
               </ul>
             </nav>
@@ -238,8 +179,10 @@ function Footer({ navigate }) {
             <h2 className="h6 text-uppercase fw-bold mb-4">{t("footer.commitment")}</h2>
             <p className="lh-lg mb-4">{t("footer.commitmentText")}</p>
             <div className="d-flex flex-wrap gap-3 mb-4">
-              <AppLink to="/privacy" navigate={navigate} className="link-underline-opacity-0 link-underline-opacity-75-hover small">{t("footer.privacy")}</AppLink>
-              <AppLink to="/terms" navigate={navigate} className="link-underline-opacity-0 link-underline-opacity-75-hover small">{t("footer.terms")}</AppLink>
+              <AppLink to="/privacy" navigate={navigate}
+                className="link-underline-opacity-0 link-underline-opacity-75-hover small">{t("footer.privacy")}</AppLink>
+              <AppLink to="/terms" navigate={navigate}
+                className="link-underline-opacity-0 link-underline-opacity-75-hover small">{t("footer.terms")}</AppLink>
             </div>
             <AppLink to="/donate" navigate={navigate} className="btn btn-warning fw-bold px-4 py-3 rounded-pill">
               {t("footer.seed")} <i className="bi bi-heart-fill ms-2" aria-hidden="true" />
@@ -275,12 +218,10 @@ function Footer({ navigate }) {
   );
 }
 
-// Reusable eyebrow label.
 function Eyebrow({ children }) {
   return <p className="eyebrow">{children}</p>;
 }
 
-// Reusable page introduction.
 function PageIntro({ eyebrow, title, text }) {
   return (
     <section className="page-intro">
@@ -291,7 +232,6 @@ function PageIntro({ eyebrow, title, text }) {
   );
 }
 
-// Reusable focus card.
 function FocusCard({ number, title, text, symbol }) {
   return (
     <article className="focus-card">
@@ -299,7 +239,6 @@ function FocusCard({ number, title, text, symbol }) {
         <span>{number}</span>
         <b aria-hidden="true">{symbol}</b>
       </div>
-
       <h3>{title}</h3>
       <p>{text}</p>
       <span className="card-rule" aria-hidden="true" />
@@ -307,20 +246,14 @@ function FocusCard({ number, title, text, symbol }) {
   );
 }
 
-// Reusable call-to-action banner.
 function CallToAction({ navigate }) {
   return (
     <section className="donate-banner">
       <div>
         <Eyebrow>JOIN THE MISSION</Eyebrow>
-
-        <h2>
-          Let’s help compassion <em>take root.</em>
-        </h2>
-
+        <h2>Let’s help compassion <em>take root.</em></h2>
         <p>Every act of care can help build a stronger community.</p>
       </div>
-
       <AppLink to="/donate" navigate={navigate} className="button button-gold">
         Support our work <span aria-hidden="true">↗</span>
       </AppLink>
