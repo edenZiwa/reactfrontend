@@ -24,7 +24,7 @@ const impactAreas = [
 
 export default function Impact({ navigate }) {
   return (
-    <main id="main-content" className="impact-page">
+    <div className="impact-page">
 {/* IMPACT HERO */}
       <section data-scroll-reveal="up" className="impact-hero" aria-labelledby="impact-title">
         <div className="impact-hero-inner container">
@@ -176,6 +176,6 @@ export default function Impact({ navigate }) {
           </div>
         </div>
       </section>
-    </main>
+    </div>
   );
 }
