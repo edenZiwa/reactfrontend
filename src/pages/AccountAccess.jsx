@@ -77,7 +77,7 @@ function AccountAccess({ navigate }) {
   const message = error || authError;
 
   return (
-    <main className="gom-login-page" id="main-content">
+    <div className="gom-login-page">
       <div className="container gom-login-container">
         <div className="gom-login-heading text-center">
           <span className="gom-auth-eyebrow">
@@ -230,7 +230,7 @@ function AccountAccess({ navigate }) {
           <span>Compassion. Dignity. Accountability.</span>
         </div>
       </div>
-    </main>
+    </div>
   );
 }
 
