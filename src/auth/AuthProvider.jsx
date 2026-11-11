@@ -91,14 +91,31 @@ export function AuthProvider({ children }) {
     try {
       const result = await signInWithGoogle();
       if (result === null) return null; // Redirect fallback has started.
-      const currentUser = await refreshSession();
-      if (!currentUser) throw new Error("Google sign-in completed, but the website session could not be confirmed.");
+
+      // The Google exchange response is returned only after the backend has
+      // verified the Firebase identity and saved the server-side session.
+      // Use that verified account directly instead of immediately making a
+      // second /auth/me request that can fail on a stale session cookie.
+      const account = result?.user;
+      if (!account?.id) {
+        throw new Error("Google sign-in was verified, but the account details were incomplete. Please try again.");
+      }
+
+      const currentUser = {
+        ...account,
+        roles: Array.isArray(account.roles)
+          ? account.roles
+          : Array.isArray(result.roles) ? result.roles : [],
+      };
+      setUser(currentUser);
+      setAuthError("");
+      setStatus("authenticated");
       return currentUser;
     } catch (error) {
       setAuthError(error?.message || "Google sign-in failed.");
       throw error;
     }
-  }, [refreshSession]);
+  }, []);
 
   const logout = useCallback(async () => {
     setAuthError("");
