@@ -10,7 +10,6 @@ import { API_ORIGIN } from "../services/api-config.js";
 import {
   completeGoogleRedirect,
   signInWithGoogle,
-  signOutGoogle,
 } from "../services/firebase-auth.js";
 
 const AuthContext = createContext(null);
@@ -92,21 +91,13 @@ export function AuthProvider({ children }) {
       const result = await signInWithGoogle();
       if (result === null) return null; // Redirect fallback has started.
 
-      // The Google exchange response is returned only after the backend has
-      // verified the Firebase identity and saved the server-side session.
-      // Use that verified account directly instead of immediately making a
-      // second /auth/me request that can fail on a stale session cookie.
-      const account = result?.user;
-      if (!account?.id) {
-        throw new Error("Google sign-in was verified, but the account details were incomplete. Please try again.");
+      // Firebase proves the Google identity; the saved Express session is
+      // the only source of truth for application authentication. Confirm the
+      // browser actually received and can use the regenerated session cookie.
+      const currentUser = await readBackendSession();
+      if (!currentUser) {
+        throw new Error("Google sign-in completed, but your secure session could not be confirmed. Please try again.");
       }
-
-      const currentUser = {
-        ...account,
-        roles: Array.isArray(account.roles)
-          ? account.roles
-          : Array.isArray(result.roles) ? result.roles : [],
-      };
       setUser(currentUser);
       setAuthError("");
       setStatus("authenticated");
@@ -122,7 +113,6 @@ export function AuthProvider({ children }) {
     const clearLocalSession = async () => {
       setUser(null);
       setStatus("anonymous");
-      try { await signOutGoogle(); } catch { /* Backend session is already cleared or expired. */ }
     };
     let csrfResponse;
     try {
