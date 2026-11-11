@@ -73,6 +73,26 @@ const pages = {
         description: "Complete secure password recovery for your Garden of Mercy Foundation account.",
         noindex: true,
     },
+    "/volunteer": {
+        title: "Volunteer With Us | Garden of Mercy Foundation",
+        description:
+            "Join Garden of Mercy Foundation as a volunteer and help support children, vulnerable families, and communities through practical service.",
+    },
+    "/login": {
+        title: "Sign In | Garden of Mercy Foundation",
+        description: "Securely access your Garden of Mercy Foundation community account.",
+        noindex: true,
+    },
+    "/forgot-password": {
+        title: "Recover Your Account | Garden of Mercy Foundation",
+        description: "Request secure account recovery for your Garden of Mercy Foundation account.",
+        noindex: true,
+    },
+    "/reset-password": {
+        title: "Reset Your Password | Garden of Mercy Foundation",
+        description: "Complete secure password recovery for your Garden of Mercy Foundation account.",
+        noindex: true,
+    },
     "/contact": {
         title: "Contact Us | Garden of Mercy Foundation",
         description:
