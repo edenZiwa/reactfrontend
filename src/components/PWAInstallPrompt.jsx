@@ -2,11 +2,12 @@ import { useState } from "react";
 import { usePWA } from "./PWAProvider.jsx";
 
 export default function PWAInstallPrompt() {
-  const { canInstall, installApp } = usePWA();
+  const { canInstall, needRefresh, installApp } = usePWA();
   const [dismissed, setDismissed] = useState(false);
   const [installing, setInstalling] = useState(false);
 
-  if (!canInstall || dismissed) return null;
+  // Avoid stacking the install and update notices in the same fixed viewport area.
+  if (!canInstall || needRefresh || dismissed) return null;
 
   async function handleInstall() {
     if (installing) return;
