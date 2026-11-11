@@ -168,7 +168,7 @@ function Contact( {
                 </div>
             </div>
         </section>
-            <main id="main-content">
+            <div>
                 {/* Contact introduction */}
                 <section id="contact-details" className="contact-section py-5">
                     <div className="container">
@@ -471,7 +471,7 @@ function Contact( {
                 </div>
             </div>
         </section>
-    </main>
+    </div>
 </>
 
 );
