@@ -23,8 +23,16 @@ const pwaManifest = {
   ]
 };
 
+const buildId =
+  process.env.CF_PAGES_COMMIT_SHA ||
+  process.env.GITHUB_SHA ||
+  new Date().toISOString();
+
 export default defineConfig({
   publicDir: "public",
+  define: {
+    __GOM_BUILD_ID__: JSON.stringify(buildId)
+  },
   plugins: [
     react(),
     VitePWA({
