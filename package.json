@@ -5,10 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
-    "build": "vite build",
+    "build": "node scripts/build.js",
     "preview": "vite preview --host 0.0.0.0",
     "audit": "npm audit --audit-level=high",
-    "audit:fix": "npm audit fix"
+    "audit:fix": "npm audit fix",
+    "test": "node --test",
+    "i18n:generate": "node scripts/generate-translations.js"
   },
   "dependencies": {
     "bootstrap": "^5.3.8",
@@ -16,7 +18,10 @@
     "firebase": "^11.10.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "vite-plugin-pwa": "^2.0.0"
+    "vite-plugin-pwa": "^2.0.0",
+    "i18next": "^25.5.2",
+    "react-i18next": "^16.0.1",
+    "i18next-http-backend": "^3.0.2"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.3.4",

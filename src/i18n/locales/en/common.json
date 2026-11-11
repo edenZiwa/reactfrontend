@@ -1,0 +1,75 @@
+{
+  "language": "Language",
+  "chooseLanguage": "Choose language",
+  "searchLanguages": "Search languages",
+  "translationInPreparation": "Machine translation is being prepared",
+  "defaultLanguage": "Default language",
+  "close": "Close",
+  "noLanguagesFound": "No languages found",
+  "brand": {
+    "home": "Garden of Mercy Foundation home",
+    "tagline": "Sowing Seeds of Mercy"
+  },
+  "navigation": {
+    "main": "Main navigation",
+    "open": "Open navigation menu",
+    "close": "Close navigation menu",
+    "menu": "Menu",
+    "home": "Home",
+    "about": "About",
+    "programs": "Programs",
+    "impact": "Impact",
+    "gallery": "Gallery",
+    "sponsor": "Sponsor",
+    "contact": "Contact",
+    "donate": "Donate"
+  },
+  "theme": {
+    "label": "Color theme",
+    "choose": "Choose color theme",
+    "system": "System",
+    "light": "Light",
+    "dark": "Dark"
+  },
+  "footer": {
+    "label": "Website footer",
+    "mission": "We are committed to restoring dignity, nurturing children, supporting vulnerable people, and building compassionate communities where everyone has an opportunity to thrive.",
+    "discoverMission": "Discover our mission",
+    "explore": "Explore",
+    "getInvolved": "Get involved",
+    "commitment": "Our commitment",
+    "commitmentText": "Every act of kindness matters. We believe in compassion, accountability, and making a meaningful difference in the lives of the people and communities we serve.",
+    "privacy": "Privacy policy",
+    "terms": "Terms of use",
+    "seed": "Sow a seed of mercy",
+    "scripture": "“I was hungry and you gave me something to eat.”",
+    "scriptureReference": "Matthew 25:35–45",
+    "copyright": "© {{year}} Garden of Mercy Foundation. All rights reserved.",
+    "closing": "Sowing hope. Restoring dignity. Transforming lives.",
+    "noticeTitle": "Growing with our community",
+    "noticeText": "We’re continually improving this website to serve you better. Thank you for being part of our mission.",
+    "links": {
+      "about": "About us",
+      "programs": "Our programs",
+      "impact": "Our impact",
+      "stories": "Success stories",
+      "gallery": "Photo gallery",
+      "founder": "Founder",
+      "cofounder": "Co-Founder",
+      "ministries": "Power of Revelation Ministries",
+      "sponsor": "Sponsor a child",
+      "volunteer": "Volunteer with us",
+      "donate": "Make a donation",
+      "contact": "Contact us"
+    }
+  },
+  "home": {
+    "heroEyebrow": "Sowing Seeds of Mercy",
+    "heroDescription": "Garden of Mercy Foundation exists to turn compassion into practical action — creating opportunities for children and communities to experience dignity, hope and a better future.",
+    "supportMission": "Support the Mission",
+    "discoverStory": "Discover Our Story",
+    "heroTitleBefore": "Serving children with",
+    "heroTitleEmphasis": "mercy, dignity",
+    "heroTitleAfter": "and compassion."
+  }
+}

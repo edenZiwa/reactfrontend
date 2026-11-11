@@ -1,0 +1,30 @@
+name: Multilingual frontend checks
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "src/i18n/**"
+      - "src/components/LanguageSelector.jsx"
+      - "src/css/language-selector.css"
+      - "scripts/**"
+      - "package.json"
+      - "src/App.jsx"
+      - "src/components/SiteChrome.jsx"
+      - "src/pages/**"
+      - "src/i18n/locales/**"
+      - ".github/workflows/multilingual-checks.yml"
+  push:
+    branches: [feature/multilingual-language-selector]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install --no-audit --no-fund
+      - run: npm test
+      - run: npm run build
