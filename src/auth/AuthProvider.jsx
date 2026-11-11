@@ -113,7 +113,6 @@ export function AuthProvider({ children }) {
     const clearLocalSession = async () => {
       setUser(null);
       setStatus("anonymous");
-      try { await signOutGoogle(); } catch { /* Backend session is already cleared or expired. */ }
     };
     let csrfResponse;
     try {
