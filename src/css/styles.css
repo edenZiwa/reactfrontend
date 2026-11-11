@@ -1889,9 +1889,10 @@ html[data-bs-theme="dark"] .gom-offline-status {
 .gom-update-prompt {
   position: fixed;
   left: 50%;
-  bottom: max(16px, env(safe-area-inset-bottom));
+  /* Keep clear of the fixed scroll navigator; remain beneath Bootstrap dialogs. */
+  bottom: calc(max(16px, env(safe-area-inset-bottom)) + 4.5rem);
   transform: translateX(-50%);
-  z-index: 1080;
+  z-index: 1040;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1917,5 +1918,5 @@ html[data-bs-theme="dark"] .gom-offline-status {
 .gom-update-actions button:focus-visible { outline:3px solid var(--gomf-gold,#d9b56d); outline-offset:3px; }
 html[data-bs-theme="dark"] .gom-update-prompt { border-color:var(--gomf-border,#3d4941); background:var(--gomf-surface,#202923); color:var(--gomf-text,#f0f4f1); }
 html[data-bs-theme="dark"] .gom-update-icon { background:rgba(87,190,133,.16); color:#83d6a5; }
-@media(max-width:575.98px) { .gom-update-prompt { bottom:max(12px,env(safe-area-inset-bottom)); align-items:stretch; flex-direction:column; gap:12px; padding:14px; } .gom-update-actions { justify-content:flex-end; } .gom-update-actions button { flex:1; } }
+@media(max-width:575.98px) { .gom-update-prompt { bottom:calc(max(12px,env(safe-area-inset-bottom)) + 4.25rem); align-items:stretch; flex-direction:column; gap:12px; padding:14px; } .gom-update-actions { justify-content:flex-end; } .gom-update-actions button { flex:1; } }
 @media(prefers-reduced-motion:reduce) { .gom-update-prompt,.gom-update-prompt * { scroll-behavior:auto!important; animation-duration:.01ms!important; transition-duration:.01ms!important; } }
