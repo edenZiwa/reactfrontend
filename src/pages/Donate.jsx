@@ -648,22 +648,6 @@ function Donate() {
 
                 <hr />
 
-                <div className="d-flex align-items-start gap-3 mb-4">
-                  <i
-                    className="bi bi-phone text-success fs-3"
-                    aria-hidden="true"
-                  />
-                  <div>
-                    <h3 className="h6 fw-bold">Mobile money</h3>
-                    <p className="small text-secondary mb-1">
-                      MTN merchant code: <strong>XXXXXXXX</strong>
-                    </p>
-                    <p className="small text-secondary mb-0">
-                      Airtel merchant code: <strong>XXXXXXXX</strong>
-                    </p>
-                  </div>
-                </div>
-
                 <div className="d-flex align-items-center gap-3 mb-4">
                   <span className="donate-pesapal-icon" aria-hidden="true">
                     <i className="bi bi-wallet2" />
