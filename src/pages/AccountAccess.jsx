@@ -66,7 +66,7 @@ function AccountAccess({ navigate }) {
         const isStaff = signedInUser.roles?.some((role) => STAFF_ROLES.includes(role));
         navigate?.(isStaff ? "/admin" : "/account");
       }
-      // A null result means Firebase has started its redirect sign-in flow.
+      // A null result means the Firebase redirect sign-in flow is underway.
     } catch (err) {
       setError(err?.message || "We could not complete sign-in. Please try again.");
     } finally {
