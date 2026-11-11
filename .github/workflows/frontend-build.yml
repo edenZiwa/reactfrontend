@@ -16,6 +16,8 @@ jobs:
           node-version: 22
       - name: Install dependencies
         run: npm install
+      - name: Run regression tests
+        run: npm test
       - name: Build Vite application
         run: npm run build
       - name: Smoke test built SPA routes and PWA assets
@@ -29,7 +31,7 @@ jobs:
             fi
             sleep 1
           done
-          for route in / /admin /donate /account /login /donation-result; do
+          for route in / /admin /donate /account /login /donation-result /volunteer /power-of-revelation-ministries; do
             curl --fail --silent "http://127.0.0.1:4173$route" | grep -q '<div id="root"></div>'
           done
           for asset in /manifest.webmanifest /icons/icon-192.svg /icons/icon-512.svg /sw.js; do

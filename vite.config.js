@@ -41,7 +41,15 @@ export default defineConfig({
       filename: "sw.js",
       registerType: "prompt",
       injectManifest: {
-        globPatterns: ["**/*.{js,css,html,ico,png,svg,webp,woff2,json}"],
+        globPatterns: [
+          "**/*.{js,css,html,ico,woff2,json}",
+          "icons/icon-192.svg",
+          "icons/icon-512.svg"
+        ],
+        globIgnores: [
+          "**/images/**",
+          "**/*.{png,jpg,jpeg,webp,gif,avif}"
+        ],
         maximumFileSizeToCacheInBytes: 4 * 1024 * 1024
       },
       manifest: pwaManifest

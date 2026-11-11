@@ -108,7 +108,7 @@ const termsSections = [{
 
 const Terms = () => {
     return (
-        <main id="main-content">
+        <div>
             {/* Page Header */}
             <section className="page-header" aria-labelledby="terms-title">
                 <div className="container py-5">
@@ -697,7 +697,7 @@ const Terms = () => {
                     </div>
                 </div>
             </section>
-        </main>
+        </div>
 
     );
 };

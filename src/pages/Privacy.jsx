@@ -26,7 +26,7 @@ const policySections = [
 
 const Privacy = () => {
 return (
-<main id="main-content">
+<div>
 {/* Page Header */}
 <section className="page-header" aria-labelledby="privacy-title">
 <div className="container py-5">
@@ -639,7 +639,7 @@ LEGAL & DATA PROTECTION
       </div>
     </div>
   </section>
-</main>
+</div>
 
 );
 };

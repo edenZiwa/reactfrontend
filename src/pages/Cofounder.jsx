@@ -5,7 +5,7 @@ import { AppLink } from "../components/SiteChrome.jsx";
 
 function Cofounder({ navigate }) {
   return (
-    <main id="main-content" className="leadership-page cofounder-page">
+    <div className="leadership-page cofounder-page">
       {/* HERO */}
       <section data-scroll-reveal="up"
         id="cofounder"
@@ -731,7 +731,7 @@ function Cofounder({ navigate }) {
           </div>
         </div>
       </section>
-    </main>
+    </div>
   );
 }
 
