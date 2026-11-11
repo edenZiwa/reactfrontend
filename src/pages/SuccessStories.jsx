@@ -97,7 +97,7 @@ const storySteps = [{
 
 const SuccessStories = () => {
     return (
-        <main className="success-stories-page">
+        <div className="success-stories-page">
 {/* HERO SECTION */}
             <section data-scroll-reveal="up" className="mercy-hero">
                 <div className="container">
@@ -408,7 +408,7 @@ const SuccessStories = () => {
         </div>
     </div>
 </section>
-</main>
+</div>
 
 );
 };
