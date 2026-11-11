@@ -105,7 +105,9 @@ export async function signInWithGoogle() {
   try {
     const result = await signInWithPopup(auth, provider);
     try {
-      return await exchangeFirebaseToken(result.user);
+      const data = await exchangeFirebaseToken(result.user);
+      await signOut(auth);
+      return data;
     } catch (error) {
       await signOut(auth).catch(() => {});
       throw error;
@@ -135,7 +137,9 @@ export async function completeGoogleRedirect() {
   const result = await getRedirectResult(auth);
   if (!result?.user) return null;
   try {
-    return await exchangeFirebaseToken(result.user);
+    const data = await exchangeFirebaseToken(result.user);
+    await signOut(auth);
+    return data;
   } catch (error) {
     await signOut(auth).catch(() => {});
     throw error;
