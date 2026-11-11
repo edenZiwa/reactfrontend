@@ -106,7 +106,7 @@ export async function signInWithGoogle() {
     const result = await signInWithPopup(auth, provider);
     try {
       const data = await exchangeFirebaseToken(result.user);
-      await signOut(auth);
+      await signOut(auth).catch(() => {});
       return data;
     } catch (error) {
       await signOut(auth).catch(() => {});
@@ -138,7 +138,7 @@ export async function completeGoogleRedirect() {
   if (!result?.user) return null;
   try {
     const data = await exchangeFirebaseToken(result.user);
-    await signOut(auth);
+    await signOut(auth).catch(() => {});
     return data;
   } catch (error) {
     await signOut(auth).catch(() => {});
