@@ -166,7 +166,7 @@ const processSteps = [
 
 function Programs({ navigate }) {
   return (
-    <main id="main-content" className="programs-page">
+    <div className="programs-page">
 {/* PROGRAMS HERO */}
       <section data-scroll-reveal="up" className="programs-hero" aria-labelledby="programs-title">
         <div className="programs-hero-overlay" aria-hidden="true" />
@@ -456,7 +456,7 @@ function Programs({ navigate }) {
           </div>
         </div>
       </section>
-    </main>
+    </div>
   );
 }
 
