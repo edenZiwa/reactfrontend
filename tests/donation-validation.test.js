@@ -38,6 +38,6 @@ test("rejects unsupported currencies, purposes and frequencies", () => {
 
 test("requires a donor name and at least one valid contact method", () => {
   assert.match(validateDonation({ ...valid, name: " " }), /full name/);
-  assert.match(validateDonation({ ...valid, email: "", phone: "" }), /contact/);
+  assert.match(validateDonation({ ...valid, email: "", phone: "" }), /email address or phone number/);
   assert.match(validateDonation({ ...valid, email: "not-an-email" }), /valid email/);
 });
