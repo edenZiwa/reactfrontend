@@ -25,7 +25,7 @@ export function validateDonation(form) {
   if (!form.email?.trim() && !form.phone?.trim()) {
     return "Enter an email address or phone number.";
   }
-  if (form.email && !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(form.email.trim())) {
+  if (form.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) {
     return "Enter a valid email address.";
   }
   return "";
