@@ -1,4 +1,3 @@
-
 import {
   precacheAndRoute,
   cleanupOutdatedCaches,
@@ -18,14 +17,16 @@ import {
 
 import { ExpirationPlugin } from "workbox-expiration";
 
+// The build identifier lets the app remember dismissal for this exact update.
+const GOM_BUILD_ID = __GOM_BUILD_ID__;
+
 // Precache the actual Vite build assets
 precacheAndRoute(self.__WB_MANIFEST);
 
 cleanupOutdatedCaches();
 
 // Offline navigation fallback
-const navigationHandler =
-  createHandlerBoundToURL("/index.html");
+const navigationHandler = createHandlerBoundToURL("/index.html");
 
 registerRoute(
   new NavigationRoute(navigationHandler, {
@@ -48,7 +49,6 @@ registerRoute(
     request.destination === "image" &&
     url.origin === self.location.origin &&
     url.pathname.startsWith("/images/"),
-
   new CacheFirst({
     cacheName: "gom-public-images-v1",
     plugins: [
@@ -64,10 +64,7 @@ registerRoute(
 registerRoute(
   ({ request, url }) =>
     url.origin === self.location.origin &&
-    ["style", "script", "font"].includes(
-      request.destination
-    ),
-
+    ["style", "script", "font"].includes(request.destination),
   new StaleWhileRevalidate({
     cacheName: "gom-public-assets-v1",
     plugins: [
@@ -80,13 +77,11 @@ registerRoute(
 );
 
 // Public pages that require fresh information
-// should use network-first caching only where appropriate.
 registerRoute(
   ({ request, url }) =>
     request.destination === "document" &&
     url.origin === self.location.origin &&
     !/^\/(?:api|auth|admin|account|donation-result|login|forgot-password|reset-password)(?:\/|$)/.test(url.pathname),
-
   new NetworkFirst({
     cacheName: "gom-public-documents-v1",
     networkTimeoutSeconds: 3,
@@ -98,6 +93,19 @@ registerRoute(
     ]
   })
 );
+
+// Respond to the application with this waiting worker's build identifier.
+self.addEventListener("message", (event) => {
+  if (event.data?.type === "GET_BUILD_ID") {
+    event.ports?.[0]?.postMessage({ buildId: GOM_BUILD_ID });
+    return;
+  }
+
+  // Activate only when the user explicitly accepts the update.
+  if (event.data?.type === "SKIP_WAITING") {
+    self.skipWaiting();
+  }
+});
 
 // Receive a push notification
 self.addEventListener("push", (event) => {
@@ -112,70 +120,45 @@ self.addEventListener("push", (event) => {
     };
   }
 
-  const title =
-    data.title || "Garden of Mercy Foundation";
-
+  const title = data.title || "Garden of Mercy Foundation";
   const options = {
     body: data.body || "You have a new update.",
     icon: "/images/garden_of_mercy_icon.png",
     badge: "/images/garden_of_mercy_icon.png",
-
     tag: data.tag || "gom-announcement",
-
-    data: {
-      url: data.url || "/"
-    },
-
+    data: { url: data.url || "/" },
     vibrate: [100, 50, 100]
   };
 
-  event.waitUntil(
-    self.registration.showNotification(title, options)
-  );
+  event.waitUntil(self.registration.showNotification(title, options));
 });
 
 // Handle notification clicks
-self.addEventListener(
-  "notificationclick",
-  (event) => {
-    event.notification.close();
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
 
-    const target = new URL(
-      event.notification.data?.url || "/",
-      self.location.origin
-    );
+  const target = new URL(
+    event.notification.data?.url || "/",
+    self.location.origin
+  );
 
-    // Never allow notifications to navigate to external URLs
-    if (target.origin !== self.location.origin) return;
+  // Never allow notifications to navigate to external URLs.
+  if (target.origin !== self.location.origin) return;
 
-    event.waitUntil(
-      (async () => {
-        const windows = await self.clients.matchAll({
-          type: "window",
-          includeUncontrolled: true
-        });
+  event.waitUntil((async () => {
+    const windows = await self.clients.matchAll({
+      type: "window",
+      includeUncontrolled: true
+    });
 
-        for (const client of windows) {
-          if ("focus" in client) {
-            await client.focus();
+    for (const client of windows) {
+      if ("focus" in client) {
+        await client.focus();
+        if ("navigate" in client) await client.navigate(target.href);
+        return;
+      }
+    }
 
-            if ("navigate" in client) {
-              await client.navigate(target.href);
-            }
-
-            return;
-          }
-        }
-
-        await self.clients.openWindow(target.href);
-      })()
-    );
-  }
-);
-
-// Activate only when the user accepts an update
-self.addEventListener("message", (event) => {
-  if (event.data?.type === "SKIP_WAITING") {
-    self.skipWaiting();
-  }
+    await self.clients.openWindow(target.href);
+  })());
 });
