@@ -2342,3 +2342,68 @@ html[data-bs-theme="dark"] .gom-update-icon { background:rgba(87,190,133,.16); c
     transition: none;
   }
 }
+
+/* Header, hero and language selector finish — theme-aware page chrome. */
+#site-header {
+  background: var(--gomf-page, var(--bs-body-bg, #fbfaf6));
+  border-bottom-color: var(--gomf-border, var(--bs-border-color));
+  box-shadow: 0 2px 14px color-mix(in srgb, var(--gomf-text, #24352b) 7%, transparent);
+}
+
+main {
+  padding-top: var(--gom-site-header-height, 82px);
+}
+
+:root:has(.gom-offline-status) main {
+  padding-top: calc(var(--gom-site-header-height, 82px) + 34px);
+}
+
+@media (max-width: 1000px) {
+  :root {
+    --gom-site-header-height: calc(72px + env(safe-area-inset-top, 0px));
+  }
+
+  #site-header {
+    background: var(--gomf-page, var(--bs-body-bg, #fbfaf6));
+  }
+
+  #site-header.is-menu-open {
+    background: var(--gomf-page, var(--bs-body-bg, #fbfaf6));
+  }
+
+  /* The language chooser belongs to Preferences, not a viewport-sized overlay. */
+  .mobile-nav-preferences .gom-language-selector {
+    position: relative;
+    z-index: 1;
+  }
+
+  .mobile-nav-preferences .gom-language-menu {
+    position: static;
+    inset: auto;
+    z-index: 1;
+    display: flex;
+    width: 100%;
+    max-width: none;
+    max-height: min(48vh, 24rem);
+    margin: .65rem 0 0;
+    overflow: hidden;
+    border: 1px solid var(--gomf-border, var(--bs-border-color));
+    border-radius: 13px;
+    background: var(--gomf-surface-raised, var(--gomf-surface, var(--bs-body-bg)));
+    box-shadow: var(--gomf-shadow-md, 0 8px 24px rgba(0, 0, 0, .12));
+  }
+
+  .mobile-nav-preferences .gom-language-list {
+    min-height: 0;
+    max-height: min(30vh, 15rem);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (max-width: 700px) {
+  :root {
+    --gom-site-header-height: calc(72px + env(safe-area-inset-top, 0px));
+  }
+}
