@@ -2149,3 +2149,10 @@ html[data-bs-theme="dark"] .gom-update-icon { background:rgba(87,190,133,.16); c
   .menu-toggle,
   .main-nav .nav-link { transition: none; }
 }
+
+
+/* Keep the desktop header's original single-row navigation layout. */
+@media (min-width: 1001px) {
+  .mobile-nav-section { display: contents; }
+  .mobile-nav-heading { display: none; }
+}
