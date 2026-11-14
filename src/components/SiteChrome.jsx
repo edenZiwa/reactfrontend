@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import GoogleSignIn from "./GoogleSignIn.jsx";
 import { useTheme } from "./ThemeProvider.jsx";
@@ -56,13 +56,51 @@ function AppLink({ to, navigate, className = "", children, onClick, ...props }) 
 
 function Header({ path = "/", navigate }) {
   const [open, setOpen] = useState(false);
+  const scrollPositionRef = useRef(0);
   const { t } = useTranslation("common");
   const { mode, resolvedTheme, setMode } = useTheme();
   const currentPath = normalizePath(path);
   const closeMenu = () => setOpen(false);
 
+  useEffect(() => {
+    if (!open) return undefined;
+
+    const body = document.body;
+    const previousStyles = {
+      overflow: body.style.overflow,
+      position: body.style.position,
+      top: body.style.top,
+      width: body.style.width,
+    };
+
+    scrollPositionRef.current = window.scrollY;
+    body.style.overflow = "hidden";
+    body.style.position = "fixed";
+    body.style.top = `-${scrollPositionRef.current}px`;
+    body.style.width = "100%";
+
+    return () => {
+      body.style.overflow = previousStyles.overflow;
+      body.style.position = previousStyles.position;
+      body.style.top = previousStyles.top;
+      body.style.width = previousStyles.width;
+      window.scrollTo(0, scrollPositionRef.current);
+    };
+  }, [open]);
+
+  useEffect(() => {
+    if (!open) return undefined;
+
+    const closeOnDesktop = () => {
+      if (window.matchMedia("(min-width: 1001px)").matches) setOpen(false);
+    };
+
+    window.addEventListener("resize", closeOnDesktop);
+    return () => window.removeEventListener("resize", closeOnDesktop);
+  }, [open]);
+
   return (
-    <header id="site-header" className="shadow-lg">
+    <header id="site-header" className={open ? "shadow-lg is-menu-open" : "shadow-lg"}>
       <div className="header-inner">
         <AppLink to="/" navigate={navigate} className="brand" aria-label={t("brand.home")} onClick={closeMenu}>
           <img
@@ -74,9 +112,9 @@ function Header({ path = "/", navigate }) {
           />
         </AppLink>
         <button className="menu-toggle" type="button" aria-expanded={open} aria-controls="main-navigation"
-          aria-label={open ? t("navigation.close") : t("navigation.open")}
+          aria-label={open ? "Close navigation menu" : t("navigation.open")}
           onClick={() => setOpen((previous) => !previous)}>
-          {open ? t("navigation.close") : t("navigation.menu")}
+          {open ? "Close navigation menu" : t("navigation.menu")}
           <span aria-hidden="true">{open ? "✕" : "☰"}</span>
         </button>
         <nav id="main-navigation" className={open ? "main-nav is-open" : "main-nav"} aria-label={t("navigation.main")}>
