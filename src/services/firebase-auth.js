@@ -129,13 +129,31 @@ export async function completeGoogleRedirect() {
   let pending = false;
   try {
     pending = window.sessionStorage.getItem("gom_google_redirect_pending") === "true";
-    if (pending) window.sessionStorage.removeItem("gom_google_redirect_pending");
-  } catch {}
+  } catch {
+    throw new Error("This browser could not restore the Google sign-in request. Please enable site storage and try again.");
+  }
   if (!pending) return null;
 
   const auth = await getFirebaseAuth();
-  const result = await getRedirectResult(auth);
-  if (!result?.user) return null;
+  let result;
+  try {
+    result = await getRedirectResult(auth);
+  } catch (error) {
+    try { window.sessionStorage.removeItem("gom_google_redirect_pending"); } catch {}
+    await signOut(auth).catch(() => {});
+    if (error?.code === "auth/unauthorized-domain") {
+      throw new Error("This website domain is not authorised for Google sign-in. Please contact the foundation.");
+    }
+    if (error?.code === "auth/network-request-failed") {
+      throw new Error("Google sign-in could not be completed because of a network problem. Please try again.");
+    }
+    throw new Error(error?.message || "Google did not complete the sign-in. Please try again.");
+  }
+
+  try { window.sessionStorage.removeItem("gom_google_redirect_pending"); } catch {}
+  if (!result?.user) {
+    throw new Error("Google returned you to the website without completing sign-in. Please select your account and try again.");
+  }
   try {
     const data = await exchangeFirebaseToken(result.user);
     await signOut(auth).catch(() => {});
