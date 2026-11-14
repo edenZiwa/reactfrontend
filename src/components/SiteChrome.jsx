@@ -146,7 +146,7 @@ function Header({ path = "/", navigate }) {
         <button ref={menuToggleRef} className="menu-toggle" type="button" aria-expanded={open} aria-controls="main-navigation"
           aria-label={open ? "Close navigation menu" : t("navigation.open")}
           onClick={() => setOpen((previous) => !previous)}>
-          <span>{open ? "Close navigation menu" : t("navigation.menu")}</span>
+          <span>{open ? "Close" : t("navigation.menu")}</span>
           <span className="menu-toggle-icon" aria-hidden="true">{open ? "✕" : "☰"}</span>
         </button>
         <nav ref={navRef} id="main-navigation" className={open ? "main-nav is-open" : "main-nav"} aria-label={t("navigation.main")}>
