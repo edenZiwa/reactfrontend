@@ -868,12 +868,25 @@ h2 em {
     margin-left: auto;
   }
 
+  #site-header.is-menu-open {
+    height: 100vh;
+    height: 100dvh;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  #site-header.is-menu-open .header-inner {
+    flex-wrap: wrap;
+    align-content: flex-start;
+    align-items: center;
+  }
+
   .main-nav {
     display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
+    position: static;
+    flex: 1 0 100%;
+    width: 100%;
     background: #fbfaf6;
     padding: 20px 24px 26px;
     border-bottom: 1px solid var(--line);
