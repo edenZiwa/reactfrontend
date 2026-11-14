@@ -149,8 +149,8 @@ function Header({ path = "/", navigate }) {
           <span>{open ? "Close" : t("navigation.menu")}</span>
           <span className="menu-toggle-icon" aria-hidden="true">{open ? "✕" : "☰"}</span>
         </button>
-        <nav ref={navRef} id="main-navigation" className={open ? "main-navv is-open" : "main-navv"} aria-label={t("navigation.main")}>
-          <div className="mobile-nav-section p-2 mobile-nav-explore">
+        <nav ref={navRef} id="main-navigation" className={open ? "main-nav is-open" : "main-nav"} aria-label={t("navigation.main")}>
+          <div className="mobile-nav-section p-2 mobile-nav-exploree">
             <p className="mobile-nav-heading">Explore</p>
             <div className="mobile-nav-links">
               {NAV.slice(0, 7).map(([label, href]) => {
