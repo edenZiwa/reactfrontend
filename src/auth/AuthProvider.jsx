@@ -61,17 +61,27 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     let active = true;
     (async () => {
-      try { await completeGoogleRedirect(); }
-      catch (error) { if (active) setAuthError(error?.message || "Could not complete Google sign-in."); }
+      let redirectError = "";
+      let redirectCompleted = false;
+      try {
+        const redirectResult = await completeGoogleRedirect();
+        redirectCompleted = Boolean(redirectResult?.user || redirectResult?.ok);
+      } catch (error) {
+        redirectError = error?.message || "Could not complete Google sign-in.";
+      }
+
       try {
         const currentUser = await readBackendSession();
         if (!active) return;
         setUser(currentUser);
-        setAuthError("");
+        // A normal anonymous session check must not erase a more useful
+        // Google redirect/exchange failure from the same page load.
+        setAuthError(redirectError);
         setStatus(currentUser ? "authenticated" : "anonymous");
+        if (currentUser && redirectCompleted) announceSessionChange("login");
       } catch (error) {
         if (!active) return;
-        setAuthError(error?.message || "We could not restore your sign-in session.");
+        setAuthError(redirectError || error?.message || "We could not restore your sign-in session.");
         setStatus("unavailable");
       }
     })();
