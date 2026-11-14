@@ -57,6 +57,8 @@ function AppLink({ to, navigate, className = "", children, onClick, ...props }) 
 function Header({ path = "/", navigate }) {
   const [open, setOpen] = useState(false);
   const scrollPositionRef = useRef(0);
+  const menuToggleRef = useRef(null);
+  const navRef = useRef(null);
   const { t } = useTranslation("common");
   const { mode, resolvedTheme, setMode } = useTheme();
   const currentPath = normalizePath(path);
@@ -91,12 +93,42 @@ function Header({ path = "/", navigate }) {
   useEffect(() => {
     if (!open) return undefined;
 
+    const focusableSelector = 'a[href], button:not([disabled]), select:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])';
+    const firstFocusable = navRef.current?.querySelector(focusableSelector);
+    firstFocusable?.focus();
+
+    const handleKeyboard = (event) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        setOpen(false);
+        menuToggleRef.current?.focus();
+        return;
+      }
+
+      if (event.key !== "Tab" || !navRef.current) return;
+      const focusable = [...navRef.current.querySelectorAll(focusableSelector)];
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
     const closeOnDesktop = () => {
       if (window.matchMedia("(min-width: 1001px)").matches) setOpen(false);
     };
 
+    document.addEventListener("keydown", handleKeyboard);
     window.addEventListener("resize", closeOnDesktop);
-    return () => window.removeEventListener("resize", closeOnDesktop);
+    return () => {
+      document.removeEventListener("keydown", handleKeyboard);
+      window.removeEventListener("resize", closeOnDesktop);
+    };
   }, [open]);
 
   return (
@@ -111,41 +143,53 @@ function Header({ path = "/", navigate }) {
             alt="Garden of Mercy Foundation — Sowing seeds of mercy and compassion"
           />
         </AppLink>
-        <button className="menu-toggle" type="button" aria-expanded={open} aria-controls="main-navigation"
+        <button ref={menuToggleRef} className="menu-toggle" type="button" aria-expanded={open} aria-controls="main-navigation"
           aria-label={open ? "Close navigation menu" : t("navigation.open")}
           onClick={() => setOpen((previous) => !previous)}>
-          {open ? "Close navigation menu" : t("navigation.menu")}
-          <span aria-hidden="true">{open ? "✕" : "☰"}</span>
+          <span>{open ? "Close navigation menu" : t("navigation.menu")}</span>
+          <span className="menu-toggle-icon" aria-hidden="true">{open ? "✕" : "☰"}</span>
         </button>
-        <nav id="main-navigation" className={open ? "main-nav is-open" : "main-nav"} aria-label={t("navigation.main")}>
-          {NAV.slice(0, 7).map(([label, href]) => {
-            const isActive = currentPath === normalizePath(href);
-            const key = href === "/" ? "home" : href.slice(1);
-            return (
-              <AppLink key={href} to={href} navigate={navigate}
-                className={isActive ? "nav-link active" : "nav-link"}
-                aria-current={isActive ? "page" : undefined} onClick={closeMenu}>
-                {t(`navigation.${key}`, label)}
-              </AppLink>
-            );
-          })}
-          <AppLink to="/donate" navigate={navigate}
-            className={currentPath === "/donate" ? "nav-donate active" : "nav-donate"}
-            aria-current={currentPath === "/donate" ? "page" : undefined} onClick={closeMenu}>
-            {t("navigation.donate")} <span aria-hidden="true">↗</span>
-          </AppLink>
-          <LanguageSelector />
-          <label className="theme-control">
-            <i className="bi bi-circle-half" aria-hidden="true" />
-            <span className="visually-hidden">{t("theme.label")}</span>
-            <select className="theme-select" value={mode} onChange={(event) => setMode(event.target.value)}
-              aria-label={t("theme.choose")} title={t("theme.choose")}>
-              <option value="system">{t("theme.system")}</option>
-              <option value="light">{t("theme.light")}</option>
-              <option value="dark">{t("theme.dark")}</option>
-            </select>
-          </label>
-          <GoogleSignIn />
+        <nav ref={navRef} id="main-navigation" className={open ? "main-nav is-open" : "main-nav"} aria-label={t("navigation.main")}>
+          <div className="mobile-nav-section mobile-nav-explore">
+            <p className="mobile-nav-heading">Explore</p>
+            <div className="mobile-nav-links">
+              {NAV.slice(0, 7).map(([label, href]) => {
+                const isActive = currentPath === normalizePath(href);
+                const key = href === "/" ? "home" : href.slice(1);
+                return (
+                  <AppLink key={href} to={href} navigate={navigate}
+                    className={isActive ? "nav-link active" : "nav-link"}
+                    aria-current={isActive ? "page" : undefined} onClick={closeMenu}>
+                    {t(`navigation.${key}`, label)}
+                    {isActive && <i className="bi bi-arrow-left-short mobile-nav-current" aria-hidden="true" />}
+                  </AppLink>
+                );
+              })}
+            </div>
+          </div>
+          <div className="mobile-nav-section mobile-nav-action">
+            <p className="mobile-nav-heading">Get involved</p>
+            <AppLink to="/donate" navigate={navigate}
+              className={currentPath === "/donate" ? "nav-donate active" : "nav-donate"}
+              aria-current={currentPath === "/donate" ? "page" : undefined} onClick={closeMenu}>
+              {t("navigation.donate")} <span aria-hidden="true">↗</span>
+            </AppLink>
+            <GoogleSignIn navigate={navigate} />
+          </div>
+          <div className="mobile-nav-section mobile-nav-preferences">
+            <p className="mobile-nav-heading">Preferences</p>
+            <LanguageSelector />
+            <label className="theme-control">
+              <i className="bi bi-circle-half" aria-hidden="true" />
+              <span>{t("theme.label")}</span>
+              <select className="theme-select" value={mode} onChange={(event) => setMode(event.target.value)}
+                aria-label={t("theme.choose")} title={t("theme.choose")}>
+                <option value="system">{t("theme.system")}</option>
+                <option value="light">{t("theme.light")}</option>
+                <option value="dark">{t("theme.dark")}</option>
+              </select>
+            </label>
+          </div>
         </nav>
       </div>
     </header>
