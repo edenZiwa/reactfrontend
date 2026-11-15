@@ -2410,11 +2410,11 @@ main {
 
 /* Desktop header refinement — compact hierarchy, clear actions and theme-aware controls.
    Mobile navigation remains governed by the existing <=1000px rules above. */
-@media (min-width: 1001px) and (max-width: 1359.98px) {
-  :root { --gom-site-header-height: 180px; }
+@media (min-width: 1001px) and (max-width: 1199.98px) {
+  :root { --gom-site-header-height: 150px; }
 
   #site-header {
-    height: 180px;
+    height: 150px;
     background: var(--gomf-page, var(--bs-body-bg));
     border-bottom: 1px solid var(--gomf-border, var(--bs-border-color));
     box-shadow: 0 3px 18px color-mix(in srgb, var(--gomf-text, #24352b) 7%, transparent);
@@ -2423,13 +2423,13 @@ main {
   #site-header .header-inner {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: 68px 1fr;
+    grid-template-rows: 56px 1fr;
     gap: 0;
     width: 100%;
     max-width: 1240px;
     height: 100%;
     min-height: 0;
-    padding: 8px 28px 12px;
+    padding: 6px 24px 8px;
   }
 
   #site-header .brand {
@@ -2450,7 +2450,7 @@ main {
     grid-row: 2;
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto auto;
-    grid-template-rows: 42px 48px;
+    grid-template-rows: 38px 42px;
     align-content: center;
     align-items: center;
     gap: 2px 18px;
@@ -2626,7 +2626,7 @@ main {
   }
 }
 
-@media (min-width: 1360px) {
+@media (min-width: 1200px) {
   :root { --gom-site-header-height: 88px; }
 
   #site-header {
@@ -2810,5 +2810,29 @@ main {
   #site-header .nav-donate,
   #site-header .nav-account {
     transition: none !important;
+  }
+}
+
+/* Final responsive height alignment: reserve exactly the space occupied by the
+   fixed header, including mobile safe-area insets. */
+@media (min-width: 701px) and (max-width: 1000px) {
+  :root {
+    --gom-site-header-height: calc(82px + env(safe-area-inset-top, 0px));
+  }
+
+  #site-header:not(.is-menu-open) .header-inner {
+    min-height: calc(82px + env(safe-area-inset-top, 0px));
+    padding-top: calc(12px + env(safe-area-inset-top, 0px));
+  }
+}
+
+@media (max-width: 700px) {
+  :root {
+    --gom-site-header-height: calc(72px + env(safe-area-inset-top, 0px));
+  }
+
+  #site-header:not(.is-menu-open) .header-inner {
+    min-height: calc(72px + env(safe-area-inset-top, 0px));
+    padding-top: calc(10px + env(safe-area-inset-top, 0px));
   }
 }
