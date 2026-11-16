@@ -175,8 +175,8 @@ function RecordModal({ record, kind, onClose, onSave, busy, beneficiaryOptions =
   if (!record) return null;
   const field = (label, key, type = "text", options) => <div className="mb-3" key={key}>
     <label className="form-label" htmlFor={`record-${key}`}>{label}</label>
-    {options ? <select id={`record-${key}`} className="form-select" value={form[key] ?? ""} onChange={e => setForm({ ...form, [key]: e.target.value })}>{options.map(v => typeof v === "string" ? <option key={v} value={v}>{titleCase(v)}</option> : <option key={v.value} value={v.value}>{v.label}</option>)}</select>
-      : type === "multiselect" ? <select id={`record-${key}`} className="form-select" multiple size={Math.min(options.length, 8)} value={Array.isArray(form[key]) ? form[key] : []} onChange={e => setForm({ ...form, [key]: Array.from(e.target.selectedOptions, option => option.value) })}>{options.map(v => <option key={v} value={v}>{titleCase(v)}</option>)}</select>
+    {type === "multiselect" ? <select id={`record-${key}`} className="form-select" multiple size={Math.min(options.length, 8)} value={Array.isArray(form[key]) ? form[key] : []} onChange={e => setForm({ ...form, [key]: Array.from(e.target.selectedOptions, option => option.value) })}>{options.map(v => <option key={v} value={v}>{titleCase(v)}</option>)}</select>
+      : options ? <select id={`record-${key}`} className="form-select" value={form[key] ?? ""} onChange={e => setForm({ ...form, [key]: e.target.value })}>{options.map(v => typeof v === "string" ? <option key={v} value={v}>{titleCase(v)}</option> : <option key={v.value} value={v.value}>{v.label}</option>)}</select>
       : type === "textarea" ? <textarea id={`record-${key}`} className="form-control" rows="4" value={form[key] ?? ""} onChange={e => setForm({ ...form, [key]: e.target.value })} />
       : <input id={`record-${key}`} className="form-control" type={type} value={form[key] ?? ""} onChange={e => setForm({ ...form, [key]: e.target.value })} />}
   </div>;
