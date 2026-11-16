@@ -108,9 +108,8 @@ function Account( {
         setDonations] = useState([]);
 
     const staffRoles = ["super_admin", "admin", "staff", "finance", "programs", "volunteers", "communications"];
-    const hasPublicRole = Array.isArray(user?.roles)
-        && user.roles.includes("public_user")
-        && !user.roles.some((role) => staffRoles.includes(role));
+    const hasPublicRole = Array.isArray(user?.roles) && user.roles.includes("public_user");
+    const hasStaffRole = Array.isArray(user?.roles) && user.roles.some((role) => staffRoles.includes(role));
 
     useEffect(() => {
         if (authStatus === "loading") return undefined;
@@ -429,8 +428,7 @@ function Account( {
                     <div className="eyebrow mb-2">Garden of Mercy Foundation</div>
                     <h1 className="page-title h2 mb-3">Staff account detected</h1>
                     <p className="text-secondary mb-4">
-                        This account is reserved for staff access and cannot open the community member portal.
-                        Continue to the secure staff workspace instead.
+                        This account has staff access but does not have the community member role. You can continue to the secure staff workspace.
                     </p>
                     <button type="button" className="btn btn-success" onClick={() => goToPage("/admin", "/admin")}>
                         <i className="bi bi-shield-lock me-2" />Open staff workspace
@@ -528,10 +526,17 @@ function Account( {
                     Community member portal
                 </div>
                 <h1 className="page-title h2 mb-2">Your account, your impact</h1>
-                <p className="text-secondary mb-0">
-                    Manage your volunteer profile, register for programs, and follow
-                    your activity with the foundation.
-                </p>
+                <div className="d-flex flex-wrap align-items-center justify-content-between gap-3">
+                    <p className="text-secondary mb-0">
+                        Manage your volunteer profile, register for programs, and follow
+                        your activity with the foundation.
+                    </p>
+                    {hasStaffRole && (
+                        <button type="button" className="btn btn-outline-success" onClick={() => goToPage("/admin", "/admin")}>
+                            <i className="bi bi-shield-lock me-2" />Open administration
+                        </button>
+                    )}
+                </div>
             </div>
 
             {error && (
