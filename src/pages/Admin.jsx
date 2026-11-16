@@ -248,7 +248,7 @@ export default function Admin({ path = "/admin", navigate }) {
 
   const loadIdentity = useCallback(async () => {
     const me = await api("/admin/api/me");
-    setStaff(me.user || null);
+    setStaff(me.user ? { ...me.user, roles: Array.isArray(me.roles) ? me.roles : [] } : null);
     setPermissions(me.permissions || []);
     if (!me.user) throw new Error("Please sign in with an authorised staff account.");
     return me;
