@@ -38,7 +38,7 @@ function AccountAccess({ navigate }) {
   useEffect(() => {
     if (status !== "authenticated") return;
     const isStaff = user?.roles?.some((role) => STAFF_ROLES.includes(role));
-    navigate?.(isStaff ? "/admin" : "/account");
+    navigate?.(user?.roles?.includes("public_user") ? (isStaff ? "/admin" : "/account") : "/admin");
   }, [status, user, navigate]);
 
   async function retrySessionCheck() {
@@ -64,7 +64,7 @@ function AccountAccess({ navigate }) {
       const signedInUser = await login();
       if (signedInUser) {
         const isStaff = signedInUser.roles?.some((role) => STAFF_ROLES.includes(role));
-        navigate?.(isStaff ? "/admin" : "/account");
+        navigate?.(signedInUser.roles?.includes("public_user") ? (isStaff ? "/admin" : "/account") : "/admin");
       }
       // A null result means the Firebase redirect sign-in flow is underway.
     } catch (err) {
@@ -229,7 +229,7 @@ function AccountAccess({ navigate }) {
             <div className="gom-login-staff">
               <div>
                 <strong>Foundation staff?</strong>
-                <span>Staff and administrators use a separate secure sign-in.</span>
+                <span>Staff can use Google sign-in or the secure staff password sign-in. Accounts with member access can use both portals.</span>
               </div>
               <a href="/admin" aria-label="Go to staff and administrator sign-in">
                 Staff sign-in <i className="bi bi-arrow-right" aria-hidden="true" />

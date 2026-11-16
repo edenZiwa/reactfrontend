@@ -166,7 +166,8 @@ function RecordModal({ record, kind, onClose, onSave, busy, beneficiaryOptions =
     if (kind === "users") {
       initial.firstName = initial.firstName ?? initial.first_name ?? "";
       initial.lastName = initial.lastName ?? initial.last_name ?? "";
-      initial.roleSlug = initial.roleSlug ?? initial.roles?.[0] ?? "staff";
+      initial.roleSlugs = Array.isArray(initial.roles) ? initial.roles.map(role => typeof role === "string" ? role : role.slug).filter(Boolean) : [initial.roleSlug ?? initial.role_slug ?? "staff"];
+      initial.roleSlug = initial.roleSlug ?? initial.roleSlugs[0] ?? "staff";
       initial.isActive = String(initial.isActive ?? initial.is_active ?? true);
     }
     setForm(initial);
@@ -174,14 +175,15 @@ function RecordModal({ record, kind, onClose, onSave, busy, beneficiaryOptions =
   if (!record) return null;
   const field = (label, key, type = "text", options) => <div className="mb-3" key={key}>
     <label className="form-label" htmlFor={`record-${key}`}>{label}</label>
-    {options ? <select id={`record-${key}`} className="form-select" value={form[key] ?? ""} onChange={e => setForm({ ...form, [key]: e.target.value })}>{options.map(v => typeof v === "string" ? <option key={v} value={v}>{titleCase(v)}</option> : <option key={v.value} value={v.value}>{v.label}</option>)}</select>
+    {type === "multiselect" ? <select id={`record-${key}`} className="form-select" multiple size={Math.min(options.length, 8)} value={Array.isArray(form[key]) ? form[key] : []} onChange={e => setForm({ ...form, [key]: Array.from(e.target.selectedOptions, option => option.value) })}>{options.map(v => <option key={v} value={v}>{titleCase(v)}</option>)}</select>
+      : options ? <select id={`record-${key}`} className="form-select" value={form[key] ?? ""} onChange={e => setForm({ ...form, [key]: e.target.value })}>{options.map(v => typeof v === "string" ? <option key={v} value={v}>{titleCase(v)}</option> : <option key={v.value} value={v.value}>{v.label}</option>)}</select>
       : type === "textarea" ? <textarea id={`record-${key}`} className="form-control" rows="4" value={form[key] ?? ""} onChange={e => setForm({ ...form, [key]: e.target.value })} />
       : <input id={`record-${key}`} className="form-control" type={type} value={form[key] ?? ""} onChange={e => setForm({ ...form, [key]: e.target.value })} />}
   </div>;
   let fields = [];
   if (kind === "users") fields = [
     field("First name", "firstName"), field("Last name", "lastName"), field("Email", "email", "email"),
-    field("Role", "roleSlug", "text", ["staff","finance","programs","volunteers","communications","admin","super_admin", ...(form.roleSlug && !["staff","finance","programs","volunteers","communications","admin","super_admin"].includes(form.roleSlug) ? [form.roleSlug] : [])]),
+    field("Roles (select all that apply)", "roleSlugs", "multiselect", ["public_user","staff","finance","programs","volunteers","communications","admin","super_admin"]),
     field("Account status", "isActive", "text", ["true", "false"]),
     field(record.id ? "New password (optional, minimum 12 characters)" : "Temporary password (minimum 12 characters)", "password", "password")
   ];
@@ -246,7 +248,7 @@ export default function Admin({ path = "/admin", navigate }) {
 
   const loadIdentity = useCallback(async () => {
     const me = await api("/admin/api/me");
-    setStaff(me.user || null);
+    setStaff(me.user ? { ...me.user, roles: Array.isArray(me.roles) ? me.roles : [] } : null);
     setPermissions(me.permissions || []);
     if (!me.user) throw new Error("Please sign in with an authorised staff account.");
     return me;
@@ -322,7 +324,7 @@ export default function Admin({ path = "/admin", navigate }) {
       let body = {};
       if (key === "users") {
         if (record.id) method = "PUT";
-        body = { firstName: form.firstName, lastName: form.lastName, email: form.email, roleSlug: form.roleSlug, isActive: form.isActive !== "false" && form.isActive !== false };
+        body = { firstName: form.firstName, lastName: form.lastName, email: form.email, roleSlug: form.roleSlugs?.[0] || form.roleSlug, roleSlugs: form.roleSlugs, isActive: form.isActive !== "false" && form.isActive !== false };
         if (!record.id) { method = "POST"; body.password = form.password; }
         endpoint += record.id ? `/${record.id}` : "";
       } else if (key === "beneficiaries") {
@@ -425,7 +427,7 @@ export default function Admin({ path = "/admin", navigate }) {
       <div className="gom-admin-nav">
         {visibleNav.map(group => <div className="mb-4" key={group.group}><div className="gom-nav-label">{group.group}</div>{group.items.map(item => <button key={item.id} className={`gom-nav-link ${key === item.id ? "active" : ""}`} onClick={() => navigate(item.path)}><i className={`bi ${item.icon}`} /><span>{item.label}</span></button>)}</div>)}
       </div>
-      <div className="gom-sidebar-footer"><div className="gom-user-chip"><span className="gom-avatar">{(staff.firstName || staff.first_name || staff.email || "S").charAt(0).toUpperCase()}</span><span className="text-truncate"><strong>{staff.fullName || [staff.first_name,staff.last_name].filter(Boolean).join(" ") || "Staff account"}</strong><small>{staff.email}</small></span></div><button className="btn btn-sm btn-outline-secondary w-100 mt-3" onClick={signOut}><i className="bi bi-box-arrow-right me-2" />Sign out</button><a className="gom-back-site" href="/">← Back to public website</a></div>
+      <div className="gom-sidebar-footer">{staff.roles?.includes("public_user") && <a className="gom-back-site mb-2" href="/account"><i className="bi bi-person-circle me-2" />Open member portal</a>}<div className="gom-user-chip"><span className="gom-avatar">{(staff.firstName || staff.first_name || staff.email || "S").charAt(0).toUpperCase()}</span><span className="text-truncate"><strong>{staff.fullName || [staff.first_name,staff.last_name].filter(Boolean).join(" ") || "Staff account"}</strong><small>{staff.email}</small></span></div><button className="btn btn-sm btn-outline-secondary w-100 mt-3" onClick={signOut}><i className="bi bi-box-arrow-right me-2" />Sign out</button><a className="gom-back-site" href="/">← Back to public website</a></div>
     </aside>
     <main className="gom-admin-main">
       <header className="gom-admin-topbar"><div><div className="small text-secondary">Garden of Mercy Foundation / Administration</div><h1>{headerTitle}{isDashboard && <span className="text-success">, {staff.firstName || staff.first_name || "team"}</span>}</h1></div><div className="d-flex align-items-center gap-2"><LanguageSelector /><label className="gom-admin-theme-control"><i className="bi bi-circle-half" aria-hidden="true" /><span className="visually-hidden">Color theme</span><select value={mode} onChange={event => setMode(event.target.value)} aria-label="Choose color theme"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></label><span className="gom-secure-label"><i className="bi bi-shield-check me-1" />Secure staff area</span><button className="btn btn-light border d-lg-none" onClick={() => navigate("/")}>Website</button></div></header>
