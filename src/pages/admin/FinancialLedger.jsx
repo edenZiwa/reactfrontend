@@ -83,19 +83,23 @@ export default function FinancialLedger({ canAdjust = false, canApprove = false,
   const [expensePaymentReviewing, setExpensePaymentReviewing] = useState(null);
   const [expensePaymentDecision, setExpensePaymentDecision] = useState("post");
   const [expensePaymentReviewNote, setExpensePaymentReviewNote] = useState("");
+  const [statements, setStatements] = useState({ incomeExpense: [], incomeExpenseAccounts: [], financialPosition: [], financialPositionAccounts: [], projectExpenses: [] });
+  const [exportBusy, setExportBusy] = useState(false);
+  const [exportError, setExportError] = useState("");
 
   const load = useCallback(async () => {
     setLoading(true); setError("");
     try {
       const params = queryString({ currency, from, to });
       const entryParams = queryString({ currency, from, to, offset: page * 25 });
-      const [trial, journal, chart, adjustmentList, settlementList, expensePaymentList] = await Promise.all([
+      const [trial, journal, chart, adjustmentList, settlementList, expensePaymentList, statementReport] = await Promise.all([
         request("/admin/api/finance-ledger/trial-balance" + (params ? "?" + params : "")),
         request("/admin/api/finance-ledger/entries?" + entryParams),
         request("/admin/api/finance-adjustments/accounts"),
         request("/admin/api/finance-adjustments/adjustments?status=pending_review&limit=50"),
         request("/admin/api/finance-settlements?limit=50"),
         request("/admin/api/finance-expense-payments?limit=50"),
+        request("/admin/api/finance-ledger/statements" + (params ? "?" + params : "")),
       ]);
       setReport(trial); setEntries(journal.entries || []);
       setPagination(journal.pagination || { limit: 25, offset: page * 25, total: 0 });
@@ -103,6 +107,7 @@ export default function FinancialLedger({ canAdjust = false, canApprove = false,
       setAdjustments(adjustmentList.adjustments || []);
       setSettlements(settlementList.settlements || []);
       setExpensePayments(expensePaymentList.payments || []);
+      setStatements(statementReport);
     } catch (e) { setError(e.message); }
     finally { setLoading(false); }
   }, [currency, from, to, page]);
@@ -269,13 +274,37 @@ export default function FinancialLedger({ canAdjust = false, canApprove = false,
     finally { setExpensePaymentBusy(false); }
   }
 
+  async function downloadJournalCsv() {
+    setExportBusy(true); setExportError("");
+    try {
+      const params = queryString({ currency, from, to });
+      const response = await fetch(apiUrl("/admin/api/finance-ledger/exports/journal.csv" + (params ? "?" + params : "")), {
+        credentials: "include", cache: "no-store", headers: { Accept: "text/csv, application/json" },
+      });
+      if (!response.ok) {
+        const data = await response.json().catch(() => ({}));
+        throw new Error(data.error || "The journal export could not be generated.");
+      }
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const anchor = document.createElement("a");
+      anchor.href = url; anchor.download = "gom-financial-journal.csv";
+      document.body.appendChild(anchor); anchor.click(); anchor.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (e) { setExportError(e.message); }
+    finally { setExportBusy(false); }
+  }
+
   const hasRangeError = Boolean(from && to && from > to);
   const currencyGroups = currency === "all" ? ["UGX", "USD"] : [currency];
 
   return <section className="gom-financial-ledger">
     <div className="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-4">
       <div><span className="small text-success fw-bold text-uppercase">Finance and accountability</span><h2 className="h3 fw-bold mt-1 mb-2">Financial ledger</h2><p className="text-secondary mb-0">Review posted double-entry journals and trial balances. UGX and USD are always reported separately.</p></div>
-      <button type="button" className="btn btn-outline-success" onClick={load} disabled={loading || hasRangeError}><i className="bi bi-arrow-clockwise me-2" />Refresh</button>
+      <div className="d-flex flex-wrap gap-2">
+        <button type="button" className="btn btn-outline-success" onClick={downloadJournalCsv} disabled={exportBusy || hasRangeError}><i className="bi bi-download me-2" />{exportBusy ? "Preparing CSV…" : "Export journal CSV"}</button>
+        <button type="button" className="btn btn-outline-secondary" onClick={load} disabled={loading || hasRangeError}><i className="bi bi-arrow-clockwise me-2" />Refresh</button>
+      </div>
     </div>
 
     <div className="gom-project-panel p-3 p-md-4 mb-4">
@@ -298,6 +327,35 @@ export default function FinancialLedger({ canAdjust = false, canApprove = false,
           <div className="small text-success mt-3"><i className="bi bi-check-circle me-1" />Debits and credits balance</div>
         </article></div>)}
         {!report.totalsByCurrency.length && <div className="col-12"><div className="gom-project-panel p-3 text-secondary">No posted journal entries exist for this reporting period.</div></div>}
+      </div>
+
+      {exportError && <div className="alert alert-danger" role="alert">{exportError}</div>}
+      <div className="gom-project-panel p-3 p-md-4 mb-4">
+        <div className="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-3">
+          <div><span className="small text-success fw-bold text-uppercase">Financial reporting</span><h3 className="h5 fw-bold mt-1 mb-1">Income and expenditure</h3><p className="small text-secondary mb-0">For the selected reporting period, with each currency kept separate.</p></div>
+        </div>
+        {!statements.incomeExpense.length ? <p className="text-secondary mb-0">No income or expenditure entries exist for this period.</p> : <div className="row g-3">
+          {statements.incomeExpense.map(item => <div className="col-md-6" key={item.currency}><article className="border rounded-3 p-3 h-100">
+            <div className="d-flex justify-content-between align-items-center mb-3"><strong>{item.currency}</strong><span className="badge text-bg-light border">Income & expenditure</span></div>
+            <div className="row g-3"><div className="col-6"><span className="small text-secondary d-block">Income</span><strong>{formatMoney(item.total_income,item.currency)}</strong></div><div className="col-6"><span className="small text-secondary d-block">Expenditure</span><strong>{formatMoney(item.total_expenses,item.currency)}</strong></div><div className="col-12"><span className="small text-secondary d-block">Net surplus / (deficit)</span><strong className={Number(item.net_surplus) >= 0 ? "text-success fs-5" : "text-danger fs-5"}>{formatMoney(item.net_surplus,item.currency)}</strong></div></div>
+          </article></div>)}
+        </div>}
+        {statements.incomeExpenseAccounts.length > 0 && <div className="table-responsive mt-3"><table className="table table-sm align-middle mb-0"><thead><tr><th>Currency</th><th>Account</th><th>Type</th><th className="text-end">Amount</th></tr></thead><tbody>{statements.incomeExpenseAccounts.map(item => <tr key={item.currency+"-"+item.code}><td>{item.currency}</td><td>{item.code} · {item.name}</td><td>{item.account_type}</td><td className="text-end text-nowrap">{formatMoney(item.amount,item.currency)}</td></tr>)}</tbody></table></div>}
+      </div>
+
+      <div className="gom-project-panel p-3 p-md-4 mb-4">
+        <div className="mb-3"><h3 className="h5 fw-bold mb-1">Statement of financial position</h3><p className="small text-secondary mb-0">Cumulative balances as at {statements.financialPositionAsOf || "today"}; net assets are derived from assets less liabilities.</p></div>
+        {!statements.financialPosition.length ? <p className="text-secondary mb-0">No asset or liability balances are recorded yet.</p> : <div className="row g-3">
+          {statements.financialPosition.map(item => <div className="col-md-6" key={item.currency}><article className="border rounded-3 p-3 h-100">
+            <strong>{item.currency}</strong><div className="row g-3 mt-1"><div className="col-6"><span className="small text-secondary d-block">Assets</span><strong>{formatMoney(item.total_assets,item.currency)}</strong></div><div className="col-6"><span className="small text-secondary d-block">Liabilities</span><strong>{formatMoney(item.total_liabilities,item.currency)}</strong></div><div className="col-6"><span className="small text-secondary d-block">Net assets</span><strong className="text-success">{formatMoney(item.net_assets,item.currency)}</strong></div><div className="col-6"><span className="small text-secondary d-block">Unallocated net assets</span><strong>{formatMoney(item.unallocated_net_assets,item.currency)}</strong></div></div>
+          </article></div>)}
+        </div>}
+        {statements.financialPositionAccounts.length > 0 && <div className="table-responsive mt-3"><table className="table table-sm align-middle mb-0"><thead><tr><th>Currency</th><th>Account</th><th>Type</th><th className="text-end">Balance</th></tr></thead><tbody>{statements.financialPositionAccounts.map(item => <tr key={item.currency+"-"+item.code}><td>{item.currency}</td><td>{item.code} · {item.name}</td><td>{item.account_type}</td><td className="text-end text-nowrap">{formatMoney(item.balance,item.currency)}</td></tr>)}</tbody></table></div>}
+      </div>
+
+      <div className="gom-project-panel p-3 p-md-4 mb-4">
+        <div className="mb-3"><h3 className="h5 fw-bold mb-1">Project expenditure</h3><p className="small text-secondary mb-0">Expense postings allocated to projects in the selected period.</p></div>
+        {!statements.projectExpenses.length ? <p className="text-secondary mb-0">No project expenditure is recorded for this period.</p> : <div className="table-responsive"><table className="table align-middle mb-0"><thead><tr><th>Project</th><th>Currency</th><th className="text-end">Expenditure</th></tr></thead><tbody>{statements.projectExpenses.map(item => <tr key={item.currency+"-"+item.project_id}><td>{item.project_name}</td><td>{item.currency}</td><td className="text-end text-nowrap">{formatMoney(item.project_expenses,item.currency)}</td></tr>)}</tbody></table></div>}
       </div>
 
       <div className="gom-project-panel p-3 p-md-4 mb-4">
