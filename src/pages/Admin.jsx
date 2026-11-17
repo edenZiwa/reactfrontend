@@ -15,7 +15,7 @@ import "../css/sponsorship-management.css";
 
 const API = (path) => `${API_ORIGIN}${path}`;
 const NAV = [
-  { group: "Overview", items: [{ id: "dashboard", label: "Dashboard", icon: "bi-grid-1x2", path: "/admin" }] },
+  { group: "Overview", items: [{ id: "dashboard", label: "Dashboard", icon: "bi-grid-1x2", path: "/admin", permission: "reports.view" }] },
   { group: "People & care", items: [
     { id: "donors", label: "Donor CRM", icon: "bi-person-heart", path: "/admin/donors", permission: "donors.view" },
     { id: "users", label: "Staff & users", icon: "bi-people", path: "/admin/users", permission: "users.manage" },
@@ -159,7 +159,7 @@ function DataTable({ rows, columns, onAction, actionLabel, empty = "No records f
   </table></div>;
 }
 
-function RecordModal({ record, kind, onClose, onSave, busy, beneficiaryOptions = [] }) {
+function RecordModal({ record, kind, onClose, onSave, onChangePassword, busy, beneficiaryOptions = [] }) {
   const [form, setForm] = useState({});
   useEffect(() => {
     const initial = { ...(record || {}) };
@@ -185,7 +185,7 @@ function RecordModal({ record, kind, onClose, onSave, busy, beneficiaryOptions =
     field("First name", "firstName"), field("Last name", "lastName"), field("Email", "email", "email"),
     field("Roles (select all that apply)", "roleSlugs", "multiselect", ["public_user","staff","finance","programs","volunteers","communications","admin","super_admin"]),
     field("Account status", "isActive", "text", ["true", "false"]),
-    field(record.id ? "New password (optional, minimum 12 characters)" : "Temporary password (minimum 12 characters)", "password", "password")
+    ...(!record.id ? [field("Temporary password (minimum 12 characters)", "password", "password")] : [])
   ];
   if (kind === "beneficiaries") fields = [
     ...(!record.id ? [field("Beneficiary code", "beneficiaryCode")] : []),
@@ -217,6 +217,13 @@ function RecordModal({ record, kind, onClose, onSave, busy, beneficiaryOptions =
         {kind === "inbox" && <div className="border rounded-3 p-3 mb-3"><strong>{record.subject || "Message"}</strong><p className="mb-0 mt-2 text-secondary" style={{ whiteSpace: "pre-wrap" }}>{record.message}</p></div>}
         {kind === "reconciliation" && <p className="text-secondary">Reference: <strong>{record.merchant_reference}</strong><br />Amount: {money(record.amount, record.currency)}<br />Current status: <StatusPill value={record.status} /></p>}
         {fields}
+        {kind === "users" && record.id && <div className="border rounded-3 p-3 mt-3">
+          <h3 className="h6 fw-bold">Change staff password</h3>
+          <p className="small text-secondary">This is a separate action and requires a password of at least 12 characters.</p>
+          <label className="form-label" htmlFor="record-new-password">New password</label>
+          <input id="record-new-password" className="form-control" type="password" autoComplete="new-password" minLength={12} value={form.password ?? ""} onChange={e => setForm({ ...form, password: e.target.value })} />
+          <button type="button" className="btn btn-outline-warning btn-sm mt-2" disabled={busy || (form.password || "").length < 12} onClick={() => onChangePassword(form.password)}>Update password</button>
+        </div>}
       </div>
       <div className="d-flex justify-content-end gap-2 mt-4"><button className="btn btn-light border" onClick={onClose}>Cancel</button><button className="btn btn-success" disabled={busy} onClick={() => onSave(form)}>{busy ? "Saving…" : kind === "reconciliation" ? "Verify with provider" : "Save changes"}</button></div>
     </section>
@@ -289,7 +296,7 @@ export default function Admin({ path = "/admin", navigate }) {
 
   useEffect(() => {
     if (!staff) return;
-    const permitted = isDashboard || !current.permission || can(current.permission);
+    const permitted = !current.permission || can(current.permission);
     if (!permitted) { setPageError("Your staff account does not have permission to view this section."); return; }
     loadPage(key).catch(e => setPageError(e.message));
   }, [staff, key, filter, pageNumber, search, current.permission, isDashboard, can, loadPage]);
@@ -347,6 +354,21 @@ export default function Admin({ path = "/admin", navigate }) {
       await api(endpoint, { method, body: JSON.stringify(body) });
       setNotice("Changes saved successfully."); setRecord(null); await loadPage(key);
     } catch (e) { setPageError(e.message); } finally { setBusy(false); }
+  }
+
+  async function changeUserPassword(password) {
+    if (!record?.id || typeof password !== "string" || password.length < 12 || password.length > 1024) {
+      setPageError("The new password must be between 12 and 1,024 characters.");
+      return;
+    }
+    setBusy(true); setPageError(""); setNotice("");
+    try {
+      await api(`/admin/api/users/${encodeURIComponent(record.id)}/password`, { method: "POST", body: JSON.stringify({ password }) });
+      setNotice("Staff password updated successfully.");
+      setRecord(null);
+      await loadPage("users");
+    } catch (e) { setPageError(e.message); }
+    finally { setBusy(false); }
   }
 
   async function downloadCsv() {
@@ -455,15 +477,19 @@ export default function Admin({ path = "/admin", navigate }) {
           </section>}
       </div>
     </main>
-    <RecordModal record={record} kind={key} onClose={() => setRecord(null)} onSave={saveRecord} busy={busy} beneficiaryOptions={data.beneficiaryOptions || []} />
+    <RecordModal record={record} kind={key} onClose={() => setRecord(null)} onSave={saveRecord} onChangePassword={changeUserPassword} busy={busy} beneficiaryOptions={data.beneficiaryOptions || []} />
   </div>;
 }
 
 function Dashboard({ data, navigate, can, reload }) {
   const d = data?.donations || {}, b = data?.beneficiaries || {}, u = data?.users || {};
+  const currencyTotals = Array.isArray(data?.currencyTotals) ? data.currencyTotals : [];
+  const currencySummary = (field) => currencyTotals.length
+    ? currencyTotals.map(item => money(item[field], item.currency)).join(" · ")
+    : "—";
   const cards = [
-    { label: "Confirmed donations", value: numberFormat(d.received), note: `${d.successful || 0} successful payments · currencies not converted`, icon: "bi-heart-pulse", tone: "green", group: "Giving" },
-    { label: "Donations this month", value: numberFormat(d.received_this_month), note: "Recorded amounts · currencies not converted", icon: "bi-calendar-heart", tone: "gold", group: "Giving" },
+    { label: "Confirmed donations", value: currencySummary("received"), note: `${d.successful || 0} successful payments · shown separately by currency`, icon: "bi-heart-pulse", tone: "green", group: "Giving" },
+    { label: "Donations this month", value: currencySummary("received_this_month"), note: "Current-month totals · shown separately by currency", icon: "bi-calendar-heart", tone: "gold", group: "Giving" },
     { label: "Payments awaiting review", value: numberFormat(d.pending), note: "Initiating or pending payments", icon: "bi-hourglass-split", tone: "amber", group: "Giving" },
     { label: "Beneficiaries", value: numberFormat(b.total), note: `${numberFormat(b.active) || 0} active records`, icon: "bi-people", tone: "green", group: "People" },
     { label: "Consent follow-up", value: numberFormat(b.consent_pending), note: "Beneficiary records needing attention", icon: "bi-clipboard-heart", tone: "amber", group: "People" },
