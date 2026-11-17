@@ -50,7 +50,7 @@ export default function SponsorshipManagement({ canViewPrivate = false }) {
         call("/admin/api/sponsorship-management/matches"),
         call("/admin/api/sponsorship-management/interests"),
         call("/admin/api/sponsorship-profiles"),
-        call("/admin/api/donors?limit=250"),
+        call("/admin/api/sponsorship-management/donor-options"),
         call("/admin/api/sponsorship-management/reports/queue")
       ]);
       setMatches(m.matches||[]); setInterests(i.interests||[]);
