@@ -4,6 +4,12 @@ import { API_ORIGIN } from "../../services/api-config.js";
 const apiUrl = path => API_ORIGIN + path;
 const formatMoney = (value, currency) => new Intl.NumberFormat("en-UG", { style: "currency", currency, maximumFractionDigits: currency === "UGX" ? 0 : 2 }).format(Number(value || 0));
 const formatDate = value => value ? new Date(value).toLocaleDateString() : "—";
+const toCents = value => {
+  const match = /^(\\d+)(?:\\.(\\d{1,2}))?$/.exec(String(value ?? "").trim());
+  if (!match) return 0n;
+  return BigInt(match[1]) * 100n + BigInt((match[2] || "").padEnd(2, "0"));
+};
+const fromCents = value => (value / 100n).toString() + "." + (value % 100n).toString().padStart(2, "0");
 
 async function request(path, options = {}) {
   const method = (options.method || "GET").toUpperCase();
@@ -32,7 +38,7 @@ function queryString({ currency, from, to, offset }) {
   return query.toString();
 }
 
-export default function FinancialLedger({ canAdjust = false, canApprove = false }) {
+export default function FinancialLedger({ canAdjust = false, canApprove = false, canManageSettlements = false, canApproveSettlements = false }) {
   const [currency, setCurrency] = useState("all");
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
@@ -55,22 +61,35 @@ export default function FinancialLedger({ canAdjust = false, canApprove = false 
   const [reviewing, setReviewing] = useState(null);
   const [reviewDecision, setReviewDecision] = useState("post");
   const [reviewNote, setReviewNote] = useState("");
+  const [settlements, setSettlements] = useState([]);
+  const [eligibleDonations, setEligibleDonations] = useState([]);
+  const [settlementCurrency, setSettlementCurrency] = useState("UGX");
+  const [settlementForm, setSettlementForm] = useState({ settlementDate: new Date().toISOString().slice(0,10), providerReference: "", bankReference: "", feeAmount: "0" });
+  const [selectedAllocations, setSelectedAllocations] = useState({});
+  const [settlementBusy, setSettlementBusy] = useState(false);
+  const [settlementError, setSettlementError] = useState("");
+  const [settlementNotice, setSettlementNotice] = useState("");
+  const [settlementReviewing, setSettlementReviewing] = useState(null);
+  const [settlementDecision, setSettlementDecision] = useState("post");
+  const [settlementReviewNote, setSettlementReviewNote] = useState("");
 
   const load = useCallback(async () => {
     setLoading(true); setError("");
     try {
       const params = queryString({ currency, from, to });
       const entryParams = queryString({ currency, from, to, offset: page * 25 });
-      const [trial, journal, chart, adjustmentList] = await Promise.all([
+      const [trial, journal, chart, adjustmentList, settlementList] = await Promise.all([
         request("/admin/api/finance-ledger/trial-balance" + (params ? "?" + params : "")),
         request("/admin/api/finance-ledger/entries?" + entryParams),
         request("/admin/api/finance-adjustments/accounts"),
         request("/admin/api/finance-adjustments/adjustments?status=pending_review&limit=50"),
+        request("/admin/api/finance-settlements?limit=50"),
       ]);
       setReport(trial); setEntries(journal.entries || []);
       setPagination(journal.pagination || { limit: 25, offset: page * 25, total: 0 });
       setAccounts(chart.accounts || []);
       setAdjustments(adjustmentList.adjustments || []);
+      setSettlements(settlementList.settlements || []);
     } catch (e) { setError(e.message); }
     finally { setLoading(false); }
   }, [currency, from, to, page]);
@@ -117,6 +136,68 @@ export default function FinancialLedger({ canAdjust = false, canApprove = false 
       await load();
     } catch (e) { setAdjustmentError(e.message); }
     finally { setAdjustmentBusy(false); }
+  }
+
+  const loadEligibleDonations = useCallback(async () => {
+    if (!canManageSettlements) return;
+    try {
+      const result = await request("/admin/api/finance-settlements/eligible-donations?currency=" + settlementCurrency);
+      setEligibleDonations(result.donations || []);
+      setSelectedAllocations({});
+    } catch (e) { setSettlementError(e.message); }
+  }, [canManageSettlements, settlementCurrency]);
+
+  useEffect(() => { loadEligibleDonations(); }, [loadEligibleDonations]);
+
+  const selectedDonationLines = eligibleDonations.filter(item => selectedAllocations[item.id]);
+  const settlementGrossCents = selectedDonationLines.reduce((sum,item) => sum + toCents(selectedAllocations[item.id]), 0n);
+  const settlementFeeCents = toCents(settlementForm.feeAmount);
+  const settlementNetCents = settlementGrossCents - settlementFeeCents;
+  const settlementGross = fromCents(settlementGrossCents);
+  const settlementFee = fromCents(settlementFeeCents);
+  const settlementNet = settlementNetCents >= 0n ? fromCents(settlementNetCents) : "0.00";
+
+  async function submitSettlement(event) {
+    event.preventDefault();
+    setSettlementBusy(true); setSettlementError(""); setSettlementNotice("");
+    try {
+      const allocations = selectedDonationLines.map(item => ({ donationId: item.id, amount: selectedAllocations[item.id] }));
+      const result = await request("/admin/api/finance-settlements", {
+        method: "POST",
+        body: JSON.stringify({
+          ...settlementForm,
+          currency: settlementCurrency,
+          grossAmount: settlementGross,
+          feeAmount: settlementFee,
+          netAmount: settlementNet,
+          allocations,
+        }),
+      });
+      setSettlementNotice(result.message || "Settlement submitted for independent review.");
+      setSettlementForm(current => ({ ...current, providerReference: "", bankReference: "", feeAmount: "0" }));
+      setSelectedAllocations({});
+      await Promise.all([load(), loadEligibleDonations()]);
+    } catch (e) { setSettlementError(e.message); }
+    finally { setSettlementBusy(false); }
+  }
+
+  async function reviewSettlement() {
+    if (!settlementReviewing) return;
+    if (settlementDecision === "reject" && settlementReviewNote.trim().length < 10) {
+      setSettlementError("Provide a rejection explanation of at least 10 characters.");
+      return;
+    }
+    setSettlementBusy(true); setSettlementError(""); setSettlementNotice("");
+    try {
+      const result = await request("/admin/api/finance-settlements/" + encodeURIComponent(settlementReviewing) + "/review", {
+        method: "POST",
+        body: JSON.stringify({ decision: settlementDecision, note: settlementReviewNote }),
+      });
+      setSettlementNotice(result.message || "Settlement review completed.");
+      setSettlementReviewing(null); setSettlementReviewNote("");
+      await Promise.all([load(), loadEligibleDonations()]);
+    } catch (e) { setSettlementError(e.message); }
+    finally { setSettlementBusy(false); }
   }
 
   const hasRangeError = Boolean(from && to && from > to);
@@ -182,6 +263,48 @@ export default function FinancialLedger({ canAdjust = false, canApprove = false 
         </div></div>
       </div>
     </>}
+    {(canManageSettlements || canApproveSettlements) && <div className="gom-project-panel p-3 p-md-4 mt-4">
+      <div className="mb-3"><span className="small text-success fw-bold text-uppercase">Bank reconciliation</span><h3 className="h5 fw-bold mt-1 mb-1">Pesapal settlements</h3><p className="small text-secondary mb-0">Match completed donations to the provider's settlement statement. A second authorised staff member must approve each batch.</p></div>
+      {settlementError && <div className="alert alert-danger" role="alert">{settlementError}</div>}
+      {settlementNotice && <div className="alert alert-success" role="status">{settlementNotice}</div>}
+
+      {canManageSettlements && <form onSubmit={submitSettlement} className="border rounded-3 p-3 mb-4">
+        <h4 className="h6 fw-bold mb-3">Prepare a settlement batch</h4>
+        <div className="row g-3 mb-3">
+          <div className="col-sm-6 col-lg-3"><label className="form-label" htmlFor="settlement-currency">Currency</label><select id="settlement-currency" className="form-select" value={settlementCurrency} onChange={e => {setSettlementCurrency(e.target.value);setSelectedAllocations({});}}><option value="UGX">UGX</option><option value="USD">USD</option></select></div>
+          <div className="col-sm-6 col-lg-3"><label className="form-label" htmlFor="settlement-date">Settlement date</label><input id="settlement-date" type="date" className="form-control" required value={settlementForm.settlementDate} onChange={e => setSettlementForm(current => ({...current,settlementDate:e.target.value}))} /></div>
+          <div className="col-sm-6 col-lg-3"><label className="form-label" htmlFor="settlement-provider-ref">Pesapal settlement reference</label><input id="settlement-provider-ref" className="form-control" required minLength="4" maxLength="120" value={settlementForm.providerReference} onChange={e => setSettlementForm(current => ({...current,providerReference:e.target.value}))} /></div>
+          <div className="col-sm-6 col-lg-3"><label className="form-label" htmlFor="settlement-bank-ref">Bank statement reference</label><input id="settlement-bank-ref" className="form-control" required minLength="3" maxLength="120" value={settlementForm.bankReference} onChange={e => setSettlementForm(current => ({...current,bankReference:e.target.value}))} /></div>
+        </div>
+        <div className="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-2"><h5 className="h6 fw-bold mb-0">Unsettled confirmed donations</h5><button type="button" className="btn btn-sm btn-outline-secondary" onClick={loadEligibleDonations} disabled={settlementBusy}><i className="bi bi-arrow-clockwise me-1" />Refresh donations</button></div>
+        {!eligibleDonations.length ? <p className="small text-secondary">No unsettled {settlementCurrency} donations are currently available for allocation.</p> : <div className="table-responsive"><table className="table table-sm align-middle">
+          <thead><tr><th>Include</th><th>Donation reference</th><th>Date paid</th><th className="text-end">Available</th><th className="text-end">Allocate</th></tr></thead>
+          <tbody>{eligibleDonations.map(item => <tr key={item.id}>
+            <td><input className="form-check-input" type="checkbox" aria-label={"Include donation "+item.merchant_reference} checked={Boolean(selectedAllocations[item.id])} onChange={e => setSelectedAllocations(current => {const next={...current};if(e.target.checked)next[item.id]=String(item.available_amount);else delete next[item.id];return next;})} /></td>
+            <td className="text-nowrap">{item.merchant_reference}</td><td className="text-nowrap">{formatDate(item.paid_at)}</td><td className="text-end text-nowrap">{formatMoney(item.available_amount,settlementCurrency)}</td>
+            <td className="text-end"><input type="number" min="0.01" max={item.available_amount} step="0.01" className="form-control form-control-sm text-end ms-auto" style={{maxWidth:"130px"}} aria-label={"Allocation for "+item.merchant_reference} disabled={!selectedAllocations[item.id]} value={selectedAllocations[item.id] || ""} onChange={e => setSelectedAllocations(current => ({...current,[item.id]:e.target.value}))} /></td>
+          </tr>)}</tbody>
+        </table></div>}
+        <div className="row g-3 align-items-end mt-1">
+          <div className="col-sm-6 col-lg-3"><label className="form-label" htmlFor="settlement-fee">Processing fee ({settlementCurrency})</label><input id="settlement-fee" type="number" min="0" step="0.01" className="form-control" value={settlementForm.feeAmount} onChange={e => setSettlementForm(current => ({...current,feeAmount:e.target.value}))} /></div>
+          <div className="col-sm-6 col-lg-3"><span className="small text-secondary d-block">Gross allocated</span><strong>{formatMoney(settlementGross,settlementCurrency)}</strong></div>
+          <div className="col-sm-6 col-lg-3"><span className="small text-secondary d-block">Net to bank</span><strong>{formatMoney(settlementNet,settlementCurrency)}</strong></div>
+          <div className="col-sm-6 col-lg-3"><button type="submit" className="btn btn-success w-100" disabled={settlementBusy || !selectedDonationLines.length || settlementNetCents < 0n || settlementGrossCents <= 0n}>{settlementBusy ? "Submitting…" : "Submit settlement for review"}</button></div>
+        </div>
+        <p className="small text-secondary mt-2 mb-0">Gross allocations must match the provider statement. Net bank receipt plus fees must equal gross. Donations already allocated to another pending or posted batch are excluded.</p>
+      </form>}
+
+      {canApproveSettlements && <div>
+        <div className="d-flex justify-content-between align-items-center mb-2"><h4 className="h6 fw-bold mb-0">Pending settlement approvals</h4><span className="badge text-bg-light border">{settlements.filter(item => item.status === "pending_review").length} pending</span></div>
+        {settlements.filter(item => item.status === "pending_review").length === 0 ? <p className="small text-secondary">No provider settlements are awaiting review.</p> : settlements.filter(item => item.status === "pending_review").map(item => <article className="border rounded-3 p-3 mb-2" key={item.id}>
+          <div className="d-flex flex-wrap justify-content-between gap-2"><div><strong>{item.provider_reference}</strong><p className="small text-secondary mb-1">Bank reference: {item.bank_reference}</p><span className="small text-secondary">{item.currency} · {formatDate(item.settlement_date)} · Submitted by {item.created_by_name || "Staff member"}</span></div><span className="badge text-bg-warning align-self-start">Pending review</span></div>
+          <div className="row g-2 small mt-2"><div className="col-4">Gross: <strong>{formatMoney(item.gross_amount,item.currency)}</strong></div><div className="col-4">Fees: <strong>{formatMoney(item.fee_amount,item.currency)}</strong></div><div className="col-4">Net: <strong>{formatMoney(item.net_amount,item.currency)}</strong></div></div>
+          <div className="small text-secondary mt-2">{item.allocations.length} donation allocations · {item.allocations.map(allocation => allocation.reference).join(", ")}</div>
+          {settlementReviewing === item.id ? <div className="mt-3"><label className="form-label small" htmlFor={"settlement-review-note-"+item.id}>{settlementDecision === "reject" ? "Rejection explanation (required)" : "Review note (optional)"}</label><textarea id={"settlement-review-note-"+item.id} className="form-control mb-2" rows="2" value={settlementReviewNote} onChange={e => setSettlementReviewNote(e.target.value)} placeholder="Record the settlement review decision." /><div className="d-flex flex-wrap gap-2"><button type="button" className="btn btn-sm btn-success" onClick={reviewSettlement} disabled={settlementBusy || (settlementDecision === "reject" && settlementReviewNote.trim().length < 10)}>{settlementDecision === "post" ? "Confirm and post settlement" : "Confirm rejection"}</button><button type="button" className="btn btn-sm btn-outline-secondary" onClick={() => {setSettlementReviewing(null);setSettlementReviewNote("");}} disabled={settlementBusy}>Cancel</button></div></div> : <div className="d-flex flex-wrap gap-2 mt-2"><button type="button" className="btn btn-sm btn-success" onClick={() => {setSettlementReviewing(item.id);setSettlementDecision("post");setSettlementReviewNote("");}} disabled={settlementBusy}>Review and post</button><button type="button" className="btn btn-sm btn-outline-danger" onClick={() => {setSettlementReviewing(item.id);setSettlementDecision("reject");setSettlementReviewNote("");}} disabled={settlementBusy}>Reject batch</button></div>}
+        </article>)}
+      </div>}
+    </div>}
+
     {(canAdjust || canApprove) && <div className="gom-project-panel p-3 p-md-4 mt-4">
       <div className="mb-3"><span className="small text-success fw-bold text-uppercase">Financial controls</span><h3 className="h5 fw-bold mt-1 mb-1">Manual journal adjustments</h3><p className="small text-secondary mb-0">Adjustments are submitted first, then reviewed by a different authorised staff member before posting.</p></div>
       {adjustmentError && <div className="alert alert-danger" role="alert">{adjustmentError}</div>}
