@@ -282,7 +282,7 @@ export default function FinancialLedger({ canAdjust = false, canApprove = false,
           <tbody>{eligibleDonations.map(item => <tr key={item.id}>
             <td><input className="form-check-input" type="checkbox" aria-label={"Include donation "+item.merchant_reference} checked={Boolean(selectedAllocations[item.id])} onChange={e => setSelectedAllocations(current => {const next={...current};if(e.target.checked)next[item.id]=String(item.available_amount);else delete next[item.id];return next;})} /></td>
             <td className="text-nowrap">{item.merchant_reference}</td><td className="text-nowrap">{formatDate(item.paid_at)}</td><td className="text-end text-nowrap">{formatMoney(item.available_amount,settlementCurrency)}</td>
-            <td className="text-end"><input type="number" min="0.01" max={item.available_amount} step="0.01" className="form-control form-control-sm text-end ms-auto" style={{maxWidth:"130px"}} aria-label={"Allocation for "+item.merchant_reference} disabled={!selectedAllocations[item.id]} value={selectedAllocations[item.id] || ""} onChange={e => setSelectedAllocations(current => ({...current,[item.id]:e.target.value}))} /></td>
+            <td className="text-end"><input type="number" min="0.01" max={item.available_amount} step="0.01" className="form-control form-control-sm text-end w-auto ms-auto" aria-label={"Allocation for "+item.merchant_reference} disabled={!selectedAllocations[item.id]} value={selectedAllocations[item.id] || ""} onChange={e => setSelectedAllocations(current => ({...current,[item.id]:e.target.value}))} /></td>
           </tr>)}</tbody>
         </table></div>}
         <div className="row g-3 align-items-end mt-1">
