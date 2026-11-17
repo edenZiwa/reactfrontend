@@ -241,6 +241,7 @@ export default function Admin({ path = "/admin", navigate }) {
   const [pageNumber, setPageNumber] = useState(0);
   const [dashboard, setDashboard] = useState(null);
   const [reportDates, setReportDates] = useState({ from: "", to: "" });
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const current = PAGE[path] || PAGE["/admin"];
   const key = current.id;
   const isDashboard = key === "dashboard";
@@ -421,16 +422,17 @@ export default function Admin({ path = "/admin", navigate }) {
   };
   const actionKinds = ["users","beneficiaries","sponsorship","volunteers","registrations","applications","reconciliation","recurring","inbox"];
   const canManage = actionKinds.includes(key) && (key !== "beneficiaries" && key !== "sponsorship" || can("beneficiaries.update"));
-  return <div className="gom-admin">
+  return <div className={`gom-admin ${mobileNavOpen ? "gom-admin-nav-open" : ""}`}>
+    {mobileNavOpen && <button type="button" className="gom-admin-nav-backdrop" aria-label="Close navigation" onClick={() => setMobileNavOpen(false)} />}
     <aside className="gom-admin-sidebar">
       <a href="/" className="gom-admin-brand"><img src="/images/garden_of_mercy_icon.png" alt="" /><span><strong>Garden of Mercy</strong><small>Administration</small></span></a>
       <div className="gom-admin-nav">
-        {visibleNav.map(group => <div className="mb-4" key={group.group}><div className="gom-nav-label">{group.group}</div>{group.items.map(item => <button key={item.id} className={`gom-nav-link ${key === item.id ? "active" : ""}`} onClick={() => navigate(item.path)}><i className={`bi ${item.icon}`} /><span>{item.label}</span></button>)}</div>)}
+        {visibleNav.map(group => <div className="mb-4" key={group.group}><div className="gom-nav-label">{group.group}</div>{group.items.map(item => <button key={item.id} className={`gom-nav-link ${key === item.id ? "active" : ""}`} aria-current={key === item.id ? "page" : undefined} onClick={() => { setMobileNavOpen(false); navigate(item.path); }}><i className={`bi ${item.icon}`} /><span>{item.label}</span></button>)}</div>)}
       </div>
       <div className="gom-sidebar-footer">{staff.roles?.includes("public_user") && <a className="gom-back-site mb-2" href="/account"><i className="bi bi-person-circle me-2" />Open member portal</a>}<div className="gom-user-chip"><span className="gom-avatar">{(staff.firstName || staff.first_name || staff.email || "S").charAt(0).toUpperCase()}</span><span className="text-truncate"><strong>{staff.fullName || [staff.first_name,staff.last_name].filter(Boolean).join(" ") || "Staff account"}</strong><small>{staff.email}</small></span></div><button className="btn btn-sm btn-outline-secondary w-100 mt-3" onClick={signOut}><i className="bi bi-box-arrow-right me-2" />Sign out</button><a className="gom-back-site" href="/">← Back to public website</a></div>
     </aside>
     <main className="gom-admin-main">
-      <header className="gom-admin-topbar"><div><div className="small text-secondary">Garden of Mercy Foundation / Administration</div><h1>{headerTitle}{isDashboard && <span className="text-success">, {staff.firstName || staff.first_name || "team"}</span>}</h1></div><div className="d-flex align-items-center gap-2"><LanguageSelector /><label className="gom-admin-theme-control"><i className="bi bi-circle-half" aria-hidden="true" /><span className="visually-hidden">Color theme</span><select value={mode} onChange={event => setMode(event.target.value)} aria-label="Choose color theme"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></label><span className="gom-secure-label"><i className="bi bi-shield-check me-1" />Secure staff area</span><button className="btn btn-light border d-lg-none" onClick={() => navigate("/")}>Website</button></div></header>
+      <header className="gom-admin-topbar"><div className="gom-admin-heading"><button type="button" className="gom-mobile-menu btn btn-outline-secondary" aria-label={mobileNavOpen ? "Close navigation" : "Open navigation"} aria-expanded={mobileNavOpen} onClick={() => setMobileNavOpen(value => !value)}><i className={`bi ${mobileNavOpen ? "bi-x-lg" : "bi-list"}`} /></button><div><div className="small text-secondary">Garden of Mercy Foundation / Administration</div><h1>{headerTitle}{isDashboard && <span className="text-success">, {staff.firstName || staff.first_name || "team"}</span>}</h1></div></div><div className="gom-admin-topbar-actions d-flex align-items-center gap-2"><LanguageSelector /><label className="gom-admin-theme-control"><i className="bi bi-circle-half" aria-hidden="true" /><span className="visually-hidden">Color theme</span><select value={mode} onChange={event => setMode(event.target.value)} aria-label="Choose color theme"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></label><span className="gom-secure-label"><i className="bi bi-shield-check me-1" />Secure staff area</span><button className="btn btn-light border d-lg-none" onClick={() => navigate("/")}>Website</button></div></header>
       <div className="gom-admin-content">
         {authError && <div className="alert alert-warning">{authError}</div>}
         {pageError && <div className="alert alert-danger d-flex justify-content-between align-items-start"><span>{pageError}</span><button className="btn-close" aria-label="Dismiss" onClick={() => setPageError("")} /></div>}
@@ -460,25 +462,61 @@ export default function Admin({ path = "/admin", navigate }) {
 function Dashboard({ data, navigate, can, reload }) {
   const d = data?.donations || {}, b = data?.beneficiaries || {}, u = data?.users || {};
   const cards = [
-    { label: "Confirmed donations", value: numberFormat(d.received), note: `${d.successful || 0} successful payments · currencies not converted`, icon: "bi-heart" },
-    { label: "Donations this month", value: numberFormat(d.received_this_month), note: "Recorded amounts · currencies not converted", icon: "bi-calendar-heart" },
-    { label: "Beneficiaries", value: b.total ?? "—", note: `${b.active || 0} active records`, icon: "bi-people" },
-    { label: "Registered users", value: u.total ?? "—", note: `${u.active || 0} active accounts`, icon: "bi-person-check" },
-    { label: "Payments awaiting review", value: d.pending ?? "—", note: "Initiating or pending", icon: "bi-hourglass-split" },
-    { label: "Consent follow-up", value: b.consent_pending ?? "—", note: "Beneficiary records", icon: "bi-clipboard-heart" },
+    { label: "Confirmed donations", value: numberFormat(d.received), note: `${d.successful || 0} successful payments · currencies not converted`, icon: "bi-heart-pulse", tone: "green", group: "Giving" },
+    { label: "Donations this month", value: numberFormat(d.received_this_month), note: "Recorded amounts · currencies not converted", icon: "bi-calendar-heart", tone: "gold", group: "Giving" },
+    { label: "Payments awaiting review", value: numberFormat(d.pending), note: "Initiating or pending payments", icon: "bi-hourglass-split", tone: "amber", group: "Giving" },
+    { label: "Beneficiaries", value: numberFormat(b.total), note: `${numberFormat(b.active) || 0} active records`, icon: "bi-people", tone: "green", group: "People" },
+    { label: "Consent follow-up", value: numberFormat(b.consent_pending), note: "Beneficiary records needing attention", icon: "bi-clipboard-heart", tone: "amber", group: "People" },
+    { label: "Registered users", value: numberFormat(u.total), note: `${numberFormat(u.active) || 0} active accounts`, icon: "bi-person-check", tone: "blue", group: "People" },
   ];
+  const quickLinks = [
+    ...(can("donations.manage") ? [{ label: "Payment reconciliation", description: "Review and verify incoming payments", path: "/admin/finance-reconciliation", icon: "bi-arrow-left-right" }] : []),
+    ...(can("beneficiaries.view") ? [{ label: "Beneficiary records", description: "Review care records and consent", path: "/admin/beneficiaries", icon: "bi-heart-pulse" }] : []),
+    ...(can("donors.view") ? [{ label: "Donor CRM", description: "Manage donor relationships", path: "/admin/donors", icon: "bi-person-heart" }] : []),
+    ...(can("content.manage") ? [{ label: "Contact inbox", description: "Respond to community messages", path: "/admin/contact-inbox", icon: "bi-envelope" }] : []),
+    ...(can("reports.view") ? [{ label: "Reports & audit", description: "Review activity and export reports", path: "/admin/audit-log", icon: "bi-shield-check" }] : []),
+    ...(can("users.manage") ? [{ label: "Manage staff", description: "Review staff accounts and roles", path: "/admin/users", icon: "bi-people" }] : []),
+  ];
+  const attention = [
+    { label: "Payments to review", value: d.pending, detail: "Check payment status with the provider", path: "/admin/finance-reconciliation", icon: "bi-hourglass-split", permission: "donations.manage" },
+    { label: "Consent follow-ups", value: b.consent_pending, detail: "Review beneficiary consent records", path: "/admin/beneficiaries", icon: "bi-clipboard-heart", permission: "beneficiaries.view" },
+  ].filter(item => can(item.permission));
   return <div className="gom-dashboard">
-    <div className="gom-welcome-banner"><div><span className="small text-uppercase fw-bold">Your work makes a difference</span><h2>Welcome to your workspace</h2><p>Keep the foundation’s programmes, people and resources moving forward.</p></div><div className="gom-welcome-art"><i className="bi bi-flower1" /></div></div>
-    <div className="row g-3 mb-4">{cards.map(card => <div className="col-12 col-sm-6 col-xl-3" key={card.label}><article className="gom-stat-card"><div className="d-flex justify-content-between"><span>{card.label}</span><i className={`bi ${card.icon}`} /></div><strong>{card.value}</strong><small>{card.note}</small></article></div>)}</div>
-    <div className="row g-4"><div className="col-xl-8"><section className="gom-panel h-100"><div className="gom-panel-heading"><div><h2>Recent donations</h2><p>Latest activity from the donation ledger.</p></div><button className="btn btn-sm btn-outline-secondary" onClick={reload}><i className="bi bi-arrow-clockwise" /></button></div><DataTable rows={data?.recentDonations || []} columns={[{key:"merchant_reference",label:"Reference"},{key:"purpose",label:"Purpose",render:r=>titleCase(r.purpose)},{key:"amount",label:"Amount",render:r=>money(r.amount,r.currency)},{key:"status",label:"Status",render:r=><StatusPill value={r.status}/>},{key:"created_at",label:"Date",render:r=>fmtDate(r.created_at)}]} empty="New donation activity will appear here." /></section></div><div className="col-xl-4"><section className="gom-panel h-100"><div className="gom-panel-heading"><div><h2>Quick access</h2><p>Common staff tasks.</p></div></div><div className="gom-quick-links">{[
-      ...(can("donations.manage") ? [{label:"Payment reconciliation",path:"/admin/finance-reconciliation",icon:"bi-arrow-left-right"}] : []),
-      ...(can("beneficiaries.view") ? [{label:"Beneficiary records",path:"/admin/beneficiaries",icon:"bi-heart-pulse"}] : []),
-      ...(can("donors.view") ? [{label:"Donor CRM",path:"/admin/donors",icon:"bi-person-heart"}] : []),
-      ...(can("content.manage") ? [{label:"Contact inbox",path:"/admin/contact-inbox",icon:"bi-envelope"}] : []),
-      ...(can("reports.view") ? [{label:"Audit log",path:"/admin/audit-log",icon:"bi-shield-check"}] : []),
-      ...(can("users.manage") ? [{label:"Manage staff",path:"/admin/users",icon:"bi-people"}] : []),
-    ].map(item=><button key={item.path} onClick={()=>navigate(item.path)}><i className={`bi ${item.icon}`} /><span>{item.label}</span><i className="bi bi-chevron-right ms-auto" /></button>)}</div></section></div></div>
-    <div className="gom-dashboard-footnote"><i className="bi bi-shield-lock me-2" />Dashboard totals are aggregate reporting data. Donor and beneficiary private details are available only in permission-controlled sections.</div>
+    <section className="gom-welcome-banner">
+      <div className="gom-welcome-copy"><span className="small text-uppercase fw-bold">Your work makes a difference</span><h2>Welcome to your workspace</h2><p>A clear view of our giving, people and programme operations.</p></div>
+      <div className="gom-welcome-actions"><span className="gom-live-indicator"><i /> Live overview</span><button type="button" className="btn btn-light btn-sm" onClick={reload}><i className="bi bi-arrow-clockwise me-2" />Refresh overview</button></div>
+      <div className="gom-welcome-art" aria-hidden="true"><i className="bi bi-flower1" /></div>
+    </section>
+
+    <section className="gom-dashboard-section" aria-labelledby="gom-summary-heading">
+      <div className="gom-section-heading"><div><span className="gom-section-eyebrow">At a glance</span><h2 id="gom-summary-heading">Foundation overview</h2><p>Key figures from the administration records.</p></div></div>
+      <div className="gom-metric-grid">{cards.map(card => <article className={`gom-stat-card gom-stat-${card.tone}`} key={card.label}>
+        <div className="gom-stat-top"><span>{card.group}</span><i className={`bi ${card.icon}`} aria-hidden="true" /></div>
+        <strong>{card.value}</strong><span className="gom-stat-label">{card.label}</span><small>{card.note}</small>
+      </article>)}</div>
+    </section>
+
+    <div className="gom-dashboard-main-grid">
+      <section className="gom-panel gom-dashboard-activity">
+        <div className="gom-panel-heading"><div><span className="gom-section-eyebrow">Latest activity</span><h2>Recent donations</h2><p>Latest entries from the donation ledger.</p></div><button type="button" className="btn btn-sm btn-outline-secondary" onClick={reload} aria-label="Refresh dashboard data"><i className="bi bi-arrow-clockwise" /></button></div>
+        <DataTable rows={data?.recentDonations || []} columns={[
+          {key:"merchant_reference",label:"Reference"},
+          {key:"purpose",label:"Purpose",render:r=>titleCase(r.purpose)},
+          {key:"amount",label:"Amount",render:r=>money(r.amount,r.currency)},
+          {key:"status",label:"Status",render:r=><StatusPill value={r.status}/>},
+          {key:"created_at",label:"Date",render:r=>fmtDate(r.created_at)}
+        ]} empty="New donation activity will appear here." />
+      </section>
+      <aside className="gom-dashboard-side">
+        {attention.length > 0 && <section className="gom-panel gom-attention-panel"><div className="gom-panel-heading"><div><span className="gom-section-eyebrow">Follow-up</span><h2>Needs attention</h2><p>Items that may need staff review.</p></div><i className="bi bi-flag" /></div>
+          <div className="gom-attention-list">{attention.map(item=><button type="button" key={item.path} onClick={()=>navigate(item.path)}><span className="gom-attention-icon"><i className={`bi ${item.icon}`} /></span><span className="gom-attention-copy"><strong>{item.label}</strong><small>{item.detail}</small></span><b>{numberFormat(item.value)}</b><i className="bi bi-chevron-right" /></button>)}</div>
+        </section>}
+        <section className="gom-panel gom-quick-panel"><div className="gom-panel-heading"><div><span className="gom-section-eyebrow">Shortcuts</span><h2>Quick access</h2><p>Go straight to common staff tasks.</p></div></div>
+          {quickLinks.length ? <div className="gom-quick-links">{quickLinks.map(item=><button type="button" key={item.path} onClick={()=>navigate(item.path)}><i className={`bi ${item.icon}`} /><span><strong>{item.label}</strong><small>{item.description}</small></span><i className="bi bi-chevron-right ms-auto" /></button>)}</div> : <p className="small text-secondary mb-0">Your assigned sections will appear here.</p>}
+        </section>
+      </aside>
+    </div>
+    <div className="gom-dashboard-footnote"><i className="bi bi-shield-lock me-2" />Dashboard totals are aggregate reporting data. Donor and beneficiary private details remain in permission-controlled sections.</div>
   </div>;
 }
 
