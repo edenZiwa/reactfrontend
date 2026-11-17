@@ -5,13 +5,21 @@ const apiUrl = path => API_ORIGIN + path;
 const formatMoney = (value, currency) => new Intl.NumberFormat("en-UG", { style: "currency", currency, maximumFractionDigits: currency === "UGX" ? 0 : 2 }).format(Number(value || 0));
 const formatDate = value => value ? new Date(value).toLocaleDateString() : "—";
 
-async function request(path) {
+async function request(path, options = {}) {
+  const method = (options.method || "GET").toUpperCase();
+  const headers = { Accept: "application/json", ...(options.body ? { "Content-Type": "application/json" } : {}) };
+  if (!["GET","HEAD","OPTIONS"].includes(method)) {
+    const csrfResponse = await fetch(apiUrl("/auth/csrf"), { credentials: "include", cache: "no-store" });
+    const csrf = await csrfResponse.json().catch(() => ({}));
+    if (!csrfResponse.ok || !csrf.csrfToken) throw new Error(csrf.error || "Your secure staff session has expired. Please sign in again.");
+    headers["X-CSRF-Token"] = csrf.csrfToken;
+  }
   let response;
-  try { response = await fetch(apiUrl(path), { credentials: "include", cache: "no-store", headers: { Accept: "application/json" } }); }
+  try { response = await fetch(apiUrl(path), { ...options, method, headers, credentials: "include", cache: "no-store" }); }
   catch { throw new Error("We could not reach the financial reporting service. Check your connection and try again."); }
   const type = response.headers.get("content-type") || "";
   const data = type.toLowerCase().includes("application/json") ? await response.json().catch(() => ({})) : {};
-  if (!response.ok) throw new Error(data.error || data.message || (response.status === 401 ? "Your staff session has expired. Please sign in again." : response.status === 403 ? "You do not have permission to view the financial ledger." : "The financial report could not be loaded."));
+  if (!response.ok) throw new Error(data.error || data.message || (response.status === 401 ? "Your staff session has expired. Please sign in again." : response.status === 403 ? "You do not have permission to complete this financial action." : "The financial request could not be completed."));
   return data;
 }
 
@@ -24,7 +32,7 @@ function queryString({ currency, from, to, offset }) {
   return query.toString();
 }
 
-export default function FinancialLedger() {
+export default function FinancialLedger({ canAdjust = false, canApprove = false }) {
   const [currency, setCurrency] = useState("all");
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
@@ -34,23 +42,83 @@ export default function FinancialLedger() {
   const [pagination, setPagination] = useState({ limit: 25, offset: 0, total: 0 });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [accounts, setAccounts] = useState([]);
+  const [adjustments, setAdjustments] = useState([]);
+  const [adjustmentBusy, setAdjustmentBusy] = useState(false);
+  const [adjustmentError, setAdjustmentError] = useState("");
+  const [adjustmentNotice, setAdjustmentNotice] = useState("");
+  const [adjustmentForm, setAdjustmentForm] = useState({ description: "", reason: "", currency: "UGX", entryDate: new Date().toISOString().slice(0,10) });
+  const [adjustmentLines, setAdjustmentLines] = useState([
+    { accountCode: "1000", debit: "", credit: "", description: "" },
+    { accountCode: "4000", debit: "", credit: "", description: "" },
+  ]);
+  const [reviewing, setReviewing] = useState(null);
+  const [reviewDecision, setReviewDecision] = useState("post");
+  const [reviewNote, setReviewNote] = useState("");
 
   const load = useCallback(async () => {
     setLoading(true); setError("");
     try {
       const params = queryString({ currency, from, to });
       const entryParams = queryString({ currency, from, to, offset: page * 25 });
-      const [trial, journal] = await Promise.all([
+      const [trial, journal, chart, adjustmentList] = await Promise.all([
         request("/admin/api/finance-ledger/trial-balance" + (params ? "?" + params : "")),
         request("/admin/api/finance-ledger/entries?" + entryParams),
+        request("/admin/api/finance-adjustments/accounts"),
+        request("/admin/api/finance-adjustments/adjustments?status=pending_review&limit=50"),
       ]);
       setReport(trial); setEntries(journal.entries || []);
       setPagination(journal.pagination || { limit: 25, offset: page * 25, total: 0 });
+      setAccounts(chart.accounts || []);
+      setAdjustments(adjustmentList.adjustments || []);
     } catch (e) { setError(e.message); }
     finally { setLoading(false); }
   }, [currency, from, to, page]);
 
   useEffect(() => { load(); }, [load]);
+
+  function updateAdjustmentLine(index, field, value) {
+    setAdjustmentLines(current => current.map((line,i) => i === index ? { ...line, [field]: value } : line));
+  }
+
+  async function submitAdjustment(event) {
+    event.preventDefault();
+    setAdjustmentBusy(true); setAdjustmentError(""); setAdjustmentNotice("");
+    try {
+      const result = await request("/admin/api/finance-adjustments/adjustments", {
+        method: "POST",
+        body: JSON.stringify({ ...adjustmentForm, lines: adjustmentLines }),
+      });
+      setAdjustmentNotice(result.message || "Adjustment submitted for independent review.");
+      setAdjustmentForm(current => ({ ...current, description: "", reason: "" }));
+      setAdjustmentLines([
+        { accountCode: accounts[0]?.code || "", debit: "", credit: "", description: "" },
+        { accountCode: accounts[1]?.code || "", debit: "", credit: "", description: "" },
+      ]);
+      await load();
+    } catch (e) { setAdjustmentError(e.message); }
+    finally { setAdjustmentBusy(false); }
+  }
+
+  async function reviewAdjustment() {
+    if (!reviewing) return;
+    if (reviewDecision === "reject" && reviewNote.trim().length < 10) {
+      setAdjustmentError("Provide a rejection explanation of at least 10 characters.");
+      return;
+    }
+    setAdjustmentBusy(true); setAdjustmentError(""); setAdjustmentNotice("");
+    try {
+      const result = await request("/admin/api/finance-adjustments/adjustments/" + encodeURIComponent(reviewing) + "/review", {
+        method: "POST",
+        body: JSON.stringify({ decision: reviewDecision, note: reviewNote }),
+      });
+      setAdjustmentNotice(result.message || "Adjustment review completed.");
+      setReviewing(null); setReviewNote("");
+      await load();
+    } catch (e) { setAdjustmentError(e.message); }
+    finally { setAdjustmentBusy(false); }
+  }
+
   const hasRangeError = Boolean(from && to && from > to);
   const currencyGroups = currency === "all" ? ["UGX", "USD"] : [currency];
 
@@ -114,6 +182,40 @@ export default function FinancialLedger() {
         </div></div>
       </div>
     </>}
+    {(canAdjust || canApprove) && <div className="gom-project-panel p-3 p-md-4 mt-4">
+      <div className="mb-3"><span className="small text-success fw-bold text-uppercase">Financial controls</span><h3 className="h5 fw-bold mt-1 mb-1">Manual journal adjustments</h3><p className="small text-secondary mb-0">Adjustments are submitted first, then reviewed by a different authorised staff member before posting.</p></div>
+      {adjustmentError && <div className="alert alert-danger" role="alert">{adjustmentError}</div>}
+      {adjustmentNotice && <div className="alert alert-success" role="status">{adjustmentNotice}</div>}
+
+      {canAdjust && <form onSubmit={submitAdjustment} className="border rounded-3 p-3 mb-4">
+        <h4 className="h6 fw-bold mb-3">Submit an adjustment for review</h4>
+        <div className="row g-3 mb-3">
+          <div className="col-md-6"><label className="form-label" htmlFor="adjustment-description">Journal description</label><input id="adjustment-description" className="form-control" maxLength="500" required minLength="5" value={adjustmentForm.description} onChange={e => setAdjustmentForm(current => ({...current,description:e.target.value}))} /></div>
+          <div className="col-sm-6 col-md-3"><label className="form-label" htmlFor="adjustment-currency">Currency</label><select id="adjustment-currency" className="form-select" value={adjustmentForm.currency} onChange={e => setAdjustmentForm(current => ({...current,currency:e.target.value}))}><option value="UGX">UGX</option><option value="USD">USD</option></select></div>
+          <div className="col-sm-6 col-md-3"><label className="form-label" htmlFor="adjustment-date">Entry date</label><input id="adjustment-date" type="date" className="form-control" required value={adjustmentForm.entryDate} onChange={e => setAdjustmentForm(current => ({...current,entryDate:e.target.value}))} /></div>
+          <div className="col-12"><label className="form-label" htmlFor="adjustment-reason">Reason and supporting explanation</label><textarea id="adjustment-reason" className="form-control" rows="2" minLength="10" required value={adjustmentForm.reason} onChange={e => setAdjustmentForm(current => ({...current,reason:e.target.value}))} placeholder="Explain why this accounting adjustment is needed." /></div>
+        </div>
+        <div className="d-flex justify-content-between align-items-center gap-2 mb-2"><h5 className="h6 fw-bold mb-0">Journal lines</h5><button type="button" className="btn btn-sm btn-outline-secondary" onClick={() => setAdjustmentLines(current => current.length < 20 ? [...current,{accountCode:accounts[0]?.code || "",debit:"",credit:"",description:""}] : current)} disabled={adjustmentLines.length >= 20}>Add line</button></div>
+        {adjustmentLines.map((line,index) => <div className="row g-2 align-items-end border-top py-2" key={index}>
+          <div className="col-12 col-md-4"><label className="form-label small" htmlFor={"adjust-account-"+index}>Account</label><select id={"adjust-account-"+index} className="form-select form-select-sm" required value={line.accountCode} onChange={e => updateAdjustmentLine(index,"accountCode",e.target.value)}><option value="">Select account</option>{accounts.map(account => <option key={account.code} value={account.code}>{account.code} · {account.name}</option>)}</select></div>
+          <div className="col-6 col-md-2"><label className="form-label small" htmlFor={"adjust-debit-"+index}>Debit</label><input id={"adjust-debit-"+index} type="number" min="0" step="0.01" className="form-control form-control-sm" value={line.debit} onChange={e => updateAdjustmentLine(index,"debit",e.target.value)} /></div>
+          <div className="col-6 col-md-2"><label className="form-label small" htmlFor={"adjust-credit-"+index}>Credit</label><input id={"adjust-credit-"+index} type="number" min="0" step="0.01" className="form-control form-control-sm" value={line.credit} onChange={e => updateAdjustmentLine(index,"credit",e.target.value)} /></div>
+          <div className="col-10 col-md-3"><label className="form-label small" htmlFor={"adjust-line-note-"+index}>Line description</label><input id={"adjust-line-note-"+index} className="form-control form-control-sm" maxLength="300" value={line.description} onChange={e => updateAdjustmentLine(index,"description",e.target.value)} /></div>
+          <div className="col-2 col-md-1 text-end"><button type="button" className="btn btn-sm btn-outline-danger" aria-label={"Remove line "+(index+1)} disabled={adjustmentLines.length <= 2} onClick={() => setAdjustmentLines(current => current.filter((_,i) => i !== index))}><i className="bi bi-trash" /></button></div>
+        </div>)}
+        <div className="d-flex flex-wrap justify-content-between align-items-center gap-2 mt-3"><p className="small text-secondary mb-0">Debits must equal credits. A different reviewer must approve this request.</p><button type="submit" className="btn btn-success" disabled={adjustmentBusy || accounts.length === 0}>{adjustmentBusy ? "Submitting…" : "Submit for review"}</button></div>
+      </form>}
+
+      {canApprove && <div>
+        <div className="d-flex justify-content-between align-items-center mb-2"><h4 className="h6 fw-bold mb-0">Pending independent review</h4><span className="badge text-bg-light border">{adjustments.length} pending</span></div>
+        {!adjustments.length ? <p className="small text-secondary">No manual journal adjustments are awaiting review.</p> : adjustments.map(item => <article className="border rounded-3 p-3 mb-2" key={item.id}>
+          <div className="d-flex flex-wrap justify-content-between gap-2"><div><strong>{item.description}</strong><p className="small text-secondary mb-1">{item.reason}</p><span className="small text-secondary">{item.currency} · {formatDate(item.entry_date)} · Submitted by {item.created_by_name || "Staff member"}</span></div><span className="badge text-bg-warning align-self-start">Pending review</span></div>
+          <div className="table-responsive mt-2"><table className="table table-sm mb-2"><thead><tr><th>Account</th><th className="text-end">Debit</th><th className="text-end">Credit</th></tr></thead><tbody>{item.lines.map((line,index) => <tr key={index}><td>{line.accountCode} · {line.accountName}</td><td className="text-end">{line.debit > 0 ? formatMoney(line.debit,item.currency) : "—"}</td><td className="text-end">{line.credit > 0 ? formatMoney(line.credit,item.currency) : "—"}</td></tr>)}</tbody></table></div>
+          {reviewing === item.id ? <div className="mt-3"><label className="form-label small" htmlFor={"review-note-"+item.id}>{reviewDecision === "reject" ? "Rejection explanation (required)" : "Review note (optional)"}</label><textarea id={"review-note-"+item.id} className="form-control mb-2" rows="2" value={reviewNote} onChange={e => setReviewNote(e.target.value)} placeholder="Record the review decision or reason." /><div className="d-flex flex-wrap gap-2"><button type="button" className="btn btn-sm btn-success" onClick={reviewAdjustment} disabled={adjustmentBusy || (reviewDecision === "reject" && reviewNote.trim().length < 10)}>{reviewDecision === "post" ? "Confirm and post" : "Confirm rejection"}</button><button type="button" className="btn btn-sm btn-outline-secondary" onClick={() => {setReviewing(null);setReviewNote("");}} disabled={adjustmentBusy}>Cancel</button></div></div> : <div className="d-flex flex-wrap gap-2 mt-2"><button type="button" className="btn btn-sm btn-success" onClick={() => {setReviewing(item.id);setReviewDecision("post");setReviewNote("");}} disabled={adjustmentBusy}>Review and post</button><button type="button" className="btn btn-sm btn-outline-danger" onClick={() => {setReviewing(item.id);setReviewDecision("reject");setReviewNote("");}} disabled={adjustmentBusy}>Reject request</button></div>}
+        </article>)}
+      </div>}
+    </div>}
+
     <p className="small text-secondary mt-3 mb-0"><i className="bi bi-shield-lock me-1" />Financial entries are immutable after posting. No currency conversion is applied. This initial ledger records confirmed donations and approved project expenses on an accrual basis.</p>
   </section>;
 }
