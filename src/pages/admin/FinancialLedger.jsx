@@ -38,7 +38,7 @@ function queryString({ currency, from, to, offset }) {
   return query.toString();
 }
 
-export default function FinancialLedger({ canAdjust = false, canApprove = false, canManageSettlements = false, canApproveSettlements = false }) {
+export default function FinancialLedger({ canAdjust = false, canApprove = false, canManageSettlements = false, canApproveSettlements = false, canManageExpensePayments = false, canApproveExpensePayments = false }) {
   const [currency, setCurrency] = useState("all");
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
@@ -72,24 +72,37 @@ export default function FinancialLedger({ canAdjust = false, canApprove = false,
   const [settlementReviewing, setSettlementReviewing] = useState(null);
   const [settlementDecision, setSettlementDecision] = useState("post");
   const [settlementReviewNote, setSettlementReviewNote] = useState("");
+  const [expensePayments, setExpensePayments] = useState([]);
+  const [eligibleExpenses, setEligibleExpenses] = useState([]);
+  const [expensePaymentCurrency, setExpensePaymentCurrency] = useState("UGX");
+  const [expensePaymentForm, setExpensePaymentForm] = useState({ paymentDate: new Date().toISOString().slice(0,10), paymentReference: "", bankReference: "" });
+  const [selectedExpensePayments, setSelectedExpensePayments] = useState({});
+  const [expensePaymentBusy, setExpensePaymentBusy] = useState(false);
+  const [expensePaymentError, setExpensePaymentError] = useState("");
+  const [expensePaymentNotice, setExpensePaymentNotice] = useState("");
+  const [expensePaymentReviewing, setExpensePaymentReviewing] = useState(null);
+  const [expensePaymentDecision, setExpensePaymentDecision] = useState("post");
+  const [expensePaymentReviewNote, setExpensePaymentReviewNote] = useState("");
 
   const load = useCallback(async () => {
     setLoading(true); setError("");
     try {
       const params = queryString({ currency, from, to });
       const entryParams = queryString({ currency, from, to, offset: page * 25 });
-      const [trial, journal, chart, adjustmentList, settlementList] = await Promise.all([
+      const [trial, journal, chart, adjustmentList, settlementList, expensePaymentList] = await Promise.all([
         request("/admin/api/finance-ledger/trial-balance" + (params ? "?" + params : "")),
         request("/admin/api/finance-ledger/entries?" + entryParams),
         request("/admin/api/finance-adjustments/accounts"),
         request("/admin/api/finance-adjustments/adjustments?status=pending_review&limit=50"),
         request("/admin/api/finance-settlements?limit=50"),
+        request("/admin/api/finance-expense-payments?limit=50"),
       ]);
       setReport(trial); setEntries(journal.entries || []);
       setPagination(journal.pagination || { limit: 25, offset: page * 25, total: 0 });
       setAccounts(chart.accounts || []);
       setAdjustments(adjustmentList.adjustments || []);
       setSettlements(settlementList.settlements || []);
+      setExpensePayments(expensePaymentList.payments || []);
     } catch (e) { setError(e.message); }
     finally { setLoading(false); }
   }, [currency, from, to, page]);
@@ -200,6 +213,62 @@ export default function FinancialLedger({ canAdjust = false, canApprove = false,
     finally { setSettlementBusy(false); }
   }
 
+  const loadEligibleExpenses = useCallback(async () => {
+    if (!canManageExpensePayments) return;
+    try {
+      const result = await request("/admin/api/finance-expense-payments/eligible-expenses?currency=" + expensePaymentCurrency);
+      setEligibleExpenses(result.expenses || []);
+      setSelectedExpensePayments({});
+    } catch (e) { setExpensePaymentError(e.message); }
+  }, [canManageExpensePayments, expensePaymentCurrency]);
+
+  useEffect(() => { loadEligibleExpenses(); }, [loadEligibleExpenses]);
+
+  const selectedExpenseItems = eligibleExpenses.filter(item => selectedExpensePayments[item.id]);
+  const expensePaymentTotalCents = selectedExpenseItems.reduce((sum,item) => sum + toCents(selectedExpensePayments[item.id]), 0n);
+  const expensePaymentTotal = fromCents(expensePaymentTotalCents);
+
+  async function submitExpensePayment(event) {
+    event.preventDefault();
+    setExpensePaymentBusy(true); setExpensePaymentError(""); setExpensePaymentNotice("");
+    try {
+      const allocations = selectedExpenseItems.map(item => ({ expenseId: item.id, amount: selectedExpensePayments[item.id] }));
+      const result = await request("/admin/api/finance-expense-payments", {
+        method: "POST",
+        body: JSON.stringify({
+          ...expensePaymentForm,
+          currency: expensePaymentCurrency,
+          totalAmount: expensePaymentTotal,
+          allocations,
+        }),
+      });
+      setExpensePaymentNotice(result.message || "Project expense payment submitted for independent review.");
+      setExpensePaymentForm(current => ({ ...current, paymentReference: "", bankReference: "" }));
+      setSelectedExpensePayments({});
+      await Promise.all([load(), loadEligibleExpenses()]);
+    } catch (e) { setExpensePaymentError(e.message); }
+    finally { setExpensePaymentBusy(false); }
+  }
+
+  async function reviewExpensePayment() {
+    if (!expensePaymentReviewing) return;
+    if (expensePaymentDecision === "reject" && expensePaymentReviewNote.trim().length < 10) {
+      setExpensePaymentError("Provide a rejection explanation of at least 10 characters.");
+      return;
+    }
+    setExpensePaymentBusy(true); setExpensePaymentError(""); setExpensePaymentNotice("");
+    try {
+      const result = await request("/admin/api/finance-expense-payments/" + encodeURIComponent(expensePaymentReviewing) + "/review", {
+        method: "POST",
+        body: JSON.stringify({ decision: expensePaymentDecision, note: expensePaymentReviewNote }),
+      });
+      setExpensePaymentNotice(result.message || "Expense payment review completed.");
+      setExpensePaymentReviewing(null); setExpensePaymentReviewNote("");
+      await Promise.all([load(), loadEligibleExpenses()]);
+    } catch (e) { setExpensePaymentError(e.message); }
+    finally { setExpensePaymentBusy(false); }
+  }
+
   const hasRangeError = Boolean(from && to && from > to);
   const currencyGroups = currency === "all" ? ["UGX", "USD"] : [currency];
 
@@ -301,6 +370,47 @@ export default function FinancialLedger({ canAdjust = false, canApprove = false,
           <div className="row g-2 small mt-2"><div className="col-4">Gross: <strong>{formatMoney(item.gross_amount,item.currency)}</strong></div><div className="col-4">Fees: <strong>{formatMoney(item.fee_amount,item.currency)}</strong></div><div className="col-4">Net: <strong>{formatMoney(item.net_amount,item.currency)}</strong></div></div>
           <div className="small text-secondary mt-2">{item.allocations.length} donation allocations · {item.allocations.map(allocation => allocation.reference).join(", ")}</div>
           {settlementReviewing === item.id ? <div className="mt-3"><label className="form-label small" htmlFor={"settlement-review-note-"+item.id}>{settlementDecision === "reject" ? "Rejection explanation (required)" : "Review note (optional)"}</label><textarea id={"settlement-review-note-"+item.id} className="form-control mb-2" rows="2" value={settlementReviewNote} onChange={e => setSettlementReviewNote(e.target.value)} placeholder="Record the settlement review decision." /><div className="d-flex flex-wrap gap-2"><button type="button" className="btn btn-sm btn-success" onClick={reviewSettlement} disabled={settlementBusy || (settlementDecision === "reject" && settlementReviewNote.trim().length < 10)}>{settlementDecision === "post" ? "Confirm and post settlement" : "Confirm rejection"}</button><button type="button" className="btn btn-sm btn-outline-secondary" onClick={() => {setSettlementReviewing(null);setSettlementReviewNote("");}} disabled={settlementBusy}>Cancel</button></div></div> : <div className="d-flex flex-wrap gap-2 mt-2"><button type="button" className="btn btn-sm btn-success" onClick={() => {setSettlementReviewing(item.id);setSettlementDecision("post");setSettlementReviewNote("");}} disabled={settlementBusy}>Review and post</button><button type="button" className="btn btn-sm btn-outline-danger" onClick={() => {setSettlementReviewing(item.id);setSettlementDecision("reject");setSettlementReviewNote("");}} disabled={settlementBusy}>Reject batch</button></div>}
+        </article>)}
+      </div>}
+    </div>}
+
+    {(canManageExpensePayments || canApproveExpensePayments) && <div className="gom-project-panel p-3 p-md-4 mt-4">
+      <div className="mb-3"><span className="small text-success fw-bold text-uppercase">Project finance</span><h3 className="h5 fw-bold mt-1 mb-1">Project expense payments</h3><p className="small text-secondary mb-0">Record bank payments against approved project expenses. Partial payments are supported, and a second authorised staff member must approve each batch.</p></div>
+      {expensePaymentError && <div className="alert alert-danger" role="alert">{expensePaymentError}</div>}
+      {expensePaymentNotice && <div className="alert alert-success" role="status">{expensePaymentNotice}</div>}
+
+      {canManageExpensePayments && <form onSubmit={submitExpensePayment} className="border rounded-3 p-3 mb-4">
+        <h4 className="h6 fw-bold mb-3">Prepare an expense payment batch</h4>
+        <div className="row g-3 mb-3">
+          <div className="col-sm-6 col-lg-3"><label className="form-label" htmlFor="expense-payment-currency">Currency</label><select id="expense-payment-currency" className="form-select" value={expensePaymentCurrency} onChange={e => {setExpensePaymentCurrency(e.target.value);setSelectedExpensePayments({});}}><option value="UGX">UGX</option><option value="USD">USD</option></select></div>
+          <div className="col-sm-6 col-lg-3"><label className="form-label" htmlFor="expense-payment-date">Payment date</label><input id="expense-payment-date" type="date" className="form-control" required value={expensePaymentForm.paymentDate} onChange={e => setExpensePaymentForm(current => ({...current,paymentDate:e.target.value}))} /></div>
+          <div className="col-sm-6 col-lg-3"><label className="form-label" htmlFor="expense-payment-ref">Payment reference</label><input id="expense-payment-ref" className="form-control" required minLength="4" maxLength="120" value={expensePaymentForm.paymentReference} onChange={e => setExpensePaymentForm(current => ({...current,paymentReference:e.target.value}))} /></div>
+          <div className="col-sm-6 col-lg-3"><label className="form-label" htmlFor="expense-bank-ref">Bank statement reference</label><input id="expense-bank-ref" className="form-control" required minLength="3" maxLength="120" value={expensePaymentForm.bankReference} onChange={e => setExpensePaymentForm(current => ({...current,bankReference:e.target.value}))} /></div>
+        </div>
+        <div className="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-2"><h5 className="h6 fw-bold mb-0">Outstanding approved expenses</h5><button type="button" className="btn btn-sm btn-outline-secondary" onClick={loadEligibleExpenses} disabled={expensePaymentBusy}><i className="bi bi-arrow-clockwise me-1" />Refresh expenses</button></div>
+        {!eligibleExpenses.length ? <p className="small text-secondary">No outstanding approved {expensePaymentCurrency} expenses are currently available for payment.</p> : <div className="table-responsive"><table className="table table-sm align-middle">
+          <thead><tr><th>Include</th><th>Project / expense</th><th>Date</th><th className="text-end">Outstanding</th><th className="text-end">Pay now</th></tr></thead>
+          <tbody>{eligibleExpenses.map(item => <tr key={item.id}>
+            <td><input className="form-check-input" type="checkbox" aria-label={"Include expense "+item.id} checked={Boolean(selectedExpensePayments[item.id])} onChange={e => setSelectedExpensePayments(current => {const next={...current};if(e.target.checked)next[item.id]=String(item.payable_balance);else delete next[item.id];return next;})} /></td>
+            <td><strong>{item.project_name}</strong><span className="d-block small text-secondary">{item.category} · {item.reference || item.description}</span></td><td className="text-nowrap">{formatDate(item.expense_date)}</td>
+            <td className="text-end text-nowrap">{formatMoney(item.payable_balance,expensePaymentCurrency)}</td>
+            <td className="text-end"><input type="number" min="0.01" max={item.payable_balance} step="0.01" className="form-control form-control-sm text-end w-auto ms-auto" aria-label={"Payment allocation for expense "+item.id} disabled={!selectedExpensePayments[item.id]} value={selectedExpensePayments[item.id] || ""} onChange={e => setSelectedExpensePayments(current => ({...current,[item.id]:e.target.value}))} /></td>
+          </tr>)}</tbody>
+        </table></div>}
+        <div className="row g-3 align-items-end mt-1">
+          <div className="col-sm-6 col-lg-4"><span className="small text-secondary d-block">Total payment amount</span><strong className="fs-5">{formatMoney(expensePaymentTotal,expensePaymentCurrency)}</strong></div>
+          <div className="col-sm-6 col-lg-4"><p className="small text-secondary mb-0">The total cannot exceed the remaining payable balance of selected expenses.</p></div>
+          <div className="col-sm-12 col-lg-4"><button type="submit" className="btn btn-success w-100" disabled={expensePaymentBusy || !selectedExpenseItems.length || expensePaymentTotalCents <= 0n}>{expensePaymentBusy ? "Submitting…" : "Submit payment for review"}</button></div>
+        </div>
+      </form>}
+
+      {canApproveExpensePayments && <div>
+        <div className="d-flex justify-content-between align-items-center mb-2"><h4 className="h6 fw-bold mb-0">Pending payment approvals</h4><span className="badge text-bg-light border">{expensePayments.filter(item => item.status === "pending_review").length} pending</span></div>
+        {expensePayments.filter(item => item.status === "pending_review").length === 0 ? <p className="small text-secondary">No project expense payments are awaiting review.</p> : expensePayments.filter(item => item.status === "pending_review").map(item => <article className="border rounded-3 p-3 mb-2" key={item.id}>
+          <div className="d-flex flex-wrap justify-content-between gap-2"><div><strong>{item.payment_reference}</strong><p className="small text-secondary mb-1">Bank reference: {item.bank_reference}</p><span className="small text-secondary">{item.currency} · {formatDate(item.payment_date)} · Submitted by {item.created_by_name || "Staff member"}</span></div><span className="badge text-bg-warning align-self-start">Pending review</span></div>
+          <div className="mt-2"><strong>{formatMoney(item.total_amount,item.currency)}</strong><span className="small text-secondary ms-2">{item.allocations.length} expense allocations</span></div>
+          <ul className="small text-secondary mt-2 mb-2">{item.allocations.map((allocation,index) => <li key={index}>{allocation.projectName} · {allocation.category}: {formatMoney(allocation.amount,item.currency)}</li>)}</ul>
+          {expensePaymentReviewing === item.id ? <div className="mt-3"><label className="form-label small" htmlFor={"expense-payment-review-note-"+item.id}>{expensePaymentDecision === "reject" ? "Rejection explanation (required)" : "Review note (optional)"}</label><textarea id={"expense-payment-review-note-"+item.id} className="form-control mb-2" rows="2" value={expensePaymentReviewNote} onChange={e => setExpensePaymentReviewNote(e.target.value)} placeholder="Record the payment review decision." /><div className="d-flex flex-wrap gap-2"><button type="button" className="btn btn-sm btn-success" onClick={reviewExpensePayment} disabled={expensePaymentBusy || (expensePaymentDecision === "reject" && expensePaymentReviewNote.trim().length < 10)}>{expensePaymentDecision === "post" ? "Confirm and post payment" : "Confirm rejection"}</button><button type="button" className="btn btn-sm btn-outline-secondary" onClick={() => {setExpensePaymentReviewing(null);setExpensePaymentReviewNote("");}} disabled={expensePaymentBusy}>Cancel</button></div></div> : <div className="d-flex flex-wrap gap-2 mt-2"><button type="button" className="btn btn-sm btn-success" onClick={() => {setExpensePaymentReviewing(item.id);setExpensePaymentDecision("post");setExpensePaymentReviewNote("");}} disabled={expensePaymentBusy}>Review and post</button><button type="button" className="btn btn-sm btn-outline-danger" onClick={() => {setExpensePaymentReviewing(item.id);setExpensePaymentDecision("reject");setExpensePaymentReviewNote("");}} disabled={expensePaymentBusy}>Reject payment</button></div>}
         </article>)}
       </div>}
     </div>}
