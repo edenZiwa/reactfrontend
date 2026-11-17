@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { API_ORIGIN } from "../../services/api-config.js";
+import FundsManagement from "./FundsManagement.jsx";
 
 const apiUrl = path => API_ORIGIN + path;
 const formatMoney = (value, currency) => new Intl.NumberFormat("en-UG", { style: "currency", currency, maximumFractionDigits: currency === "UGX" ? 0 : 2 }).format(Number(value || 0));
@@ -38,7 +39,7 @@ function queryString({ currency, from, to, offset }) {
   return query.toString();
 }
 
-export default function FinancialLedger({ canAdjust = false, canApprove = false, canManageSettlements = false, canApproveSettlements = false, canManageExpensePayments = false, canApproveExpensePayments = false }) {
+export default function FinancialLedger({ canAdjust = false, canApprove = false, canManageSettlements = false, canApproveSettlements = false, canManageExpensePayments = false, canApproveExpensePayments = false, canViewFunds = false, canTransferFunds = false, canApproveFundTransfers = false }) {
   const [currency, setCurrency] = useState("all");
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
@@ -506,6 +507,8 @@ export default function FinancialLedger({ canAdjust = false, canApprove = false,
         </article>)}
       </div>}
     </div>}
+
+    <FundsManagement canView={canViewFunds} canTransfer={canTransferFunds} canApprove={canApproveFundTransfers} />
 
     <p className="small text-secondary mt-3 mb-0"><i className="bi bi-shield-lock me-1" />Financial entries are immutable after posting. No currency conversion is applied. This initial ledger records confirmed donations and approved project expenses on an accrual basis.</p>
   </section>;
