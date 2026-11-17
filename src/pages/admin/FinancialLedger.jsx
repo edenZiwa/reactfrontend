@@ -5,7 +5,7 @@ const apiUrl = path => API_ORIGIN + path;
 const formatMoney = (value, currency) => new Intl.NumberFormat("en-UG", { style: "currency", currency, maximumFractionDigits: currency === "UGX" ? 0 : 2 }).format(Number(value || 0));
 const formatDate = value => value ? new Date(value).toLocaleDateString() : "—";
 const toCents = value => {
-  const match = /^(\d+)(?:\\.(\d{1,2}))?$/.exec(String(value ?? "").trim());
+  const match = /^(\d+)(?:\.(\d{1,2}))?$/.exec(String(value ?? "").trim());
   if (!match) return 0n;
   return BigInt(match[1]) * 100n + BigInt((match[2] || "").padEnd(2, "0"));
 };
