@@ -1,4 +1,4 @@
-import { defineConfig } from "vite";
+import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react";
 import { VitePWA } from "vite-plugin-pwa";
 
@@ -28,7 +28,11 @@ const buildId =
   process.env.GITHUB_SHA ||
   new Date().toISOString();
 
-export default defineConfig({
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), "");
+  const apiTarget = env.VITE_DEV_API_ORIGIN || "http://localhost:3000";
+
+  return ({
   publicDir: "public",
   define: {
     __GOM_BUILD_ID__: JSON.stringify(buildId)
@@ -54,5 +58,23 @@ export default defineConfig({
       },
       manifest: pwaManifest
     })
-  ]
+  ],
+  server: {
+    proxy: {
+      "/admin/api": { target: apiTarget, changeOrigin: true },
+      "/api": { target: apiTarget, changeOrigin: true },
+      "/auth": { target: apiTarget, changeOrigin: true },
+      "/health": { target: apiTarget, changeOrigin: true },
+      "/ops": { target: apiTarget, changeOrigin: true },
+      // Keep the React /contact page on Vite; proxy only its form submission.
+      "/contact": {
+        target: apiTarget,
+        changeOrigin: true,
+        bypass(req) {
+          if (req.method !== "POST") return req.url;
+        },
+      },
+    },
+  },
+  });
 });

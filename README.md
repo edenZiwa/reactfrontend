@@ -6,8 +6,10 @@ The React application has been organized into reusable site components, individu
 
 1. Install Node.js 18 or newer.
 2. Run `npm install`.
-3. Run `npm run dev` and open the local URL printed by Vite.
-4. Run `npm run build` to create a production build in `dist/`.
+3. Start the backend separately (`npm start`, normally on `http://localhost:3000`).
+4. Set `VITE_DEV_API_ORIGIN` only if the backend uses a different local origin; Vite proxies `/api`, `/auth`, `/admin/api`, `/health` and `/ops` to it. The `/contact` proxy applies only to POST submissions so the React contact page remains client-rendered.
+5. Run `npm run dev` and open the local URL printed by Vite.
+6. Run `npm run build` to create a production build in `dist/`.
 
 ## Structure
 
