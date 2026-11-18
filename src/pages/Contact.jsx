@@ -2,6 +2,7 @@ import React, {
     useState
 } from "react";
 import { Eyebrow } from "../components/SiteChrome.jsx";
+import { apiRequest } from "../services/api.js";
 
 const initialForm = {
     name: "",
@@ -19,6 +20,7 @@ function Contact( {
         setErrors] = useState( {});
     const [notice,
         setNotice] = useState("");
+    const [submitting, setSubmitting] = useState(false);
 
     const updateField = (event) => {
         const {
@@ -64,21 +66,37 @@ function Contact( {
 
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
+        if (submitting || !validateForm()) return;
 
-        if (!validateForm()) return;
+        const controller = new AbortController();
+        const timeout = window.setTimeout(() => controller.abort(), 12000);
+        setSubmitting(true);
+        setNotice("");
 
-        const recipient = "mercygarden@gmail.com";
-        const subject = encodeURIComponent(form.subject || "General Inquiry");
-        const body = encodeURIComponent(
-            `Name: ${form.name.trim()}\nEmail: ${form.email.trim()}\n\n${form.message.trim()}`
-        );
-        setNotice(
-            "Your email app is opening with your inquiry prepared. Your message has not been sent until you review it and press Send. If no email app opens, use the email address shown on this page."
-        );
-        window.location.href = `mailto:${recipient}?subject=${subject}&body=${body}`;
-
+        try {
+            const result = await apiRequest("/contact", {
+                method: "POST",
+                signal: controller.signal,
+                body: JSON.stringify({
+                    name: form.name.trim(),
+                    email: form.email.trim(),
+                    subject: (form.subject || "General Inquiry").trim(),
+                    message: form.message.trim(),
+                }),
+            });
+            setNotice(result.message || "Thank you. Your message has been received by our team.");
+            setForm(initialForm);
+            setErrors({});
+        } catch (error) {
+            setNotice(error?.name === "AbortError"
+                ? "The request took too long. Please check your connection and try again."
+                : error.message || "We could not send your message. Please try again.");
+        } finally {
+            window.clearTimeout(timeout);
+            setSubmitting(false);
+        }
     };
 
     const openPage = (page, fallback) => {
@@ -196,7 +214,7 @@ function Contact( {
                                         <h3 className="h5 fw-bold mb-2">General inquiries</h3>
                                         <p className="text-secondary mb-0">
                                             Ask questions about our mission, activities or how to
-                                            get involved. Use the form to prepare an email to our team.
+                                            get involved. Use the form to send a message directly to our team.
                                         </p>
                                     </div>
                                 </div>
@@ -212,7 +230,7 @@ function Contact( {
                                         </h3>
                                         <p className="text-secondary mb-0">
                                             Have an idea for a community initiative or collaboration?
-                                            Share your idea with us by email.
+                                            Share your idea with us through the contact form.
                                         </p>
                                     </div>
                                 </div>
@@ -253,11 +271,11 @@ function Contact( {
                                     </span>
 
                                     <h2 className="h2 fw-bold mt-2 mb-2">
-                                        Prepare an inquiry
+                                        Send an inquiry
                                     </h2>
 
                                     <p className="text-secondary mb-4">
-                                        Enter your details below. We’ll prepare an email in your device’s email app so you can review it and send it to our team. Fields marked with * are required.
+                                        Enter your details below and send your message directly to our team. Fields marked with * are required.
                                     </p>
 
                                     {notice && (
@@ -270,9 +288,7 @@ function Contact( {
                                         </div>
                                     )}
 
-                                    <div className="alert alert-info rounded-3 small" role="note">
-                        <strong>How this form works:</strong> Submitting opens your device’s email application with the message prepared. Nothing is sent automatically; review it and press Send in your email app.
-                    </div>
+                                    
                     <form onSubmit={handleSubmit} noValidate>
                                         <div className="row g-3">
                                             <div className="col-md-6">
@@ -412,9 +428,10 @@ function Contact( {
                                     <div className="col-12 mt-4">
                                         <button
                                             type="submit"
+                                            disabled={submitting}
                                             className="btn btn-success btn-lg px-4 w-100 contact-submit"
                                             >
-                                            Open email to send
+                                            {submitting ? "Sending message…" : "Send message"}
                                             <i
                                                 className="bi bi-arrow-right ms-2"
                                                 aria-hidden="true"
