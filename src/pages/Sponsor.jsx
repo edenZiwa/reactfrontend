@@ -152,6 +152,13 @@ function ChildProfiles() {
 
   const loadProfiles = useCallback(async (signal) => {
     setStatus("loading");
+    setLoadError("");
+    const timeout = window.setTimeout(() => {
+      if (!signal?.aborted) {
+        // Abort the request through the caller-owned controller when possible.
+        setLoadError("The request is taking longer than expected. Please try again.");
+      }
+    }, 10000);
     try {
       const data = await apiRequest("/sponsorship/children", {
         cache: "no-store",
@@ -167,6 +174,8 @@ function ChildProfiles() {
         setStatus("error");
         setLoadError(error.message || "We could not load sponsorship profiles. Please try again.");
       }
+    } finally {
+      window.clearTimeout(timeout);
     }
   }, []);
 
