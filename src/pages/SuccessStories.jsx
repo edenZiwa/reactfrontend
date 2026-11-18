@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { apiRequest } from "../services/api.js";
 
 const impactStats = [{
     number: "01",
@@ -19,56 +20,6 @@ const impactStats = [{
         number: "04",
         label: "Compassion in action",
         icon: "bi-hands"
-    },
-];
-
-const stories = [{
-    category: "EDUCATION",
-    title: "Opening doors through education",
-    description:
-    "Education can give a child more than knowledge. It can create confidence, opportunity, and a brighter vision for the future. Discover how access to learning can help children pursue their dreams.",
-    image:
-    "https://images.unsplash.com/photo-1632932693914-89b90ae3d16d?auto=format&fit=crop&w=1000&q=85",
-    alt: "African schoolchildren learning together in a classroom",
-    icon: "bi-book",
-    featured: true,
-    link: "/contact",
-},
-    {
-        category: "CHILD WELFARE",
-        title: "A safe place to grow",
-        description:
-        "Every child deserves safety, care, encouragement, and the freedom to develop their potential. Community support can help create environments where children feel valued.",
-        image:
-        "https://images.unsplash.com/photo-1534597422092-8a84f1b45a9c?auto=format&fit=crop&w=800&q=85",
-        alt: "A smiling African child at school",
-        icon: "bi-shield-heart",
-        featured: false,
-        link: "/contact",
-    },
-    {
-        category: "COMMUNITY CARE",
-        title: "Small acts, lasting change",
-        description:
-        "When people come together to support vulnerable families, practical kindness can become a source of renewed strength, belonging, and hope.",
-        image:
-        "https://images.unsplash.com/photo-1700934909225-072b51bae308?auto=format&fit=crop&w=800&q=85",
-        alt: "A group of African children standing together outdoors",
-        icon: "bi-heart",
-        featured: false,
-        link: "/contact",
-    },
-    {
-        category: "FAMILY EMPOWERMENT",
-        title: "Building a stronger tomorrow",
-        description:
-        "Supporting families means investing in stability, resilience, and opportunity. Empowered communities are better positioned to create lasting change for future generations.",
-        image:
-        "https://images.unsplash.com/photo-1521493959102-bdd6677fdd81?auto=format&fit=crop&w=800&q=85",
-        alt: "African children gathered together at school",
-        icon: "bi-house-heart",
-        featured: false,
-        link: "/contact",
     },
 ];
 
@@ -96,6 +47,38 @@ const storySteps = [{
 ];
 
 const SuccessStories = () => {
+    const [publishedStories, setPublishedStories] = useState([]);
+    const [storiesStatus, setStoriesStatus] = useState("loading");
+
+    useEffect(() => {
+        const controller = new AbortController();
+        const timeout = window.setTimeout(() => controller.abort(), 8000);
+        apiRequest("/content/stories", { signal: controller.signal })
+            .then((payload) => {
+                const records = Array.isArray(payload?.stories) ? payload.stories : [];
+                const normalized = records
+                    .filter((story) => story && typeof story.title === "string" &&
+                        typeof story.excerpt === "string" && typeof story.body === "string")
+                    .map((story) => ({
+                        id: story.id,
+                        category: String(story.category || "COMMUNITY").toUpperCase(),
+                        title: story.title,
+                        description: story.excerpt,
+                        image: typeof story.image_url === "string" ? story.image_url : "",
+                        alt: typeof story.image_alt === "string" ? story.image_alt : "",
+                        link: "/contact",
+                    }));
+                setPublishedStories(normalized);
+                setStoriesStatus("success");
+            })
+            .catch(() => setStoriesStatus("unavailable"))
+            .finally(() => window.clearTimeout(timeout));
+        return () => {
+            window.clearTimeout(timeout);
+            controller.abort();
+        };
+    }, []);
+
     return (
         <div className="success-stories-page">
 {/* HERO SECTION */}
@@ -191,16 +174,30 @@ const SuccessStories = () => {
                         </p>
                     </div>
 
+                    {storiesStatus === "loading" && (
+                        <p className="text-secondary text-center" role="status">Loading approved stories…</p>
+                    )}
+                    {storiesStatus === "unavailable" && (
+                        <p className="text-secondary text-center" role="status">Published stories are temporarily unavailable. Please try again later.</p>
+                    )}
+                    {storiesStatus === "success" && publishedStories.length === 0 && (
+                        <div className="text-center py-4">
+                            <i className="bi bi-journal-heart display-4 text-success" aria-hidden="true" />
+                            <h3 className="h5 mt-3">Our stories are being prepared.</h3>
+                            <p className="text-secondary mb-0">We will share approved stories here once they have been reviewed and consent has been confirmed.</p>
+                        </div>
+                    )}
                     <div className="row g-4">
-                        {stories.map((story) => (
-                            <div className="col-md-6 col-xl-3" key={story.category}>
+                        {publishedStories.map((story) => (
+                            <div className="col-md-6 col-xl-3" key={story.id || story.title}>
                                 <article className="mercy-story-card">
-                                    <img
-                                    src={story.image}
-                                    alt={story.alt}
-                                    className="mercy-story-image"
-                                    loading="lazy"
-                                    />
+                                    {story.image ? (
+                                        <img src={story.image} alt={story.alt} className="mercy-story-image" loading="lazy" />
+                                    ) : (
+                                        <div className="mercy-story-image d-flex align-items-center justify-content-center" aria-hidden="true">
+                                            <i className="bi bi-heart-pulse display-3 text-success" />
+                                        </div>
+                                    )}
 
                                 <div className="mercy-story-body">
                                     <span className="mercy-category">
