@@ -152,10 +152,17 @@ function ChildProfiles() {
 
   const loadProfiles = useCallback(async (signal) => {
     setStatus("loading");
+    setLoadError("");
+    const requestController = new AbortController();
+    const abortFromParent = () => requestController.abort();
+    if (signal?.aborted) requestController.abort();
+    else signal?.addEventListener("abort", abortFromParent, { once: true });
+    const timeout = window.setTimeout(() => requestController.abort(), 10000);
+
     try {
       const data = await apiRequest("/sponsorship/children", {
         cache: "no-store",
-        signal,
+        signal: requestController.signal,
       });
       const children = Array.isArray(data.children) ? data.children : [];
       setProfiles(children.filter((child) =>
@@ -163,10 +170,14 @@ function ChildProfiles() {
       ));
       setStatus("success");
     } catch (error) {
-      if (error.name !== "AbortError") {
-        setStatus("error");
-        setLoadError(error.message || "We could not load sponsorship profiles. Please try again.");
-      }
+      if (signal?.aborted) return;
+      setStatus("error");
+      setLoadError(error.name === "AbortError"
+        ? "The request took too long. Please check your connection and try again."
+        : error.message || "We could not load sponsorship profiles. Please try again.");
+    } finally {
+      window.clearTimeout(timeout);
+      signal?.removeEventListener("abort", abortFromParent);
     }
   }, []);
 

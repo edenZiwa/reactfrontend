@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { AppLink } from "../components/SiteChrome.jsx";
+import { apiRequest } from "../services/api.js";
 
 const impactAreas = [
   {
@@ -23,6 +24,31 @@ const impactAreas = [
 ];
 
 export default function Impact({ navigate }) {
+  const [metrics, setMetrics] = useState([]);
+  const [metricsStatus, setMetricsStatus] = useState("loading");
+
+  useEffect(() => {
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), 8000);
+    apiRequest("/impact", { signal: controller.signal })
+      .then((payload) => {
+        const records = Array.isArray(payload?.metrics) ? payload.metrics : [];
+        const normalized = records
+          .filter((item) => item && typeof item.label === "string" &&
+            item.label.trim() && Number.isFinite(Number(item.value)) &&
+            Number(item.value) >= 0 && typeof item.unit === "string")
+          .slice(0, 24);
+        setMetrics(normalized);
+        setMetricsStatus("success");
+      })
+      .catch(() => setMetricsStatus("unavailable"))
+      .finally(() => window.clearTimeout(timeout));
+    return () => {
+      window.clearTimeout(timeout);
+      controller.abort();
+    };
+  }, []);
+
   return (
     <div className="impact-page">
 {/* IMPACT HERO */}
@@ -108,6 +134,48 @@ export default function Impact({ navigate }) {
               </p>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* VERIFIED PUBLIC IMPACT */}
+      <section data-scroll-reveal="up" className="py-5" aria-labelledby="verified-impact-title">
+        <div className="container">
+          <div className="text-center mb-4">
+            <span className="section-label">VERIFIED PROGRESS</span>
+            <h2 id="verified-impact-title" className="fw-bold mt-2">Impact we can stand behind.</h2>
+            <p className="text-secondary col-lg-8 mx-auto">
+              We publish figures only after they have been reviewed and approved for public reporting.
+            </p>
+          </div>
+          {metricsStatus === "loading" && (
+            <p className="text-secondary text-center" role="status">Checking for verified impact updates…</p>
+          )}
+          {metricsStatus === "success" && metrics.length > 0 && (
+            <div className="row g-4">
+              {metrics.map((metric) => (
+                <div className="col-sm-6 col-lg-4" key={metric.id}>
+                  <article className="impact-card rounded-4 shadow-lg h-100 text-center">
+                    <strong className="display-5 text-success">
+                      {Number(metric.value).toLocaleString()}
+                      {metric.unit ? <span className="fs-5 ms-1">{metric.unit}</span> : null}
+                    </strong>
+                    <h3 className="h5 mt-3">{metric.label}</h3>
+                    {metric.description ? <p className="text-secondary mb-0">{metric.description}</p> : null}
+                  </article>
+                </div>
+              ))}
+            </div>
+          )}
+          {metricsStatus === "success" && metrics.length === 0 && (
+            <p className="text-secondary text-center mb-0" role="status">
+              Verified impact figures are being prepared. We will publish them here once approved.
+            </p>
+          )}
+          {metricsStatus === "unavailable" && (
+            <p className="text-secondary text-center mb-0" role="status">
+              Verified impact updates are temporarily unavailable. Our commitments and reporting principles remain available below.
+            </p>
+          )}
         </div>
       </section>
 
