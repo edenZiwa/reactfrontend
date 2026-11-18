@@ -928,45 +928,6 @@ export default function PowerOfRevelation() {
         </div>
       </section>
 
-      {/* OFFICIAL YOUTUBE VIDEO & LIVE HUB */}
-      <section data-scroll-reveal="up" className="py-5 py-lg-6 bg-light" id="pr-youtube">
-        <div className="container py-lg-4">
-          <SectionHeading eyebrow="OFFICIAL VIDEO CHANNEL" title="Latest videos & live services" description="Watch Revelation Church Kampala's newest uploads and access its live broadcast directly through the official YouTube channel." centered />
-          <div className="row g-4 mt-4">
-            <div className="col-lg-7">
-              <article className="card border-0 shadow-sm rounded-4 h-100 overflow-hidden">
-                <div className="p-4 p-lg-5">
-                  <span className="ministry-eyebrow">RECENT VIDEO LIBRARY</span>
-                  <div className="d-flex align-items-start gap-3 mt-3">
-                    <span className="pr-event-heading-icon"><i className="bi bi-play-btn-fill" aria-hidden="true" /></span>
-                    <div>
-                      <h3 className="h3 fw-bold">The latest from Revelation Church Kampala</h3>
-                      <p className="text-secondary">Open the channel's Videos tab to see the newest published sermons, worship services, and ministry updates. YouTube maintains this list automatically, so visitors are not shown an outdated hand-picked set.</p>
-                      <a className="btn btn-dark mt-2" href="https://www.youtube.com/@RCKLIVEat10/videos" target="_blank" rel="noopener noreferrer"><i className="bi bi-youtube me-2" aria-hidden="true" /> Browse latest videos</a>
-                    </div>
-                  </div>
-                </div>
-                <div className="border-top p-3 d-flex flex-wrap justify-content-between align-items-center gap-2">
-                  <span className="small text-secondary">Official channel: @RCKLIVEat10</span>
-                  <a className="small fw-semibold text-decoration-none" href="https://www.youtube.com/@RCKLIVEat10" target="_blank" rel="noopener noreferrer">View channel <i className="bi bi-arrow-up-right" aria-hidden="true" /></a>
-                </div>
-              </article>
-            </div>
-            <div className="col-lg-5">
-              <article className="card border-0 shadow-sm rounded-4 h-100 overflow-hidden">
-                <div className="p-4 p-lg-5">
-                  <span className="badge text-bg-danger mb-3"><i className="bi bi-broadcast me-1" aria-hidden="true" /> LIVE ACCESS</span>
-                  <h3 className="h3 fw-bold">Join a live church broadcast</h3>
-                  <p className="text-secondary">When Revelation Church Kampala is broadcasting live, this official Live page takes you to the active stream. When no broadcast is live, YouTube may show the channel's scheduled or most recent live content.</p>
-                  <a className="btn btn-danger btn-lg mt-2" href="https://www.youtube.com/@RCKLIVEat10/live" target="_blank" rel="noopener noreferrer"><i className="bi bi-broadcast-pin me-2" aria-hidden="true" /> Watch live on YouTube</a>
-                  <p className="small text-secondary mt-3 mb-0">This channel-based destination stays current as broadcasts change.</p>
-                </div>
-              </article>
-            </div>
-          </div>
-        </div>
-      </section>
-
       <section data-scroll-reveal="up" className="py-5 py-lg-6 bg-light" id="pr-live-feed">
         <div className="container py-lg-4">
           <SectionHeading eyebrow="OFFICIAL VIDEO CHANNEL" title="Latest videos & live services" description="Recent uploads and live status from Revelation Church Kampala." centered />
