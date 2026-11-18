@@ -1,15 +1,52 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
     AppLink,
     Eyebrow,
     FocusCard
 } from "../components/SiteChrome.jsx";
+import { apiRequest } from "../services/api.js";
 
 function Home( {
     navigate
 }) {
     const { t } = useTranslation("common");
+    const fallbackHomePrograms = [
+        { title: "Children & Family Support", description: "Supporting children and families through thoughtful, child-centred assistance.", icon: "bi-people-fill" },
+        { title: "Education Support", description: "Helping children access learning opportunities and the resources they need to grow.", icon: "bi-book-half" },
+        { title: "Care & Compassion", description: "Responding to community needs through practical assistance and compassionate support.", icon: "bi-heart-pulse" },
+    ];
+    const [homePrograms, setHomePrograms] = useState(fallbackHomePrograms);
+    const [programLoading, setProgramLoading] = useState(true);
+
+    useEffect(() => {
+        const controller = new AbortController();
+        const timeout = window.setTimeout(() => controller.abort(), 8000);
+        apiRequest("/programs", { signal: controller.signal })
+            .then((payload) => {
+                const records = Array.isArray(payload?.programs) ? payload.programs : [];
+                const normalized = records
+                    .filter((item) => item && typeof item.name === "string" && item.name.trim())
+                    .slice(0, 6)
+                    .map((item, index) => ({
+                        id: item.id || `home-program-${index}`,
+                        title: item.name.trim(),
+                        description: typeof item.description === "string" ? item.description : "",
+                        icon: typeof item.icon === "string" && /^[a-z0-9-]+$/.test(item.icon) ? item.icon : "bi-heart",
+                    }));
+                if (normalized.length) setHomePrograms(normalized);
+            })
+            .catch(() => {})
+            .finally(() => {
+                window.clearTimeout(timeout);
+                setProgramLoading(false);
+            });
+        return () => {
+            window.clearTimeout(timeout);
+            controller.abort();
+        };
+    }, []);
+
     return (
         <>
             {/* HERO */}
@@ -233,202 +270,39 @@ function Home( {
       {/* PROGRAMS */}
       <section data-scroll-reveal="up" id="programs" className="py-4 shadow-lg">
         <div className="container py-4 px-3">
-          <div
-            className="text-center mx-auto mb-5"
-            style={{ maxWidth: "760px" }}
-          >
-            <span className="text-success fw-bold text-uppercase small">
-              What we do
-            </span>
-
-            <h2 className="display-6 fw-bold mt-2">
-              Programs centered on people.
-            </h2>
-
+          <div className="text-center mx-auto mb-5" style={{ maxWidth: "760px" }}>
+            <span className="text-success fw-bold text-uppercase small">What we do</span>
+            <h2 className="display-6 fw-bold mt-2">Programs centered on people.</h2>
             <p className="text-secondary lead">
-              Our programs are designed to respond to practical needs
-              while protecting dignity and building hope.
+              Our programs respond to practical needs while protecting dignity and building hope.
             </p>
           </div>
 
-          <div className="row g-4">
-            {/* Program 1 */}
-            <div className="col-md-6 col-lg-4">
-              <article className="card border-0 rounded-4 shadow-lg h-100">
-                <div className="card-body p-4">
-                  <div className="program-icon bg-success-subtle text-success">
-                    <i className="bi bi-people-fill"></i>
+          {programLoading && (
+            <p className="text-secondary text-center" role="status">Loading our program areas…</p>
+          )}
+          <div className="row g-4" aria-live="polite" aria-busy={programLoading}>
+            {homePrograms.map((program) => (
+              <div className="col-md-6 col-lg-4" key={program.id || program.title}>
+                <article className="card border-0 rounded-4 shadow-lg h-100">
+                  <div className="card-body p-4">
+                    <div className="program-icon bg-success-subtle text-success">
+                      <i className={`bi ${program.icon}`} aria-hidden="true" />
+                    </div>
+                    <h3 className="h4 mt-4">{program.title}</h3>
+                    <p className="text-secondary">{program.description}</p>
+                    <AppLink to="/programs" navigate={navigate} className="link-success fw-semibold text-decoration-none">
+                      Learn more <i className="bi bi-arrow-right ms-1" aria-hidden="true" />
+                    </AppLink>
                   </div>
-
-                  <h3 className="h4 mt-4">
-                    Children &amp; Family Support
-                  </h3>
-
-                  <p className="text-secondary">
-                    Supporting children and families facing difficult
-                    circumstances through carefully planned interventions.
-                  </p>
-
-                  <a
-                    href="#contact"
-                    className="link-success fw-semibold text-decoration-none"
-                  >
-                    Learn more
-                    <i className="bi bi-arrow-right ms-1"></i>
-                  </a>
-                </div>
-              </article>
-            </div>
-
-            {/* Program 2 */}
-            <div className="col-md-6 col-lg-4">
-              <article className="card border-0 rounded-4 shadow-lg h-100">
-                <div className="card-body p-4">
-                  <div className="program-icon bg-warning-subtle text-warning-emphasis">
-                    <i className="bi bi-book-half"></i>
-                  </div>
-
-                  <h3 className="h4 mt-4">
-                    Education &amp; Opportunity
-                  </h3>
-
-                  <p className="text-secondary">
-                    Helping create pathways for children to learn,
-                    develop their abilities and pursue meaningful opportunities.
-                  </p>
-
-                  <a
-                    href="#contact"
-                    className="link-success fw-semibold text-decoration-none"
-                  >
-                    Learn more
-                    <i className="bi bi-arrow-right ms-1"></i>
-                  </a>
-                </div>
-              </article>
-            </div>
-
-            {/* Program 3 */}
-            <div className="col-md-6 col-lg-4">
-              <article className="card border-0 rounded-4 shadow-lg h-100">
-                <div className="card-body p-4">
-                  <div className="program-icon bg-danger-subtle text-danger">
-                    <i className="bi bi-bandaid-fill"></i>
-                  </div>
-
-                  <h3 className="h4 mt-4">
-                    Care &amp; Compassion
-                  </h3>
-
-                  <p className="text-secondary">
-                    Responding to urgent needs with practical assistance
-                    and compassionate community support.
-                  </p>
-
-                  <a
-                    href="#contact"
-                    className="link-success fw-semibold text-decoration-none"
-                  >
-                    Learn more
-                    <i className="bi bi-arrow-right ms-1"></i>
-                  </a>
-                </div>
-              </article>
-            </div>
-
-            {/* Program 4 */}
-            <div className="col-md-6 col-lg-4">
-              <article className="card border-0 rounded-4 shadow-lg h-100">
-                <div className="card-body p-4">
-                  <div className="program-icon bg-primary-subtle text-primary">
-                    <i className="bi bi-house-heart-fill"></i>
-                  </div>
-
-                  <h3 className="h4 mt-4">
-                    Community Outreach
-                  </h3>
-
-                  <p className="text-secondary">
-                    Working alongside communities to identify needs
-                    and encourage sustainable local solutions.
-                  </p>
-
-                  <a
-                    href="#contact"
-                    className="link-success fw-semibold text-decoration-none"
-                  >
-                    Learn more
-                    <i className="bi bi-arrow-right ms-1"></i>
-                  </a>
-                </div>
-              </article>
-            </div>
-
-            {/* Program 5 */}
-            <div className="col-md-6 col-lg-4">
-              <article className="card border-0 rounded-4 shadow-lg h-100">
-                <div className="card-body p-4">
-                  <div className="program-icon bg-info-subtle text-info-emphasis">
-                    <i className="bi bi-hand-thumbs-up-fill"></i>
-                  </div>
-
-                  <h3 className="h4 mt-4">
-                    Volunteer Service
-                  </h3>
-
-                  <p className="text-secondary">
-                    Creating meaningful opportunities for people who want
-                    to contribute their time, skills and compassion.
-                  </p>
-
-                  <a
-                    href="#contact"
-                    className="link-success fw-semibold text-decoration-none"
-                  >
-                    Get involved
-                    <i className="bi bi-arrow-right ms-1"></i>
-                  </a>
-                </div>
-              </article>
-            </div>
-
-            {/* Program 6 */}
-            <div className="col-md-6 col-lg-4">
-              <article className="card border-0 rounded-4 shadow-lg h-100">
-                <div className="card-body p-4">
-                  <div className="program-icon bg-secondary-subtle text-secondary">
-                    <i className="bi bi-flower1"></i>
-                  </div>
-
-                  <h3 className="h4 mt-4">
-                    Mercy Initiatives
-                  </h3>
-
-                  <p className="text-secondary">
-                    Developing practical initiatives that turn acts of
-                    kindness into lasting community impact.
-                  </p>
-
-                  <a
-                    href="#contact"
-                    className="link-success fw-semibold text-decoration-none"
-                  >
-                    Explore our mission
-                    <i className="bi bi-arrow-right ms-1"></i>
-                  </a>
-                </div>
-              </article>
-            </div>
-
-            <div className="col-12 text-center mt-4">
-              <AppLink
-                  to="/programs"
-                  navigate={navigate}
-                  className="btn btn-sm btn-success"
-                >
-                  Expolore More <i className="bi bi-arrow-right ms-2"></i>
-                </AppLink>
-            </div>
+                </article>
+              </div>
+            ))}
+          </div>
+          <div className="text-center mt-4">
+            <AppLink to="/programs" navigate={navigate} className="btn btn-outline-success px-4">
+              Explore all our programs <i className="bi bi-arrow-up-right ms-2" aria-hidden="true" />
+            </AppLink>
           </div>
         </div>
       </section>
