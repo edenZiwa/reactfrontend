@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { apiRequest } from "../services/api.js";
 import "../css/power-of-revelation.css";
 
 const MINISTRY = {
@@ -340,6 +341,29 @@ function ScriptureQuote() {
 }
 
 export default function PowerOfRevelation() {
+  const [youtubeFeed, setYoutubeFeed] = useState(null);
+  const [youtubeStatus, setYoutubeStatus] = useState("loading");
+
+  useEffect(() => {
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), 10000);
+    apiRequest("/media/revelation", { signal: controller.signal })
+      .then((payload) => {
+        setYoutubeFeed({
+          channel: payload.channel || null,
+          videos: Array.isArray(payload.videos) ? payload.videos : [],
+          live: payload.live || null,
+        });
+        setYoutubeStatus("success");
+      })
+      .catch(() => setYoutubeStatus("unavailable"))
+      .finally(() => window.clearTimeout(timeout));
+    return () => {
+      window.clearTimeout(timeout);
+      controller.abort();
+    };
+  }, []);
+
   return (
     <div className="power-revelation-page">
       <section data-scroll-reveal="up" className="pr-hero" aria-labelledby="pr-title">
@@ -936,6 +960,60 @@ export default function PowerOfRevelation() {
                   <p className="text-secondary">When Revelation Church Kampala is broadcasting live, this official Live page takes you to the active stream. When no broadcast is live, YouTube may show the channel's scheduled or most recent live content.</p>
                   <a className="btn btn-danger btn-lg mt-2" href="https://www.youtube.com/@RCKLIVEat10/live" target="_blank" rel="noopener noreferrer"><i className="bi bi-broadcast-pin me-2" aria-hidden="true" /> Watch live on YouTube</a>
                   <p className="small text-secondary mt-3 mb-0">This channel-based destination stays current as broadcasts change.</p>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section data-scroll-reveal="up" className="py-5 py-lg-6 bg-light" id="pr-live-feed">
+        <div className="container py-lg-4">
+          <SectionHeading eyebrow="OFFICIAL VIDEO CHANNEL" title="Latest videos & live services" description="Recent uploads and live status from Revelation Church Kampala." centered />
+          {youtubeStatus === "loading" && <p className="text-secondary text-center mt-4" role="status">Checking the official YouTube channel…</p>}
+          {youtubeStatus === "unavailable" && <div className="alert alert-info mt-4" role="status">The live video feed is temporarily unavailable. The official channel links remain available below.</div>}
+          <div className="row g-4 mt-2">
+            <div className="col-lg-6">
+              <article className="card border-0 shadow-sm rounded-4 h-100">
+                <div className="card-body p-4 p-lg-5">
+                  {youtubeFeed && youtubeFeed.live ? (
+                    <>
+                      <span className="badge text-bg-danger mb-3"><i className="bi bi-broadcast me-1" /> LIVE NOW</span>
+                      <h3 className="h4 fw-bold">{youtubeFeed.live.title}</h3>
+                      <div className="ratio ratio-16x9 mt-3">
+                        <iframe src={youtubeFeed.live.embedUrl} title={youtubeFeed.live.title} loading="lazy" referrerPolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen />
+                      </div>
+                      <a className="btn btn-danger mt-3" href={youtubeFeed.live.url} target="_blank" rel="noopener noreferrer">Watch live on YouTube</a>
+                    </>
+                  ) : (
+                    <>
+                      <span className="badge text-bg-secondary mb-3"><i className="bi bi-broadcast me-1" /> LIVE STATUS</span>
+                      <h3 className="h4 fw-bold">No active livestream detected right now.</h3>
+                      <p className="text-secondary">When a broadcast is active, its player and title will appear here automatically. You can also check the official Live page for scheduled streams.</p>
+                      <a className="btn btn-outline-dark" href="https://www.youtube.com/@RCKLIVEat10/live" target="_blank" rel="noopener noreferrer">Check the official Live page</a>
+                    </>
+                  )}
+                </div>
+              </article>
+            </div>
+            <div className="col-lg-6">
+              <article className="card border-0 shadow-sm rounded-4 h-100">
+                <div className="card-body p-4 p-lg-5">
+                  <span className="ministry-eyebrow">RECENT VIDEO LIBRARY</span>
+                  <h3 className="h4 fw-bold mt-2">Latest from Revelation Church Kampala</h3>
+                  {youtubeFeed && youtubeFeed.videos.length > 0 ? (
+                    <div className="d-grid gap-3 mt-4">
+                      {youtubeFeed.videos.slice(0, 6).map((video) => (
+                        <a key={video.videoId} href={video.url} target="_blank" rel="noopener noreferrer" className="d-flex gap-3 align-items-start text-decoration-none">
+                          {video.thumbnail ? <img src={video.thumbnail} alt="" loading="lazy" className="rounded-3" style={{ width: "112px", aspectRatio: "16 / 9", objectFit: "cover" }} /> : <span className="rounded-3 bg-success-subtle text-success d-flex align-items-center justify-content-center" style={{ width: "112px", aspectRatio: "16 / 9" }}><i className="bi bi-play-btn fs-2" /></span>}
+                          <span className="flex-grow-1"><strong className="d-block text-body">{video.title}</strong><small className="text-secondary">{video.publishedAt ? new Date(video.publishedAt).toLocaleDateString() : "Recent upload"}</small></span>
+                        </a>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-secondary mt-3">Browse the official channel to see the latest sermons, worship services and ministry updates.</p>
+                  )}
+                  <a className="btn btn-dark mt-4" href="https://www.youtube.com/@RCKLIVEat10/videos" target="_blank" rel="noopener noreferrer"><i className="bi bi-youtube me-2" /> Browse all latest videos</a>
                 </div>
               </article>
             </div>
