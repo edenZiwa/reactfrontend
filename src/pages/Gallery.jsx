@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import "../css/gallary.css";
 import { AppLink } from "../components/SiteChrome.jsx";
+import { apiRequest } from "../services/api.js";
 
 const GALLERY_IMAGES = [
   {
@@ -163,6 +164,8 @@ const VIDEOS = [
 
 function Gallery({navigate}) {
   const [activeFilter, setActiveFilter] = useState("all");
+  const [galleryItems, setGalleryItems] = useState(GALLERY_IMAGES);
+  const [galleryStatus, setGalleryStatus] = useState("loading");
   const [searchTerm, setSearchTerm] = useState("");
   const [visibleCount, setVisibleCount] = useState(8);
   const [selectedImage, setSelectedImage] = useState(null);
@@ -171,10 +174,41 @@ function Gallery({navigate}) {
   const videoRef = useRef(null);
   const searchRef = useRef(null);
 
+  useEffect(() => {
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), 8000);
+    apiRequest("/content/gallery", { signal: controller.signal })
+      .then((payload) => {
+        const records = Array.isArray(payload?.items) ? payload.items : [];
+        const normalized = records
+          .filter((item) => item && item.media_type === "image" &&
+            typeof item.media_url === "string" && typeof item.alt_text === "string")
+          .map((item, index) => ({
+            id: item.id || ("gallery-" + index),
+            category: String(item.category || "community").toLowerCase(),
+            label: String(item.category || "Community"),
+            title: item.title || item.caption || "Garden of Mercy Foundation",
+            date: item.created_at ? new Date(item.created_at).getFullYear().toString() : "",
+            location: item.location_label || "Uganda",
+            src: item.media_url,
+            alt: item.alt_text,
+            layout: index === 0 ? "gallery-large" : undefined,
+          }));
+        setGalleryItems(normalized);
+        setGalleryStatus("success");
+      })
+      .catch(() => setGalleryStatus("unavailable"))
+      .finally(() => window.clearTimeout(timeout));
+    return () => {
+      window.clearTimeout(timeout);
+      controller.abort();
+    };
+  }, []);
+
   const filteredImages = useMemo(() => {
     const query = searchTerm.trim().toLowerCase();
 
-    return GALLERY_IMAGES.filter((image) => {
+    return galleryItems.filter((image) => {
       const matchesCategory =
         activeFilter === "all" || image.category === activeFilter;
 
@@ -191,7 +225,7 @@ function Gallery({navigate}) {
 
       return matchesCategory && searchableText.includes(query);
     });
-  }, [activeFilter, searchTerm]);
+  }, [galleryItems, activeFilter, searchTerm]);
 
   const visibleImages = filteredImages.slice(0, visibleCount);
   const hasMore = visibleCount < filteredImages.length;
@@ -503,6 +537,14 @@ function Gallery({navigate}) {
           </div>
 
           {/* GALLERY GRID */}
+          {galleryStatus === "unavailable" && (
+            <p className="small text-secondary text-center mb-3" role="status">
+              The latest gallery catalogue could not be reached. Showing the available local gallery collection.
+            </p>
+          )}
+          {galleryStatus === "loading" && (
+            <p className="small text-secondary text-center mb-3" role="status">Loading the latest gallery collection…</p>
+          )}
           {visibleImages.length > 0 ? (
             <div className="editorial-grid" id="galleryGrid">
               {visibleImages.map((image) => (
