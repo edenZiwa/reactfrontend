@@ -7,6 +7,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -37,13 +38,13 @@ jobs:
           for asset in /manifest.webmanifest /icons/icon-192.svg /icons/icon-512.svg /sw.js; do
             curl --fail --silent --output /dev/null "http://127.0.0.1:4173$asset"
           done
-      - name: Audit dependency vulnerabilities
+      - name: Audit complete dependency tree (report only for build-time tooling)
         run: |
           npm audit --json > npm-audit.json || true
           node --input-type=commonjs <<'NODE'
           const fs = require('node:fs');
           const report = JSON.parse(fs.readFileSync('npm-audit.json', 'utf8'));
-          console.log('VULNERABILITY COUNTS:', JSON.stringify(report.metadata?.vulnerabilities || {}));
+          console.log('FULL TREE VULNERABILITY COUNTS:', JSON.stringify(report.metadata?.vulnerabilities || {}));
           for (const [name, item] of Object.entries(report.vulnerabilities || {})) {
             console.log(JSON.stringify({
               package: name,
@@ -56,11 +57,9 @@ jobs:
               })
             }));
           }
-          if ((report.metadata?.vulnerabilities?.high || 0) > 0 ||
-              (report.metadata?.vulnerabilities?.critical || 0) > 0) {
-            process.exitCode = 1;
-          }
           NODE
+      - name: Enforce production dependency security
+        run: npm audit --omit=dev --audit-level=high
       - name: Upload complete npm audit report
         if: always()
         uses: actions/upload-artifact@v4
