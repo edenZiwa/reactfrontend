@@ -93,6 +93,10 @@ export default function PublicContent() {
     setBusy(true); setError(""); setNotice("");
     try {
       await request(endpoint + "/" + encodeURIComponent(item.id), { method: "DELETE" });
+      if (editing?.id === item.id) {
+        setEditing(null);
+        setForm(tab === "gallery" ? emptyGallery : emptyStory);
+      }
       setNotice("Content item deleted.");
       await load();
     } catch (e) { setError(e.message); }
@@ -121,7 +125,7 @@ export default function PublicContent() {
           <div className="col-md-8"><label className="form-label" htmlFor="content-title">Title</label><input id="content-title" className="form-control" maxLength={180} required value={form.title} onChange={e => update("title", e.target.value)} /></div>
           <div className="col-md-4"><label className="form-label" htmlFor="content-category">Category</label><input id="content-category" className="form-control" maxLength={80} value={form.category} onChange={e => update("category", e.target.value)} /></div>
           {tab === "gallery" ? <>
-            <div className="col-md-8"><label className="form-label" htmlFor="media-url">Media URL (HTTPS or same-site path)</label><input id="media-url" className="form-control" type="url" value={form.mediaUrl} onChange={e => update("mediaUrl", e.target.value)} required /></div>
+            <div className="col-md-8"><label className="form-label" htmlFor="media-url">Media URL (HTTPS or same-site path)</label><input id="media-url" className="form-control" type="text" inputMode="url" autoComplete="url" placeholder="https://… or /images/photo.jpg" value={form.mediaUrl} onChange={e => update("mediaUrl", e.target.value)} required /></div>
             <div className="col-md-4"><label className="form-label" htmlFor="media-type">Media type</label><select id="media-type" className="form-select" value={form.mediaType} onChange={e => update("mediaType", e.target.value)}><option value="image">Image</option><option value="video">Video</option></select></div>
             <div className="col-12"><label className="form-label" htmlFor="media-alt">Alternative text</label><input id="media-alt" className="form-control" maxLength={300} required value={form.altText} onChange={e => update("altText", e.target.value)} /></div>
             <div className="col-12"><label className="form-label" htmlFor="media-caption">Caption</label><textarea id="media-caption" className="form-control" rows="2" maxLength={700} value={form.caption} onChange={e => update("caption", e.target.value)} /></div>
@@ -156,7 +160,7 @@ export default function PublicContent() {
               </div>
               <p className="small text-secondary mb-2">{tab === "gallery" ? item.caption : item.excerpt}</p>
               <div className="small mb-3">Consent: <strong>{item.consent_verified ? "Verified" : "Not verified"}</strong></div>
-              <div className="d-flex flex-wrap gap-2"><button type="button" className="btn btn-sm btn-outline-success" onClick={() => edit(item)}>Edit</button><button type="button" className="btn btn-sm btn-outline-danger" disabled={busy} onClick={() => remove(item)}>Delete</button></div>
+              <div className="d-flex flex-wrap gap-2"><button type="button" className="btn btn-sm btn-outline-success" onClick={() => edit(item)}>Edit</button><button type="button" className="btn btn-sm btn-outline-danger" disabled={busy} onClick={() => remove(item)} aria-label={`Delete ${item.title}`}>Delete</button></div>
             </article>
           </div>)}
         </div>
