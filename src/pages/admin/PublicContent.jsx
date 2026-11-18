@@ -22,7 +22,11 @@ async function request(path, options = {}) {
   }
   const type = response.headers.get("content-type") || "";
   const data = type.toLowerCase().includes("application/json") ? await response.json().catch(() => ({})) : {};
-  if (!response.ok) throw new Error(data.error || data.message || "The content request could not be completed.");
+  if (!response.ok) {
+    if (response.status === 403) throw new Error("You do not have permission to manage public content, or your staff session needs refreshing. Sign out and back in; if this continues, ask a super administrator to grant the content.manage permission.");
+    if (response.status === 404) throw new Error("This content item no longer exists. Refresh the list and try again.");
+    throw new Error(data.error || data.message || "The content request could not be completed.");
+  }
   return data;
 }
 
