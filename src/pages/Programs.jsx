@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { apiRequest } from "../services/api.js";
 import { AppLink } from "../components/SiteChrome.jsx";
 
-const programAreas = [
+const fallbackProgramAreas = [
   {
     icon: "bi-person-hearts",
     title: "Child Welfare & Support",
@@ -165,6 +166,45 @@ const processSteps = [
 ];
 
 function Programs({ navigate }) {
+  const [programAreas, setProgramAreas] = useState(fallbackProgramAreas);
+  const [programSource, setProgramSource] = useState("fallback");
+
+  useEffect(() => {
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), 8000);
+
+    apiRequest("/programs", { signal: controller.signal })
+      .then((payload) => {
+        const records = Array.isArray(payload?.programs) ? payload.programs : [];
+        const normalized = records
+          .filter((item) => item && typeof item.name === "string" && item.name.trim())
+          .map((item, index) => ({
+            id: item.id || `program-${index}`,
+            title: item.name.trim(),
+            description: typeof item.description === "string" ? item.description : "",
+            icon: typeof item.icon === "string" && /^[a-z0-9-]+$/.test(item.icon) ? item.icon : "bi-heart",
+            points: Array.isArray(item.points) ? item.points.filter((point) => typeof point === "string" && point.trim()).slice(0, 8) : [],
+          }));
+        if (normalized.length) {
+          setProgramAreas(normalized);
+          setProgramSource("backend");
+        } else {
+          setProgramAreas(fallbackProgramAreas);
+          setProgramSource("fallback");
+        }
+      })
+      .catch(() => {
+        setProgramAreas(fallbackProgramAreas);
+        setProgramSource("fallback");
+      })
+      .finally(() => window.clearTimeout(timeout));
+
+    return () => {
+      window.clearTimeout(timeout);
+      controller.abort();
+    };
+  }, []);
+
   return (
     <div className="programs-page">
 {/* PROGRAMS HERO */}
@@ -309,7 +349,7 @@ function Programs({ navigate }) {
             {programAreas.map((program) => (
               <div
                 className="col-md-6 col-xl-4"
-                key={program.title}
+                key={program.id || program.title}
               >
                 <article className="program-area-card h-100">
                   <div className="program-area-icon" aria-hidden="true">
