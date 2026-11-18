@@ -7,10 +7,11 @@
     "dev": "vite --host 0.0.0.0",
     "build": "node scripts/build.js",
     "preview": "vite preview --host 0.0.0.0",
-    "audit": "npm audit --audit-level=high",
+    "audit": "npm audit --omit=dev --audit-level=high",
     "audit:fix": "npm audit fix",
     "test": "node --test",
-    "i18n:generate": "node scripts/generate-translations.js"
+    "i18n:generate": "node scripts/generate-translations.js",
+    "audit:full": "npm audit"
   },
   "dependencies": {
     "bootstrap": "^5.3.8",
