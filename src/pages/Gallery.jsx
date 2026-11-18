@@ -537,6 +537,14 @@ function Gallery({navigate}) {
           </div>
 
           {/* GALLERY GRID */}
+          {galleryStatus === "unavailable" && (
+            <p className="small text-secondary text-center mb-3" role="status">
+              The latest gallery catalogue could not be reached. Showing the available local gallery collection.
+            </p>
+          )}
+          {galleryStatus === "loading" && (
+            <p className="small text-secondary text-center mb-3" role="status">Loading the latest gallery collection…</p>
+          )}
           {visibleImages.length > 0 ? (
             <div className="editorial-grid" id="galleryGrid">
               {visibleImages.map((image) => (
