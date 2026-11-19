@@ -182,7 +182,7 @@ export default function PublicContent() {
         <div className="row g-3">
           {items.map(item => <div className="col-12 col-lg-6" key={item.id}>
             <article className="border rounded-4 p-3 h-100">
-              {tab === "gallery" && item.media_type === "image" && item.media_url && <img src={item.media_url} alt={item.alt_text || "Gallery item preview"} className="img-fluid rounded mb-3" loading="lazy" style={{ width: "100%", maxHeight: "220px", objectFit: "cover" }} onError={e => { e.currentTarget.style.display = "none"; }} />
+              {tab === "gallery" && item.media_type === "image" && item.media_url && <img src={item.media_url} alt={item.alt_text || "Gallery item preview"} className="img-fluid rounded mb-3" loading="lazy" style={{ width: "100%", maxHeight: "220px", objectFit: "cover" }} onError={e => { e.currentTarget.style.display = "none"; }} />}
               <div className="d-flex justify-content-between align-items-start gap-2">
                 <div><h4 className="h6 mb-1">{item.title}</h4><p className="small text-secondary mb-2">{item.category}</p></div>
                 <span className={"badge " + (item.is_published ? "text-bg-success" : "text-bg-secondary")}>{item.is_published ? "Published" : "Draft"}</span>
