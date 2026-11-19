@@ -630,11 +630,11 @@ function Founder({ navigate }) {
 
           <GalleryPreview
             navigate={navigate}
-            items=[
+            items={[
               { src: "/images/gallery/children-01.png", alt: "Children supported by the Foundation", title: "Children & Families" },
               { src: "/images/gallery/community-01.png", alt: "Community members in an outreach activity", title: "Community Outreach" },
               { src: "/images/gallery/outreach-01.jpg", alt: "Foundation outreach activity", title: "Mercy in Action" }
-            ]
+            ]}
             className="mt-4"
           />
         </div>
