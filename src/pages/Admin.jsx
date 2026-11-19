@@ -1,17 +1,26 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { lazy, Suspense, useCallback, useEffect, useMemo, useState } from "react";
 import { useTheme } from "../components/ThemeProvider.jsx";
 import LanguageSelector from "../components/LanguageSelector.jsx";
 import { useAuth } from "../auth/AuthProvider.jsx";
 import { API_ORIGIN } from "../services/api-config.js";
 import "../css/admin.css";
-import Donors from "./admin/Donors.jsx";
-import SponsorshipManagement from "./admin/SponsorshipManagement.jsx";
-import ProjectsImpact from "./admin/ProjectsImpact.jsx";
-import VolunteerOperations from "./admin/VolunteerOperations.jsx";
-import SecurityMonitoring from "./admin/SecurityMonitoring.jsx";
-import ProjectExpenseApprovals from "./admin/ProjectExpenseApprovals.jsx";
-import FinancialLedger from "./admin/FinancialLedger.jsx";
-import PublicContent from "./admin/PublicContent.jsx";
+const Donors = React.lazy(() => import("./admin/Donors.jsx"));
+const SponsorshipManagement = React.lazy(() => import("./admin/SponsorshipManagement.jsx"));
+const ProjectsImpact = React.lazy(() => import("./admin/ProjectsImpact.jsx"));
+const VolunteerOperations = React.lazy(() => import("./admin/VolunteerOperations.jsx"));
+const SecurityMonitoring = React.lazy(() => import("./admin/SecurityMonitoring.jsx"));
+const ProjectExpenseApprovals = React.lazy(() => import("./admin/ProjectExpenseApprovals.jsx"));
+const FinancialLedger = React.lazy(() => import("./admin/FinancialLedger.jsx"));
+const PublicContent = React.lazy(() => import("./admin/PublicContent.jsx"));
+
+
+
+
+
+
+
+
+
 import "../css/volunteer-operations.css";
 import "../css/projects-impact.css";
 import "../css/sponsorship-management.css";
@@ -465,7 +474,7 @@ export default function Admin({ path = "/admin", navigate }) {
         {authError && <div className="alert alert-warning">{authError}</div>}
         {pageError && <div className="alert alert-danger d-flex justify-content-between align-items-start"><span>{pageError}</span><button className="btn-close" aria-label="Dismiss" onClick={() => setPageError("")} /></div>}
         {notice && <div className="alert alert-success alert-dismissible">{notice}<button className="btn-close" onClick={() => setNotice("")} /></div>}
-        {isDashboard ? <Dashboard data={dashboard} navigate={navigate} can={can} reload={() => loadPage("dashboard").catch(e => setPageError(e.message))} /> :
+        {<Suspense fallback={<div className="gom-panel text-center py-5" role="status"><span className="spinner-border spinner-border-sm text-success me-2" aria-hidden="true" />Loading administration section…</div>}>{isDashboard ? <Dashboard data={dashboard} navigate={navigate} can={can} reload={() => loadPage("dashboard").catch(e => setPageError(e.message))} /> :
           key === "security" ? <SecurityPanel /> : key === "securityEvents" ? <SecurityMonitoring /> : key === "donors" ? <Donors canManage={can("donors.manage")} /> : key === "sponsorshipOps" ? <SponsorshipManagement canViewPrivate={can("sponsorship.view_private")} /> : key === "projects" ? <ProjectsImpact canApproveExpenses={can("projects.expenses.approve")} canViewReports={can("projects.reports.view")} canManageFunds={can("finance.funds.view")} /> : key === "expenseApprovals" ? <ProjectExpenseApprovals /> : key === "ledger" ? <FinancialLedger canAdjust={can("finance.ledger.adjust")} canApprove={can("finance.ledger.approve_adjustments")} canManageSettlements={can("finance.settlements.manage")} canApproveSettlements={can("finance.settlements.approve")} canManageExpensePayments={can("finance.expense_payments.manage")} canApproveExpensePayments={can("finance.expense_payments.approve")} canViewFunds={can("finance.funds.view")} canTransferFunds={can("finance.funds.transfer")} canApproveFundTransfers={can("finance.funds.approve")} /> : key === "volunteerOps" ? <VolunteerOperations canReview={can("volunteers.operations.review")} canReport={can("volunteers.operations.reports")} /> : key === "publicContent" ? <PublicContent /> : key === "reports" ? <section className="gom-panel"><div className="gom-panel-heading"><div><h2>Donation report export</h2><p>Download a date-bounded CSV report for finance review.</p></div><i className="bi bi-file-earmark-arrow-down" /></div><div className="row g-3 align-items-end"><div className="col-sm-4"><label className="form-label">From date</label><input type="date" className="form-control" value={reportDates.from} onChange={e => setReportDates({ ...reportDates, from: e.target.value })} /></div><div className="col-sm-4"><label className="form-label">To date</label><input type="date" className="form-control" value={reportDates.to} onChange={e => setReportDates({ ...reportDates, to: e.target.value })} /></div><div className="col-sm-4"><button className="btn btn-success w-100" onClick={downloadCsv}><i className="bi bi-download me-2" />Export donations CSV</button></div></div><p className="small text-secondary mt-3 mb-0">Exports are limited by the backend and include donor contact details. Store downloaded files securely.</p></section> :
           <section className="gom-panel">
             <div className="gom-panel-heading"><div><h2>{TITLES[key] || current.label}</h2><p>{key === "projects" ? "Manage project delivery, budgets, milestones and verified impact outcomes." : key === "reconciliation" ? "Review unsettled payments and request a fresh provider verification." : key === "audit" ? "A traceable record of staff and system actions." : key === "sponsorship" ? "Manage public-facing child profiles. Publication is guarded by current consent." : "Review, search and manage records within your assigned permissions."}</p></div><span className="gom-record-count">{key === "users" ? (data.users?.pagination?.total ?? filteredRows.length) : filteredRows.length} records</span></div>
@@ -480,7 +489,7 @@ export default function Admin({ path = "/admin", navigate }) {
             {key === "sponsorship" && <div className="alert alert-info small"><i className="bi bi-info-circle me-2" />Only profiles with valid story consent and an active beneficiary record can be published. Private legal names and case notes are not displayed here.</div>}
             <DataTable rows={filteredRows} columns={columnsByKey[key] || []} onAction={canManage ? row => setRecord(row) : null} actionLabel={key === "reconciliation" ? "Verify" : key === "inbox" ? "Open" : "Manage"} onSelect={key === "inbox" ? row => setRecord(row) : null} empty={key === "reconciliation" ? "There are no payments awaiting verification." : "No records match these filters."} />
             {["inbox","users"].includes(key) && <div className="d-flex justify-content-between align-items-center pt-3"><span className="small text-secondary">Page {pageNumber + 1} · {key === "users" ? (data.users?.pagination?.total ?? 0) : "—"} total records</span><div className="btn-group"><button className="btn btn-sm btn-outline-secondary" disabled={pageNumber === 0} onClick={() => setPageNumber(p => Math.max(0,p-1))}>Previous</button><button className="btn btn-sm btn-outline-secondary" disabled={key === "users" ? (pageNumber + 1) * 25 >= (data.users?.pagination?.total || 0) : rows.length < 50} onClick={() => setPageNumber(p => p+1)}>Next</button></div></div>}
-          </section>}
+          </section>}</Suspense>}
       </div>
     </main>
     <RecordModal record={record} kind={key} onClose={() => setRecord(null)} onSave={saveRecord} onChangePassword={changeUserPassword} busy={busy} beneficiaryOptions={data.beneficiaryOptions || []} />
