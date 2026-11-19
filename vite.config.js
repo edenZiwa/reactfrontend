@@ -54,7 +54,9 @@ export default defineConfig(({ mode }) => {
           "**/images/**",
           "**/*.{png,jpg,jpeg,webp,gif,avif}"
         ],
-        maximumFileSizeToCacheInBytes: 4 * 1024 * 1024
+        // Keep oversized files out of the service-worker precache.
+        // Small app icons remain precached for offline launch/install.
+        maximumFileSizeToCacheInBytes: 2 * 1024 * 1024
       },
       manifest: pwaManifest
     })
