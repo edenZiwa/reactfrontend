@@ -1,5 +1,5 @@
 
-import React, { useEffect } from "react";
+import React, { lazy, Suspense, useEffect } from "react";
 import { createRoot } from "react-dom/client";
 
 import "./i18n/index.js";
@@ -28,31 +28,36 @@ import NetworkStatus from "./components/NetworkStatus.jsx";
 import ScrollNavigator from "./components/ScrollNavigator.jsx";
 import ScrollReveal from "./components/ScrollReveal.jsx";
 import { ToastProvider } from "./components/ux/ToastProvider.jsx";
-import Home from "./pages/Home.jsx";
-import About from "./pages/About.jsx";
-import Programs from "./pages/Programs.jsx";
+const Home = React.lazy(() => import("./pages/Home.jsx"));
+const About = React.lazy(() => import("./pages/About.jsx"));
+const Programs = React.lazy(() => import("./pages/Programs.jsx"));
+const Impact = React.lazy(() => import("./pages/Impact.jsx"));
+const Gallery = React.lazy(() => import("./pages/Gallery.jsx"));
+const Founder = React.lazy(() => import("./pages/Founder.jsx"));
+const Donate = React.lazy(() => import("./pages/Donate.jsx"));
+const DonationResult = React.lazy(() => import("./pages/DonationResult.jsx"));
+const Contact = React.lazy(() => import("./pages/Contact.jsx"));
+const Terms = React.lazy(() => import("./pages/Terms.jsx"));
+const Volunteer = React.lazy(() => import("./pages/Volunteer.jsx"));
+const Privacy = React.lazy(() => import("./pages/Privacy.jsx"));
+const NotFound = React.lazy(() => import("./pages/NotFound.jsx"));
+const Sponsor = React.lazy(() => import("./pages/Sponsor.jsx"));
+const Account = React.lazy(() => import("./pages/Account.jsx"));
+const AccountAccess = React.lazy(() => import("./pages/AccountAccess.jsx"));
+const PasswordRecovery = React.lazy(() => import("./pages/PasswordRecovery.jsx"));
+const SuccessStories = React.lazy(() => import("./pages/SuccessStories.jsx"));
+const Cofounder = React.lazy(() => import("./pages/Cofounder.jsx"));
+const PowerOfRevelation = React.lazy(() => import("./pages/PowerOfRevelation.jsx"));
+const Admin = React.lazy(() => import("./pages/Admin.jsx"));
 
-import Impact from "./pages/Impact.jsx";
-import Gallery from "./pages/Gallery.jsx";
-import Founder from "./pages/Founder.jsx";
-import Donate from "./pages/Donate.jsx";
-
-import DonationResult from "./pages/DonationResult.jsx";
-import Contact from "./pages/Contact.jsx";
-import Terms from "./pages/Terms.jsx";
-import Volunteer from "./pages/Volunteer.jsx";
-
-import Privacy from "./pages/Privacy.jsx";
-import NotFound from "./pages/NotFound.jsx";
-import Sponsor from "./pages/Sponsor.jsx";
-import Account from "./pages/Account.jsx";
-import AccountAccess from "./pages/AccountAccess.jsx";
-import PasswordRecovery from "./pages/PasswordRecovery.jsx";
-
-import SuccessStories from "./pages/SuccessStories.jsx";
-import Cofounder from "./pages/Cofounder.jsx";
-import PowerOfRevelation from "./pages/PowerOfRevelation.jsx";
-import Admin from "./pages/Admin.jsx";
+function RouteLoading() {
+  return (
+    <div className="container py-5 text-center" role="status" aria-live="polite">
+      <div className="spinner-border text-success" aria-hidden="true" />
+      <span className="visually-hidden">Loading page...</span>
+    </div>
+  );
+}
 import ThemeProvider from "./components/ThemeProvider.jsx";
 import { AuthProvider } from "./auth/AuthProvider.jsx";
 import "./css/theme.css";
@@ -171,7 +176,7 @@ function App() {
   }, [path, navigation.id]);
 
   if (path.startsWith("/admin")) {
-    return <><SEO path={path} /><Admin path={path} navigate={navigate} /></>;
+    return <><SEO path={path} /><Suspense fallback={<RouteLoading />}><Admin path={path} navigate={navigate} /></Suspense></>;
   }
 
   let page;
@@ -288,7 +293,7 @@ function App() {
         tabIndex={-1}
 className="pt-5"
       >
-        {page}
+        <Suspense fallback={<RouteLoading />}>{page}</Suspense>
       </main>
 
       {/* Floating scroll control: mounted on every route */}
