@@ -487,7 +487,7 @@ function Home( {
             items={[
               { src: "https://gardenofmercy.org/images/gallery/featured.jpg", alt: "Garden of Mercy Foundation community outreach", title: "Compassion in Action", caption: "Stories of hope, dignity and community.", kicker: "Featured" },
               { src: "https://gardenofmercy.org/images/gallery/children-01.png", alt: "Children supported by Garden of Mercy Foundation", title: "Children" },
-              { src: "https://gardenofmercy.org/images/gallery/community-01.jpg", alt: "Community activities", title: "Community" },
+              { src: "https://gardenofmercy.org/images/gallery/community-01.png", alt: "Community activities", title: "Community" },
               { src: "https://gardenofmercy.org/images/gallery/outreach-01.jpg", alt: "Foundation outreach", title: "Outreach" },
             ]}
           />
