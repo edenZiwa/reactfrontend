@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { apiRequest } from "../services/api.js";
 import { AppLink } from "./SiteChrome.jsx";
 import "./gallery-preview.css";
 
@@ -12,8 +13,35 @@ export default function GalleryPreview({
   variant = "grid",
   className = "",
   linkLabel = "Explore the gallery",
+  fetchFromApi = false,
+  maxItems = 6,
 }) {
-  const validItems = items.filter((item) => item && item.src);
+  const [apiItems, setApiItems] = useState(null);
+  useEffect(() => {
+    if (!fetchFromApi) return undefined;
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), 8000);
+    apiRequest("/content/gallery", { signal: controller.signal })
+      .then((payload) => {
+        const records = Array.isArray(payload?.items) ? payload.items : [];
+        const normalized = records
+          .filter((item) => item && item.media_type === "image" && typeof item.media_url === "string" && typeof item.alt_text === "string")
+          .map((item, index) => ({
+            id: item.id || `gallery-preview-${index}`,
+            src: item.media_url,
+            alt: item.alt_text,
+            title: item.title || item.caption || "Garden of Mercy Foundation",
+            caption: item.caption || item.location_label || "",
+          }))
+          .slice(0, maxItems);
+        setApiItems(normalized.length ? normalized : items);
+      })
+      .catch(() => setApiItems(items))
+      .finally(() => window.clearTimeout(timeout));
+    return () => { window.clearTimeout(timeout); controller.abort(); };
+  }, [fetchFromApi, maxItems]);
+  const sourceItems = fetchFromApi && apiItems !== null ? apiItems : items;
+  const validItems = sourceItems.filter((item) => item && item.src).slice(0, maxItems);
 
   if (!validItems.length) return null;
 
