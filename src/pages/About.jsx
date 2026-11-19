@@ -1,5 +1,6 @@
 import React from "react";
 import { AppLink } from "../components/SiteChrome.jsx";
+import GalleryPreview from "../components/GalleryPreview.jsx";
 
 const values = [
   {
@@ -223,6 +224,27 @@ function About({ navigate }) {
               Faith expressed through love and service.
             </span>
           </div>
+        </div>
+      </section>
+
+      <section data-scroll-reveal="up" className="py-5" aria-labelledby="about-gallery-title">
+        <div className="container">
+          <div className="about-section-heading">
+            <span className="about-section-kicker">MERCY IN ACTION</span>
+            <h2 id="about-gallery-title" className="about-section-title">A glimpse of our work.</h2>
+            <p>Explore moments from our community and outreach activities.</p>
+          </div>
+          <GalleryPreview
+            navigate={navigate}
+            fetchFromApi
+            maxItems={3}
+            className="mt-4"
+            items={[
+              { src: "/images/gallery/children-01.png", alt: "Children participating in a Foundation activity", title: "Children & Families" },
+              { src: "/images/gallery/community-01.png", alt: "Community members participating in outreach", title: "Community" },
+              { src: "/images/gallery/outreach-01.jpg", alt: "Foundation outreach activity", title: "Outreach" },
+            ]}
+          />
         </div>
       </section>
 

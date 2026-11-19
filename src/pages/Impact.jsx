@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { AppLink } from "../components/SiteChrome.jsx";
+import GalleryPreview from "../components/GalleryPreview.jsx";
 import { apiRequest } from "../services/api.js";
 
 const impactAreas = [
@@ -211,6 +212,27 @@ export default function Impact({ navigate }) {
             work makes. We protect the privacy and dignity of the people
             and families represented in every report.
           </p>
+        </div>
+      </section>
+
+      <section data-scroll-reveal="up" className="py-5" aria-labelledby="impact-gallery-title">
+        <div className="container">
+          <div className="text-center mx-auto" style={{ maxWidth: 760 }}>
+            <span className="section-label">OUR WORK</span>
+            <h2 id="impact-gallery-title" className="fw-bold mt-2">People and communities at the heart of our impact.</h2>
+            <p className="text-secondary">Explore approved photographs from our activities and community engagement.</p>
+          </div>
+          <GalleryPreview
+            navigate={navigate}
+            fetchFromApi
+            maxItems={3}
+            className="mt-4"
+            items={[
+              { src: "/images/gallery/event-01.jpg", alt: "Foundation community event", title: "Community Events" },
+              { src: "/images/gallery/volunteers-01.jpg", alt: "Volunteers serving in the community", title: "Volunteers" },
+              { src: "/images/gallery/children-03.png", alt: "Children participating in a Foundation activity", title: "Children" },
+            ]}
+          />
         </div>
       </section>
 
