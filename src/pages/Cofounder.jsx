@@ -2,6 +2,7 @@
 import React from "react";
 import "../css/founder.css";
 import { AppLink } from "../components/SiteChrome.jsx";
+import GalleryPreview from "../components/GalleryPreview.jsx";
 
 function Cofounder({ navigate }) {
   return (
@@ -603,67 +604,15 @@ function Cofounder({ navigate }) {
             </div>
           </div>
 
-          <div className="gallery-placeholder-grid mt-4">
-            <AppLink
-              to="/gallery"
-              navigate={navigate}
-              className="gallery-placeholder gallery-placeholder-large"
-              aria-label="View community outreach activities"
-            >
-              <span className="gallery-placeholder-icon">
-                <i className="bi bi-people" aria-hidden="true" />
-              </span>
-
-              <span>
-                <strong>Community Outreach</strong>
-                <img
-                  src="/images/gallery/children-01.png"
-                  alt="Children participating in a community activity"
-                  loading="lazy"
-                />
-              </span>
-            </AppLink>
-
-            <AppLink
-              to="/gallery"
-              navigate={navigate}
-              className="gallery-placeholder"
-              aria-label="View community care activities"
-            >
-              <span className="gallery-placeholder-icon">
-                <i className="bi bi-heart" aria-hidden="true" />
-              </span>
-
-              <span>
-                <strong>Care in Action</strong>
-                <img
-                  src="/images/gallery/community-01.png"
-                  alt="Community members participating in an outreach activity"
-                  loading="lazy"
-                />
-              </span>
-            </AppLink>
-
-            <AppLink
-              to="/gallery"
-              navigate={navigate}
-              className="gallery-placeholder"
-              aria-label="View foundation events"
-            >
-              <span className="gallery-placeholder-icon">
-                <i className="bi bi-camera" aria-hidden="true" />
-              </span>
-
-              <span>
-                <strong>Hope &amp; Dignity</strong>
-                <img
-                  src="/images/gallery/event-02.png"
-                  alt="Community event supporting the Foundation's mission"
-                  loading="lazy"
-                />
-              </span>
-            </AppLink>
-          </div>
+          <GalleryPreview
+            navigate={navigate}
+            items=[
+              { src: "/images/gallery/community-01.png", alt: "Community members in an outreach activity", title: "Community Outreach" },
+              { src: "/images/gallery/volunteers-01.jpg", alt: "Volunteers serving", title: "Serving Together" },
+              { src: "/images/gallery/event-01.jpg", alt: "Foundation community event", title: "Community Events" }
+            ]
+            className="mt-4"
+          />
         </div>
       </section>
 
