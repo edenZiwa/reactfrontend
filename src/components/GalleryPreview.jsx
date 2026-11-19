@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { apiRequest } from "../services/api.js";
 import { AppLink } from "./SiteChrome.jsx";
+import OptimizedImage from "./OptimizedImage.jsx";
 import "./gallery-preview.css";
 
 function normalizePublicGalleryItem(item, index) {
@@ -36,7 +37,7 @@ function PreviewImage({ item, className = "" }) {
     );
   }
   return (
-    <img
+    <OptimizedImage
       className={className}
       src={item.src}
       alt={item.alt || item.title || ""}

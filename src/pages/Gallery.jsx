@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import "../css/gallary.css";
 import { AppLink } from "../components/SiteChrome.jsx";
+import OptimizedImage from "../components/OptimizedImage.jsx";
 import { apiRequest } from "../services/api.js";
 
 const GALLERY_IMAGES = [
@@ -400,7 +401,7 @@ function Gallery({navigate}) {
             <div className="row g-0 align-items-stretch">
               <div className="col-lg-7">
                 <div className="featured-image-wrapper">
-                  <img
+                  <OptimizedImage
                     src="/images/gallery/featured.jpg"
                     alt="Garden of Mercy Foundation community outreach"
                     className="featured-image"
@@ -559,7 +560,7 @@ function Gallery({navigate}) {
                     onClick={() => openImage(image)}
                     aria-label={`View ${image.title}`}
                   >
-                    <img
+                    <OptimizedImage
                       src={image.src}
                       alt={image.alt}
                       loading="lazy"
@@ -675,7 +676,7 @@ function Gallery({navigate}) {
                       video.featured ? "" : "video-small"
                     }`}
                   >
-                    <img
+                    <OptimizedImage
                       src={video.image}
                       alt={video.alt}
                       loading="lazy"
@@ -822,9 +823,10 @@ function Gallery({navigate}) {
               minWidth: 0,
             }}
           >
-            <img
+            <OptimizedImage
               src={selectedImage.src}
               alt={selectedImage.alt}
+              loading="eager"
               onClick={(event) => event.stopPropagation()}
               style={{
                 display: "block",
