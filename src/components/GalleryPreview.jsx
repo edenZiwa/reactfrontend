@@ -63,6 +63,7 @@ export default function GalleryPreview({
 }) {
   const fallbackItems = items;
   const [apiItems, setApiItems] = useState(null);
+  const fallbackKey = items.map((item) => item?.src || "").join("|");
 
   useEffect(() => {
     if (!fetchFromApi) {
@@ -88,7 +89,7 @@ export default function GalleryPreview({
       window.clearTimeout(timeout);
       controller.abort();
     };
-  }, [fetchFromApi, maxItems]);
+  }, [fetchFromApi, maxItems, fallbackKey]);
 
   const sourceItems = fetchFromApi && apiItems !== null ? apiItems : items;
   const validItems = sourceItems.filter((item) => item && typeof item.src === "string" && item.src.trim()).slice(0, maxItems);
