@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import "../css/sponsor.css";
 import { AppLink } from "../components/SiteChrome.jsx";
+import GalleryPreview from "../components/GalleryPreview.jsx";
 import { apiRequest } from "../services/api.js";
 
 const sponsorshipPaths = [
@@ -464,6 +465,27 @@ export default function Sponsor({ navigate }) {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section data-scroll-reveal="up" className="py-5" aria-labelledby="sponsor-gallery-title">
+        <div className="container">
+          <div className="sponsor-section-heading text-center mx-auto">
+            <span className="sponsor-kicker">SUPPORT IN ACTION</span>
+            <h2 id="sponsor-gallery-title">Together, we can sow seeds of hope.</h2>
+            <p>Explore moments from our community work and outreach.</p>
+          </div>
+          <GalleryPreview
+            navigate={navigate}
+            fetchFromApi
+            maxItems={3}
+            className="mt-4"
+            items={[
+              { src: "/images/gallery/children-04.png", alt: "Children participating in an activity", title: "Children & Education" },
+              { src: "/images/gallery/community-03.png", alt: "Community members gathered", title: "Community" },
+              { src: "/images/gallery/outreach-01.jpg", alt: "Foundation outreach", title: "Outreach" },
+            ]}
+          />
         </div>
       </section>
 
