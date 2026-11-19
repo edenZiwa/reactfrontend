@@ -6,6 +6,7 @@ import {
     FocusCard
 } from "../components/SiteChrome.jsx";
 import { apiRequest } from "../services/api.js";
+import GalleryPreview from "../components/GalleryPreview.jsx";
 
 function Home( {
     navigate
@@ -480,134 +481,16 @@ function Home( {
           </div>
 
           {/* Gallery preview */}
-          <div className="row g-3">
-            {/* Featured image */}
-            <div className="col-lg-6">
-                <AppLink
-                  to="/gallery"
-                  navigate={navigate}
-                  className="home-gallery-card home-gallery-feature d-block" aria-label="View our full gallery"
-                >
-                  
-                  <img
-                  src="https://gardenofmercy.org/images/gallery/featured.jpg"
-                  alt="Garden of Mercy Foundation community outreach"
-                  loading="lazy"
-                />
-
-                <div className="home-gallery-overlay">
-                  <div>
-                    <span className="badge bg-warning text-dark rounded-pill mb-2">
-                      Featured
-                    </span>
-
-                    <h3 className="fw-bold theme-on-dark mb-1">
-                      Compassion in Action
-                    </h3>
-
-                    <p className="theme-on-dark-muted mb-0">
-                      Stories of hope, dignity and community.
-                    </p>
-                  </div>
-                </div>
-                </AppLink>
-                
-            </div>
-
-            {/* Smaller gallery images */}
-            <div className="col-lg-6">
-              <div className="row g-3">
-                {/* Children */}
-                <div className="col-6">
-                  <a
-                    href="/gallery"
-                    className="home-gallery-card d-block"
-                    aria-label="View children gallery"
-                  >
-                    <img
-                      src="https://gardenofmercy.org/images/gallery/children-01.png"
-                      alt="Children supported by Garden of Mercy Foundation"
-                      loading="lazy"
-                    />
-
-                    <div className="home-gallery-overlay">
-                      <span className="theme-on-dark fw-semibold">
-                        Children
-                      </span>
-                    </div>
-                  </a>
-                </div>
-
-                {/* Community */}
-                <div className="col-6">
-                 
-                  <AppLink
-                  to="/gallery"
-                  navigate={navigate}
-                  className="home-gallery-card d-block" aria-label="View community gallery"
-                >
-                  <img
-                      src="https://gardenofmercy.org/images/gallery/community-01.png"
-                      alt="Garden of Mercy Foundation community"
-                      loading="lazy"
-                    />
-
-                    <div className="home-gallery-overlay">
-                      <span className="theme-on-dark fw-semibold">
-                        Community
-                      </span>
-                    </div>
-                </AppLink>
-                </div>
-
-                {/* Outreach */}
-                <div className="col-6">
-                  
-                  <AppLink
-                  to="/gallery"
-                  navigate={navigate}
-                  className="home-gallery-card d-block"
-                    aria-label="View outreach gallery"
-                >
-                  <img
-                      src="https://gardenofmercy.org/images/gallery/outreach-01.jpg"
-                      alt="Garden of Mercy Foundation outreach"
-                      loading="lazy"
-                    />
-
-                    <div className="home-gallery-overlay">
-                      <span className="theme-on-dark fw-semibold">
-                        Outreach
-                      </span>
-                    </div>
-                </AppLink>
-                </div>
-
-                {/* Volunteers */}
-                <div className="col-6">
-                  
-                  <AppLink
-                  to="/gallery"
-                  navigate={navigate}
-                  className="home-gallery-card d-block"
-                    aria-label="View volunteers gallery"
-                >
-                  <img
-                      src="https://gardenofmercy.org/images/gallery/volunteers-01.jpg"
-                      alt="Garden of Mercy Foundation volunteers"
-                      loading="lazy"
-                    />
-
-                    <div className="home-gallery-overlay">
-                      <span className="theme-on-dark fw-semibold">
-                        Volunteers
-                      </span>
-                    </div>
-                </AppLink>
-                </div>
-              </div>
-            </div>
-          </div>
+          <GalleryPreview
+            navigate={navigate}
+            variant="home"
+            items={[
+              { src: "https://gardenofmercy.org/images/gallery/featured.jpg", alt: "Garden of Mercy Foundation community outreach", title: "Compassion in Action", caption: "Stories of hope, dignity and community.", kicker: "Featured" },
+              { src: "https://gardenofmercy.org/images/gallery/children-01.png", alt: "Children supported by Garden of Mercy Foundation", title: "Children" },
+              { src: "https://gardenofmercy.org/images/gallery/community-01.jpg", alt: "Community activities", title: "Community" },
+              { src: "https://gardenofmercy.org/images/gallery/outreach-01.jpg", alt: "Foundation outreach", title: "Outreach" },
+            ]}
+          />
 
           {/* Bottom CTA */}
           <div className="text-center mt-4">
