@@ -606,11 +606,11 @@ function Cofounder({ navigate }) {
 
           <GalleryPreview
             navigate={navigate}
-            items=[
+            items={[
               { src: "/images/gallery/community-01.png", alt: "Community members in an outreach activity", title: "Community Outreach" },
               { src: "/images/gallery/volunteers-01.jpg", alt: "Volunteers serving", title: "Serving Together" },
               { src: "/images/gallery/event-01.jpg", alt: "Foundation community event", title: "Community Events" }
-            ]
+            ]}
             className="mt-4"
           />
         </div>
