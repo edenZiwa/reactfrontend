@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { apiRequest } from "../services/api.js";
 import { AppLink } from "../components/SiteChrome.jsx";
+import GalleryPreview from "../components/GalleryPreview.jsx";
 
 const fallbackProgramAreas = [
   {
@@ -454,6 +455,27 @@ function Programs({ navigate }) {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section data-scroll-reveal="up" className="py-5" aria-labelledby="program-gallery-title">
+        <div className="container">
+          <div className="text-center mx-auto" style={{ maxWidth: 760 }}>
+            <span className="section-label">PROGRAMS IN ACTION</span>
+            <h2 id="program-gallery-title" className="fw-bold mt-2">Compassion made practical.</h2>
+            <p className="text-secondary">See moments from our children, community and outreach activities.</p>
+          </div>
+          <GalleryPreview
+            navigate={navigate}
+            fetchFromApi
+            maxItems={3}
+            className="mt-4"
+            items={[
+              { src: "/images/gallery/children-02.png", alt: "Children taking part in a learning activity", title: "Education & Care" },
+              { src: "/images/gallery/community-02.jpg", alt: "Community activity", title: "Community Support" },
+              { src: "/images/gallery/outreach-02.jpg", alt: "Outreach activity", title: "Outreach" },
+            ]}
+          />
         </div>
       </section>
 
