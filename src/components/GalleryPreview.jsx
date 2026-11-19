@@ -61,6 +61,7 @@ export default function GalleryPreview({
   fetchFromApi = false,
   maxItems = 6,
 }) {
+  const fallbackItems = items;
   const [apiItems, setApiItems] = useState(null);
 
   useEffect(() => {
@@ -78,16 +79,16 @@ export default function GalleryPreview({
           .map(normalizePublicGalleryItem)
           .filter(Boolean)
           .slice(0, Math.max(1, maxItems));
-        setApiItems(normalized.length ? normalized : items);
+        setApiItems(normalized.length ? normalized : fallbackItems);
       })
-      .catch(() => setApiItems(items))
+      .catch(() => setApiItems(fallbackItems))
       .finally(() => window.clearTimeout(timeout));
 
     return () => {
       window.clearTimeout(timeout);
       controller.abort();
     };
-  }, [fetchFromApi, maxItems, items]);
+  }, [fetchFromApi, maxItems]);
 
   const sourceItems = fetchFromApi && apiItems !== null ? apiItems : items;
   const validItems = sourceItems.filter((item) => item && typeof item.src === "string" && item.src.trim()).slice(0, maxItems);
