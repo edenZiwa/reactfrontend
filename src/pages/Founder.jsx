@@ -1,6 +1,7 @@
 import React from "react";
 import "../css/founder.css";
 import { AppLink } from "../components/SiteChrome.jsx";
+import GalleryPreview from "../components/GalleryPreview.jsx";
 
 function Founder({ navigate }) {
   return (
@@ -627,73 +628,15 @@ function Founder({ navigate }) {
             </div>
           </div>
 
-          <div className="gallery-placeholder-grid mt-4">
-            <AppLink
-              to="/gallery"
-              navigate={navigate}
-              className="gallery-placeholder gallery-placeholder-large"
-              aria-label="Visit the gallery to view foundation activities"
-            >
-              <span className="gallery-placeholder-icon">
-                <i className="bi bi-images" aria-hidden="true" />
-              </span>
-
-              <img
-                src="/images/gallery/children-01.png"
-                alt=""
-                loading="lazy"
-                aria-hidden="true"
-              />
-              <span>
-                <strong>Community &amp; Outreach</strong>
-                <small>Discover stories from the Foundation’s work</small>
-              </span>
-            </AppLink>
-
-            <AppLink
-              to="/gallery"
-              navigate={navigate}
-              className="gallery-placeholder"
-              aria-label="View foundation photographs in the gallery"
-            >
-              <span className="gallery-placeholder-icon">
-                <i className="bi bi-camera" aria-hidden="true" />
-              </span>
-
-              <img
-                src="/images/gallery/community-01.png"
-                alt=""
-                loading="lazy"
-                aria-hidden="true"
-              />
-              <span>
-                <strong>Care in Action</strong>
-                <small>See how compassion becomes practical support</small>
-              </span>
-            </AppLink>
-
-            <AppLink
-              to="/gallery"
-              navigate={navigate}
-              className="gallery-placeholder"
-              aria-label="View more foundation photographs in the gallery"
-            >
-              <span className="gallery-placeholder-icon">
-                <i className="bi bi-heart" aria-hidden="true" />
-              </span>
-
-              <img
-                src="/images/gallery/event-02.png"
-                alt=""
-                loading="lazy"
-                aria-hidden="true"
-              />
-              <span>
-                <strong>Hope &amp; Dignity</strong>
-                <small>Explore moments of community connection</small>
-              </span>
-            </AppLink>
-          </div>
+          <GalleryPreview
+            navigate={navigate}
+            items=[
+              { src: "/images/gallery/children-01.png", alt: "Children supported by the Foundation", title: "Children & Families" },
+              { src: "/images/gallery/community-01.png", alt: "Community members in an outreach activity", title: "Community Outreach" },
+              { src: "/images/gallery/outreach-01.jpg", alt: "Foundation outreach activity", title: "Mercy in Action" }
+            ]
+            className="mt-4"
+          />
         </div>
       </section>
 
