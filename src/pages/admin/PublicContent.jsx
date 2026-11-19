@@ -59,7 +59,27 @@ export default function PublicContent() {
     setForm(tab === "gallery" ? emptyGallery : emptyStory);
   }, [tab]);
 
-  function update(name, value) { setForm(previous => ({ ...previous, [name]: value })); }
+  function update(name, value) {
+    setForm(previous => {
+      const next = { ...previous, [name]: value };
+      if (name === "consentVerified" && value === false) next.isPublished = false;
+      return next;
+    });
+  }
+
+  const galleryUrlValid = (() => {
+    if (!form.mediaUrl.trim()) return false;
+    const value = form.mediaUrl.trim();
+    if (value.startsWith("/") && !value.startsWith("//")) return true;
+    try { return new URL(value).protocol === "https:"; } catch { return false; }
+  })();
+
+  const storyImageUrlValid = (() => {
+    if (!form.imageUrl.trim()) return true;
+    const value = form.imageUrl.trim();
+    if (value.startsWith("/") && !value.startsWith("//")) return true;
+    try { return new URL(value).protocol === "https:"; } catch { return false; }
+  })();
 
   function edit(item) {
     setEditing(item);
@@ -80,7 +100,10 @@ export default function PublicContent() {
 
   async function save(event) {
     event.preventDefault();
-    setBusy(true); setError(""); setNotice("");
+    setError(""); setNotice("");
+    if (tab === "gallery" && !galleryUrlValid) { setError("Enter a valid HTTPS media URL or a same-site path beginning with /."); return; }
+    if (tab === "stories" && !storyImageUrlValid) { setError("Enter a valid HTTPS image URL or a same-site path beginning with /, or leave the image URL empty."); return; }
+    setBusy(true);
     try {
       const path = endpoint + (editing ? "/" + encodeURIComponent(editing.id) : "");
       const data = await request(path, { method: editing ? "PATCH" : "POST", body: JSON.stringify(form) });
@@ -129,22 +152,23 @@ export default function PublicContent() {
           <div className="col-md-8"><label className="form-label" htmlFor="content-title">Title</label><input id="content-title" className="form-control" maxLength={180} required value={form.title} onChange={e => update("title", e.target.value)} /></div>
           <div className="col-md-4"><label className="form-label" htmlFor="content-category">Category</label><input id="content-category" className="form-control" maxLength={80} value={form.category} onChange={e => update("category", e.target.value)} /></div>
           {tab === "gallery" ? <>
-            <div className="col-md-8"><label className="form-label" htmlFor="media-url">Media URL (HTTPS or same-site path)</label><input id="media-url" className="form-control" type="text" inputMode="url" autoComplete="url" placeholder="https://… or /images/photo.jpg" value={form.mediaUrl} onChange={e => update("mediaUrl", e.target.value)} required /></div>
+            <div className="col-md-8"><label className="form-label" htmlFor="media-url">Media URL (HTTPS or same-site path)</label><input id="media-url" className={"form-control " + (form.mediaUrl ? (galleryUrlValid ? "is-valid" : "is-invalid") : "")} type="text" inputMode="url" autoComplete="url" placeholder="https://… or /images/photo.jpg" value={form.mediaUrl} onChange={e => update("mediaUrl", e.target.value)} required /><div className="form-text">Paste a direct image/video link or a same-site path. Only HTTPS links are accepted.</div>{form.mediaUrl && !galleryUrlValid && <div className="invalid-feedback d-block">Use a valid HTTPS URL or a path beginning with / (not //).</div>}</div>
             <div className="col-md-4"><label className="form-label" htmlFor="media-type">Media type</label><select id="media-type" className="form-select" value={form.mediaType} onChange={e => update("mediaType", e.target.value)}><option value="image">Image</option><option value="video">Video</option></select></div>
-            <div className="col-12"><label className="form-label" htmlFor="media-alt">Alternative text</label><input id="media-alt" className="form-control" maxLength={300} required value={form.altText} onChange={e => update("altText", e.target.value)} /></div>
+            <div className="col-12"><label className="form-label" htmlFor="media-alt">Alternative text</label><input id="media-alt" className="form-control" maxLength={300} required value={form.altText} onChange={e => update("altText", e.target.value)} /><div className="form-text">Describe the meaningful content of the image for visitors using screen readers.</div></div>
             <div className="col-12"><label className="form-label" htmlFor="media-caption">Caption</label><textarea id="media-caption" className="form-control" rows="2" maxLength={700} value={form.caption} onChange={e => update("caption", e.target.value)} /></div>
+            {form.mediaType === "image" && galleryUrlValid && <div className="col-12"><div className="border rounded-3 p-2"><p className="small fw-semibold mb-2">Image preview</p><img src={form.mediaUrl.trim()} alt={form.altText || "Gallery preview"} className="img-fluid rounded" style={{ maxHeight: "320px", objectFit: "contain" }} onError={e => { e.currentTarget.dataset.failed = "true"; e.currentTarget.alt = "Image preview unavailable — verify the URL and permissions."; e.currentTarget.style.display = "none"; }} onLoad={e => { e.currentTarget.dataset.failed = "false"; e.currentTarget.style.display = "block"; }} /><span className="small text-secondary" aria-live="polite">If the preview does not load, verify the link is publicly accessible and points directly to the media.</span></div></div>}
             <div className="col-md-8"><label className="form-label" htmlFor="media-location">Public location label</label><input id="media-location" className="form-control" maxLength={160} value={form.locationLabel} onChange={e => update("locationLabel", e.target.value)} /></div>
           </> : <>
             <div className="col-12"><label className="form-label" htmlFor="story-excerpt">Public summary</label><textarea id="story-excerpt" className="form-control" rows="2" maxLength={700} required value={form.excerpt} onChange={e => update("excerpt", e.target.value)} /></div>
             <div className="col-12"><label className="form-label" htmlFor="story-body">Story</label><textarea id="story-body" className="form-control" rows="6" maxLength={10000} required value={form.body} onChange={e => update("body", e.target.value)} /></div>
-            <div className="col-md-8"><label className="form-label" htmlFor="story-image">Image URL (optional)</label><input id="story-image" className="form-control" value={form.imageUrl} onChange={e => update("imageUrl", e.target.value)} /></div>
+            <div className="col-md-8"><label className="form-label" htmlFor="story-image">Image URL (optional)</label><input id="story-image" className={"form-control " + (form.imageUrl ? (storyImageUrlValid ? "is-valid" : "is-invalid") : "")} type="text" inputMode="url" autoComplete="url" placeholder="https://… or /images/photo.jpg" value={form.imageUrl} onChange={e => update("imageUrl", e.target.value)} /><div className="form-text">Use HTTPS or a same-site path. Leave blank if no image is needed.</div>{form.imageUrl && !storyImageUrlValid && <div className="invalid-feedback d-block">Use a valid HTTPS URL or a path beginning with / (not //).</div>}</div>
             <div className="col-md-4"><label className="form-label" htmlFor="story-alt">Image alt text</label><input id="story-alt" className="form-control" maxLength={300} value={form.imageAlt} onChange={e => update("imageAlt", e.target.value)} /></div>
             <div className="col-12"><label className="form-label" htmlFor="story-attribution">Public attribution (optional)</label><input id="story-attribution" className="form-control" maxLength={160} value={form.attribution} onChange={e => update("attribution", e.target.value)} /></div>
           </>}
           <div className="col-md-4"><label className="form-label" htmlFor="content-order">Display order</label><input id="content-order" type="number" min="0" max="100000" className="form-control" value={form.displayOrder} onChange={e => update("displayOrder", e.target.value)} /></div>
           <div className="col-12">
             <div className="form-check mb-2"><input id="content-consent" type="checkbox" className="form-check-input" checked={form.consentVerified} onChange={e => update("consentVerified", e.target.checked)} /><label className="form-check-label" htmlFor="content-consent">Documented consent and safeguarding review have been verified.</label></div>
-            <div className="form-check"><input id="content-publish" type="checkbox" className="form-check-input" checked={form.isPublished} onChange={e => update("isPublished", e.target.checked)} /><label className="form-check-label" htmlFor="content-publish">Publish publicly (requires verified consent).</label></div>
+            <div className="form-check"><input id="content-publish" type="checkbox" className="form-check-input" checked={form.isPublished} disabled={!form.consentVerified} onChange={e => update("isPublished", e.target.checked)} /><label className="form-check-label" htmlFor="content-publish">Publish publicly (requires verified consent).</label></div><div className="form-text">Keep this unchecked until consent and safeguarding review are documented. Removing consent automatically unchecks publication.</div>
           </div>
           <div className="col-12 d-flex flex-wrap gap-2"><button type="submit" className="btn btn-success" disabled={busy}>{busy ? "Saving…" : editing ? "Save changes" : "Save draft"}</button></div>
         </div>
@@ -158,12 +182,13 @@ export default function PublicContent() {
         <div className="row g-3">
           {items.map(item => <div className="col-12 col-lg-6" key={item.id}>
             <article className="border rounded-4 p-3 h-100">
+              {tab === "gallery" && item.media_type === "image" && item.media_url && <img src={item.media_url} alt={item.alt_text || "Gallery item preview"} className="img-fluid rounded mb-3" loading="lazy" style={{ width: "100%", maxHeight: "220px", objectFit: "cover" }} onError={e => { e.currentTarget.style.display = "none"; }} />}
               <div className="d-flex justify-content-between align-items-start gap-2">
                 <div><h4 className="h6 mb-1">{item.title}</h4><p className="small text-secondary mb-2">{item.category}</p></div>
                 <span className={"badge " + (item.is_published ? "text-bg-success" : "text-bg-secondary")}>{item.is_published ? "Published" : "Draft"}</span>
               </div>
               <p className="small text-secondary mb-2">{tab === "gallery" ? item.caption : item.excerpt}</p>
-              <div className="small mb-3">Consent: <strong>{item.consent_verified ? "Verified" : "Not verified"}</strong></div>
+              <div className="small mb-3 d-flex flex-wrap gap-2"><span className={"badge " + (item.consent_verified ? "text-bg-success" : "text-bg-warning")}>Consent: {item.consent_verified ? "Verified" : "Not verified"}</span><span className="badge text-bg-light border text-dark">Order: {item.display_order ?? 0}</span>{tab === "gallery" && <span className="badge text-bg-light border text-dark">{item.media_type || "media"}</span>}</div>
               <div className="d-flex flex-wrap gap-2"><button type="button" className="btn btn-sm btn-outline-success" onClick={() => edit(item)}>Edit</button><button type="button" className="btn btn-sm btn-outline-danger" disabled={busy} onClick={() => remove(item)} aria-label={`Delete ${item.title}`}>Delete</button></div>
             </article>
           </div>)}
