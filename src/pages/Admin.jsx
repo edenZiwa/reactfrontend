@@ -11,7 +11,7 @@ const VolunteerOperations = React.lazy(() => import("./admin/VolunteerOperations
 const SecurityMonitoring = React.lazy(() => import("./admin/SecurityMonitoring.jsx"));
 const ProjectExpenseApprovals = React.lazy(() => import("./admin/ProjectExpenseApprovals.jsx"));
 const FinancialLedger = React.lazy(() => import("./admin/FinancialLedger.jsx"));
-const PublicContent = React.lazy(() => import("./admin/PublicContent.jsx"));
+const PublicContent = React.lazy(() => import("./admin/PublicContentBoundary.jsx"));
 
 
 
