@@ -33,6 +33,14 @@ async function request(path, options = {}) {
 const emptyGallery = { title: "", category: "community", caption: "", mediaUrl: "", mediaType: "image", altText: "", locationLabel: "", displayOrder: "0", consentVerified: false, isPublished: false };
 const emptyStory = { title: "", category: "community", excerpt: "", body: "", imageUrl: "", imageAlt: "", attribution: "", displayOrder: "0", consentVerified: false, isPublished: false };
 
+const safeText = (value) => typeof value === "string" || typeof value === "number" ? String(value) : "";
+const safeMediaUrl = (value) => {
+  if (typeof value !== "string" || !value.trim()) return "";
+  const url = value.trim();
+  if (url.startsWith("/") && !url.startsWith("//")) return url;
+  try { return new URL(url).protocol === "https:" ? url : ""; } catch { return ""; }
+};
+
 export default function PublicContent() {
   const [tab, setTab] = useState("gallery");
   const [items, setItems] = useState([]);
@@ -48,8 +56,15 @@ export default function PublicContent() {
     setLoading(true); setError("");
     try {
       const data = await request(endpoint);
-      setItems(tab === "gallery" ? (data.items || []) : (data.stories || []));
-    } catch (e) { setError(e.message); }
+      const collection = tab === "gallery" ? data?.items : data?.stories;
+      if (!Array.isArray(collection)) {
+        setItems([]);
+        setError("The content service returned an unexpected response. Refresh the list or try again later.");
+        return;
+      }
+      // Guard the UI from malformed/null rows returned by the API.
+      setItems(collection.filter(item => item && typeof item === "object" && !Array.isArray(item)));
+    } catch (e) { setItems([]); setError(e?.message || "Unable to load public content."); }
     finally { setLoading(false); }
   }, [endpoint, tab]);
 
@@ -136,7 +151,7 @@ export default function PublicContent() {
         <div><h2>Public content library</h2><p>Manage gallery media and approved success stories. Publication requires verified consent and a review.</p></div>
         <i className="bi bi-journal-richtext" aria-hidden="true" />
       </div>
-      {error && <div className="alert alert-danger" role="alert">{error}</div>}
+      {error && <div className="alert alert-danger d-flex flex-wrap align-items-center justify-content-between gap-2" role="alert"><span>{error}</span><button type="button" className="btn btn-sm btn-outline-danger" onClick={load} disabled={loading}><i className="bi bi-arrow-clockwise me-1" />Retry</button></div>}
       {notice && <div className="alert alert-success" role="status">{notice}</div>}
       <div className="btn-group flex-wrap mb-4" role="group" aria-label="Content type">
         <button type="button" className={"btn " + (tab === "gallery" ? "btn-success" : "btn-outline-success")} onClick={() => setTab("gallery")}>Gallery</button>
@@ -182,14 +197,14 @@ export default function PublicContent() {
         <div className="row g-3">
           {items.map(item => <div className="col-12 col-lg-6" key={item.id}>
             <article className="border rounded-4 p-3 h-100">
-              {tab === "gallery" && item.media_type === "image" && item.media_url && <img src={item.media_url} alt={item.alt_text || "Gallery item preview"} className="img-fluid rounded mb-3" loading="lazy" style={{ width: "100%", maxHeight: "220px", objectFit: "cover" }} onError={e => { e.currentTarget.style.display = "none"; }} />}
+              {tab === "gallery" && item.media_type === "image" && safeMediaUrl(item.media_url) && <img src={safeMediaUrl(item.media_url)} alt={safeText(item.alt_text) || "Gallery item preview"} className="img-fluid rounded mb-3" loading="lazy" style={{ width: "100%", maxHeight: "220px", objectFit: "cover" }} onError={e => { e.currentTarget.style.display = "none"; }} />}
               <div className="d-flex justify-content-between align-items-start gap-2">
-                <div><h4 className="h6 mb-1">{item.title}</h4><p className="small text-secondary mb-2">{item.category}</p></div>
+                <div><h4 className="h6 mb-1">{safeText(item.title) || "Untitled content"}</h4><p className="small text-secondary mb-2">{safeText(item.category) || "Uncategorized"}</p></div>
                 <span className={"badge " + (item.is_published ? "text-bg-success" : "text-bg-secondary")}>{item.is_published ? "Published" : "Draft"}</span>
               </div>
-              <p className="small text-secondary mb-2">{tab === "gallery" ? item.caption : item.excerpt}</p>
+              <p className="small text-secondary mb-2">{safeText(tab === "gallery" ? item.caption : item.excerpt)}</p>
               <div className="small mb-3 d-flex flex-wrap gap-2"><span className={"badge " + (item.consent_verified ? "text-bg-success" : "text-bg-warning")}>Consent: {item.consent_verified ? "Verified" : "Not verified"}</span><span className="badge text-bg-light border text-dark">Order: {item.display_order ?? 0}</span>{tab === "gallery" && <span className="badge text-bg-light border text-dark">{item.media_type || "media"}</span>}</div>
-              <div className="d-flex flex-wrap gap-2"><button type="button" className="btn btn-sm btn-outline-success" onClick={() => edit(item)}>Edit</button><button type="button" className="btn btn-sm btn-outline-danger" disabled={busy} onClick={() => remove(item)} aria-label={`Delete ${item.title}`}>Delete</button></div>
+              <div className="d-flex flex-wrap gap-2"><button type="button" className="btn btn-sm btn-outline-success" onClick={() => edit(item)}>Edit</button><button type="button" className="btn btn-sm btn-outline-danger" disabled={busy} onClick={() => remove(item)} aria-label={`Delete ${safeText(item.title) || "content item"}`}>Delete</button></div>
             </article>
           </div>)}
         </div>
