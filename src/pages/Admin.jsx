@@ -49,7 +49,8 @@ const NAV = [
     { id: "recurring", label: "Recurring giving", icon: "bi-repeat", path: "/admin/recurring-donations", permission: "donations.manage" },
     { id: "reports", label: "Reports & exports", icon: "bi-file-earmark-spreadsheet", path: "/admin/reports", permission: "reports.view" },
   ]},
-  { group: "Communications & security", items: [\n    { id: "notifications", label: "Push notifications", icon: "bi-bell", path: "/admin/notifications", permission: "content.manage" },
+  { group: "Communications & security", items: [
+    { id: "notifications", label: "Push notifications", icon: "bi-bell", path: "/admin/notifications", permission: "content.manage" },
     { id: "security", label: "Account security", icon: "bi-shield-lock", path: "/admin/security" },
     { id: "securityEvents", label: "Security monitoring", icon: "bi-shield-exclamation", path: "/admin/security-monitoring", permission: "security.events.view" },
     { id: "inbox", label: "Contact inbox", icon: "bi-envelope", path: "/admin/contact-inbox", permission: "content.manage" },
