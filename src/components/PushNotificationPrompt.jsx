@@ -28,7 +28,32 @@ export default function PushNotificationPrompt() {
       navigator.serviceWorker.ready.then((registration) =>
         registration.pushManager.getSubscription().then((subscription) => {
           if (subscription) {
-            setState("subscribed");
+            // Permission may have been granted before the backend registration
+            // completed. Reconcile the existing browser subscription safely.
+            (async () => {
+              try {
+                const csrfResponse = await fetch(`${API_ORIGIN}/auth/csrf`, {
+                  credentials: "include",
+                  cache: "no-store",
+                });
+                if (!csrfResponse.ok) throw new Error("Could not obtain CSRF token.");
+                const csrfData = await csrfResponse.json();
+                const token = csrfData.csrfToken;
+                if (!token) throw new Error("Secure session token unavailable.");
+                await apiRequest("/push/subscriptions", {
+                  method: "POST",
+                  headers: { "X-CSRF-Token": token },
+                  body: JSON.stringify({
+                    subscription: subscription.toJSON(),
+                    preferences,
+                  }),
+                });
+                setState("subscribed");
+              } catch (error) {
+                console.error("Existing push subscription could not be synchronized:", error);
+                setState("error");
+              }
+            })();
             return;
           }
           try {
