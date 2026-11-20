@@ -33,7 +33,7 @@ async function request(path, options = {}) {
 const emptyGallery = { title: "", category: "community", caption: "", mediaUrl: "", mediaType: "image", altText: "", locationLabel: "", displayOrder: "0", consentVerified: false, isPublished: false };
 const emptyStory = { title: "", category: "community", excerpt: "", body: "", imageUrl: "", imageAlt: "", attribution: "", displayOrder: "0", consentVerified: false, isPublished: false };
 
-const safeText = (value) => typeof value === "string" || typeof value === "number" ? String(value) : "";
+const safeText = (value) => typeof value === "string" || typeof value === "number" ? String(value) : "";\nconst formText = (value) => typeof value === "string" ? value : "";
 const safeMediaUrl = (value) => {
   if (typeof value !== "string" || !value.trim()) return "";
   const url = value.trim();
@@ -99,9 +99,9 @@ export default function PublicContent() {
   function edit(item) {
     setEditing(item);
     if (tab === "gallery") setForm({
-      title: item.title || "", category: item.category || "community", caption: item.caption || "",
-      mediaUrl: item.media_url || "", mediaType: item.media_type || "image", altText: item.alt_text || "",
-      locationLabel: item.location_label || "", displayOrder: String(item.display_order ?? 0),
+      title: formText(item.title), category: formText(item.category) || "community", caption: formText(item.caption),
+      mediaUrl: formText(item.media_url), mediaType: item.media_type === "video" ? "video" : "image", altText: formText(item.alt_text),
+      locationLabel: formText(item.location_label), displayOrder: String(item.display_order ?? 0),
       consentVerified: Boolean(item.consent_verified), isPublished: Boolean(item.is_published),
     });
     else setForm({
@@ -195,7 +195,7 @@ export default function PublicContent() {
       </div>
       {loading ? <p className="text-secondary" role="status">Loading content…</p> : items.length ? (
         <div className="row g-3">
-          {items.map(item => <div className="col-12 col-lg-6" key={item.id}>
+          {items.map((item, index) => <div className="col-12 col-lg-6" key={item.id || `${tab}-${index}`}>
             <article className="border rounded-4 p-3 h-100">
               {tab === "gallery" && item.media_type === "image" && safeMediaUrl(item.media_url) && <img src={safeMediaUrl(item.media_url)} alt={safeText(item.alt_text) || "Gallery item preview"} className="img-fluid rounded mb-3" loading="lazy" style={{ width: "100%", maxHeight: "220px", objectFit: "cover" }} onError={e => { e.currentTarget.style.display = "none"; }} />}
               <div className="d-flex justify-content-between align-items-start gap-2">
