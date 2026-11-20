@@ -27,7 +27,7 @@ export default function PushNotificationPrompt() {
     }
     if (Notification.permission === "granted") {
       navigator.serviceWorker.ready.then((registration) =>
-        registration.pushManager.getSubscription().then((subscription) => setState(subscription ? "subscribed" : "ready"))
+        registration.pushManager.getSubscription().then((subscription) => {\n          if (subscription) { setState("subscribed"); return; }\n          try { setState(sessionStorage.getItem(DISMISS_KEY) === "1" ? "dismissed" : "ready"); }\n          catch { setState("ready"); }\n        })
       ).catch(() => setState("ready"));
       return;
     }
