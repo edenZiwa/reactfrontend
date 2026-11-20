@@ -137,6 +137,17 @@ self.addEventListener("push", (event) => {
 self.addEventListener("notificationclick", (event) => {
   event.notification.close();
 
+  const analyticsUrl = event.notification.data?.analyticsUrl;
+  const campaignId = event.notification.data?.campaignId;
+  if (analyticsUrl && campaignId) {
+    event.waitUntil(fetch(analyticsUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ campaignId }),
+      keepalive: true
+    }).catch(() => undefined));
+  }
+
   const target = new URL(
     event.notification.data?.url || "/",
     self.location.origin
