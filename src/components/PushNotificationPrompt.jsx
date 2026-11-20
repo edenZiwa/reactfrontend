@@ -3,7 +3,6 @@ import { apiRequest } from "../services/api.js";
 import { API_ORIGIN } from "../services/api-config.js";
 
 const DISMISS_KEY = "gom:push-prompt-dismissed";
-const PREF_KEY = "gom:push-preferences";
 function decodeKey(value) {
   const normalized = value.replace(/-/g, "+").replace(/_/g, "/");
   const padded = normalized.padEnd(Math.ceil(normalized.length / 4) * 4, "=");
@@ -58,7 +57,8 @@ export default function PushNotificationPrompt() {
       }
       const keyData = await apiRequest("/push/vapid-public-key");
       const registration = await navigator.serviceWorker.ready;
-      const subscription = await registration.pushManager.subscribe({
+      const existingSubscription = await registration.pushManager.getSubscription();
+      const subscription = existingSubscription || await registration.pushManager.subscribe({
         userVisibleOnly: true,
         applicationServerKey: decodeKey(keyData.publicKey),
       });
