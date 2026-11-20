@@ -17,6 +17,10 @@ on:
   push:
     branches: [feature/multilingual-language-selector]
 
+
+permissions:
+  contents: read
+
 jobs:
   validate:
     runs-on: ubuntu-latest
