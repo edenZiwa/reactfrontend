@@ -235,7 +235,7 @@ function App() {
       page = <Volunteer navigate={navigate} />;
       break;
 
-    case "/account":
+    case "/notifications":\n      page = <NotificationSettings navigate={navigate} />;\n      break;\n\n    case "/account":
       page = <Account navigate={navigate} />;
       break;
 
