@@ -50,6 +50,7 @@ const SuccessStories = React.lazy(() => import("./pages/SuccessStories.jsx"));
 const Cofounder = React.lazy(() => import("./pages/Cofounder.jsx"));
 const PowerOfRevelation = React.lazy(() => import("./pages/PowerOfRevelation.jsx"));
 const Admin = React.lazy(() => import("./pages/Admin.jsx"));
+const NotificationSettings = React.lazy(() => import("./pages/NotificationSettings.jsx"));
 
 function RouteLoading() {
   return (
@@ -235,7 +236,11 @@ function App() {
       page = <Volunteer navigate={navigate} />;
       break;
 
-    case "/notifications":\n      page = <NotificationSettings navigate={navigate} />;\n      break;\n\n    case "/account":
+    case "/notifications":
+      page = <NotificationSettings navigate={navigate} />;
+      break;
+
+    case "/account":
       page = <Account navigate={navigate} />;
       break;
 
