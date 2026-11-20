@@ -248,3 +248,22 @@
 @media (max-width: 991.98px) {
   .gom-admin-topbar { top: 0; }
 }
+
+
+/* Remove inherited public-site/header offsets from the admin route. */
+body:has(.gom-admin) {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+#root:has(.gom-admin) {
+  margin: 0;
+  padding: 0;
+}
+.gom-admin {
+  margin-block-start: 0 !important;
+  padding-block-start: 0 !important;
+}
+.gom-admin-main,
+.gom-admin-main > .gom-admin-topbar:first-child {
+  margin-block-start: 0 !important;
+}
