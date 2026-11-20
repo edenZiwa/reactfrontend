@@ -24,6 +24,7 @@ import { PWAProvider } from "./components/PWAProvider.jsx";
 import PWAInstallPrompt from "./components/PWAInstallPrompt.jsx";
 import PWAUpdatePrompt from "./components/PWAUpdatePrompt.jsx";
 import NetworkStatus from "./components/NetworkStatus.jsx";
+import PushNotificationPrompt from "./components/PushNotificationPrompt.jsx";
 
 import ScrollNavigator from "./components/ScrollNavigator.jsx";
 import ScrollReveal from "./components/ScrollReveal.jsx";
@@ -281,6 +282,7 @@ function App() {
         navigate={navigate}
       />
       <NetworkStatus />
+      <PushNotificationPrompt />
 
       <PopupManager
         path={path}
