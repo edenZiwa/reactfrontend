@@ -3,6 +3,7 @@ import { apiRequest } from "../services/api.js";
 import { API_ORIGIN } from "../services/api-config.js";
 
 const DISMISS_KEY = "gom:push-prompt-dismissed";
+const PREF_KEY = "gom:push-preferences";
 function decodeKey(value) {
   const normalized = value.replace(/-/g, "+").replace(/_/g, "/");
   const padded = normalized.padEnd(Math.ceil(normalized.length / 4) * 4, "=");
@@ -13,6 +14,7 @@ function decodeKey(value) {
 export default function PushNotificationPrompt() {
   const [state, setState] = useState("checking");
   const [busy, setBusy] = useState(false);
+  const [preferences, setPreferences] = useState({announcements:true,programs:true,events:true,impact:true});
 
   useEffect(() => {
     if (!("serviceWorker" in navigator) || !("PushManager" in window) || !("Notification" in window)) {
@@ -56,7 +58,7 @@ export default function PushNotificationPrompt() {
       await apiRequest("/push/subscriptions", {
         method: "POST",
         headers: { "X-CSRF-Token": csrf.csrfToken || csrf.token },
-        body: JSON.stringify({ subscription: subscription.toJSON() }),
+        body: JSON.stringify({ subscription: subscription.toJSON(), preferences }),
       });
       setState("subscribed");
     } catch (error) {
