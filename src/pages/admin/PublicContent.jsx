@@ -33,7 +33,8 @@ async function request(path, options = {}) {
 const emptyGallery = { title: "", category: "community", caption: "", mediaUrl: "", mediaType: "image", altText: "", locationLabel: "", displayOrder: "0", consentVerified: false, isPublished: false };
 const emptyStory = { title: "", category: "community", excerpt: "", body: "", imageUrl: "", imageAlt: "", attribution: "", displayOrder: "0", consentVerified: false, isPublished: false };
 
-const safeText = (value) => typeof value === "string" || typeof value === "number" ? String(value) : "";\nconst formText = (value) => typeof value === "string" ? value : "";
+const safeText = (value) => typeof value === "string" || typeof value === "number" ? String(value) : "";
+const formText = (value) => typeof value === "string" ? value : "";
 const safeMediaUrl = (value) => {
   if (typeof value !== "string" || !value.trim()) return "";
   const url = value.trim();
@@ -105,9 +106,9 @@ export default function PublicContent() {
       consentVerified: Boolean(item.consent_verified), isPublished: Boolean(item.is_published),
     });
     else setForm({
-      title: item.title || "", category: item.category || "community", excerpt: item.excerpt || "",
-      body: item.body || "", imageUrl: item.image_url || "", imageAlt: item.image_alt || "",
-      attribution: item.attribution || "", displayOrder: String(item.display_order ?? 0),
+      title: formText(item.title), category: formText(item.category) || "community", excerpt: formText(item.excerpt),
+      body: formText(item.body), imageUrl: formText(item.image_url), imageAlt: formText(item.image_alt),
+      attribution: formText(item.attribution), displayOrder: String(item.display_order ?? 0),
       consentVerified: Boolean(item.consent_verified), isPublished: Boolean(item.is_published),
     });
     window.scrollTo({ top: 0, behavior: "smooth" });
