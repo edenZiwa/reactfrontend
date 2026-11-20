@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { apiRequest } from "../services/api.js";
+import { API_ORIGIN } from "../services/api-config.js";
 
 const DISMISS_KEY = "gom:push-prompt-dismissed";
 function decodeKey(value) {
@@ -49,7 +50,9 @@ export default function PushNotificationPrompt() {
         userVisibleOnly: true,
         applicationServerKey: decodeKey(keyData.publicKey),
       });
-      const csrf = await apiRequest("/auth/csrf");
+      const csrfResponse = await fetch(`${API_ORIGIN}/auth/csrf`, { credentials: "include" });
+      if (!csrfResponse.ok) throw new Error("Could not obtain CSRF token.");
+      const csrf = await csrfResponse.json();
       await apiRequest("/push/subscriptions", {
         method: "POST",
         headers: { "X-CSRF-Token": csrf.csrfToken || csrf.token },
