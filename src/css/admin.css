@@ -232,3 +232,19 @@
 @media(prefers-reduced-motion:reduce) {
  .gom-volops * { scroll-behavior:auto!important; }
 }
+
+
+/* Admin workspace: keep the topbar visible and eliminate top offset */
+.gom-admin-main { min-width: 0; }
+.gom-admin-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+  margin-top: 0;
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--gom-admin-ink, #18352b) 6%, transparent);
+}
+.gom-admin-main > .gom-admin-topbar:first-child { inset-block-start: 0; }
+.gom-admin-content { padding-top: clamp(16px, 3vw, 36px); }
+@media (max-width: 991.98px) {
+  .gom-admin-topbar { top: 0; }
+}
