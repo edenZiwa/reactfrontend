@@ -81,7 +81,7 @@ function About({ navigate }) {
             <div className="col-lg-5">
               <aside className="about-hero-card" aria-label="Our founding belief">
                 <span className="about-hero-card-mark" aria-hidden="true">
-                  <i className="bi bi-flower1" />
+                  <i className="bi bi-seedling" />
                 </span>
                 <span className="about-hero-card-kicker">OUR FOUNDING BELIEF</span>
                 <h2>Mercy is more than a feeling. It is a reason to act.</h2>
