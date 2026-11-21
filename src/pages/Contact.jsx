@@ -175,7 +175,7 @@ function Contact( {
                                 <i className="bi bi-arrow-right" aria-hidden="true" />
                             </a>
                             <span className="contact-hero-card-watermark" aria-hidden="true">
-                                <i className="bi bi-flower1" />
+                                <i className="bi bi-chat-heart" />
                             </span>
                         </aside>
                         <p className="contact-hero-caption">
@@ -452,7 +452,7 @@ function Contact( {
             <div className="container">
                 <div className="contact-cta rounded-4 p-4 p-md-5 text-center">
                     <div className="contact-cta-icon mb-3" aria-hidden="true">
-                        <i className="bi bi-flower1" />
+                        <i className="bi bi-envelope" />
                     </div>
 
                     <Eyebrow>LET’S MAKE A DIFFERENCE</Eyebrow>
