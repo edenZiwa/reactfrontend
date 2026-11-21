@@ -286,8 +286,8 @@ function App() {
         path={path}
         navigate={navigate}
       />
-      <NetworkStatus />
       <PushNotificationPrompt />
+      <NetworkStatus />
 
       <PopupManager
         path={path}
