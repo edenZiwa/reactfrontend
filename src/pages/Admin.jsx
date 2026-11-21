@@ -27,12 +27,12 @@ import "../css/sponsorship-management.css";
 
 const API = (path) => `${API_ORIGIN}${path}`;
 const NAV = [
-  { group: "Overview", items: [{ id: "dashboard", label: "Dashboard", icon: "bi-grid-1x2", path: "/admin", permission: "reports.view" }] },
+  { group: "Overview", items: [{ id: "dashboard", label: "Dashboard", icon: "bi-speedometer2", path: "/admin", permission: "reports.view" }] },
   { group: "People & care", items: [
     { id: "donors", label: "Donor CRM", icon: "bi-person-heart", path: "/admin/donors", permission: "donors.view" },
     { id: "users", label: "Staff & users", icon: "bi-people", path: "/admin/users", permission: "users.manage" },
     { id: "beneficiaries", label: "Beneficiaries", icon: "bi-heart-pulse", path: "/admin/beneficiaries", permission: "beneficiaries.view" },
-    { id: "sponsorship", label: "Public child profiles", icon: "bi-mortarboard", path: "/admin/sponsorship", permission: "beneficiaries.view" },
+    { id: "sponsorship", label: "Public child profiles", icon: "bi-person-hearts", path: "/admin/sponsorship", permission: "beneficiaries.view" },
     { id: "sponsorshipOps", label: "Sponsorship operations", icon: "bi-diagram-3", path: "/admin/sponsorship-management", permission: "sponsorship.manage" },
     { id: "volunteers", label: "Volunteer profiles", icon: "bi-person-check", path: "/admin/volunteers", permission: "volunteers.manage" },
     { id: "volunteerOps", label: "Volunteer operations", icon: "bi-clipboard2-check", path: "/admin/volunteer-operations", permission: "volunteers.operations.manage" },
@@ -518,8 +518,8 @@ function Dashboard({ data, navigate, can, reload }) {
     ? currencyTotals.map(item => money(item[field], item.currency)).join(" · ")
     : "—";
   const cards = [
-    { label: "Confirmed donations", value: currencySummary("received"), note: `${d.successful || 0} successful payments · shown separately by currency`, icon: "bi-heart-pulse", tone: "green", group: "Giving" },
-    { label: "Donations this month", value: currencySummary("received_this_month"), note: "Current-month totals · shown separately by currency", icon: "bi-calendar-heart", tone: "gold", group: "Giving" },
+    { label: "Confirmed donations", value: currencySummary("received"), note: `${d.successful || 0} successful payments · shown separately by currency`, icon: "bi-cash-coin", tone: "green", group: "Giving" },
+    { label: "Donations this month", value: currencySummary("received_this_month"), note: "Current-month totals · shown separately by currency", icon: "bi-calendar2-check", tone: "gold", group: "Giving" },
     { label: "Payments awaiting review", value: numberFormat(d.pending), note: "Initiating or pending payments", icon: "bi-hourglass-split", tone: "amber", group: "Giving" },
     { label: "Beneficiaries", value: numberFormat(b.total), note: `${numberFormat(b.active) || 0} active records`, icon: "bi-people", tone: "green", group: "People" },
     { label: "Consent follow-up", value: numberFormat(b.consent_pending), note: "Beneficiary records needing attention", icon: "bi-clipboard-heart", tone: "amber", group: "People" },
