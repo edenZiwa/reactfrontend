@@ -261,11 +261,11 @@ function Programs({ navigate }) {
                 </p>
                 <div className="programs-hero-card-divider" />
                 <div className="programs-hero-card-foot">
-                  <i className="bi bi-flower1" aria-hidden="true" />
+                  <i className="bi bi-seedling" aria-hidden="true" />
                   <span>Sowing seeds of mercy and compassion.</span>
                 </div>
                 <span className="programs-hero-card-watermark" aria-hidden="true">
-                  <i className="bi bi-flower1" />
+                  <i className="bi bi-seedling" />
                 </span>
               </aside>
               <p className="programs-hero-caption">
