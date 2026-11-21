@@ -1,5 +1,6 @@
 import React, { useCallback } from "react";
 import PopupModal from "./PopupModal";
+import { trackPopupEvent } from "./popupAnalytics";
 
 export default function EducationGiftPopup({ onClose, navigate }) {
   const handleDonate = useCallback(() => {
