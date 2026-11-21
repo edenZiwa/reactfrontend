@@ -12,12 +12,17 @@ const EDUCATION_KEY = "gom_education_popup_shown";
 const WELCOME_DELAY = 30000;
 const EDUCATION_MIN_ENGAGEMENT_MS = 45000;
 const EDUCATION_SCROLL_THRESHOLD = 0.4;
+const EDUCATION_COOLDOWN_KEY = "gom_education_popup_cooldown";
+const EDUCATION_COOLDOWN_MS = 30 * 24 * 60 * 60 * 1000;
 const memoryShown = new Set();
 
 function wasShown(key) {
   try {
-    if (window.localStorage.getItem(key) === "true") return true;
-    if (window.sessionStorage.getItem(key) === "true") return true;
+    if (key === EDUCATION_KEY) {
+      const cooldownUntil = Number(window.localStorage.getItem(EDUCATION_COOLDOWN_KEY) || 0);
+      if (cooldownUntil > Date.now()) return true;
+      if (window.sessionStorage.getItem(key) === "true") return true;
+    } else if (window.localStorage.getItem(key) === "true") return true;
     return memoryShown.has(key);
   } catch {
     return memoryShown.has(key);
@@ -31,6 +36,7 @@ function markShown(key) {
       window.localStorage.setItem(key, "true");
     } else {
       window.sessionStorage.setItem(key, "true");
+      window.localStorage.setItem(EDUCATION_COOLDOWN_KEY, String(Date.now() + EDUCATION_COOLDOWN_MS));
     }
   } catch {
     // Popup behavior remains functional when browser storage is unavailable.
@@ -125,6 +131,7 @@ export default function PopupManager({ path, navigate }) {
     const startedAt = Date.now();
     let engagementTimer;
     let engaged = false;
+    let currentPageStartedAt = Date.now();
 
     const getScrollDepth = () => {
       const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
@@ -136,6 +143,7 @@ export default function PopupManager({ path, navigate }) {
       if (
         engaged &&
         Date.now() - startedAt >= EDUCATION_MIN_ENGAGEMENT_MS &&
+        Date.now() - currentPageStartedAt >= 15000 &&
         getScrollDepth() >= EDUCATION_SCROLL_THRESHOLD &&
         document.visibilityState === "visible"
       ) {
@@ -151,7 +159,10 @@ export default function PopupManager({ path, navigate }) {
     };
 
     const handleVisibility = () => {
-      if (document.visibilityState === "visible") tryOpenFromEngagement();
+      if (document.visibilityState === "visible") {
+        currentPageStartedAt = Date.now();
+        tryOpenFromEngagement();
+      }
     };
 
     engagementTimer = window.setTimeout(tryOpenFromEngagement, EDUCATION_MIN_ENGAGEMENT_MS);
