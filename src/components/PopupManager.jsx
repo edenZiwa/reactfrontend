@@ -131,7 +131,8 @@ export default function PopupManager({ path, navigate }) {
     const startedAt = Date.now();
     let engagementTimer;
     let engaged = false;
-    let currentPageStartedAt = Date.now();
+    let visibleTimeMs = 0;
+    let visibleStartedAt = document.visibilityState === "visible" ? Date.now() : null;
 
     const getScrollDepth = () => {
       const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
@@ -143,7 +144,7 @@ export default function PopupManager({ path, navigate }) {
       if (
         engaged &&
         Date.now() - startedAt >= EDUCATION_MIN_ENGAGEMENT_MS &&
-        Date.now() - currentPageStartedAt >= 15000 &&
+        visibleTimeMs + (visibleStartedAt ? Date.now() - visibleStartedAt : 0) >= EDUCATION_MIN_ENGAGEMENT_MS &&
         getScrollDepth() >= EDUCATION_SCROLL_THRESHOLD &&
         document.visibilityState === "visible"
       ) {
@@ -160,8 +161,11 @@ export default function PopupManager({ path, navigate }) {
 
     const handleVisibility = () => {
       if (document.visibilityState === "visible") {
-        currentPageStartedAt = Date.now();
+        visibleStartedAt = Date.now();
         tryOpenFromEngagement();
+      } else if (visibleStartedAt) {
+        visibleTimeMs += Date.now() - visibleStartedAt;
+        visibleStartedAt = null;
       }
     };
 
