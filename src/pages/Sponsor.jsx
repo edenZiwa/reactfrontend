@@ -301,7 +301,7 @@ function ChildProfiles() {
           {status === "success" && visibleProfiles.length === 0 && (
             <div className="col-12">
               <div className="sponsor-empty-state">
-                <span className="sponsor-empty-icon"><i className="bi bi-flower1" aria-hidden="true" /></span>
+                <span className="sponsor-empty-icon"><i className="bi bi-person-hearts" aria-hidden="true" /></span>
                 <h3>{profiles.length ? "No profiles match your filters" : "New sponsorship profiles are being prepared"}</h3>
                 <p>
                   {profiles.length
@@ -371,7 +371,7 @@ export default function Sponsor({ navigate }) {
             </div>
             <div className="col-lg-5">
               <aside className="sponsor-hero-card">
-                <span className="sponsor-hero-card-icon"><i className="bi bi-flower1" aria-hidden="true" /></span>
+                <span className="sponsor-hero-card-icon"><i className="bi bi-person-hearts" aria-hidden="true" /></span>
                 <span className="sponsor-kicker">A COMMITMENT THAT MATTERS</span>
                 <h2>Every child deserves the chance to learn, grow and thrive.</h2>
                 <p>

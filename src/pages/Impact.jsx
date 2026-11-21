@@ -126,7 +126,7 @@ export default function Impact({ navigate }) {
                 </ul>
 
                 <span className="impact-hero-card-watermark" aria-hidden="true">
-                  <i className="bi bi-flower1" />
+                  <i className="bi bi-graph-up-arrow" />
                 </span>
               </aside>
               <p className="impact-hero-caption">
