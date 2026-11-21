@@ -1,22 +1,38 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import PopupModal from "./PopupModal";
+import { trackPopupEvent } from "./popupAnalytics";
 
 export default function EducationGiftPopup({ onClose, navigate }) {
+  useEffect(() => {
+    trackPopupEvent("popup_impression");
+  }, []);
+
   const handleDonate = useCallback(() => {
+    trackPopupEvent("popup_cta_click", {
+      action: "donate",
+      amount: 30,
+      currency: "USD",
+    });
     onClose();
     navigate?.("/donate?amount=30&currency=USD&purpose=children&frequency=one-time#donation-form");
   }, [navigate, onClose]);
 
   const handleLearnMore = useCallback(() => {
+    trackPopupEvent("popup_cta_click", { action: "learn_programs" });
     onClose();
     navigate?.("/programs");
   }, [navigate, onClose]);
+
+  const handleDismiss = useCallback(() => {
+    trackPopupEvent("popup_dismiss");
+    onClose();
+  }, [onClose]);
 
   return (
     <PopupModal
       titleId="education-popup-title"
       descriptionId="education-popup-description"
-      onClose={onClose}
+      onClose={handleDismiss}
       size="md"
     >
       <div className="modal-header border-0 pb-0">
@@ -26,7 +42,7 @@ export default function EducationGiftPopup({ onClose, navigate }) {
         <button
           type="button"
           className="btn-close ms-auto"
-          onClick={onClose}
+          onClick={handleDismiss}
           aria-label="Close education donation message"
         />
       </div>
@@ -78,7 +94,7 @@ export default function EducationGiftPopup({ onClose, navigate }) {
         <button
           type="button"
           className="btn btn-link text-body-secondary text-decoration-none w-100 mt-2"
-          onClick={onClose}
+          onClick={handleDismiss}
         >
           Maybe later
         </button>
