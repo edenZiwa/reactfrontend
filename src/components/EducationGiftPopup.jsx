@@ -7,9 +7,15 @@ export default function EducationGiftPopup({ onClose, navigate }) {
     navigate?.("/donate?amount=30&currency=USD&purpose=children&frequency=one-time#donation-form");
   }, [navigate, onClose]);
 
+  const handleLearnMore = useCallback(() => {
+    onClose();
+    navigate?.("/programs");
+  }, [navigate, onClose]);
+
   return (
     <PopupModal
       titleId="education-popup-title"
+      descriptionId="education-popup-description"
       onClose={onClose}
       size="md"
     >
@@ -25,7 +31,7 @@ export default function EducationGiftPopup({ onClose, navigate }) {
         />
       </div>
 
-      <div className="modal-body p-4 p-md-5">
+      <div className="modal-body p-3 p-sm-4 p-md-5">
         <div
           className="d-flex align-items-center justify-content-center bg-success-subtle text-success rounded-4 mb-4"
           style={{ height: 64, width: 64 }}
@@ -38,17 +44,17 @@ export default function EducationGiftPopup({ onClose, navigate }) {
           Help a child take the next step.
         </h2>
 
-        <p className="text-secondary mb-4">
-          A $30 gift can help provide school fees and learning essentials.
+        <p id="education-popup-description" className="text-secondary mb-4">
+          Your generosity can help vulnerable children access education, school supplies, and opportunities for a brighter future.
         </p>
 
-        <div className="bg-light border rounded-4 p-3 p-md-4 mb-4">
-          <div className="d-flex align-items-baseline gap-2">
+        <div className="bg-body-tertiary border rounded-4 p-3 p-md-4 mb-4">
+          <div className="d-flex flex-wrap align-items-baseline gap-2">
             <span className="display-4 fw-bold text-success">$30</span>
-            <span className="text-secondary">toward a child’s education</span>
+            <span className="text-body-secondary">A gift toward a child’s education</span>
           </div>
-          <p className="small text-secondary mb-0 mt-2">
-            Support is directed according to each child’s needs and available program resources.
+          <p className="small text-body-secondary mb-0 mt-2">
+            Contributions support children according to individual needs and available program resources.
           </p>
         </div>
 
@@ -63,7 +69,15 @@ export default function EducationGiftPopup({ onClose, navigate }) {
 
         <button
           type="button"
-          className="btn btn-link text-secondary text-decoration-none w-100 mt-2"
+          className="btn btn-outline-secondary w-100 rounded-pill mt-2"
+          onClick={handleLearnMore}
+        >
+          Learn About Our Programs
+        </button>
+
+        <button
+          type="button"
+          className="btn btn-link text-body-secondary text-decoration-none w-100 mt-2"
           onClick={onClose}
         >
           Maybe later

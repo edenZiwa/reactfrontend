@@ -10,15 +10,19 @@ import EducationGiftPopup from "./EducationGiftPopup";
 const WELCOME_KEY = "gom_welcome_shown";
 const EDUCATION_KEY = "gom_education_popup_shown";
 const WELCOME_DELAY = 30000;
+const EDUCATION_MIN_ENGAGEMENT_MS = 45000;
+const EDUCATION_SCROLL_THRESHOLD = 0.4;
+const EDUCATION_COOLDOWN_KEY = "gom_education_popup_cooldown";
+const EDUCATION_COOLDOWN_MS = 30 * 24 * 60 * 60 * 1000;
 const memoryShown = new Set();
 
 function wasShown(key) {
   try {
-    if (window.localStorage.getItem(key) === "true") return true;
-    // Respect the previous session-only flag during this tab's migration.
-    if (key === WELCOME_KEY && window.sessionStorage.getItem(key) === "true") {
-      return true;
-    }
+    if (key === EDUCATION_KEY) {
+      const cooldownUntil = Number(window.localStorage.getItem(EDUCATION_COOLDOWN_KEY) || 0);
+      if (cooldownUntil > Date.now()) return true;
+      if (window.sessionStorage.getItem(key) === "true") return true;
+    } else if (window.localStorage.getItem(key) === "true") return true;
     return memoryShown.has(key);
   } catch {
     return memoryShown.has(key);
@@ -32,9 +36,10 @@ function markShown(key) {
       window.localStorage.setItem(key, "true");
     } else {
       window.sessionStorage.setItem(key, "true");
+      window.localStorage.setItem(EDUCATION_COOLDOWN_KEY, String(Date.now() + EDUCATION_COOLDOWN_MS));
     }
   } catch {
-    // Popups still work if browser storage is unavailable.
+    // Popup behavior remains functional when browser storage is unavailable.
   }
 }
 
@@ -60,23 +65,24 @@ export default function PopupManager({ path, navigate }) {
     if (
       isDonationFlow ||
       welcomeOpen ||
+      educationOpen ||
       wasShown(EDUCATION_KEY)
     ) {
-      return;
+      return false;
     }
 
     markShown(EDUCATION_KEY);
     setEducationOpen(true);
-  }, [isDonationFlow, welcomeOpen]);
+    return true;
+  }, [isDonationFlow, welcomeOpen, educationOpen]);
 
-  // A welcome prompt should never follow a visitor onto another page.
+  // Route changes always close overlays; no popup follows visitors between pages.
   useEffect(() => {
     setWelcomeOpen(false);
     setEducationOpen(false);
   }, [path]);
 
-  // Welcome first-time browser visitors after 30 seconds on the visible homepage.
-  // The delay restarts if they switch away before the prompt appears.
+  // Welcome visitors only on the visible homepage and only once per browser.
   useEffect(() => {
     if (path !== "/" || isDonationFlow || wasShown(WELCOME_KEY)) return;
 
@@ -112,7 +118,8 @@ export default function PopupManager({ path, navigate }) {
     };
   }, [path, isDonationFlow]);
 
-  // Offer education support only after genuine engagement, and only once per tab session.
+  // Education popup requires engagement: time plus scroll, or an intentional
+  // event from education/sponsorship content. Time alone never opens it.
   useEffect(() => {
     if (
       isDonationFlow ||
@@ -121,39 +128,64 @@ export default function PopupManager({ path, navigate }) {
       wasShown(EDUCATION_KEY)
     ) return;
 
-    let opened = false;
-    let timer;
+    const startedAt = Date.now();
+    let engagementTimer;
+    let engaged = false;
+    let visibleTimeMs = 0;
+    let visibleStartedAt = document.visibilityState === "visible" ? Date.now() : null;
 
-    const tryOpen = () => {
+    const getScrollDepth = () => {
+      const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
+      if (scrollableHeight <= 0) return 0;
+      return Math.max(0, Math.min(1, window.scrollY / scrollableHeight));
+    };
+
+    const tryOpenFromEngagement = () => {
       if (
-        opened ||
-        wasShown(EDUCATION_KEY) ||
-        document.visibilityState !== "visible"
-      ) return;
-
-      opened = true;
-      markShown(EDUCATION_KEY);
-      setEducationOpen(true);
+        engaged &&
+        Date.now() - startedAt >= EDUCATION_MIN_ENGAGEMENT_MS &&
+        visibleTimeMs + (visibleStartedAt ? Date.now() - visibleStartedAt : 0) >= EDUCATION_MIN_ENGAGEMENT_MS &&
+        getScrollDepth() >= EDUCATION_SCROLL_THRESHOLD &&
+        document.visibilityState === "visible"
+      ) {
+        openEducation();
+      }
     };
 
     const handleScroll = () => {
-      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
-      if (scrollable <= 0) return;
-      if (window.scrollY / scrollable >= 0.7) tryOpen();
+      if (getScrollDepth() >= EDUCATION_SCROLL_THRESHOLD) {
+        engaged = true;
+        tryOpenFromEngagement();
+      }
     };
 
-    const handleEducationRequest = () => tryOpen();
+    const handleVisibility = () => {
+      if (document.visibilityState === "visible") {
+        visibleStartedAt = Date.now();
+        tryOpenFromEngagement();
+      } else if (visibleStartedAt) {
+        visibleTimeMs += Date.now() - visibleStartedAt;
+        visibleStartedAt = null;
+      }
+    };
 
-    timer = window.setTimeout(tryOpen, 60000);
+    engagementTimer = window.setTimeout(tryOpenFromEngagement, EDUCATION_MIN_ENGAGEMENT_MS);
+
+    const handleEducationRequest = () => {
+      if (document.visibilityState === "visible") openEducation();
+    };
+
     window.addEventListener("scroll", handleScroll, { passive: true });
+    document.addEventListener("visibilitychange", handleVisibility);
     window.addEventListener("gom:open-education-popup", handleEducationRequest);
 
     return () => {
-      window.clearTimeout(timer);
+      window.clearTimeout(engagementTimer);
       window.removeEventListener("scroll", handleScroll);
+      document.removeEventListener("visibilitychange", handleVisibility);
       window.removeEventListener("gom:open-education-popup", handleEducationRequest);
     };
-  }, [path, isDonationFlow, welcomeOpen, educationOpen]);
+  }, [path, isDonationFlow, welcomeOpen, educationOpen, openEducation]);
 
   if (isDonationFlow) return null;
 
