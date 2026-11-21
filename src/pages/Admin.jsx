@@ -541,7 +541,7 @@ function Dashboard({ data, navigate, can, reload }) {
     <section className="gom-welcome-banner">
       <div className="gom-welcome-copy"><span className="small text-uppercase fw-bold">Your work makes a difference</span><h2>Welcome to your workspace</h2><p>A clear view of our giving, people and programme operations.</p></div>
       <div className="gom-welcome-actions"><span className="gom-live-indicator"><i /> Live overview</span><button type="button" className="btn btn-light btn-sm" onClick={reload}><i className="bi bi-arrow-clockwise me-2" />Refresh overview</button></div>
-      <div className="gom-welcome-art" aria-hidden="true"><i className="bi bi-flower1" /></div>
+      <div className="gom-welcome-art" aria-hidden="true"><i className="bi bi-graph-up-arrow" /></div>
     </section>
 
     <section className="gom-dashboard-section" aria-labelledby="gom-summary-heading">
