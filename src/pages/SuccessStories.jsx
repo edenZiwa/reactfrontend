@@ -9,12 +9,12 @@ const impactStats = [{
     {
         number: "02",
         label: "Hope through education",
-        icon: "bi-book-half"
+        icon: "bi-mortarboard"
     },
     {
         number: "03",
         label: "Stronger communities",
-        icon: "bi-people-fill"
+        icon: "bi-person-hearts"
     },
     {
         number: "04",
@@ -42,7 +42,7 @@ const storySteps = [{
         title: "Hope moves forward",
         description:
         "The goal is lasting progress that strengthens dignity, independence, and opportunity.",
-        icon: "bi-sun",
+        icon: "bi-sunrise",
     },
 ];
 
@@ -195,7 +195,7 @@ const SuccessStories = () => {
                                         <img src={story.image} alt={story.alt} className="mercy-story-image" loading="lazy" />
                                     ) : (
                                         <div className="mercy-story-image d-flex align-items-center justify-content-center" aria-hidden="true">
-                                            <i className="bi bi-heart-pulse display-3 text-success" />
+                                            <i className="bi bi-graph-up-arrow display-3 text-success" />
                                         </div>
                                     )}
 
