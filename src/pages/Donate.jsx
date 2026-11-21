@@ -272,7 +272,7 @@ function Donate() {
                 </a>
 
                 <span className="donate-hero-feature-watermark" aria-hidden="true">
-                  <i className="bi bi-flower1" />
+                  <i className="bi bi-hand-heart" />
                 </span>
               </article>
               <p className="donate-hero-caption">
@@ -636,7 +636,7 @@ function Donate() {
             <aside className="col-lg-5">
               <div id="ways-to-give" className="donation-aside p-4 p-md-5 rounded-4">
                 <div className="icon-circle mb-3" aria-hidden="true">
-                  <i className="bi bi-flower1" />
+                  <i className="bi bi-cash-coin" />
                 </div>
 
                 <h2 className="h4 fw-bold">Your kindness matters</h2>
