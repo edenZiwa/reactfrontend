@@ -390,7 +390,7 @@ function Cofounder({ navigate }) {
                 <div className="ministry-card-top">
                   <span className="ministry-icon">
                     <i
-                      className="bi bi-flower1"
+                      className="bi bi-people"
                       aria-hidden="true"
                     />
                   </span>
