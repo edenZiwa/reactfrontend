@@ -4,7 +4,7 @@ import { apiRequest } from "../services/api.js";
 const impactStats = [{
     number: "01",
     label: "Every life matters",
-    icon: "bi-heart-fill"
+    icon: "bi-hand-heart"
 },
     {
         number: "02",
