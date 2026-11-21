@@ -10,7 +10,7 @@ import EducationGiftPopup from "./EducationGiftPopup";
 const WELCOME_KEY = "gom_welcome_shown";
 const EDUCATION_KEY = "gom_education_popup_shown";
 const WELCOME_DELAY = 30000;
-const EDUCATION_MIN_ENGAGEMENT_MS = 30000;
+const EDUCATION_MIN_ENGAGEMENT_MS = 45000;
 const EDUCATION_SCROLL_THRESHOLD = 0.4;
 const memoryShown = new Set();
 
