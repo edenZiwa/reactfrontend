@@ -548,7 +548,7 @@ function Home( {
 
               {/* Get involved */}
               <div className="col-lg-5 bg-success theme-on-dark p-4 p-lg-5">
-                <i className="bi bi-flower1 display-3 text-warning"></i>
+                <i className="bi bi-seedling display-3 text-warning" aria-hidden="true"></i>
 
                 <h3 className="theme-on-dark mt-4">
                   Every seed matters.
