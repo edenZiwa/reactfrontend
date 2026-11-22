@@ -1,14 +1,17 @@
-/* Match the full-width, centered alignment of the offline status strip. */
+/* Use the same fixed, viewport-wide strip placement as NetworkStatus. */
 .gom-push-prompt {
-  position: relative; z-index: 1020; overflow: hidden; width: 100%;
+  position: fixed; top: var(--gom-site-header-height, 82px); left: 0; right: 0;
+  z-index: 1044; width: 100%; overflow: hidden;
   background: var(--bs-success-bg-subtle, #d1e7dd);
   color: var(--bs-success-text-emphasis, #0a3622);
   border-bottom: 1px solid var(--bs-success-border-subtle, #a3cfbb);
+  box-shadow: 0 2px 8px rgba(0,0,0,.06);
   animation: gom-push-enter 320ms ease-out both;
 }
+.gom-offline-status ~ .gom-push-prompt { top: calc(var(--gom-site-header-height, 82px) + 34px); }
 .gom-push-prompt__inner {
   display: flex; align-items: center; justify-content: center; flex-wrap: wrap;
-  gap: .625rem; padding-block: .625rem; text-align: center;
+  gap: .625rem; padding: 7px 12px; text-align: center; min-height: 34px;
 }
 .gom-push-prompt__icon {
   display: inline-grid; place-items: center; flex: 0 0 1.75rem;
@@ -29,8 +32,8 @@
 .gom-push-prompt.is-closing { animation: gom-push-exit 350ms ease-in forwards; pointer-events: none; }
 @keyframes gom-push-enter { from { opacity: 0; transform: translateY(-.65rem); } to { opacity: 1; transform: translateY(0); } }
 @keyframes gom-push-exit { to { opacity: 0; transform: translateY(-.65rem); max-height: 0; padding-block: 0; border-width: 0; } }
-@media (max-width: 575.98px) {
-  .gom-push-prompt__inner { gap: .375rem .5rem; padding-block: .5rem; }
+@media (max-width: 767.98px) {
+  .gom-push-prompt__inner { gap: .375rem .5rem; padding-block: 6px; }
   .gom-push-prompt__icon { flex-basis: 1.5rem; width: 1.5rem; height: 1.5rem; font-size: .875rem; }
   .gom-push-prompt__content { flex-basis: 100%; order: 1; }
   .gom-push-prompt__content strong { font-size: .875rem; }
