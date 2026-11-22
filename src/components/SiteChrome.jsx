@@ -57,11 +57,13 @@ function AppLink({ to, navigate, className = "", children, onClick, ...props }) 
 function Header({ path = "/", navigate }) {
   const [open, setOpen] = useState(false);
   const scrollPositionRef = useRef(0);
+  const latestPathRef = useRef(currentPath);
   const menuToggleRef = useRef(null);
   const navRef = useRef(null);
   const { t } = useTranslation("common");
   const { mode, resolvedTheme, setMode } = useTheme();
   const currentPath = normalizePath(path);
+  latestPathRef.current = currentPath;
   const closeMenu = () => setOpen(false);
 
   useEffect(() => {
@@ -86,9 +88,15 @@ function Header({ path = "/", navigate }) {
       body.style.position = previousStyles.position;
       body.style.top = previousStyles.top;
       body.style.width = previousStyles.width;
-      window.scrollTo(0, scrollPositionRef.current);
+      // Restore the locked scroll position only when the menu closes on the
+      // same route. Route navigation has its own top/hash/history scroll logic;
+      // restoring the old position here would override that reset and expose
+      // the footer of the previous page on the newly opened route.
+      if (latestPathRef.current === currentPath) {
+        window.scrollTo(0, scrollPositionRef.current);
+      }
     };
-  }, [open]);
+  }, [open, currentPath]);
 
   useEffect(() => {
     if (!open) return undefined;
