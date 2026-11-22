@@ -3396,7 +3396,7 @@ select:focus-visible {
 
 
 
-/* The original hero eyebrow becomes the sticky breadcrumb after scrolling. */
+/* Scroll-aware breadcrumb: shown only during upward scrolling. */
 .hero-eyebrow.is-sticky {
   position: fixed;
   top: var(--gom-site-header-height, 82px);
@@ -3405,10 +3405,15 @@ select:focus-visible {
   max-width: min(calc(100vw - 2rem), 1240px);
   margin: 0;
   transform: translateY(0);
+  opacity: 1;
   box-shadow: 0 3px 12px rgba(0, 0, 0, .08);
   -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
-  transition: top .18s ease, box-shadow .18s ease;
+  transition: top .18s ease, box-shadow .18s ease, opacity .18s ease, transform .18s ease;
+}
+.hero-eyebrow:not(.is-sticky) {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .gom-offline-status ~ .hero-eyebrow.is-sticky {

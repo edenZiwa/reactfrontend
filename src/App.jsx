@@ -80,7 +80,8 @@ function App() {
   }, []);
 
 
-  // The hero eyebrow itself becomes the sticky breadcrumb; it is never cloned.
+  // The original hero eyebrow acts as a scroll-aware breadcrumb: it appears
+  // while scrolling upward and briefly remains visible when scrolling stops.
   useEffect(() => {
     const stickyPaths = new Set([
       "/about", "/programs", "/donate", "/volunteer",
@@ -92,34 +93,78 @@ function App() {
     const eyebrow = document.querySelector("#main-content .hero-eyebrow");
     if (!eyebrow) return undefined;
 
-    // Raise only the hero section that owns the original eyebrow. This
-    // lifts its local stacking context above page content without allowing
-    // it to cover the header or system-level overlays.
     const stickyOwner = eyebrow.closest("section");
     if (!stickyOwner) return undefined;
 
+    const idleDelay = 900;
+    const directionThreshold = 5;
+    let lastY = window.scrollY;
+    let accumulatedDelta = 0;
+    let idleTimer = 0;
     let frameId = 0;
-    const updateStickyState = () => {
-      frameId = 0;
-      const isSticky = window.scrollY > 150;
-      eyebrow.classList.toggle("is-sticky", isSticky);
-      stickyOwner.classList.toggle("has-sticky-eyebrow", isSticky);
-    };
-    const onScroll = () => {
-      if (frameId) return;
-      frameId = window.requestAnimationFrame(updateStickyState);
+    let isVisible = false;
+
+    const setVisible = (visible) => {
+      isVisible = visible;
+      eyebrow.classList.toggle("is-sticky", visible);
+      stickyOwner.classList.toggle("has-sticky-eyebrow", visible);
     };
 
-    updateStickyState();
+    const hideAtTop = () => {
+      if (window.scrollY <= 150) {
+        setVisible(false);
+        accumulatedDelta = 0;
+      }
+    };
+
+    const onScroll = () => {
+      if (frameId) return;
+      frameId = window.requestAnimationFrame(() => {
+        frameId = 0;
+        const currentY = window.scrollY;
+        const delta = currentY - lastY;
+        lastY = currentY;
+
+        if (currentY <= 150) {
+          setVisible(false);
+          accumulatedDelta = 0;
+          window.clearTimeout(idleTimer);
+          return;
+        }
+
+        if (Math.abs(delta) < 1) return;
+        accumulatedDelta += delta;
+
+        if (Math.abs(accumulatedDelta) >= directionThreshold) {
+          // Downward movement hides it; upward movement reveals it.
+          setVisible(accumulatedDelta < 0);
+          accumulatedDelta = 0;
+        }
+
+        window.clearTimeout(idleTimer);
+        idleTimer = window.setTimeout(() => {
+          // Keep the breadcrumb visible briefly after movement stops,
+          // then tuck it away to leave the content unobstructed.
+          setVisible(false);
+        }, idleDelay);
+      });
+    };
+
+    const onResize = () => {
+      lastY = window.scrollY;
+      hideAtTop();
+    };
+
+    setVisible(false);
     window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll, { passive: true });
+    window.addEventListener("resize", onResize, { passive: true });
 
     return () => {
       window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
+      window.removeEventListener("resize", onResize);
+      window.clearTimeout(idleTimer);
       if (frameId) window.cancelAnimationFrame(frameId);
-      eyebrow.classList.remove("is-sticky");
-      stickyOwner.classList.remove("has-sticky-eyebrow");
+      setVisible(false);
     };
   }, [path]);
 
