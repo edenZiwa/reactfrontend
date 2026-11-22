@@ -8,7 +8,7 @@
   box-shadow: 0 2px 8px rgba(0,0,0,.06);
   animation: gom-push-enter 320ms ease-out both;
 }
-.gom-offline-status ~ .gom-push-prompt { top: calc(var(--gom-site-header-height, 82px) + 34px); }
+:root:has(.gom-offline-status) .gom-push-prompt { top: calc(var(--gom-site-header-height, 82px) + 34px); }\n:root:has(.gom-push-prompt) main { padding-top: calc(var(--gom-site-header-height, 82px) + 44px); }\n:root:has(.gom-offline-status):has(.gom-push-prompt) main { padding-top: calc(var(--gom-site-header-height, 82px) + 34px + 44px); }
 .gom-push-prompt__inner {
   display: flex; align-items: center; justify-content: center; flex-wrap: wrap;
   gap: .625rem; padding: 7px 12px; text-align: center; min-height: 34px;
