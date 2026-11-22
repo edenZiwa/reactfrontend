@@ -57,12 +57,12 @@ function AppLink({ to, navigate, className = "", children, onClick, ...props }) 
 function Header({ path = "/", navigate }) {
   const [open, setOpen] = useState(false);
   const scrollPositionRef = useRef(0);
-  const latestPathRef = useRef(currentPath);
   const menuToggleRef = useRef(null);
   const navRef = useRef(null);
   const { t } = useTranslation("common");
   const { mode, resolvedTheme, setMode } = useTheme();
   const currentPath = normalizePath(path);
+  const latestPathRef = useRef(currentPath);
   latestPathRef.current = currentPath;
   const closeMenu = () => setOpen(false);
 
