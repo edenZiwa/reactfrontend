@@ -1,18 +1,18 @@
 import React from "react";
 import { AppLink } from "./SiteChrome.jsx";
 import { useAuth } from "../auth/AuthProvider.jsx";
-import {continueWithGoogle} from "AccountAccess.jsx"
+import { continueWithGoogle } from "../auth/googleSignIn.js";
 
 export default function GoogleSignIn({ navigate }) {
-  const { status } = useAuth();
-  const destination = status === "authenticated" ? "/account" : continueWithGoogle();
-  const label = status === "authenticated" ? "My account" : "Sign in";
+  const { status, login } = useAuth();
+  const authenticated = status === "authenticated";
+  const label = authenticated ? "My account" : "Sign in";
   return (
     <AppLink
-      to={destination}
+      to={authenticated ? "/account" : "/login"}
       navigate={navigate}
       className="nav-account"
-      aria-label={status === "authenticated" ? "Go to your account" : "Sign in to your account"}
+      aria-label={authenticated ? "Go to your account" : "Sign in to your account"}
     >
       <svg
         width="18"
