@@ -1,7 +1,7 @@
 import React from "react";
 import { AppLink } from "./SiteChrome.jsx";
 import { useAuth } from "../auth/AuthProvider.jsx";
-import {continueWithGoogle} from "Account.jsx"
+import {continueWithGoogle} from "AccountAccess.jsx"
 
 export default function GoogleSignIn({ navigate }) {
   const { status } = useAuth();
