@@ -182,7 +182,7 @@ function Header({ path = "/", navigate }) {
               aria-current={currentPath === "/donate" ? "page" : undefined} onClick={closeMenu}>
               {t("navigation.donate")} <span aria-hidden="true">↗</span>
             </AppLink>
-            <button className="btn btn-sm" onClick={continueWithGoogle} disabled={busy}>Login</button>
+            <GoogleSignIn navigate={navigate} />
           </div>
           <div className="mobile-nav-section p-2 mobile-nav-preferences">
             <p className="mobile-nav-heading">Preferences</p>
