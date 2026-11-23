@@ -52,7 +52,7 @@ export default function GoogleSignIn({ navigate }) {
         <path fill="#EA4335" d="M24 12.1c3 0 5.7 1 7.8 3.1l5.8-5.8A19.4 19.4 0 0 0 24 4a20 20 0 0 0-18.1 10.9l6.9 5.3c1.6-4.7 6-8.1 11.2-8.1Z" />
       </svg>
       <span>{busy ? "Signing in…" : "Sign in"}</span>
-      {error && <span className="visually-hidden" role="alert">{error}</span>}
+      {error && <span className="small text-danger ms-2" role="alert">{error}</span>}
     </button>
   );
 }
