@@ -1,10 +1,11 @@
 import React from "react";
 import { AppLink } from "./SiteChrome.jsx";
 import { useAuth } from "../auth/AuthProvider.jsx";
+import {continueWithGoogle} from "Account.jsx"
 
 export default function GoogleSignIn({ navigate }) {
   const { status } = useAuth();
-  const destination = status === "authenticated" ? "/account" : "/login";
+  const destination = status === "authenticated" ? "/account" : continueWithGoogle();
   const label = status === "authenticated" ? "My account" : "Sign in";
   return (
     <AppLink
