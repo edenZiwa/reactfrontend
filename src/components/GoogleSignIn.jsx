@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { AppLink } from "./SiteChrome.jsx";
 import { useAuth } from "../auth/AuthProvider.jsx";
-import { continueWithGoogle } from "../auth/googleSignIn.js";
+import { continueWithGoogle } from "../auth/googleSignIn.js";\nimport ProfileAvatar from "./ProfileAvatar.jsx";
 import ProfileAvatar from "./ProfileAvatar.jsx";
 
 export default function GoogleSignIn({ navigate }) {
