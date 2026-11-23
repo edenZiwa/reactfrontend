@@ -3,7 +3,6 @@ import { AppLink } from "./SiteChrome.jsx";
 import { useAuth } from "../auth/AuthProvider.jsx";
 import { continueWithGoogle } from "../auth/googleSignIn.js";
 import ProfileAvatar from "./ProfileAvatar.jsx";
-import ProfileAvatar from "./ProfileAvatar.jsx";
 
 export default function GoogleSignIn({ navigate }) {
   const { status, login, user } = useAuth();
