@@ -3411,10 +3411,6 @@ select:focus-visible {
   backdrop-filter: blur(14px);
   transition: top .18s ease, box-shadow .18s ease, opacity .18s ease, transform .18s ease;
 }
-.hero-eyebrow:not(.is-sticky) {
-  opacity: 0;
-  pointer-events: none;
-}
 
 .gom-offline-status ~ .hero-eyebrow.is-sticky {
   top: calc(var(--gom-site-header-height, 82px) + 34px);
