@@ -80,8 +80,8 @@ function App() {
   }, []);
 
 
-  // The original hero eyebrow acts as a scroll-aware breadcrumb: it appears
-  // while scrolling upward and briefly remains visible when scrolling stops.
+  // The original hero eyebrow acts as a scroll-aware breadcrumb.
+  // Wait for lazy-loaded route content before binding to the eyebrow.
   useEffect(() => {
     const stickyPaths = new Set([
       "/about", "/programs", "/donate", "/volunteer",
@@ -90,30 +90,31 @@ function App() {
     ]);
     if (!stickyPaths.has(path)) return undefined;
 
-    const eyebrow = document.querySelector("#main-content .hero-eyebrow");
-    if (!eyebrow) return undefined;
-
-    const stickyOwner = eyebrow.closest("section");
-    if (!stickyOwner) return undefined;
+    const main = document.querySelector("#main-content");
+    if (!main) return undefined;
 
     const idleDelay = 900;
     const directionThreshold = 5;
+    let eyebrow = null;
+    let stickyOwner = null;
+    let observer = null;
     let lastY = window.scrollY;
     let accumulatedDelta = 0;
     let idleTimer = 0;
     let frameId = 0;
-    let isVisible = false;
 
     const setVisible = (visible) => {
-      isVisible = visible;
+      if (!eyebrow || !stickyOwner) return;
       eyebrow.classList.toggle("is-sticky", visible);
       stickyOwner.classList.toggle("has-sticky-eyebrow", visible);
     };
 
-    const hideAtTop = () => {
+    const onResize = () => {
+      lastY = window.scrollY;
       if (window.scrollY <= 150) {
-        setVisible(false);
         accumulatedDelta = 0;
+        window.clearTimeout(idleTimer);
+        setVisible(false);
       }
     };
 
@@ -126,9 +127,9 @@ function App() {
         lastY = currentY;
 
         if (currentY <= 150) {
-          setVisible(false);
           accumulatedDelta = 0;
           window.clearTimeout(idleTimer);
+          setVisible(false);
           return;
         }
 
@@ -136,30 +137,40 @@ function App() {
         accumulatedDelta += delta;
 
         if (Math.abs(accumulatedDelta) >= directionThreshold) {
-          // Downward movement hides it; upward movement reveals it.
           setVisible(accumulatedDelta < 0);
           accumulatedDelta = 0;
         }
 
         window.clearTimeout(idleTimer);
-        idleTimer = window.setTimeout(() => {
-          // Keep the breadcrumb visible briefly after movement stops,
-          // then tuck it away to leave the content unobstructed.
-          setVisible(false);
-        }, idleDelay);
+        idleTimer = window.setTimeout(() => setVisible(false), idleDelay);
       });
     };
 
-    const onResize = () => {
+    const initialize = () => {
+      if (eyebrow) return;
+      eyebrow = main.querySelector(".hero-eyebrow");
+      if (!eyebrow) return;
+      stickyOwner = eyebrow.closest("section");
+      if (!stickyOwner) {
+        eyebrow = null;
+        return;
+      }
+      setVisible(false);
       lastY = window.scrollY;
-      hideAtTop();
+      window.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("resize", onResize, { passive: true });
+      observer?.disconnect();
+      observer = null;
     };
 
-    setVisible(false);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onResize, { passive: true });
+    initialize();
+    if (!eyebrow) {
+      observer = new MutationObserver(initialize);
+      observer.observe(main, { childList: true, subtree: true });
+    }
 
     return () => {
+      observer?.disconnect();
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onResize);
       window.clearTimeout(idleTimer);
