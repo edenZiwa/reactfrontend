@@ -33,7 +33,7 @@ async function readBackendSession() {
   if (!response.ok) throw new Error(data.message || data.error || "Could not check your account session.");
   const user = data.user || null;
   if (!user?.id) throw new Error("The session service returned an incomplete account. Please sign in again.");
-  return { ...user, roles: Array.isArray(user.roles) ? user.roles : Array.isArray(data.roles) ? data.roles : [] };
+  return { ...user, pictureUrl: user.pictureUrl || user.picture_url || user.photoURL || null, roles: Array.isArray(user.roles) ? user.roles : Array.isArray(data.roles) ? data.roles : [] };
 }
 
 export function AuthProvider({ children }) {
