@@ -3,7 +3,9 @@ import { useTheme } from "../components/ThemeProvider.jsx";
 import LanguageSelector from "../components/LanguageSelector.jsx";
 import { useAuth } from "../auth/AuthProvider.jsx";
 import { API_ORIGIN } from "../services/api-config.js";
-import "../css/admin.css";\nimport ProfileAvatar from "../components/ProfileAvatar.jsx";\nimport "../css/profile-avatar.css";
+import "../css/admin.css";
+import ProfileAvatar from "../components/ProfileAvatar.jsx";
+import "../css/profile-avatar.css";
 const Donors = React.lazy(() => import("./admin/Donors.jsx"));
 const SponsorshipManagement = React.lazy(() => import("./admin/SponsorshipManagement.jsx"));
 const ProjectsImpact = React.lazy(() => import("./admin/ProjectsImpact.jsx"));
@@ -625,6 +627,7 @@ function SecurityPanel() {
         <p className="small text-secondary mt-3 mb-0">If MFA is already enabled, enter a current code to disable it before replacing an authenticator device.</p>
       </div></div>
     </div>
-    {recoveryCodes.length > 0 && <div className="alert alert-warning mt-4"><strong>Save these recovery codes now.</strong><p className="small mb-2">Each code can be used once. They will not be shown again.</p><div className="row g-2">{recoveryCodes.map(item => <div className="col-6 col-md-4" key={item}><code className="d-block bg-white rounded p-2">{item}</code></div>)}</div><button className="btn btn-sm btn-outline-dark mt-3" onClick={() => { const blob = new Blob([recoveryCodes.join("\n")], { type: "text/plain" }); const url = URL.createObjectURL(blob); const a = document.createElement("a"); a.href = url; a.download = "garden-of-mercy-recovery-codes.txt"; a.click(); URL.revokeObjectURL(url); }}>Download recovery codes</button></div>}
+    {recoveryCodes.length > 0 && <div className="alert alert-warning mt-4"><strong>Save these recovery codes now.</strong><p className="small mb-2">Each code can be used once. They will not be shown again.</p><div className="row g-2">{recoveryCodes.map(item => <div className="col-6 col-md-4" key={item}><code className="d-block bg-white rounded p-2">{item}</code></div>)}</div><button className="btn btn-sm btn-outline-dark mt-3" onClick={() => { const blob = new Blob([recoveryCodes.join("
+")], { type: "text/plain" }); const url = URL.createObjectURL(blob); const a = document.createElement("a"); a.href = url; a.download = "garden-of-mercy-recovery-codes.txt"; a.click(); URL.revokeObjectURL(url); }}>Download recovery codes</button></div>}
   </section>;
 }
