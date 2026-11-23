@@ -3,7 +3,7 @@ import { useAuth } from "../auth/AuthProvider.jsx";
 import { API_BASE, API_ORIGIN } from "../services/api-config.js";
 import AccountAuthPanel from "../components/AccountAuthPanel.jsx";
 import ProfileAvatar from "../components/ProfileAvatar.jsx";
-import "../css/account.css";
+import "../css/account.css";\nimport "../css/profile-avatar.css";
 import SponsorPortal from "./SponsorPortal.jsx";
 import VolunteerPortal from "./VolunteerPortal.jsx";
 
