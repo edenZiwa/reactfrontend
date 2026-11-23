@@ -55,7 +55,7 @@ function AccountAccess({ navigate }) {
     }
   }
 
-  async function continueWithGoogle() {
+  export async function continueWithGoogle() {
     if (busy) return;
     setBusy(true);
     setError("");
