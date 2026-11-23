@@ -552,9 +552,7 @@ function Account( {
                         <div className="banner" />
                         <div className="profile-body">
                             <div className="profile-head mb-4">
-                                <div className="avatar" aria-hidden="true">
-                                    {initials}
-                                </div>
+                                <ProfileAvatar user={account || user} size="xl" className="account-profile-photo" />
                                 <div className="pb-1 flex-grow-1">
                                     <span className="pill mb-2">
                                         <span className="pill-dot" /> Public account
