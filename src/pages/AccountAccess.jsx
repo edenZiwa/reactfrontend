@@ -63,7 +63,7 @@ function AccountAccess({ navigate }) {
     setError("");
     clearAuthError();
     try {
-      await continueWithGoogle({ login, navigate });
+      await continueWithGoogle({ login });
     } catch (err) {
       setError(err?.message || "We could not complete sign-in. Please try again.");
     } finally {
