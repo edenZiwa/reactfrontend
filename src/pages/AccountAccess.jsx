@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../auth/AuthProvider.jsx";
+import { continueWithGoogle, getAuthenticatedDestination } from "../auth/googleSignIn.js";
 import "../css/auth-experience.css";
 
 const STAFF_ROLES = [
@@ -35,10 +36,11 @@ function AccountAccess({ navigate }) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
 
+
+
   useEffect(() => {
-    if (status !== "authenticated") return;
-    const isStaff = user?.roles?.some((role) => STAFF_ROLES.includes(role));
-    navigate?.(user?.roles?.includes("public_user") ? (isStaff ? "/admin" : "/account") : "/admin");
+    if (status !== "authenticated" || !user) return;
+    navigate?.(getAuthenticatedDestination(user.roles));
   }, [status, user, navigate]);
 
   async function retrySessionCheck() {
@@ -55,18 +57,13 @@ function AccountAccess({ navigate }) {
     }
   }
 
-  export async function continueWithGoogle() {
+  async function continueWithGoogle() {
     if (busy) return;
     setBusy(true);
     setError("");
     clearAuthError();
     try {
-      const signedInUser = await login();
-      if (signedInUser) {
-        const isStaff = signedInUser.roles?.some((role) => STAFF_ROLES.includes(role));
-        navigate?.(signedInUser.roles?.includes("public_user") ? (isStaff ? "/admin" : "/account") : "/admin");
-      }
-      // A null result means the Firebase redirect sign-in flow is underway.
+      await continueWithGoogle({ login });
     } catch (err) {
       setError(err?.message || "We could not complete sign-in. Please try again.");
     } finally {
@@ -144,8 +141,8 @@ function AccountAccess({ navigate }) {
             {status === "unavailable" ? (
               <div className="gom-login-unavailable">
                 <i className="bi bi-cloud-slash" aria-hidden="true" />
-                <strong>We could not restore your previous session</strong>
-                <p>You can still sign in securely with Google. If you already have an active account, this will restore your access.</p>
+                <strong>We could not verify your current session</strong>
+                <p>Your account may still be available. Try checking again or sign in securely with Google.</p>
                 <button
                   type="button"
                   className="gom-login-google-button"
@@ -228,7 +225,10 @@ function AccountAccess({ navigate }) {
                 <strong>Foundation staff?</strong>
                 <span>Staff can use Google sign-in or the secure staff password sign-in. Accounts with member access can use both portals.</span>
               </div>
-              <a href="/admin" aria-label="Go to staff and administrator sign-in">
+              <a href="/admin" aria-label="Go to staff and administrator sign-in" onClick={(event) => {
+                event.preventDefault();
+                navigate?.("/admin");
+              }}>
                 Staff sign-in <i className="bi bi-arrow-right" aria-hidden="true" />
               </a>
             </div>
