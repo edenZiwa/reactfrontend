@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../auth/AuthProvider.jsx";
+import { continueWithGoogle, getAuthenticatedDestination } from "../auth/googleSignIn.js";
 import "../css/auth-experience.css";
 
 const STAFF_ROLES = [
@@ -35,20 +36,11 @@ function AccountAccess({ navigate }) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
 
-  const getAuthenticatedDestination = (roles = []) => {
-    const hasStaffAccess = roles.some((role) => STAFF_ROLES.includes(role));
-    const hasMemberAccess = roles.includes("public_user");
 
-    // Staff accounts go to the staff portal; members go to their account.
-    // Preserve staff routing for staff-only accounts.
-    if (hasStaffAccess) return "/admin";
-    if (hasMemberAccess) return "/account";
-    return "/admin";
-  };
 
   useEffect(() => {
     if (status !== "authenticated" || !user) return;
-    navigate?.(getAuthenticatedDestination(Array.isArray(user.roles) ? user.roles : []));
+    navigate?.(getAuthenticatedDestination(user.roles));
   }, [status, user, navigate]);
 
   async function retrySessionCheck() {
@@ -71,10 +63,7 @@ function AccountAccess({ navigate }) {
     setError("");
     clearAuthError();
     try {
-      await login();
-      // AuthProvider updates the session state after a successful sign-in.
-      // The redirect effect above handles navigation; null means the Google
-      // redirect flow is still underway.
+      await continueWithGoogle({ login, navigate });
     } catch (err) {
       setError(err?.message || "We could not complete sign-in. Please try again.");
     } finally {
