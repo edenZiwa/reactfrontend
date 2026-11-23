@@ -5,6 +5,7 @@ import AccountAuthPanel from "../components/AccountAuthPanel.jsx";
 import "../css/account.css";
 import SponsorPortal from "./SponsorPortal.jsx";
 import VolunteerPortal from "./VolunteerPortal.jsx";
+import MemberProfile from "../components/MemberProfile.jsx";
 
 
 async function getAccountCsrfToken(currentToken = "") {
@@ -644,6 +645,8 @@ function Account( {
                     </section>
                 </div>
             </div>
+
+            <MemberProfile user={user} initialToken={csrfToken} />
 
             {/* Dashboard tabs */}
             <section className="panel p-3 p-md-4 mb-4">
