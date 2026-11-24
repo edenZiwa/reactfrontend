@@ -87,7 +87,7 @@ function AccountAccess({ navigate }) {
 
         <div className="gom-login-layout">
           <section className="gom-login-story" aria-labelledby="gom-login-story-title">
-            <div className="gom-login-story-mark" aria-hidden="true" />
+            <div className="" aria-hidden="true" />
             <h2 id="gom-login-story-title">Your kindness is part of a bigger story.</h2>
             <p className="gom-login-story-copy">
               Your account brings your connection with Garden of Mercy Foundation into one place,
