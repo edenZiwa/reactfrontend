@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import { AppLink } from "./SiteChrome.jsx";
 import { useAuth } from "../auth/AuthProvider.jsx";
 import { continueWithGoogle } from "../auth/googleSignIn.js";
+import ProfileAvatar from "./ProfileAvatar.jsx";
+import "../css/profile-avatar.css";
 
 export default function GoogleSignIn({ navigate }) {
-  const { status, login } = useAuth();
+  const { status, login, user } = useAuth();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const authenticated = status === "authenticated";
@@ -30,7 +32,7 @@ export default function GoogleSignIn({ navigate }) {
         className="nav-account"
         aria-label="Go to your account"
       >
-        <i className="bi bi-person-circle" aria-hidden="true" />
+        <ProfileAvatar user={user} size="sm" />
         <span>My account</span>
       </AppLink>
     );
