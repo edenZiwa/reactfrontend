@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useAuth } from "../auth/AuthProvider.jsx";
 import { API_BASE, API_ORIGIN } from "../services/api-config.js";
 import AccountAuthPanel from "../components/AccountAuthPanel.jsx";
+import ProfileAvatar from "../components/ProfileAvatar.jsx";
+import "../css/profile-avatar.css";
 import "../css/account.css";
 import SponsorPortal from "./SponsorPortal.jsx";
 import VolunteerPortal from "./VolunteerPortal.jsx";
@@ -519,7 +521,7 @@ function Account( {
                 <aside className="col-12 col-lg-3">
                     <section className="account-sidebar panel p-3">
                         <div className="account-identity d-flex align-items-center gap-3 p-2 mb-3">
-                            {avatarUrl ? <img className="account-avatar" src={avatarUrl} alt="" referrerPolicy="no-referrer" onError={(event) => { event.currentTarget.style.display = "none"; }} /> : <span className="account-avatar account-avatar-fallback" aria-hidden="true">{initials}</span>}
+                            <ProfileAvatar user={account || user} size="xl" className="account-avatar" alt={`${fullName} profile photo`} />
                             <div className="min-w-0"><strong className="d-block text-truncate">{fullName}</strong><span className="small text-secondary d-block text-break">{email}</span><span className="account-member-label"><i className="bi bi-shield-check me-1" />Community member</span></div>
                         </div>
                         <div className="account-nav-label px-2 mb-2">MEMBER MENU</div>
