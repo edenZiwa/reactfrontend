@@ -220,18 +220,6 @@ function AccountAccess({ navigate }) {
               }}>contact our team</a>.
             </p>
 
-            <div className="gom-login-staff">
-              <div>
-                <strong>Foundation staff?</strong>
-                <span>Staff can use Google sign-in or the secure staff password sign-in. Accounts with member access can use both portals.</span>
-              </div>
-              <a href="/admin" aria-label="Go to staff and administrator sign-in" onClick={(event) => {
-                event.preventDefault();
-                navigate?.("/admin");
-              }}>
-                Staff sign-in <i className="bi bi-arrow-right" aria-hidden="true" />
-              </a>
-            </div>
           </section>
         </div>
 
