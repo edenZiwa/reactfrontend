@@ -32,30 +32,15 @@ const SKILLS = [
     "Other",
 ];
 
-const TABS = [{
-    id: "volunteer",
-    label: "Volunteer profile"
-},
-    {
-        id: "programs",
-        label: "Program registrations"
-    },
-    {
-        id: "applications",
-        label: "Applications"
-    },
-    {
-        id: "donations",
-        label: "Donation history"
-    },
-    {
-        id: "sponsorship",
-        label: "Child sponsorship"
-    },
-    {
-        id: "volunteerService",
-        label: "Volunteer service"
-    },
+const TABS = [
+    { id: "overview", label: "Overview", icon: "bi-grid-1x2" },
+    { id: "profile", label: "Personal profile", icon: "bi-person-vcard" },
+    { id: "volunteer", label: "Volunteer profile", icon: "bi-heart" },
+    { id: "programs", label: "Programs", icon: "bi-collection" },
+    { id: "applications", label: "Applications", icon: "bi-file-earmark-text" },
+    { id: "donations", label: "Giving history", icon: "bi-gift" },
+    { id: "sponsorship", label: "Child sponsorship", icon: "bi-people" },
+    { id: "volunteerService", label: "Volunteer service", icon: "bi-hand-thumbs-up" },
 ];
 
 function Account( {
@@ -75,7 +60,7 @@ function Account( {
     const [error,
         setError] = useState("");
     const [activeTab,
-        setActiveTab] = useState("volunteer");
+        setActiveTab] = useState("overview");
     const [savingProfile,
         setSavingProfile] = useState(false);
     const [profileMessage,
@@ -515,160 +500,51 @@ function Account( {
     }
 
     const fullName = account?.fullName || account?.name || [account?.firstName, account?.lastName].filter(Boolean).join(" ") || "Community member";
-    const email = account?.email || "";
-    const volunteerStatus =
-    account?.volunteerStatus || "Not yet submitted";
+    const email = account?.email || user?.email || "";
+    const avatarUrl = user?.pictureUrl || user?.photoURL || account?.pictureUrl || account?.photoURL || "";
+    const volunteerStatus = account?.volunteerStatus || "Not yet submitted";
     const initials = fullName.trim().charAt(0).toUpperCase() || "M";
 
     return (
-        <div className="container wrap py-4 py-md-5">
-            <div className="mb-4">
-                <div className="eyebrow mb-2">
-                    Community member portal
+        <div className="container wrap account-dashboard py-4 py-lg-5">
+            <header className="account-dashboard-header mb-4">
+                <div><div className="eyebrow mb-2">Garden of Mercy Foundation</div><h1 className="page-title h2 mb-2">Welcome back, {fullName.split(" ")[0]}</h1><p className="text-secondary mb-0">Your community, contributions and opportunities — all in one place.</p></div>
+                <div className="d-flex flex-wrap gap-2">
+                    {hasStaffRole && <button type="button" className="btn btn-outline-success" onClick={() => goToPage("/admin", "/admin")}><i className="bi bi-shield-lock me-2" />Administration</button>}
+                    <button type="button" className="btn btn-outline-secondary" onClick={() => goToPage("/", "/")}><i className="bi bi-house me-2" />Visit website</button>
                 </div>
-                <h1 className="page-title h2 mb-2">Your account, your impact</h1>
-                <div className="d-flex flex-wrap align-items-center justify-content-between gap-3">
-                    <p className="text-secondary mb-0">
-                        Manage your volunteer profile, register for programs, and follow
-                        your activity with the foundation.
-                    </p>
-                    {hasStaffRole && (
-                        <button type="button" className="btn btn-outline-success" onClick={() => goToPage("/admin", "/admin")}>
-                            <i className="bi bi-shield-lock me-2" />Open administration
-                        </button>
+            </header>
+            {error && <div className="alert alert-warning" role="alert">{error}</div>}
+            <div className="row g-4 align-items-start">
+                <aside className="col-12 col-lg-3">
+                    <section className="account-sidebar panel p-3">
+                        <div className="account-identity d-flex align-items-center gap-3 p-2 mb-3">
+                            {avatarUrl ? <img className="account-avatar" src={avatarUrl} alt="" referrerPolicy="no-referrer" onError={(event) => { event.currentTarget.style.display = "none"; }} /> : <span className="account-avatar account-avatar-fallback" aria-hidden="true">{initials}</span>}
+                            <div className="min-w-0"><strong className="d-block text-truncate">{fullName}</strong><span className="small text-secondary d-block text-break">{email}</span><span className="account-member-label"><i className="bi bi-shield-check me-1" />Community member</span></div>
+                        </div>
+                        <div className="account-nav-label px-2 mb-2">MEMBER MENU</div>
+                        <nav className="account-navigation nav nav-pills flex-lg-column flex-nowrap" role="tablist" aria-label="Member portal sections" onKeyDown={handleTabKeyDown}>
+                            {TABS.map((tab) => <button key={tab.id} id={`tab-button-${tab.id}`} className={`nav-link text-start ${activeTab === tab.id ? "active" : ""}`} type="button" role="tab" aria-selected={activeTab === tab.id} aria-controls={`tab-${tab.id}`} tabIndex={activeTab === tab.id ? 0 : -1} onClick={() => setActiveTab(tab.id)}><i className={`bi ${tab.icon} me-2`} aria-hidden="true" /><span>{tab.label}</span></button>)}
+                        </nav>
+                        <div className="account-sidebar-footer mt-3 pt-3 border-top"><AccountAuthPanel /><p className="small text-secondary mb-0 mt-2">Sign out when using a shared device.</p></div>
+                    </section>
+                </aside>
+                <main className="col-12 col-lg-9 account-main" aria-label="Member account content">
+                    {activeTab === "overview" && (
+                        <section id="tab-overview" className="tab-panel" role="tabpanel" aria-labelledby="tab-button-overview" tabIndex={0}>
+                            <div className="account-welcome panel p-4 p-md-5 mb-4"><span className="pill mb-3"><span className="pill-dot" />Your member space</span><h2 className="h3 fw-bold mb-2">Your account, your impact.</h2><p className="text-secondary mb-0">Thank you for being part of our community. Keep your details up to date and follow your involvement with the foundation.</p></div>
+                            <div className="row g-3 mb-4">
+                                <div className="col-6 col-xl-3"><article className="account-stat panel p-3 h-100"><span className="account-stat-icon"><i className="bi bi-collection" /></span><strong>{registrations.length}</strong><span>Program registrations</span></article></div>
+                                <div className="col-6 col-xl-3"><article className="account-stat panel p-3 h-100"><span className="account-stat-icon"><i className="bi bi-file-earmark-check" /></span><strong>{applications.length}</strong><span>Applications</span></article></div>
+                                <div className="col-6 col-xl-3"><article className="account-stat panel p-3 h-100"><span className="account-stat-icon"><i className="bi bi-gift" /></span><strong>{donations.length}</strong><span>Giving records</span></article></div>
+                                <div className="col-6 col-xl-3"><article className="account-stat panel p-3 h-100"><span className="account-stat-icon"><i className="bi bi-heart" /></span><strong className="account-stat-status">{volunteerStatus}</strong><span>Volunteer status</span></article></div>
+                            </div>
+                            <div className="panel p-4"><h2 className="panel-title mb-1">Quick access</h2><p className="small-muted mb-3">Go directly to the areas you use most.</p><div className="row g-3">
+                                {TABS.filter((tab) => tab.id !== "overview").map((tab) => <div className="col-12 col-sm-6" key={tab.id}><button type="button" className="account-quick-link w-100 text-start" onClick={() => setActiveTab(tab.id)}><span className="account-quick-icon"><i className={`bi ${tab.icon}`} /></span><span className="flex-grow-1"><strong className="d-block">{tab.label}</strong><small className="text-secondary">View and manage your {tab.label.toLowerCase()}.</small></span><i className="bi bi-chevron-right text-secondary" /></button></div>)}
+                            </div></div>
+                        </section>
                     )}
-                </div>
-            </div>
-
-            {error && (
-                <div className="alert alert-warning" role="alert">
-                    {error}
-                </div>
-            )}
-
-            <div className="row g-4 mb-4">
-                <div className="col-12 col-lg-7">
-                    <section className="panel h-100">
-                        <div className="banner" />
-                        <div className="profile-body">
-                            <div className="profile-head mb-4">
-                                <div className="avatar" aria-hidden="true">
-                                    {initials}
-                                </div>
-                                <div className="pb-1 flex-grow-1">
-                                    <span className="pill mb-2">
-                                        <span className="pill-dot" /> Public account
-                                    </span>
-                                    <h2 className="h4 fw-bold mb-1">{fullName}</h2>
-                                    <p className="small-muted mb-0">
-                                        {email}
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div className="row g-3">
-                                <div className="col-6">
-                                    <div className="detail">
-                                        <span className="detail-label">Account type</span>
-                                        <div className="detail-value">
-                                            Community user
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-6">
-                                    <div className="detail">
-                                        <span className="detail-label">Volunteer status</span>
-                                        <div className="detail-value">
-                                            {volunteerStatus}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="mt-4 pt-3 border-top">
-                                <AccountAuthPanel />
-                                <p className="small-muted mt-2 mb-0">
-                                    Remember to sign out when using a shared device.
-                                </p>
-                            </div>
-                        </div>
-                    </section>
-                </div>
-
-                <div className="col-12 col-lg-5">
-                    <section className="panel p-4 h-100">
-                        <h2 className="panel-title mb-1">Stay connected</h2>
-                        <p className="small-muted mb-3">
-                            Explore opportunities to make a difference.
-                        </p>
-
-                        <div className="d-grid gap-3">
-                            <button
-                                className="feature d-flex gap-3 align-items-center text-start border-0 bg-transparent"
-                                onClick={() => goToPage("programs", "./programs")}
-                                >
-                                <span className="feature-icon">✳</span>
-                                <span>
-                                    <strong className="d-block">Community programs</strong>
-                                    <span className="small-muted">
-                                        Discover current initiatives.
-                                    </span>
-                                </span>
-                            </button>
-
-                            <button
-                                className="feature d-flex gap-3 align-items-center text-start border-0 bg-transparent"
-                                onClick={() => goToPage("donate", "./donate")}
-                                >
-                                <span className="feature-icon">♡</span>
-                                <span>
-                                    <strong className="d-block">Support our mission</strong>
-                                    <span className="small-muted">
-                                        Help fund meaningful work.
-                                    </span>
-                                </span>
-                            </button>
-
-                            <button
-                                className="feature d-flex gap-3 align-items-center text-start border-0 bg-transparent"
-                                onClick={() => goToPage("contact", "./contact")}
-                                >
-                                <span className="feature-icon">✉</span>
-                                <span>
-                                    <strong className="d-block">Contact the foundation</strong>
-                                    <span className="small-muted">
-                                        Ask a question or get support.
-                                    </span>
-                                </span>
-                            </button>
-                        </div>
-                    </section>
-                </div>
-            </div>
-
-            <MemberProfile user={user} initialToken={csrfToken} />
-
-            {/* Dashboard tabs */}
-            <section className="panel p-3 p-md-4 mb-4">
-                <div className="nav nav-pills flex-wrap gap-2" role="tablist" aria-label="Account sections" onKeyDown={handleTabKeyDown}>
-                    {TABS.map((tab) => (
-                        <button
-                            key={tab.id}
-                            id={`tab-button-${tab.id}`}
-                            className={`nav-link ${activeTab === tab.id ? "active": ""}`}
-                            type="button"
-                            role="tab"
-                            aria-selected={activeTab === tab.id}
-                            aria-controls={`tab-${tab.id}`}
-                            tabIndex={activeTab === tab.id ? 0 : -1}
-                            onClick={() => setActiveTab(tab.id)}
-                            >
-                            {tab.label}
-                        </button>
-                    ))}
-                </div>
-            </section>
-
+                    {activeTab === "profile" && <div id="tab-profile" role="tabpanel" aria-labelledby="tab-button-profile" tabIndex={0}><MemberProfile user={user} initialToken={csrfToken} /></div>}
             {/* Volunteer profile */}
             {activeTab === "volunteer" && (
                 <section
@@ -1071,8 +947,10 @@ No donation records were found for your account.
 )}
 </section>
 )}
-</div>
-);
+</main>
+            </div>
+        </div>
+    );
 }
 
 export default Account;
